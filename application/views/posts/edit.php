@@ -1,13 +1,13 @@
-
 <?php echo validation_errors();?>
-<?php echo form_open("posts/create") ;?>
+<?php echo form_open("posts/update") ;?>
+<input type="hidden" name="id" value="<?php echo $post['id'];?>">
   <div class="form-group">
     <label for="title">Title : </label>
-    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="title" value="<?php echo $post["title"];?>">
   </div>
   <div class="form-group">
     <label for="body">Body :</label>
-    <textarea  class="form-control" id="editor1" name="body"></textarea>
+    <textarea  class="form-control" id="editor1" name="body"> <?php echo $post["body"];?></textarea>
   </div>
   <div class="form-group">
     <label for="">Categories:</label>
@@ -17,6 +17,5 @@
     <?php endforeach;?>
     </select>
   </div>
- 
   <button type="submit" class="btn btn-success">Post</button>
 </form>

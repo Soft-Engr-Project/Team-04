@@ -15,23 +15,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="<?php echo base_url();?>pages/view">Microblogging Site</a>
-
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="<?php echo base_url();?>pages/view">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>pages/view/about">Profile/About</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>pages/view/setting">Setting</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>pages/view/logout">Logout</a>
-        </li>
-        </ul>
-    </div>
   </div>
 </nav>
 <div class="container p-3">

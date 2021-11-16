@@ -1,0 +1,12 @@
+.post-date{
+    background-color: #f4f4f4;
+    display: block;
+    margin: 5px 0px;
+    padding: 4px;
+}
+.logindesign{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: blanchedalmond;
+}
