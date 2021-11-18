@@ -3,7 +3,8 @@
   <div class="header">
   	<h2>Register</h2>
   </div>
-	
+
+ <?php echo validation_errors();?>
   <?php echo form_open("posts/register") ;?>
   	<div class="input-group">
   	  <label>Username</label>
@@ -15,12 +16,12 @@
   	</div>
   	<div class="input-group">
   	  <label>Password</label>
-  	  <input type="password" name="password_1">
+  	  <input type="text" name="password_1">
   	</div>
-  	<div class="input-group">
+  	<!-- <div class="input-group">
   	  <label>Confirm password</label>
   	  <input type="password" name="password_2">
-  	</div>
+  	</div> -->
   	<div class="input-group">
   	  <button type="submit" class="btn" name="reg_user">Register</button>
   	</div>

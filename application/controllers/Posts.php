@@ -3,23 +3,29 @@
     class Posts extends CI_Controller{
         private $data = array();
         public function login(){
+        $this->form_validation->set_rules('username','Username','required');
+        $this->form_validation->set_rules('password','Password','required');
             if($this->form_validation->run()===false){
                 $this->load->view("templates/header.php");
                 $this->load->view("pages/login",$this->data);
                 $this->load->view("templates/footer.php");     
             }else{
                 $this->server->login_user();
-                redirect("pages/home");
+                redirect("pages/view");
             }
         }
         public function register(){
+            $this->form_validation->set_rules('username','Username','required');
+            $this->form_validation->set_rules('email','Email','required');
+            $this->form_validation->set_rules('password_1','Password','required');
+            //$this->form_validation->set_rules('password_2','Confirm password','required|matches[password]');
             if($this->form_validation->run()===false){
                 $this->load->view("templates/header.php");
-                $this->load->view("pages/login",$this->data);
+                $this->load->view("pages/register",$this->data);
                 $this->load->view("templates/footer.php");     
             }else{
                 $this->server->reg_user();
-                redirect("pages/login");
+                redirect("posts/login");
             }
         }
       
