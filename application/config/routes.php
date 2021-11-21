@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["profileposts/(:any)"] = "profileposts/view/$1";
+$route["pages/view/profile"]="profiles/view";
 $route["postreg/register"] = "postreg/register";
 $route['posts/update']="posts/update";
 $route['posts/create']="posts/create";

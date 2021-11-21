@@ -22,7 +22,7 @@
           <a class="nav-link active" href="<?php echo base_url();?>pages/view">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>pages/view/about">Profile/About</a>
+          <a class="nav-link" href="<?php echo site_url("profiles/view");?>">Profile</a>
         </li> 
         <li class="nav-item">
           <a class="nav-link" href="<?php echo base_url();?>pages/view/setting">Setting</a>
