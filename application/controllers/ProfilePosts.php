@@ -1,6 +1,7 @@
 <?php
-//
-    class Posts extends CI_Controller{
+
+
+    class ProfilePosts extends CI_Controller{
         private $data = array();
         public function index(){
             // APPPATH - ROOT FOLDER
@@ -9,7 +10,7 @@
             $this->data['posts'] = $this->post_model->get_posts();
             $this->data["title"]="Latest Post";
             $this->load->view("templates/header.php");
-            $this->load->view("posts/index",$this->data);
+            $this->load->view("profiles/index",$this->data);
             $this->load->view("templates/footer.php");
         }
         public function view($slug=NULL){
@@ -21,30 +22,13 @@
             }
             $this->data["title"] = $this->data["post"]["title"];
             $this->load->view("templates/viewPostHeader.php");
-            $this->load->view("posts/view",$this->data);
+            $this->load->view("profiles/view",$this->data);
             $this->load->view("templates/footer.php");
-        }
-        public function create(){
-            $this->data["title"]="Create Post";
-            $this->data["categories"] = $this->post_model->get_categories();
-            // setting rules
-            $this->form_validation->set_rules('title','Title','required');
-            $this->form_validation->set_rules('body','Body','required');
-
-            //  pag walaa pang sinusubmit
-            if($this->form_validation->run()===false){
-                $this->load->view("templates/header.php");
-                $this->load->view("posts/create",$this->data);
-                $this->load->view("templates/footer.php");     
-            }else{
-                $this->post_model->create_post();
-                redirect("pages/view");
-            }
         }
         public function delete($idNum){
             // delete certain post
             $this->post_model->delete_post($idNum);
-            redirect("pages/view");
+            redirect("profiles/view");
     
         }
         public function edit($slug){
@@ -64,6 +48,10 @@
             $this->post_model->update_post();
             redirect("pages/view");
         }
+
     }
+
+
+
 
 ?>
