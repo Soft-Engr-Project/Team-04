@@ -34,19 +34,19 @@ class Server extends CI_Model{
   public function login_user() { 
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-    
-    $db = mysqli_connect('localhost', 'root', '', 'registration');
 
-      
-    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-    echo "<pre>";
-    var_dump($query);
-    echo "</pre>";
-    $results = mysqli_query($db, $query);
-      if (mysqli_num_rows($results) == 1) {
+   
+   $this->db->where('username',$username);
+   $this->db->where('password',$password);
+   
+   $query = $this->db->get('users');
+      if ($query->num_rows()>0) {
         $_SESSION['username'] = $username;
         $_SESSION['success'] = "You are now logged in";
         header('location: home');
+      }
+      else {
+        echo 'Login failed';
       }
  
   }
