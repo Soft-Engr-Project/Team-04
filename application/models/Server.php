@@ -15,7 +15,7 @@ class Server extends CI_Model{
 
  
 // REGISTER USER
-  public function reg_user() {
+  public function reg_user($code) {
 
     // receive all input values from the form
     echo 'hello';
@@ -27,6 +27,8 @@ class Server extends CI_Model{
       'birthdate'=> $this->input->post("birthdate"),
       'email' => $this->input->post("email"),
       'password' => $this->input->post("password_1"),
+      'code' => $code,
+      'verified' => "false"
     );
     return $this->db->insert('users',$data);
   }
@@ -53,17 +55,30 @@ class Server extends CI_Model{
     return false; 
   }
 
+  //Update database to activate the account
+  public function activate_acc($username,$code,$data){
+    $this->db->select('*');
+    $this->db->where('username', $username);    
+    $this->db->where('code', $code); 
+    $query = $this->db->get('users');
+    if ($query->num_rows() > 0) {
+      return $this->db->update('users', $data);
+    }
+    
+  }
+
+
   // LOGIN USER
   public function login_user() { 
     $username = $this->input->post('username');
     $password = $this->input->post('password');
     
- 
     $this->db->select('*');
     $this->db->where(
              array(
                 'username' => $username,
-                'password' => $password
+                'password' => $password,
+                'verified' => 'true'
              ));
     $query = $this->db->get('users');
     $result = $query->row();

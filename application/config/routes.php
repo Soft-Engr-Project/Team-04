@@ -13,3 +13,4 @@ $route['default_controller'] = 'logins/form';
 $route["pages/view/(:any)"]="pages/view/$1";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+//$route['postreg/verify?(:any)']= 'postreg/verify?$1';

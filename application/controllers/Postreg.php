@@ -1,6 +1,7 @@
 <?php
 //
     class Postreg extends CI_Controller{
+       
         private $data = array();
            public function login(){
             $this->form_validation->set_rules('username','Username','required');
@@ -38,37 +39,64 @@
                 $this->load->view("pages/signup",$this->data);
                 $this->load->view("templates/footer.php");     
             }else{
-                $this->server->reg_user();
-                $hash = md5(rand(0,1000));
-                $this->load->view("templates/loginheader.php");
-                $this->load->view("pages/verify",$hash);
-                $this->load->view("templates/footer.php"); 
-
+                
+                // Code Generation
+                $hash = md5(rand(0,1000));  // Generate hash value
+                $code = substr(str_shuffle($hash), 0, 12); // Transform it to 12 key code
+                $this->server->reg_user($code); //pass the code and update the database
+                
+                // Email generation
                 $email = $this->input->post('email'); //Get user email input
+                $username = $this->input->post('username'); //Get user email input
                 $name = $this->input->post('firstname'); //Get user name input
-                $password = $this->input->post('password'); //Get user name input
+                $password = $this->input->post('password_1'); //Get user name input
 
                 $to      = $email; // Send email to our user
                 $subject = 'Signup | Verification'; // Give the email a subject 
-                $message = '
+                $message = "
+               
+                    Thank you for Registering.
+
+                    Your Account:
+                    Email: ".$email."
+                    Password: ".$password."
+                    Please click the link below to activate your account.
+                    ".base_url()."postreg/verify/".$username."/".$code."
                 
-                Thanks for signing up!
-                Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
-                
-                ------------------------
-                Username: '.$name.'
-                Password: '.$password.'
-                ------------------------
-                
-                Please click this link to activate your account:
-                http://www.yourwebsite.com/verify.php?email='.$email.'&hash='.$hash.'
-                '; // Our message above including the link
+                "; // Our message above including the link
                                     
                 $headers = 'From:noreply@yourwebsite.com' . "\r\n"; // Set from headers
+
                 mail($to, $subject, $message, $headers); // Send our email
                 echo "Check your email";
+  
                
             }
+        }
+        
+        public function verify(){
+      
+            //Get data from URL
+            $username = $this->uri->segment(3); //get email from url
+            $code = $this->uri->segment(4); //get code from url
+            $data['verified'] = 'true';
+            echo $username;
+            echo $code;
+
+            $query= $this->server->activate_acc($username, $code, $data); //check in the database
+           
+            // If true, inform the user in verify.php
+            if ($query){
+            $this->load->view("templates/loginheader.php");
+            $this->load->view("pages/verify");
+            $this->load->view("templates/footer.php");  
+           
+            }
+            else{
+                echo "Invalid URL";
+            }
+            
+
         }
 
         function checkUserName($username){

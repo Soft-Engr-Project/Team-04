@@ -6,6 +6,7 @@ class Post_model extends CI_Model{
         // load the database();
         $this->load->database();
     }
+   
     public function get_posts($slug = FALSE){
         if($slug===FALSE){
             $this->db->order_by('posts.id','DESC');
@@ -52,8 +53,10 @@ class Post_model extends CI_Model{
             'category_id' => $this->input->post("category_id")
         );  
         $this->db->where("id",$this->input->post("id"));
+       
         return $this->db->update("posts",$data);
     }
+  
 }
 
 
