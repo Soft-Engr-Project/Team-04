@@ -15,7 +15,7 @@ class Server extends CI_Model{
 
  
 // REGISTER USER
-  public function reg_user() {
+  public function reg_user($code) {
 
     // receive all input values from the form
     echo 'hello';
@@ -27,9 +27,51 @@ class Server extends CI_Model{
       'birthdate'=> $this->input->post("birthdate"),
       'email' => $this->input->post("email"),
       'password' => $this->input->post("password_1"),
+      'code' => $code,
+      'verified' => "false"
     );
     return $this->db->insert('users',$data);
   }
+
+  //update passcode to database
+  public function passcode($email, $passcode) {
+    $data = array(
+      'passcode' => $passcode
+    );
+    $query = $this->db->where('email', $email);
+    return $this->db->update('users', $data);
+  }
+
+  //get username
+  public function get_user($email){
+      $query = $this->db->get_where("users",array("email"=>$email));
+      
+      return $query->row_array()['username'];
+    }
+
+
+
+   //check if passcode matched
+  public function check_passcode($email, $passcode){
+    $this->db->select('*');
+    $this->db->where('email', $email);
+    $this->db->where('passcode', $passcode);
+    $query = $this->db->get('users');
+    if ($query->num_rows() > 0) {
+      return true;
+    }
+    return false; 
+  }
+
+  public function change_pass($email) {
+    $data = array(
+      'password' => $this->input->post("password_1"),
+    );
+    $query = $this->db->where('email', $email);
+    return $this->db->update('users', $data);
+  }
+
+
 
 
   function checkUserExist($username) {
@@ -53,17 +95,29 @@ class Server extends CI_Model{
     return false; 
   }
 
+  //Update database to activate the account
+  public function activate_acc($username,$code,$data){
+    $this->db->select('*');
+    $this->db->where('username', $username);    
+    $this->db->where('code', $code); 
+    $query = $this->db->get('users');
+    if ($query->num_rows() > 0) {
+      return $this->db->update('users', $data);
+    }
+  }
+
+
   // LOGIN USER
   public function login_user() { 
     $username = $this->input->post('username');
     $password = $this->input->post('password');
     
- 
     $this->db->select('*');
     $this->db->where(
              array(
                 'username' => $username,
-                'password' => $password
+                'password' => $password,
+                'verified' => 'true'
              ));
     $query = $this->db->get('users');
     $result = $query->row();
@@ -74,7 +128,6 @@ class Server extends CI_Model{
         redirect("pages/view");
       }
       else{
-        // lagyan error
         redirect("/");
       }
   }

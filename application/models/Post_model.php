@@ -89,9 +89,9 @@ class Post_model extends CI_Model{
             $id=$q[$key]["category_id"];
             $q[$key]["category_id"]=$q1[$id]["name"];
         }
-            echo "<pre>";
-            var_dump($q);
-            echo "</pre>";
+        //    echo "<pre>";
+         //   var_dump($q);
+         //   echo "</pre>";
          return $q;
        
 
