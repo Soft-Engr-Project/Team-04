@@ -14,10 +14,16 @@
             $this->load->view("pages/".$page,$this->data);
             if($page == "home"){
                 $this->data["title"]="Create Post";
-                $this->data['posts'] = $this->post_model->get_posts();
+                $a = $this->data['posts'] = $this->post_model->get_posts();
+
                 $this->load->view("posts/createpostbutton",$this->data);
                 $this->data["title"]="Latest Posts";
                 $this->load->view("posts/index",$this->data);
+            }
+            elseif($page === 'try'){
+                $this->post_model->get_categories_manually();
+                echo "sadas";
+                $this->load->view("pages/try.php",$this->data);
             }
            
             $this->load->view("templates/footer.php");

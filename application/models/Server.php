@@ -74,6 +74,7 @@ class Server extends CI_Model{
         redirect("pages/view");
       }
       else{
+        // lagyan error
         redirect("/");
       }
   }
