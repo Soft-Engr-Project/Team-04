@@ -60,7 +60,6 @@
                 $headers = 'From:noreply@yourwebsite.com' . "\r\n"; // Set from headers
 
                 mail($to, $subject, $message, $headers); // Send our email
-                echo "Check your email";
                 
 
                 //Enter 6 digit pin

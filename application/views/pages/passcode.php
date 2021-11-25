@@ -5,24 +5,44 @@
   }
 ?>
 
-<div class="header">
-  	<h2>Forgot Password</h2>
-  </div>
+<body id="verificationcode">
+    <div class="squareyellow">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="myleftforgot">
+                        <h1>Thinklik</h1>
+                        <div class="form-group mb-3 col-md-12">
+                           <a href="<?php echo base_url();?>"><input type="submit" class="button1" value="Sign In"></a>
+                        </div>
+                        <div class="form-group mb-3 col-md-12">
+                            <a href="<?php echo site_url("postreg/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-lg-6">
+                    <div class="myrightforgot">
+                        <form class="myForm text-center" action="http://localhost/Team4/postreg/passverify" method="post" accept-charset="utf-8">
+                            <header> FIND YOUR ACCOUNT</header>
+                            <p>Please check your email and enter 6 digit code</p>
+                            <label>CODE</label>
+                            <div class="form-group">
+                                <input class="myinput" type="number" maxlength="6" pattern="[0-9]{6,}" name="passcode" >
+                            </div>
+                            <?php echo validation_errors();?>
+                            <input type="submit" class="button1" value="Send Code">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
- <?php echo validation_errors();?>
-  <?php echo form_open("postreg/passverify") ;?>
-  	<div class="input-group">
-  	  <label>Enter 6 Digit Code</label>
-  	  <input type="number" maxlength="6" pattern="[0-9]{6,}" name="passcode" >
-  	</div>
-  	<div class="input-group">
-  	  <button type="submit" class="btn" name="change_pass">Reset Password</button>
-  	</div>
-  	<p>
-  		Already a member? <a href="<?php echo base_url();?>">Sign in</a>
-  	</p>
-  </form>
+        
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    
 </body>
-
 
 
