@@ -124,11 +124,6 @@ class Server extends CI_Model{
         echo "Sorry your not verified";
         redirect('/');
       }
-<<<<<<< HEAD
-      else{
-        // lagyan error
-        redirect("/");
-=======
       else{ // User is verified
         if ($password == $result2) { // Check if password matched
           // Set the session
@@ -140,7 +135,6 @@ class Server extends CI_Model{
           echo "Username and password incorrect";
           redirect('/');
         } 
->>>>>>> benjamin
       }
     }
     else {  // Incorrect username
