@@ -76,18 +76,20 @@ class Post_model extends CI_Model{
         // }
 
         $query = $this->db->get("posts");
-
+        $num = $query->num_rows();
         // kinuha ko yung data ni categories table
+        //$this->db->order_by("name",DESC);
         $query1 = $this->db->get("categories");
-
+       
          $q = $query->result_array();
 
         $q1 = $query1->result_array();
 
-        foreach($q as $key => $value){
+        for($i=0;$i<$num;$i++){
             
-            $id=$q[$key]["category_id"];
-            $q[$key]["category_id"]=$q1[$id]["name"];
+            $id=$q[$i]["category_id"];
+            $q[$i]["category_id"]=$q1[$id-1]["name"];
+            
         }
         //    echo "<pre>";
          //   var_dump($q);
