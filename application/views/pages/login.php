@@ -27,6 +27,12 @@
     <p>
         Not yet a member? <a href="<?php echo site_url("postreg/register"); ?>">Sign up</a>
     </p>
+
+    <p>
+       <a href="<?php echo site_url("postreg/forgot_password"); ?>">Forgot Password</a>
+    </p>
+
+
   </form>
 </body>
 </html>

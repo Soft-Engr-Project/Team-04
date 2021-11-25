@@ -11,7 +11,10 @@ class Post_model extends CI_Model{
             // $this->db->order_by('posts.id','DESC');
             // $this->db->join("categories","categories.id  = posts.category_id");
             // $query = $this->db->get('posts');
+<<<<<<< HEAD
                 $this->db->order_by('id','DESC');
+=======
+>>>>>>> benjamin
                 $query = $this->get_categories_manually();
              return $query;
         }
@@ -55,6 +58,7 @@ class Post_model extends CI_Model{
     }
 
     public function get_categories_manually(){
+<<<<<<< HEAD
         // kinuha ko yung data ni post table
         $query = $this->db->get("posts");
 
@@ -76,17 +80,27 @@ class Post_model extends CI_Model{
             
         }
 
+=======
+        // // kinuha ko yung data ni post table
+>>>>>>> benjamin
         // $query = $this->db->get("posts");
 
         // // kinuha ko yung data ni categories table
         // $query1 = $this->db->get("categories");
+<<<<<<< HEAD
 
         //  $q = $query->result_array();
+=======
+       
+        // // yung data na nakuha ko hinold ko kay $a naka associative array siya pati si $q1
+        // $q = $query->result_array();
+>>>>>>> benjamin
 
         // $q1 = $query1->result_array();
 
         // foreach($q as $key => $value){
             
+<<<<<<< HEAD
         //     $id=$q[$key]["category_id"];
         //     $q[$key]["category_id"]=$q1[$id]["name"];
         // }
@@ -98,6 +112,40 @@ class Post_model extends CI_Model{
 
     }
     //    
+=======
+        //     foreach($q1 as $key1 => $value1){
+        //         if($q[$key]["category_id"]==$q1[$key1]["id"]){
+        //             $q[$key]["category_id"] = $q1[$key1]["name"];
+        //         }
+        //     }
+            
+        // }
+
+        $query = $this->db->get("posts");
+        $num = $query->num_rows();
+        // kinuha ko yung data ni categories table
+        //$this->db->order_by("name",DESC);
+        $query1 = $this->db->get("categories");
+       
+         $q = $query->result_array();
+
+        $q1 = $query1->result_array();
+
+        for($i=0;$i<$num;$i++){
+            
+            $id=$q[$i]["category_id"];
+            $q[$i]["category_id"]=$q1[$id-1]["name"];
+            
+        }
+        //    echo "<pre>";
+         //   var_dump($q);
+         //   echo "</pre>";
+         return $q;
+       
+
+    }
+   
+>>>>>>> benjamin
 
 }
 
