@@ -207,9 +207,10 @@
         public function verify(){
       
             //Get data from URL
+          
             $username = $this->uri->segment(3); //get email from url
             $code = $this->uri->segment(4); //get code from url
-            $data['verified'] = 'true';
+            $data['verified'] = 1;
             echo $username;
             echo $code;
 
