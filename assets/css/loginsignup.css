@@ -1,267 +1,282 @@
-/* *{
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-  font-family: 'Roboto Mono', monospace;
+ *{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace;
 }
 
-#signin, #signup{
-  background: url("../image/linearbg.png") no-repeat;
-  position: relative;
-  min-height: 100vh;
-  background-size: cover;
-  display: flex;
+#signin, #signup, #forgotpassword, #resetpassword, #verificationcode, #passwordverify, #emailverify{
+    background-color: #5A817A;
 }
 
-.container{
-  position: absolute;
-  max-width: 800px;
-  height: 500px;
-  margin: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* Sign Up and Sign In*/
+.squareyellow .card{
+    background-color:#FEDB97;
+    top: 20px;
+    left: 110px;
+    width: 85%;
+    height: 620px; 
+    box-shadow: 1px 1px 15px 0;
 }
 
-#signin .row .form-group{
-  margin-top: 30px;
+.myrightsignin, .myleftsignup, .myleftforgot{
+    padding-top: 50px;
+    text-align: center;
+    background-color: #FEDB97;
+    margin: -1px 0 10px 0;
+    height: 600px;
 }
 
-.myLeftCtn{
-  color: white;
-  border-radius: 50px;
-  height: 100%;
-  padding: 25px;
+.myleftsignin header, .myrightsignup header, .myrightreset header{
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: normal;
+    color: black;
+    font-size: 40px;
+    line-height: 80px;
 }
 
-.myLeftCtn img{
-  align-items: center;
-  line-height: 55px;
-  position: relative;
-  left: 50px;
+.myleftsignup h1, .myrightsignin h1, .myleftforgot h1{
+    padding-top: 85px;
+    padding-bottom: 40px;
+    font-weight: bold;
+    font-size: 50px;
+    text-shadow: -10px 8px 2px rgb(153, 150, 150);
 }
 
-.myLeftCtn .myinput::placeholder{
-  font-family: Roboto;
-  font-style: normal;
-  line-height: 35px;
-  color:  rgba(97, 96, 96, 0.44);
+.myrightsignup a,.myleftsignin a{
+    text-decoration:  none;
 }
 
-.myLeftCtn header, .myrightsignup header{
-  font-family: Roboto Mono;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 50px;
-  line-height: 92px;
+.myrightsignup a:hover, .myleftsignin a:hover, .myleftsignin p:hover{
+    text-decoration-line: underline;
+    color: white; 
 }
 
-.myLeftCtn .myinput{
-  border-radius: 50px;
-  padding: 10px;
-  padding-left: 50px;
-  border: none;
-  width: 400px;
-  height: 60px;
-}
+.myleftsignup .button1, .myrightsignin .button1, .myleftforgot .button1{
+    background: #B6B682;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;    
+    padding: 10px 50px 10px 50px;
 
-
-.myLeftCtn .button1, .myRightCtn .button1, .myrightsignup .button1, .myleftsignup .button1{
-  background: #4EEAF4;
-  border: none;
-  border-radius: 30px;    
-  padding: 18px 58px 18px 58px;
-  
-}
-
-.myLeftCtn .button1:hover, .myRightCtn .button1:hover, .myrightsignup .button1:hover, .myleftsignup .button1:hover{
-  background:  #15d1df;
-}
-
-.myLeftCtn a,.myrightsignup a{
-  color: white;
-  text-decoration:  none;
-}
-
-.myLeftCtn a:hover,.myrightsignup a:hover{
-  text-decoration-line: underline;
-  color: #15d1df ;
-}
-
-.myLeftCtn p{
-  color: white;
-  text-align: center;
-  margin-left: 50%;
-  margin-bottom: 8%;
-}
-
-.myRightCtn{
-  position: absolute;
-  margin-top: 100px;
-  margin-left: 250px;
-  padding-top: 75px;
-  padding-left: 90px;
-  width: 450px;
-  height: 250px;
-  background: #FFFFFF;
-  border-radius: 100px 0px 0px 100px;
-}
-
-.myRightCtn h4{
-  font-weight: 200;
-  font-size: 25px;
-  line-height: 35px;
-  padding-bottom: 20px;
-}
-
-.myrightsignup{
-  margin-top: -50px;
-  color: white;
-}
-
-
-.myrightsignup .row .myinput{
-  width: 200px;
-  height: 30px;
-  border-radius: 40px;
-  border: none;
-  padding-left: 20px;
-}
-
-
-.myrightsignup .form-control{
-  border-radius: 50px;
-  padding-left: 50px;
-  border: none;
-  width: 440px;
-  height:30px;
-  align-items: center;
-  justify-content: center;
-  margin-left: 100px;
-}
-
-.myrightsignup .labelsignup{
-  margin-left: 80px;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.myrightsignup p{
-  color: white;
-  text-align: center;
-  padding-left: 50px;
-
-}
-.myrightsignup .check{
-  border-radius: 50px;
-  padding-left: 50px;
-  border: none;
-  width: 25px;
-  height:16px;
-  align-items: center;
-  justify-content: center;
-  margin-left: 100px;   
 }
 
 .myrightsignup .button1{
-  margin-left: 100px;
+    margin-left: 50px;
 }
 
-.myleftsignup{
-  margin-top: 100px;
-  padding-top: 75px;
-  padding-left: 150px;
-  margin-left: -126px;
-  width: 450px;
-  height: 250px;
-  background: #FFFFFF;
-  border-radius: 0px 100px 100px 0px;
+.myleftsignin .button1, .myrightsignup .button1, 
+.myrightforgot .button1, .myrightreset .button1{
+    background: #FEDB97;
+    border: none;
+    border-radius: 30px;    
+    padding: 10px 50px 10px 50px;
+    font-size: 20px;
+}
+
+.myrightsignup .button1:hover,.myleftsignup .button1:hover, 
+.myrightsignin .button1:hover, .myleftsignin .button1:hover,
+.myrightforgot .button1:hover, .myleftforgot .button1:hover,
+.myrightreset .button1:hover{
+    background: #5A817A;
+    color: white;
+}
+
+/* End of Sign Up and Sign In*/
+
+/* Sign Up */
+.myrightsignup .row{
+    padding-right: 80px;
+}
+
+.myrightsignup{
+    font-size: 20px;
+}
+
+.myrightsignup .myinput{
+    width: 200px;
+    height: 30px;
+    border-radius: 40px;
+    border: none;
+    padding: 1px 20px 1px 20px;
+    background-color: #FEDB97;
+}
+.myrightsignup .labelsignup{
+    margin-left: 10px;
+}
+
+.myrightsignup .form-control{
+    border-radius: 50px;
+    padding-left: 50px;
+    border: none;
+    width: 415px;
+    height:30px;
+    margin-left: 80px;
+    margin-bottom: -10px;
+    background-color: #FEDB97;
+
+}
+
+.myrightsignup p .check{
+    border-radius: 50px;
+    padding-left: 50px;
+    border: none;
+    width: 25px;
+    height:16px;
+    align-items: center;
+    justify-content: center; 
+    margin-left: 50px;   
+}
+
+.myrightsignup p a{
+    color: black;
+    font-size: 15px;
+
 }
 
 .myleftsignup h4{
-  font-weight: 200;
-  font-size: 25px;
-  line-height: 35px;
-  padding-bottom: 20px;
-  padding-left: 25px;
+    font-size: 30px;
+    padding: 150px 0 20px 25px;
 }
-.myrightsignup header{
-  margin-left: 80px;
-}
-
- */
- * {
-  margin: 0px;
-  padding: 0px;
-}
-body {
-  font-size: 120%;
-  background-image: linear-gradient(147deg, #5E72EB, #FF9190);
-  color:#FFF;
-  font-family: 'Poppins', sans-serif;
-  margin-bottom: 45vh;
-  padding-top:7vh;
+.myleftsignup .button1{
+    margin-left: 12px;
 
 }
 
-.header {
-  width: 30%;
-  margin: 50px auto 0px;
-  background-image: linear-gradient(45deg, #cc2b5e, #753a88);
-  color: #fff;
-  text-align: center;
-  border: 1px solid #B0C4DE;
-  border-bottom: none;
-  border-radius: 10px 10px 0px 0px;
-  padding: 20px;
-  box-shadow: 0vw -0.2vw 0.4vw rgba(34,34,34,0.6);
+@media (max-width: 1264px){
+    .myrightsignup .form-control{
+        margin-left: 200px;
+    }
+    .myleftsignup, .myleftforgot{
+        margin: -1px 0 0 0;
+    }
+
 }
-form, .content {
-  width: 30%;
-  margin: 0px auto;
-  padding: 20px;
-  border: 1px solid #B0C4DE;
-  background-image: linear-gradient(45deg, #ce9ffc, #7367f0);
-  box-shadow: 0vw 0.4vw 0.4vw rgba(34,34,34,0.6);
-  border-radius: 0px 0px 10px 10px;
+
+/* End of Sign Up */
+
+/* Sign In*/
+
+.myrightsignin h4{
+    font-size: 30px;
+    padding: 150px 0 20px 0;
 }
-.input-group {
-  margin: 10px 0px 10px 0px;
+
+#signin .row .form-group{
+    margin-top: 50px;
 }
-.input-group label {
-  display: block;
-  text-align: left;
-  margin: 3px;
+
+.myleftsignin header{
+    padding-top: 80px;
 }
-.input-group input {
-  height: 30px;
-  width: 93%;
-  padding: 5px 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid gray;
+
+.myleftsignin img{
+    align-items: center;
+    line-height: 55px;
+    position: relative;
+    left: 50px;
 }
-.btn {
-  padding: 10px;
-  font-size: 15px;
-  color: white;
-  background: #5F9EA0;
-  border: none;
-  border-radius: 5px;
+
+.myleftsignin .myinput::placeholder{
+    font-family: Roboto;
+    font-style: normal;
+    line-height: 35px;
+    color:  rgba(97, 96, 96, 0.44);
 }
-.error {
-  width: 92%; 
-  margin: 0px auto; 
-  padding: 10px; 
-  border: 1px solid #a94442; 
-  color: #a94442; 
-  background: #f2dede; 
-  border-radius: 5px; 
-  text-align: left;
+
+.myleftsignin .myinput, .myrightforgot .myinput, .myrightreset .myinput{
+    border-radius: 50px;
+    padding: 10px;
+    padding-left: 50px;
+    border: none;
+    width: 400px;
+    height: 60px;
+    background: #FEDB97;
 }
-.success {
-  color: #3c763d; 
-  background: #dff0d8; 
-  border: 1px solid #3c763d;
-  margin-bottom: 20px;
+
+.myleftsignin p{
+    color: black;
+    text-align: center;
+    margin-left: 30%;
+    margin-bottom: 60px;
+}
+
+/* End of Sign In*/
+
+.row .myrightsignup, .row .myleftsignin, 
+.row .myrightforgot, .row .myrightreset{
+    background-color: #B6B682;
+    margin-top: -1px;
+    height: 620px;
+}
+
+
+/* Forgot Password*/
+.myleftforgot h1{
+    margin-bottom: 150px;
+}
+
+.myrightforgot header{
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: normal;
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 65px;
+    line-height: 100px;
+}
+
+.myrightforgot p{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.myrightforgot label{
+    padding-top: 40px;
+    font-size: 25px;
+}
+
+.myrightforgot .button1, .myrightreset .button1{
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+/* End of Forgot Password*/
+
+
+.myrightreset header{
+    padding: 80px 0 20px 0;
+    font-weight: bold;
+}
+
+.myrightreset label{
+    font-size: 20px;
+    padding-top:20px;
+}
+
+.myrightreset h5{
+    font-size: 30px;
+    text-align: center;
+    padding: 200px 0 50px 0;
+    font-weight: bold;
+}
+.myrightreset .passverify{
+    font-size: 20px; 
+    text-align: center;
+}
+
+.error, .errorsignup{
+    display: absolute;
+    z-index: 5;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error{
+    margin-top: 30px;
+
+}
+
 

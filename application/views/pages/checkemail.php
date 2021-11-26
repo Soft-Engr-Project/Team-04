@@ -1,11 +1,11 @@
 <?php 
   if (isset($_SESSION['username'])) {
-    $_SESSION['msg'] = "Please Logout First";
-    redirect("/pages/view");
+  	$_SESSION['msg'] = "Please Logout First";
+  	redirect("/pages/view");
   }
 ?>
 
-<body id="verificationcode">
+<body id="passwordverify">
     <div class="squareyellow">
         <div class="card">
             <div class="row">
@@ -21,31 +21,17 @@
                     </div> 
                 </div>
                 <div class="col-lg-6">
-                    <div class="myrightforgot">
-                        <form class="myForm text-center" action="http://localhost/Team4/postreg/passverify" method="post" accept-charset="utf-8">
-                            <header> FIND YOUR ACCOUNT</header>
-                            <p>Please check your email and enter 6 digit code</p>
-                            <label>CODE</label>
-                            <div class="form-group">
-                                <input class="myinput" type="number" maxlength="6" pattern="[0-9]{6,}" name="passcode" >
-                            </div>
-                            <input type="submit" class="button1" value="Send Code">
-                        </form>
-                        <div class="error">
-                          <?php echo validation_errors();?>
-
-                         </div>
+                    <div class="myrightreset">
+                        <h5>Registration Successful!</h5>
+                        <p class="passverify">Please check your email to verify your account. Thank you.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
         
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     
 </body>
-
-

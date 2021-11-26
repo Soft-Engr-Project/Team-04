@@ -142,7 +142,11 @@ class Server extends CI_Model{
       redirect('/');
     }
   }
-  
+  // get the code for checking 
+  public function get_code($code){
+    $query = $this->db->get_where("users",array("passcode" => $code));
+     return $query->row();
+  }
 }
 
 ?>

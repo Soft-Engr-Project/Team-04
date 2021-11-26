@@ -5,8 +5,33 @@
   }
 ?>
 
+<body id="passwordverify">
+    <div class="squareyellow">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="myleftforgot">
+                        <h1>Thinklik</h1>
+                        <div class="form-group mb-3 col-md-12">
+                           <a href="<?php echo base_url();?>"><input type="submit" class="button1" value="Sign In"></a>
+                        </div>
+                        <div class="form-group mb-3 col-md-12">
+                            <a href="<?php echo site_url("postreg/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-lg-6">
+                    <div class="myrightreset">
+                        <h5>Password Changed!</h5>
+                        <p class="passverify">Your password has been successfully changed. <br> Use your new password to log in.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-Password changed! <br>
-  
-<a href="<?php echo site_url("/");?>">Return to Login</a>
-             
+    
+</body>

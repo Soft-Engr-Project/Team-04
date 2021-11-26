@@ -60,7 +60,6 @@
                 $headers = 'From:noreply@yourwebsite.com' . "\r\n"; // Set from headers
 
                 mail($to, $subject, $message, $headers); // Send our email
-                echo "Check your email";
                 
 
                 //Enter 6 digit pin
@@ -95,19 +94,37 @@
                     $this->load->view("templates/footer.php"); 
                 }
                 else{
-                    echo "Wrong passcode";
-                    $this->load->view("templates/loginheader.php");
-                    $this->load->view("pages/passcode",$this->data);
-                    $this->load->view("templates/footer.php");
+                    // $this->data["title"] = "Wrong passcode";
+                    // 
+                    $this->form_validation->set_rules("passcode","Code","callback_checkCode");
+                    if($this->form_validation->run() == false){
+                        $this->load->view("templates/loginheader.php");
+                        $this->load->view("pages/passcode",$this->data);
+                        $this->load->view("templates/footer.php");
+                    }
+                    else{
+                        redirect("postreg/passverify");
+                    }
+                   
                 }
             }
             
+        }
+        // check the code if it has an error
+        public function checkCode($code){
+            if(is_null($this->server->get_code($code))){
+                $this->form_validation->set_message('checkCode', 'Wrong passcode');
+                return false;
+            }
+            else{
+                return true;
+            }
         }
 
         public function change_pass(){
             
             $email = $this->session->userdata('email');
-            echo $email;
+            // echo $email;
             if($this->session->userdata('email') == NULL){ //if user force to visit
                 redirect("/");
             }
@@ -143,7 +160,7 @@
                 return false;
             }
             if ($this->server->checkEmail($email) == false) {
-                 $this->form_validation->set_message('checkEmailVerify', 'Email Does not Exist');
+                 $this->form_validation->set_message('checkEmailVerify', 'Email does not exist');
                  return false;
             } 
             else {
@@ -198,9 +215,11 @@
                 $headers = 'From:noreply@yourwebsite.com' . "\r\n"; // Set from headers
 
                 mail($to, $subject, $message, $headers); // Send our email
-                echo "Check your email";
-  
-               
+                //echo "Check your email";
+                $this->load->view("templates/loginheader.php");
+                $this->load->view("pages/checkemail.php");
+                $this->load->view("templates/footer.php"); 
+   
             }
         }
         
