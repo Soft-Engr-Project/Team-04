@@ -15,15 +15,17 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="myrightforgot">
-                      <form class="myForm text-center" action="http://localhost/Team4/postreg/forgot_password" method="post" accept-charset="utf-8">
-                            <header> FIND YOUR ACCOUNT</header>
-                            <p>Please enter your email to send verification code.</p>
-                            <label>Email</label>
-                            <div class="form-group">
-                                <input type="email" class="myinput" name="email" required>
-                            </div>
-                            <input type="submit" class="button1" value="Send Verification">
-                      </form>
+                      <div class="myForm text-center">
+                        <?php echo form_open("postreg/forgot_password") ;?>
+                              <header> FIND YOUR ACCOUNT</header>
+                              <p>Please enter your email to send verification code.</p>
+                              <label>Email</label>
+                              <div class="form-group">
+                                  <input type="email" class="myinput" name="email" required>
+                              </div>
+                              <input type="submit" class="button1" value="Send Verification">
+                        </form>
+                      </div>
                     <div class="error">
                       <?php echo validation_errors();?>
                     </div>

@@ -22,15 +22,17 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="myrightforgot">
-                        <form class="myForm text-center" action="http://localhost/Team4/postreg/passverify" method="post" accept-charset="utf-8">
-                            <header> FIND YOUR ACCOUNT</header>
-                            <p>Please check your email and enter 6 digit code</p>
-                            <label>CODE</label>
-                            <div class="form-group">
-                                <input class="myinput" type="number" maxlength="6" pattern="[0-9]{6,}" name="passcode" >
-                            </div>
-                            <input type="submit" class="button1" value="Send Code">
-                        </form>
+                        <div class="myForm text-center">
+                          <?php echo form_open("postreg/passverify") ;?>
+                              <header> FIND YOUR ACCOUNT</header>
+                              <p>Please check your email and enter 6 digit code</p>
+                              <label>CODE</label>
+                              <div class="form-group">
+                                  <input class="myinput" type="number" maxlength="6" pattern="[0-9]{6,}" name="passcode" >
+                              </div>
+                              <input type="submit" class="button1" value="Send Code">
+                          </form>
+                      </div>
                         <div class="error">
                           <?php echo validation_errors();?>
 

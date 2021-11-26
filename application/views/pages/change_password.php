@@ -22,18 +22,20 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="myrightreset">
-                        <form class="myForm text-center" action="http://localhost/Team4/postreg/change_pass" method="post" accept-charset="utf-8">
-                            <header> Reset Password</header>
-                            <label>New Password</label>
-                            <div class="form-group">
-                                <input type="password" class="myinput" name="password_1" required>
-                            </div>
-                            <label>Confirm Password</label>
-                            <div class="form-group">
-                                <input type="password" class="myinput" name="password_2" required>
-                            </div>
-                            <input type="submit" class="button1" value="Reset Password">
-                        </form>
+                        <div class="myForm text-center">
+                            <?php echo form_open("postreg/change_pass") ;?>
+                                <header> Reset Password</header>
+                                <label>New Password</label>
+                                <div class="form-group">
+                                    <input type="password" class="myinput" name="password_1" required>
+                                </div>
+                                <label>Confirm Password</label>
+                                <div class="form-group">
+                                    <input type="password" class="myinput" name="password_2" required>
+                                </div>
+                                <input type="submit" class="button1" value="Reset Password">
+                            </form>
+                        </div>
                         <div class="error">
                         <?php echo validation_errors();?>
                         </div>

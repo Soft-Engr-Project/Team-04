@@ -12,42 +12,44 @@
 
                 <div class="col-lg-6">
                     <div class="myrightsignup">
-                        <form class="myForm text-center" action="http://localhost/Team4/postreg/register" method="post" accept-charset="utf-8">
-                            <header> Sign Up</header>
-                            <div class="row">
-                                <div class="form-group mb-3 col-md-2"></div>
-                                <div class="form-group mb-3 col-md-5">
-                                    <label>First Name</label>
-                                    <input type="text" class="myinput" name="firstname" required>
+                        <div class="myForm text-center">
+                            <?php echo form_open("postreg/register") ;?>
+                                <header> Sign Up</header>
+                                <div class="row">
+                                    <div class="form-group mb-3 col-md-2"></div>
+                                    <div class="form-group mb-3 col-md-5">
+                                        <label>First Name</label>
+                                        <input type="text" class="myinput" name="firstname" required>
+                                    </div>
+                                    <div class="form-group mb-3 col-md-5">
+                                        <label>Last Name</label>
+                                        <input type="text" class="myinput" name="lastname" required>
+                                    </div>
                                 </div>
-                                <div class="form-group mb-3 col-md-5">
-                                    <label>Last Name</label>
-                                    <input type="text" class="myinput" name="lastname" required>
+                                <div class="form-group mb-3 col-md-12">
+                                    <label class="labelsignup">Username</label>
+                                    <input type="text" class="form-control" name="username" required>
                                 </div>
-                            </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <label class="labelsignup">Username</label>
-                                <input type="text" class="form-control" name="username" required>
-                            </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <label class="labelsignup">Birthday</label>
-                                <input type="date" class="form-control" name="birthdate" required>
-                            </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <label class="labelsignup">Email</label>
-                                <input type="email" class="form-control" name="email" required>
-                            </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <label class="labelsignup">Password</label>
-                                <input type="password" class="form-control" name="password_1" required>
-                            </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <label class="labelsignup">Confirm Password</label>
-                                <input type="password" class="form-control" name="password_2" required>
-                            </div>
-                            <p> <input type="checkbox" class="check" required>I read and agree to <a href="#">Terms & Conditions</a></p>
-                            <input type="submit" class="button1" value="Sign Up">
-                        </form>
+                                <div class="form-group mb-3 col-md-12">
+                                    <label class="labelsignup">Birthday</label>
+                                    <input type="date" class="form-control" name="birthdate" required>
+                                </div>
+                                <div class="form-group mb-3 col-md-12">
+                                    <label class="labelsignup">Email</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="form-group mb-3 col-md-12">
+                                    <label class="labelsignup">Password</label>
+                                    <input type="password" class="form-control" name="password_1" required>
+                                </div>
+                                <div class="form-group mb-3 col-md-12">
+                                    <label class="labelsignup">Confirm Password</label>
+                                    <input type="password" class="form-control" name="password_2" required>
+                                </div>
+                                <p> <input type="checkbox" class="check" required>I read and agree to <a href="#">Terms & Conditions</a></p>
+                                <input type="submit" class="button1" value="Sign Up">
+                            </form>
+                        </div>
                         <div class="errorsignup">
                             <?php echo validation_errors();?>
                         </div>

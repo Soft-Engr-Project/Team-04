@@ -11,21 +11,23 @@
                                 //if user attempts in login page after login, redirect to homepage
                                 if (isset($_SESSION['username']))redirect("pages/view");
                             ?>
-                            <form class="myForm text-center" action="http://localhost/Team4/postreg/login" method="post" accept-charset="utf-8">
-                                <header> Sign In</header>
-                                <div class="form-group">
-                                        <img src="assets/image/user.png" width="20" height="20">
-                                    <input type="text" class="myinput" name="username" placeholder="USERNAME" required>
-                                </div>
-                                <div class="form-group">
-                                    <img src="assets/image/lock.png"  width="20" height="20" >
-                                    <input type="password" class="myinput" name="password" placeholder="PASSWORD" required>
-                                </div>
-                                <a href="<?php echo site_url("postreg/forgot_password"); ?>"> 
-                                <p>Forgot password?</p>  </a>
-                                <?php echo validation_errors();?>
-                                <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
-                            </form>
+                            <div class="myForm text-center">
+                                <?php echo form_open("postreg/login") ;?>
+                                    <header> Sign In</header>
+                                    <div class="form-group">
+                                            <img src="assets/image/user.png" width="20" height="20">
+                                        <input type="text" class="myinput" name="username" placeholder="USERNAME" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <img src="assets/image/lock.png"  width="20" height="20" >
+                                        <input type="password" class="myinput" name="password" placeholder="PASSWORD" required>
+                                    </div>
+                                    <a href="<?php echo site_url("postreg/forgot_password"); ?>"> 
+                                    <p>Forgot password?</p>  </a>
+                                    <?php echo validation_errors();?>
+                                    <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">

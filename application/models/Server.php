@@ -92,13 +92,15 @@ class Server extends CI_Model{
   public function activate_acc($username,$code,$data){
     $this->db->select('*');
     $this->db->where('username', $username);    
-    $this->db->where('code', $code); 
+    $this->db->where('code', $code);  
     $query = $this->db->get('users');
+   
     if ($query->num_rows() > 0) {
+      $this->db->where('username', $username);    
+      $this->db->where('code', $code);    
       return $this->db->update('users', $data);
     }
   }
-
 
   // LOGIN USER
   public function login_user() {
@@ -120,7 +122,7 @@ class Server extends CI_Model{
       $result3  = $q['verified'];
       
     
-      if($result3=='false'){ // Check if user is verified
+      if($result3==="0"){ // Check if user is verified
         echo "Sorry your not verified";
         redirect('/');
       }
