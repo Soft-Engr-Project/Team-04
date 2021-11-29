@@ -25,7 +25,7 @@
         </ul>
     </div>
     <h3><?php echo $post["title"];?></h3> 
-    <small class="post-date">Posted on <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
+    <small class="post-date">Posted on <?php echo $post["created_at"];?> in <?php echo $post["category_id"];?></small>
     <p><?php echo character_limiter($post["body"],400);?></p>
     <button class="btn btn-primary">Reaction</button>
     <button class="btn btn-secondary">Comment</button>
