@@ -23,7 +23,7 @@
                                         <input type="password" class="myinput" name="password" placeholder="PASSWORD" required>
                                     </div>
                                     <a href="<?php echo site_url("postreg/forgot_password"); ?>"> 
-                                    <p>Forgot password?</p>  </a>
+                                    <p>Forgot password?</p> </a>
                                     <?php echo validation_errors();?>
                                     <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
                                 </form>
