@@ -215,14 +215,14 @@
             $to =  $email;  
             $subject = 'Email verification';
             $from = 'thinklikblog@gmail.com';           
-           
+            $password = env('PASSWORD'); // Get password from env file
             // Config setup
             $config['protocol'] = 'smtp';
             $config['smtp_host'] = 'ssl://smtp.gmail.com';
-            $config['smtp_port'] = '465';
+            $config['smtp_port'] = '465'; 
             $config['smtp_timeout'] = '60';
             $config['smtp_user'] = 'thinklikblog@gmail.com';    //Important
-            $config['smtp_pass'] = '';  //Important
+            $config['smtp_pass'] = $password;  //Important
             $config['charset'] = 'utf-8';
             $config['newline'] = "\r\n";
             $config['mailtype'] = 'html'; // or html

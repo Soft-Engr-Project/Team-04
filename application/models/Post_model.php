@@ -8,11 +8,16 @@ class Post_model extends CI_Model{
     }
     public function get_posts($slug = FALSE){
         if($slug===FALSE){
-            // $this->db->order_by('posts.id','DESC');
-            // $this->db->join("categories","categories.id  = posts.category_id");
-            // $query = $this->db->get('posts');
-                $query = $this->get_categories_manually();
-             return $query;
+            //$this->db->select('posts.*','categories.*');
+             $this->db->order_by('posts.id','DESC');
+            $this->db->join("categories","categories.category_id  = posts.category_id",'LEFT');
+             $query = $this->db->get('posts');
+               // $query = $this->get_categories_manually();
+               echo "<pre>";
+            var_dump($query->row_array());
+            echo "</pre>";
+            
+             return $query->row_array();
         }
         $query = $this->db->get_where('posts',array('slug'=> $slug));
         return $query->row_array();
