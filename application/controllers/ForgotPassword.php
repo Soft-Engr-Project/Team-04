@@ -20,7 +20,7 @@
                 // Code Generation
                 $passcode = random_int(0,999999);  // Generate hash value
                 $passcode = str_pad($passcode, 6, 0, STR_PAD_LEFT);
-                $lock_id = 0; // to lock out user attempt to access other pages
+                
 
                 // get user info and generate 6 digit code to be sent on email
                 $email = $this->input->post('email'); //Get user email input
@@ -34,8 +34,19 @@
                  );
                 $this->send($email,'templates/ChangePass_Email',$data); // Call email setup function
 
+                //logout user if user attempts to change pass when currently logged in and same input to change pass
+
+                //if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') == $email)) {
+
+                // logout all sessions
+                if(($this->session->userdata('lock_id') != 1)){ //if user force to visit from login
+                    $this->session->unset_userdata(array('username','user_id','email','success','logged_in'));
+                }
+
+                $lock_id = 0; // to lock out user attempt to access other pages
                 $newdata = array('email'=>$email, 'lock_id'=>$lock_id);
                 $this->session->set_userdata($newdata);
+
                 $this->load->view("templates/loginheader.php");
                 $this->load->view("pages/passcode",$this->data);
                 $this->load->view("templates/footer.php");
@@ -139,8 +150,7 @@
         public function change_pass(){
             
             $email = $this->session->userdata('email');
-            // echo $email;
-            if($this->session->userdata('email') == NULL){ //if user force to visit
+            if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') != NULL)){ //if user force to visit from login
                 redirect("/");
             }
             else{

@@ -38,7 +38,7 @@ class Signup extends CI_Controller{
             // Code Generation
             $hash = md5(rand(0,1000));  // Generate hash value
             $code = substr(str_shuffle($hash), 0, 12); // Transform it to 12 key code
-            $this->server->reg_user($code); //pass the code and update the database
+            $this->Registration->reg_user($code); //pass the code and update the database
             
             // Content to be passed on email format
             $username = $this->input->post('username');
@@ -60,7 +60,7 @@ class Signup extends CI_Controller{
     }
 
     function checkUserName($username){
-        if ($this->server->checkUserExist($username) == false) {
+        if ($this->Registration->checkUserExist($username) == false) {
              return true;
         } 
         else {
@@ -75,7 +75,7 @@ class Signup extends CI_Controller{
             return false;
         } 
        
-        if ($this->server->checkEmail($email) == false) {
+        if ($this->Registration->checkEmail($email) == false) {
              return true;
         } 
         else {
@@ -126,7 +126,7 @@ class Signup extends CI_Controller{
             $code = $this->uri->segment(4); //get code from url
             $data['verified'] = 1;
 
-            $query= $this->server->activate_acc($username, $code, $data); //check in the database
+            $query= $this->Registration->activate_acc($username, $code, $data); //check in the database
            
             // If true, inform the user in verify.php
             if ($query){
