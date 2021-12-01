@@ -16,14 +16,14 @@
                             <a href="<?php echo base_url();?>"><input type="submit" class="button1" value="Sign In"></a>
                         </div>
                         <div class="form-group mb-3 col-md-12">
-                            <a href="<?php echo site_url("postreg/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
+                            <a href="<?php echo site_url("Signup/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
                         </div>
                     </div>  
                 </div>
                 <div class="col-lg-6">
                     <div class="myrightreset">
                         <div class="myForm text-center">
-                            <?php echo form_open("postreg/change_pass") ;?>
+                            <?php echo form_open("ForgotPassword/change_pass") ;?>
                                 <header> Reset Password</header>
                                 <label>New Password</label>
                                 <div class="form-group">

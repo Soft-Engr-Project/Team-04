@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $route["profileposts/(:any)"] = "profileposts/view/$1";
 $route["pages/view/profile"]="profiles/view";
-$route["postreg/register"] = "postreg/register";
+$route["Signup/register"] = "Signup/register";
 $route['posts/update']="posts/update";
 $route['posts/create']="posts/create";
 $route['posts/(:any)']="posts/view/$1";

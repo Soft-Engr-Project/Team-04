@@ -9,14 +9,14 @@
                            <a href="<?php echo base_url();?>"><input type="submit" class="button1" value="Sign In"></a>
                         </div>
                         <div class="form-group mb-3 col-md-12">
-                           <a href="<?php echo site_url("postreg/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
+                           <a href="<?php echo site_url("Signup/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
                         </div>
                     </div> 
                 </div>
                 <div class="col-lg-6">
                     <div class="myrightforgot">
                       <div class="myForm text-center">
-                        <?php echo form_open("postreg/forgot_password") ;?>
+                        <?php echo form_open("ForgotPassword/forgot_password") ;?>
                               <header> FIND YOUR ACCOUNT</header>
                               <p>Please enter your email to send verification code.</p>
                               <label>Email</label>
