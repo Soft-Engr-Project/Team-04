@@ -41,7 +41,7 @@ class Server extends CI_Model{
   public function get_user($email){
       $query = $this->db->get_where("users",array("email"=>$email));
       
-      return $query->row_array()['username'];
+      return $query->row_array();
     }
 
   // CHECK PASSWORD IN DATABASE
@@ -129,8 +129,16 @@ class Server extends CI_Model{
       else{ // User is verified
         if ($password == $result2) { // Check if password matched
           // Set the session
-          $_SESSION['username'] = $username;
-          $_SESSION['success'] = "You are now logged in";
+          $user_data = array(
+            'user_id' => $q["userID"],
+            'username' => $q["username"],
+            'email' => $q["email"],
+            'success' => "You are now logged in",
+            'logged_in'=> true
+          );
+          $this->session->set_userdata($user_data);
+          // $_SESSION['username'] = $username;
+          // $_SESSION['success'] = "You are now logged in";
           redirect("pages/view");
         }
         else{ // Incorrect password

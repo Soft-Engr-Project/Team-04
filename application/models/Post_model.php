@@ -1,49 +1,52 @@
 <?php
 //
 class Post_model extends CI_Model{
+    private $post_table = "posts";
+    private $categories_table = "categories"; 
+    private $users_table = "users";
     public function __construct()
     {
         // load the database();
         $this->load->database();
     }
-    public function get_posts($slug = FALSE){
-        if($slug===FALSE){
-            //$this->db->select('posts.*','categories.*');
-             $this->db->order_by('posts.id','DESC');
-            $this->db->join("categories","categories.category_id  = posts.category_id",'LEFT');
-             $query = $this->db->get('posts');
-               // $query = $this->get_categories_manually();
-               echo "<pre>";
-            var_dump($query->row_array());
-            echo "</pre>";
-            
-             return $query->row_array();
+    // get all the posts
+    public function get_posts($slug=False){
+        if($slug == False){
+            // get posts table
+             $this->db->order_by($this->post_table.".id","DESC");
+             $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+             $this->db->join($this->users_table,$this->users_table.".userID = ".$this->post_table.".user_id");
+             $query = $this->db->get($this->post_table);
+             return $query->result_array();
         }
-        $query = $this->db->get_where('posts',array('slug'=> $slug));
+        // get a specific post
+        $id = $this->input->post("id");
+        $this->db->where("id",$id);
+        $this->db->where("slug",$slug);
+        $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+        $this->db->join($this->users_table,$this->users_table.".userID = ".$this->post_table.".user_id");
+        $query = $this->db->get($this->post_table);
         return $query->row_array();
     }
-    public function get_categories(){
-        $query = $this->db->get('categories');
-        return $query->result_array();
-    }
     public function create_post(){
-        // create a slug using url_title()
-        // $this->input->post("title"); meaning niyan kinuha niya yung inimput ni user 
-        // post meaning method niya ay $_POST 
-        // "title" eto yung kinuha
+        // get the submitted title and the body
+        $title = $this->input->post("title",True);
+        $body = $this->input->post("body",True);
         $slug = url_title($this->input->post("title"));
         $data = array(
-            'title'=> $this->input->post("title"),
+            'title'=>$title,
             'slug' => $slug,
-            'body' => $this->input->post("body"),
-            'category_id' => $this->input->post("category_id")
+            'body' => $body,
+            'category_id'=> $this->input->post("category_id"),
+            "user_id" => $this->session->userdata("user_id")
         );
-        return $this->db->insert('posts',$data);
-    
+        // insert it to database
+        return $this->db->insert($this->post_table,$data);
     }
+    // delete a specific post
     public function delete_post($id){
-        $this->db->where('id',$id);
-        $this->db->delete('posts');
+        $this->db->where("id",$id);
+        $this->db->delete($this->post_table);
         return true;
     }
     public function update_post(){
@@ -52,58 +55,11 @@ class Post_model extends CI_Model{
             'title'=> $this->input->post('title'),
             'slug' => $slug,
             'body' => $this->input->post('body'),
-            'category_id' => $this->input->post("category_id")
+            'category_id'=> $this->input->post("category_id")
         );  
         $this->db->where("id",$this->input->post("id"));
         return $this->db->update("posts",$data);
     }
-
-    public function get_categories_manually(){
-        // // kinuha ko yung data ni post table
-        // $query = $this->db->get("posts");
-
-        // // kinuha ko yung data ni categories table
-        // $query1 = $this->db->get("categories");
-       
-        // // yung data na nakuha ko hinold ko kay $a naka associative array siya pati si $q1
-        // $q = $query->result_array();
-
-        // $q1 = $query1->result_array();
-
-        // foreach($q as $key => $value){
-            
-        //     foreach($q1 as $key1 => $value1){
-        //         if($q[$key]["category_id"]==$q1[$key1]["id"]){
-        //             $q[$key]["category_id"] = $q1[$key1]["name"];
-        //         }
-        //     }
-            
-        // }
-
-        $query = $this->db->get("posts");
-        $num = $query->num_rows();
-        // kinuha ko yung data ni categories table
-        //$this->db->order_by("name",DESC);
-        $query1 = $this->db->get("categories");
-       
-         $q = $query->result_array();
-
-        $q1 = $query1->result_array();
-
-        for($i=0;$i<$num;$i++){
-            
-            $id=$q[$i]["category_id"];
-            $q[$i]["category_id"]=$q1[$id-1]["name"];
-            
-        }
-        //    echo "<pre>";
-         //   var_dump($q);
-         //   echo "</pre>";
-         return $q;
-       
-
-    }
-   
 
 }
 

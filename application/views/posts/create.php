@@ -1,4 +1,3 @@
-
 <?php echo validation_errors();?>
 <?php echo form_open("posts/create") ;?>
   <div class="form-group">
@@ -13,10 +12,9 @@
     <label for="">Categories:</label>
     <select name="category_id" class="form-control ">
     <?php foreach($categories as $category):?>
-      <option value="<?php echo $category['id'];?>"><?php echo $category['name'];?></option>
+      <option value="<?php echo $category['category_id'];?>"><?php echo $category['name'];?></option>
     <?php endforeach;?>
     </select>
   </div>
- 
   <button type="submit" class="btn btn-success">Post</button>
 </form>
