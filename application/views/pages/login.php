@@ -12,7 +12,7 @@
                                 if (isset($_SESSION['username']))redirect("pages/view");
                             ?>
                             <div class="myForm text-center">
-                                <?php echo form_open("postreg/login") ;?>
+                                <?php echo form_open("Logins/login") ;?>
                                     <header> Sign In</header>
                                     <div class="form-group">
                                             <img src="assets/image/user.png" width="20" height="20">
@@ -22,8 +22,8 @@
                                         <img src="assets/image/lock.png"  width="20" height="20" >
                                         <input type="password" class="myinput" name="password" placeholder="PASSWORD" required>
                                     </div>
-                                    <a href="<?php echo site_url("postreg/forgot_password"); ?>"> 
-                                    <p>Forgot password?</p>  </a>
+                                    <a href="<?php echo site_url("ForgotPassword/forgot_password"); ?>"> 
+                                    <p>Forgot password?</p> </a>
                                     <?php echo validation_errors();?>
                                     <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
                                 </form>
@@ -34,7 +34,7 @@
                         <div class="myrightsignin">
                             <h1>Thinklik</h1>
                             <h4>Not yet a member?</h4>
-                            <a href="<?php echo site_url("postreg/register"); ?>">
+                            <a href="<?php echo site_url("Signup/register"); ?>">
                             <input type="submit" class="button1" value="Create new account"></a>          
                         </div>
                     </div>

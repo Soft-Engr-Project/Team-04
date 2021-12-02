@@ -16,14 +16,14 @@
                            <a href="<?php echo base_url();?>"><input type="submit" class="button1" value="Sign In"></a>
                         </div>
                         <div class="form-group mb-3 col-md-12">
-                            <a href="<?php echo site_url("postreg/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
+                            <a href="<?php echo site_url("Signup/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
                         </div>
                     </div> 
                 </div>
                 <div class="col-lg-6">
                     <div class="myrightforgot">
                         <div class="myForm text-center">
-                          <?php echo form_open("postreg/passverify") ;?>
+                          <?php echo form_open("ForgotPassword/passverify") ;?>
                               <header> FIND YOUR ACCOUNT</header>
                               <p>Please check your email and enter 6 digit code</p>
                               <label>CODE</label>

@@ -13,7 +13,7 @@
                 <div class="col-lg-6">
                     <div class="myrightsignup">
                         <div class="myForm text-center">
-                            <?php echo form_open("postreg/register") ;?>
+                            <?php echo form_open("Signup/register") ;?>
                                 <header> Sign Up</header>
                                 <div class="row">
                                     <div class="form-group mb-3 col-md-2"></div>

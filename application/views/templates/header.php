@@ -35,5 +35,17 @@
   </div>
 </nav>
 <div class="container p-3">
+<?php if($this->session->flashdata("post_create")) :?>
+   <?php echo '<p class ="alert alert-success">'.$this->session->flashdata("post_create").'</p>';?>
+   <?php unset($_SESSION['post_create']);?>
+<?php endif;?> 
+<?php if($this->session->flashdata("post_delete")) :?>
+   <?php echo '<p class ="alert alert-success">'.$this->session->flashdata("post_delete").'</p>';?>
+   <?php unset($_SESSION['post_delete']);?>
+<?php endif;?> 
+<?php if($this->session->flashdata("post_update")) :?>
+   <?php echo '<p class ="alert alert-success">'.$this->session->flashdata("post_update").'</p>';?>
+   <?php unset($_SESSION['post_update']);?>
+<?php endif;?> 
 
     

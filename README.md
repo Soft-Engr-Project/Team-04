@@ -7,3 +7,8 @@
  * register with validation
  * Convert wireframe to code (login,Register,Forgot password)
  * Login (Forgot Password)
+
+ **Changelog 12/3/2021**
+ * Code Cleaning MVC
+ * Home CRUD 
+ 
