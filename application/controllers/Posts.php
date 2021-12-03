@@ -8,7 +8,9 @@
 
         }
         public function view($slug=NULL){
-            $this->data["post"] = $this->post_model->get_posts($slug);
+            // if it is not set then $id is Null
+            $id = $this->input->post('id') ?? Null;
+            $this->data["post"] = $this->post_model->get_posts($slug,$id);
             $this->load->view("templates/header.php");
             $this->load->view("posts/view",$this->data);
             $this->load->view("templates/footer");
@@ -27,7 +29,14 @@
                  $this->load->view("posts/create.php",$this->data);
                  $this->load->view("templates/footer.php");
             }else{
-                $this->post_model->create_post();
+                $data =array(
+                        "title"=>$this->input->post("title"),
+                        "body" =>$this->input->post("body"),
+                        "slug" => url_title($this->input->post("title")),
+                        "category_id"=> $this->input->post("category_id"),
+                        "user_id" => $this->session->userdata("user_id")
+                    );
+                $this->post_model->create_post($data);
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
             }
@@ -45,12 +54,13 @@
             redirect("pages");
         }
         public function edit($slug){
-            $user_id = $this->post_model->get_posts($slug)["user_id"];
+            $id = $this->input->post("id");
+            $user_id = $this->post_model->get_posts($slug,$id)["user_id"];
 
             if($this->session->userdata("user_id") != $user_id){
                 redirect("pages");
             }
-            $this->data["post"] = $this->post_model->get_posts($slug);
+            $this->data["post"] = $this->post_model->get_posts($slug,$id);
             $this->data["categories"] = $this->categories_model->get_categories();
             $this->data["title"]="Edit Post";
             $this->data["slug"] = $slug;
@@ -62,8 +72,15 @@
             $this->load->view("posts/edit",$this->data);
             $this->load->view("templates/footer.php");
         }
-        public function update(){
-            $this->post_model->update_post();
+        public function update(){ 
+            $data=array(
+            'title'=> $this->input->post('title'),
+            'slug' => url_title($this->input->post('title')),
+            'body' => $this->input->post('body'),
+            'category_id'=> $this->input->post("category_id")
+             );  
+            $id = $this->input->post("id");
+            $this->post_model->update_post($data,$id);
             $this->session->set_flashdata("post_update","Update post succesfully");
             redirect("pages");
         }

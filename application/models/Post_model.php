@@ -10,7 +10,7 @@ class Post_model extends CI_Model{
         $this->load->database();
     }
     // get all the posts
-    public function get_posts($slug=False){
+    public function get_posts($slug=False,$id=Null){
         if($slug == False){
             // get posts table
              $this->db->order_by($this->post_table.".id","DESC");
@@ -20,7 +20,7 @@ class Post_model extends CI_Model{
              return $query->result_array();
         }
         // get a specific post
-        $id = $this->input->post("id");
+        // $id = $this->input->post("id");
         $this->db->where("id",$id);
         $this->db->where("slug",$slug);
         $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
@@ -28,18 +28,18 @@ class Post_model extends CI_Model{
         $query = $this->db->get($this->post_table);
         return $query->row_array();
     }
-    public function create_post(){
+    public function create_post($data){
         // get the submitted title and the body
-        $title = $this->input->post("title",True);
-        $body = $this->input->post("body",True);
-        $slug = url_title($this->input->post("title"));
-        $data = array(
-            'title'=>$title,
-            'slug' => $slug,
-            'body' => $body,
-            'category_id'=> $this->input->post("category_id"),
-            "user_id" => $this->session->userdata("user_id")
-        );
+        // $title = $this->input->post("title",True);
+        // $body = $this->input->post("body",True);
+        // $slug = url_title($this->input->post("title"));
+        // $data = array(
+        //     'title'=>$title,
+        //     'slug' => $slug,
+        //     'body' => $body,
+        //     'category_id'=> $this->input->post("category_id"),
+        //     "user_id" => $this->session->userdata("user_id")
+        // );
         // insert it to database
         return $this->db->insert($this->post_table,$data);
     }
@@ -49,15 +49,15 @@ class Post_model extends CI_Model{
         $this->db->delete($this->post_table);
         return true;
     }
-    public function update_post(){
-        $slug = url_title($this->input->post('title'));
-        $data=array(
-            'title'=> $this->input->post('title'),
-            'slug' => $slug,
-            'body' => $this->input->post('body'),
-            'category_id'=> $this->input->post("category_id")
-        );  
-        $this->db->where("id",$this->input->post("id"));
+    public function update_post($data,$id){
+        // $slug = url_title($this->input->post('title'));
+        // $data=array(
+        //     'title'=> $this->input->post('title'),
+        //     'slug' => $slug,
+        //     'body' => $this->input->post('body'),
+        //     'category_id'=> $this->input->post("category_id")
+        // );  
+        $this->db->where("id",$id);
         return $this->db->update("posts",$data);
     }
 
