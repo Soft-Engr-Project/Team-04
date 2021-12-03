@@ -24,7 +24,11 @@ class Logins extends CI_Controller{
             $this->load->view("templates/footer.php");     
         }
         else{
-            $this->Login->login_user();
+            // Get user login input
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+            $this->Login->login_user($username,$password); // Login validation
+
             $this->load->view("templates/loginheader.php");
             $this->load->view("pages/view",$this->data);
             $this->load->view("templates/footer.php");     
