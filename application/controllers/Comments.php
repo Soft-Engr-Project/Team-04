@@ -20,8 +20,8 @@
 				$body = $this->input->post("comment");
 				$data = array(
 					"post_id" => $id,
-					"name" => $this->session->userdata("username"),
-					"body" => $body
+					"user_id"=> $this->session->userdata("user_id"),
+					"content" => $body
 				);
 				$data = $this->security->xss_clean($data);
 				$this->Comments_model->create($data);

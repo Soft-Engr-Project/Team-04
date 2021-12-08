@@ -23,7 +23,7 @@ class Login extends CI_Model{
       $result1= $q['username'];
       $result2 = $q['password'];
       $result3  = $q['verified'];
-    
+      
       if($result3==="0"){ // Check if user is verified
         echo "Sorry your not verified";
         redirect('/');
@@ -32,7 +32,7 @@ class Login extends CI_Model{
         if (password_verify($password, $result2)) { // Check if password matched
           // Set the session
           $user_data = array(
-            'user_id' => $q["userID"],
+            'user_id' => $q["id"],
             'username' => $q["username"],
             'email' => $q["email"],
             'success' => "You are now logged in",

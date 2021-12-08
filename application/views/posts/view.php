@@ -24,16 +24,16 @@
 		   		 <?php foreach ($comments as $comment): ?>
 		        <div class="card bg-dark">
 		            <div class="card-body">
-		                 <h5><?php echo $comment["body"];?> [by <strong><?php echo $comment["name"];?></strong>]</h5>
+		                 <h5><?php echo $comment["content"];?> [by <strong><?php echo $comment["username"];?></strong>]</h5>
 		            	 <?php echo form_open("comments/reaction/".$post["id"]);?>
 		            	 	<input type="hidden" name="vote" value="1">
-		            	 	<input type="hidden" name="id" value="<?php echo $comment["id"];?>">
+		            	 	<input type="hidden" name="id" value="<?php echo $comment["comment_id"];?>">
 		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="upvote">Upvote</button>
 		            	 </form>
 		            	 <p><?php echo $comment["upvote"] ;?></p>
 		            	 <?php echo form_open("comments/reaction/".$post["id"]);?>
 		            	 	<input type="hidden" name="vote" value="1">
-		            	 	<input type="hidden" name="id" value="<?php echo $comment["id"];?>">
+		            	 	<input type="hidden" name="id" value="<?php echo $comment["comment_id"];?>">
 		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="downvote">Downvote</button>
 		            	 </form>
 		            	 <p><?php echo $comment["downvote"];?></p>
