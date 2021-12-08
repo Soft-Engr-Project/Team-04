@@ -41,6 +41,10 @@ class Post_model extends CI_Model{
         $this->db->insert($this->reactions_table,array("react_log" => $reactions_log));
         return $this->db->insert_id($this->post_table);
     }
+    public function update_post($data,$id){
+        $this->db->where("id",$id);
+        return $this->db->update("posts",$data);
+    }
 
     // // check the user kung naka react na o hindi
     // public function check_user_reaction($id,$user_id){
