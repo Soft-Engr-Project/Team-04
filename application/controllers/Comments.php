@@ -17,11 +17,18 @@
 				$this->load->view("templates/footer.php");
 			}
 			else{
+				// get the reaction.json
+				$json_data = file_get_contents(FCPATH."reaction.json");
+                // get the react_id
+                $react_id = $this->post_model->create_reaction_log($json_data);
+				
 				$body = $this->input->post("comment");
 				$data = array(
 					"post_id" => $id,
-					"user_id"=> $this->session->userdata("user_id"),
+					"user_id" => $this->session->userdata("user_id"),
+					"react_id" => $react_id,
 					"content" => $body
+
 				);
 				$data = $this->security->xss_clean($data);
 				$this->Comments_model->create($data);
@@ -31,24 +38,113 @@
 
 		public function reaction($id){
 			// get all vote
-			$type_of_vote = $this->input->post("submit");
-			$comment_id = $this->input->post("id");
-			$vote = 1 ;
-			$get_vote = $this->Comments_model->get_vote($id,$comment_id);
-			$upvote = (int)$get_vote["upvote"];
-			$downvote = (int)$get_vote["downvote"];
-			if($type_of_vote == "upvote"){
-				$upvote += $vote;
-			}else{
-				$downvote += $vote;
-			}
-			$data = array(
-				"upvote" => $upvote,
-				"downvote" => $downvote
-			);
+			$comment_id =  $this->input->post("comment_id");
 			
-			$this->Comments_model->update_vote($id,$comment_id,$data);
-			redirect("posts/".$id);
+   	         $json_data = file_get_contents(FCPATH."reaction.json");
+             $json =  json_decode($json_data,true);
+             // user na nagrereact
+             $get_post = $this->comments_model->get_specific_comment($comment_id);
+             $total_upvote = $get_post["upvote"];
+             $total_downvote = $get_post["downvote"];
+             $user =  $this->session->userdata("user_id");
+             $type_of_vote = $this->input->post("submit");
+
+             if($type_of_vote == "up_react"){
+               
+                $json_data = json_decode($this->comments_model->get_reactions($comment_id)["react_log"],true);
+                
+                $upvote_array = $json_data["up_user_id"];
+                $downvote_array = $json_data["down_user_id"];
+                    
+                // check kung nasa nag upvote na 
+                if(in_array($user,$upvote_array)){ 
+             
+                    $index = array_search($user,$json_data["up_user_id"]);
+                    unset($json_data["up_user_id"][$index]);
+                    $json_data = json_encode($json_data);    
+
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_upvote -= 1;
+                    $data_upvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+
+           
+                    $this->post_model->delete_reaction($comment_id,$data);
+                    $this->comments_model->update_upvotes($comment_id,$data_upvote);
+                }
+                else{
+                    // check kung may react na siya sa downvote
+                    if(in_array($user,$downvote_array)){
+                        $index = array_search($user,$json_data["down_user_id"]);        
+                        unset($json_data["down_user_id"][$index]);
+                        $total_downvote -= 1;
+                    }
+                    $json_data["up_user_id"][] = $user;
+                    $json_data = json_encode($json_data);    
+                
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_upvote += 1;
+                    $data_upvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+                    $this->post_model->update_reaction($comment_id,$data);
+                    $this->comments_model->update_upvotes($comment_id,$data_upvote);
+                }
+             }
+             else{
+                
+                $json_data = json_decode($this->comments_model->get_reactions($comment_id)["react_log"],true);
+                  
+                $downvote_array = $json_data["down_user_id"];
+
+                // check kung nasa nag upvote na 
+                if(in_array($user,$downvote_array)){ 
+                    $index = array_search($user,$json_data["down_user_id"]);
+                    unset($json_data["down_user_id"][$index]);
+                    $json_data = json_encode($json_data);    
+
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_downvote -= 1;
+                    $data_downvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+                    $this->post_model->delete_reaction($comment_id,$data);
+                    $this->comments_model->update_upvotes($comment_id,$data_downvote);
+                }
+                else{
+                    $upvote_array = $json_data["up_user_id"];
+                    if(in_array($user,$upvote_array)){
+                        $index = array_search($user,$json_data["up_user_id"]);
+                        unset($json_data["up_user_id"][$index]);
+                        $total_upvote -= 1;
+                    }
+                    $json_data["down_user_id"][] = $user;
+                    $json_data = json_encode($json_data);
+
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_downvote += 1;
+                    $data_downvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+                    $this->post_model->update_reaction($comment_id,$data);
+                    $this->comments_model->update_upvotes($comment_id,$data_downvote);
+                }
+             }
+               redirect("posts/".$id);
+          
 		}
 	}
 

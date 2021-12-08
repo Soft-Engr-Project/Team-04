@@ -14,7 +14,6 @@
         public function view($id=NULL){
             // if it is not set then $id is Null
             // $id = $this->input->post('id') ?? Null;
-
             $this->data["post"] = $this->post_model->get_posts($id);
             $this->data["comments"] = $this->Comments_model->get_comments($id);
             $this->load->view("templates/header.php");
@@ -100,6 +99,8 @@
             redirect("pages");
         }
         public function reaction($id){
+
+            $react_id = $this->input->post("react_id");
             // $json_data = file_get_contents(FCPATH."reaction.json");
             // $json =  json_decode($json_data,true);
             // echo "<pre>";
@@ -110,15 +111,128 @@
             // echo "</pre>";
 
             // check kung nasa json na
+            /*
+                {
+                    userid:1,
+                    reaction: upvote,
+                    userid:2 ,
+                    reaction: downvote,
+                }
+                { 
+                    reaction: upvote,
+                    userid:[ 1, 2 ,3, 4 ,5],
+                    reaction: downvote,
+                    userid:[7, 8]
+                }
+
+        
+            */
+            //  yung ginawa ko pag upvote tas pag pinindot yung upvote madedelete same kay downvote
+
 
              $json_data = file_get_contents(FCPATH."reaction.json");
              $json =  json_decode($json_data,true);
              // user na nagrereact
+             $get_post = $this->post_model->get_posts($id);
+             $total_upvote = $get_post["upvote"];
+             $total_downvote = $get_post["downvote"];
              $user =  $this->session->userdata("user_id");
+             // kung upvote ba o hindi
              $type_of_vote = $this->input->post("submit");
-             if(!isset($json[$id])){
-                $json[$id] = array($user,$type_of_vote);
+             // check kung upvote o hindi
+             if($type_of_vote == "up_react"){
+                $json_data = json_decode($this->post_model->get_reaction($react_id)["react_log"],true);
+                  
+                $upvote_array = $json_data["up_user_id"];
+                $downvote_array = $json_data["down_user_id"];
+                // check kung nasa nag upvote na 
+                if(in_array($user,$upvote_array)){ 
+                    $index = array_search($user,$json_data["up_user_id"]);
+                    unset($json_data["up_user_id"][$index]);
+                    $json_data = json_encode($json_data);    
+
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_upvote -= 1;
+                    $data_upvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+
+                    $this->post_model->delete_reaction($react_id,$data);
+                    $this->post_model->update_upvotes($id,$data_upvote);
+                }
+                else{
+                    // check kung may react na siya sa downvote
+                    
+                    if(in_array($user,$downvote_array)){
+                        $index = array_search($user,$json_data["down_user_id"]);        
+                        unset($json_data["down_user_id"][$index]);
+                        $total_downvote -= 1;
+                    }
+                    $json_data["up_user_id"][] = $user;
+                    $json_data = json_encode($json_data);    
+                
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_upvote += 1;
+                    $data_upvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+                    $this->post_model->update_reaction($react_id,$data);
+                    $this->post_model->update_upvotes($id,$data_upvote);
+                }
              }
+             else{
+                echo "down_react";
+                $json_data = json_decode($this->post_model->get_reaction($react_id)["react_log"],true);
+                  
+                $downvote_array = $json_data["down_user_id"];
+
+                // check kung nasa nag upvote na 
+                if(in_array($user,$downvote_array)){ 
+                    $index = array_search($user,$json_data["down_user_id"]);
+                    unset($json_data["down_user_id"][$index]);
+                    $json_data = json_encode($json_data);    
+
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_downvote -= 1;
+                    $data_downvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+                    $this->post_model->delete_reaction($react_id,$data);
+                    $this->post_model->update_upvotes($id,$data_downvote);
+                }
+                else{
+                    $upvote_array = $json_data["up_user_id"];
+                    if(in_array($user,$upvote_array)){
+                        $index = array_search($user,$json_data["up_user_id"]);
+                        unset($json_data["up_user_id"][$index]);
+                        $total_upvote -= 1;
+                    }
+                    $json_data["down_user_id"][] = $user;
+                    $json_data = json_encode($json_data);
+
+                    $data = array(
+                        "react_log" => $json_data
+                    );
+                    $total_downvote += 1;
+                    $data_downvote = array(
+                        "upvote" => $total_upvote,
+                        "downvote" => $total_downvote
+                    );
+                    $this->post_model->update_reaction($react_id,$data);
+                    $this->post_model->update_upvotes($id,$data_downvote);
+                }
+             }
+
+             redirect("posts/".$id);
              
 
 

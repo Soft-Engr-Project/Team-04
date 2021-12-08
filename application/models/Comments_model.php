@@ -4,26 +4,31 @@
 		private $comment_table = "discussion";
 		private $users_table = "users";
 		private $post_table = "posts";
+		private $reactions_table = "reactions";
 		public function create($data){
 			return $this->db->insert($this->comment_table,$data);
 		}
 		public function get_comments($post_id){
-			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".comment_id");
+			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
 			$query = $this->db->get_where($this->comment_table,array("post_id" => $post_id));
-
 			return $query->result_array();
 		}
-		public function get_vote($id,$comment_id){
-			$this->db->where("comment_id",$comment_id);
-			$query = $this->db->get_where($this->comment_table,array("post_id" => $id));
+		public function get_specific_comment($comment_id){
+			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
+			$query = $this->db->get_where($this->comment_table,array("comment_id" => $comment_id));
 			return $query->row_array();
 		}
-		public function update_vote($id,$comment_id,$data){
-		
-			$this->db->where("post_id",$id);
-			$this->db->where("comment_id",$comment_id);
-			return $this->db->update($this->comment_table,$data);
-			
+		public function get_reactions($comment_id){
+				
+				$this->db->join($this->reactions_table,$this->reactions_table.".react_id = ".$this->comment_table.".react_id");
+		        $this->db->where($this->comment_table.".react_id",$comment_id);
+		        $query = $this->db->get($this->comment_table);
+		        return $query->row_array();
+
+		}
+		public function update_upvotes($id,$data){
+		        $this->db->where("comment_id",$id);
+        		return $this->db->update($this->comment_table,$data);
 		}
 	}
 

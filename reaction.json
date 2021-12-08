@@ -1,3 +1,6 @@
 {
-	
+	"up_react":"upvote",
+	"up_user_id" :[],
+	"down_react":"downvote",
+	"down_user_id" :[] 
 }
