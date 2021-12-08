@@ -41,6 +41,10 @@ class Login extends CI_Model{
             'user_id' => $q["userID"],
             'username' => $q["username"],
             'email' => $q["email"],
+            'lastname' => $q["lastname"],
+            'firstname' => $q["firstname"],
+            'birthday' => $q["birthday"],
+            'password' => $q["password"],
             'success' => "You are now logged in",
             'logged_in'=> true
           );
