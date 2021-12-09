@@ -1,6 +1,6 @@
 <h2><?= $title ?></h2>
 <div class="btn btn-primary">
-    <a href="<?php echo site_url("personalinfo/view")?>">Personal Information</a>
+    <a href="<?php echo site_url("PersonalInfo/update")?>">Personal Information</a>
 </div>
 <br>
 <br>

@@ -6,14 +6,14 @@
 	<h4><?php echo $post["body"];?></h4>
 	<?php echo form_open("posts/reaction/".$post["id"]);?>
 		<input type="hidden" name="vote" value="1">
-		<input type="hidden" name="id" value="<?php echo $post["id"];?>">
-		<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="upvote">Upvote</button>
+		<input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+		<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="up_react">Upvote</button>
     </form>
 	<p><?php echo $post["upvote"] ;?></p>
 		<?php echo form_open("posts/reaction/".$post["id"]);?>
 		    <input type="hidden" name="vote" value="1">
-		    <input type="hidden" name="id" value="<?php echo $post["id"];?>">
-			<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="downvote">Downvote</button>
+		    <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+			<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="down_react">Downvote</button>
 		</form>
 	<p><?php echo $post["downvote"];?></p>
 	<!-- button delete -->
@@ -24,17 +24,19 @@
 		   		 <?php foreach ($comments as $comment): ?>
 		        <div class="card bg-dark">
 		            <div class="card-body">
-		                 <h5><?php echo $comment["body"];?> [by <strong><?php echo $comment["name"];?></strong>]</h5>
+		                 <h5><?php echo $comment["content"];?> [by <strong><?php echo $comment["username"];?></strong>]</h5>
 		            	 <?php echo form_open("comments/reaction/".$post["id"]);?>
 		            	 	<input type="hidden" name="vote" value="1">
-		            	 	<input type="hidden" name="id" value="<?php echo $comment["id"];?>">
-		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="upvote">Upvote</button>
+		            	 	<input type="hidden" name="react_id" value="<?php echo $comment["react_id"];?>">
+		            	 	<input type="hidden" name="comment_id" value="<?php echo $comment["comment_id"];?>">
+		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="up_react">Upvote</button>
 		            	 </form>
 		            	 <p><?php echo $comment["upvote"] ;?></p>
 		            	 <?php echo form_open("comments/reaction/".$post["id"]);?>
 		            	 	<input type="hidden" name="vote" value="1">
-		            	 	<input type="hidden" name="id" value="<?php echo $comment["id"];?>">
-		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="downvote">Downvote</button>
+		            	 	<input type="hidden" name="react_id" value="<?php echo $comment["react_id"];?>">
+		            	 	<input type="hidden" name="comment_id" value="<?php echo $comment["comment_id"];?>">
+		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="down_react">Downvote</button>
 		            	 </form>
 		            	 <p><?php echo $comment["downvote"];?></p>
 		            </div>
