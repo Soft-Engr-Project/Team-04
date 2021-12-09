@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array("url","form","text","general");
+$autoload['helper'] = array("url","form","text","general","security");
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array("post_model","Login","Registration","ResetPassword","categories_model");
+$autoload['model'] = array("post_model","Login","Registration","ResetPassword","categories_model","comments_model");

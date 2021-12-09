@@ -2,7 +2,7 @@
 <?php echo validation_errors();?>
 <?php echo form_open("posts/update") ;?>
 	<input type="hidden" name="id" value="<?php echo $post['id']?>">
-	<input type="hidden" name="slug" value="<?php echo $slug;?>">
+	<!-- <input type="hidden" name="slug" value="<?php echo $slug;?>"> -->
   <div class="form-group">
     <label for="title">Title : </label>
     <input type="text" class="form-control" name="title" value="<?php echo $post['title'];?>">

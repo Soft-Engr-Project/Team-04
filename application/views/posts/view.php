@@ -4,17 +4,67 @@
 	<small>Created by : <?php echo ucfirst($post["username"]);?></small>
 	<!-- body -->
 	<h4><?php echo $post["body"];?></h4>
+	<?php echo form_open("posts/reaction/".$post["id"]);?>
+		<input type="hidden" name="vote" value="1">
+		<input type="hidden" name="id" value="<?php echo $post["id"];?>">
+		<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="upvote">Upvote</button>
+    </form>
+	<p><?php echo $post["upvote"] ;?></p>
+		<?php echo form_open("posts/reaction/".$post["id"]);?>
+		    <input type="hidden" name="vote" value="1">
+		    <input type="hidden" name="id" value="<?php echo $post["id"];?>">
+			<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="downvote">Downvote</button>
+		</form>
+	<p><?php echo $post["downvote"];?></p>
 	<!-- button delete -->
-	
+	<hr>
+	<h3>Comments : </h3>
+		<?php if(!empty($comments)): ?>
+		   <div id="comments">
+		   		 <?php foreach ($comments as $comment): ?>
+		        <div class="card bg-dark">
+		            <div class="card-body">
+		                 <h5><?php echo $comment["body"];?> [by <strong><?php echo $comment["name"];?></strong>]</h5>
+		            	 <?php echo form_open("comments/reaction/".$post["id"]);?>
+		            	 	<input type="hidden" name="vote" value="1">
+		            	 	<input type="hidden" name="id" value="<?php echo $comment["id"];?>">
+		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="upvote">Upvote</button>
+		            	 </form>
+		            	 <p><?php echo $comment["upvote"] ;?></p>
+		            	 <?php echo form_open("comments/reaction/".$post["id"]);?>
+		            	 	<input type="hidden" name="vote" value="1">
+		            	 	<input type="hidden" name="id" value="<?php echo $comment["id"];?>">
+		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="downvote">Downvote</button>
+		            	 </form>
+		            	 <p><?php echo $comment["downvote"];?></p>
+		            </div>
+		        </div>
+		        <br>
+		  <?php endforeach ?>
+		   
+		   </div>  
+		 
+		<?php else :?>
+		    <p><?php echo "No comments to Display" ;?></p>
+		<?php endif ?>
+ 	<?php echo validation_errors();?>
+	<?php echo form_open("comments/create/".$post["id"])?>
+		<div class="form-group">
+			  <label for="body">Comment :</label>
+			  <textarea  class="form-control" name="comment"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">Comment</button>
+		
+	</div>
+	<br>
+	<hr>
 	<?php if($this->session->userdata("user_id") == $post["user_id"]) :?>
 			<?php echo form_open("posts/delete/".$post["id"]);?>
-			<!--  -->
-				<input type="hidden" name="id" value="<?php echo $post["id"];?>">
-				<input type="hidden" name="slug" value="<?php echo $post["slug"];?>">
 				<button class="btn btn-primary">Delete</button>
 			</form>
-			<?php echo form_open("posts/edit/".$post["slug"]);?>
-				<input type="hidden" name="id" value="<?php echo $post["id"];?>">
+			<?php echo form_open("posts/edit/".$post["id"]);?>
 				<button class="btn btn-secondary" type="submit">Edit</button>
 			</form>
 	<?php endif;?>
+
+	
