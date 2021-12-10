@@ -1,13 +1,423 @@
-.post-date{
-    background-color: #f4f4f4;
-    display: block;
-    margin: 5px 0px;
-    padding: 4px;
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace;
 }
-.logindesign{
+
+.color{
+    background-color: white;
+}
+
+/* Navbar */
+
+nav{
+    z-index: 20;
+    position: fixed;
+    width: 100%;
+}
+
+nav ul{
     display: flex;
+    list-style: none;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    background-color: blanchedalmond;
+    background: #314754;
+    color: white;
+    border: none ;
+    height: 70px auto;
 }
+
+nav ul .logo{
+    flex: 1;
+    font-size: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    text-shadow: -10px 8px 2px rgb(49, 49, 49);
+    padding-right: 50px;
+}
+
+nav ul .items{
+    padding: 0 20px;
+    display: inline-flex;
+}
+
+nav ul .items a{
+    color: #ffff;
+    text-decoration: none;
+    font-size: 25px;
+    margin: 0 0 0px 50px;
+    padding: 0 2px;
+}
+
+nav ul .items a:hover{
+    background-color: #7C9784;
+}
+
+nav ul .items img{
+    margin-left: 80px;
+}
+
+nav ul .search-icon{
+    display: flex;
+    margin: 0 90px 0 0;
+}
+
+nav ul .search-icon input{
+    width: 400px;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    color: #000;
+    font-size: 16px;
+    border-radius: 20px;
+    padding-left: 70px;
+}
+
+nav ul .icon{
+    align-items: center;
+    position: relative;
+    left: 50px;
+}
+
+.menuimage img{
+    margin:0 20px;
+    cursor: pointer;
+}
+
+/* Navbar Sub Menu */
+
+.settings-menu{
+    position: absolute;
+    width: 90%;
+    max-width: 250px;
+    height: 200px;
+    background: #314754;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    top: 60px;
+    right: 0.05%;
+    padding: 10px 10px 10px 30px;
+    border-radius: 0px 0px 0px 50px;
+    max-height:0;
+    transition: max-height 0.3s;
+    visibility: hidden;
+}
+
+.settings-menu-height{
+    max-height: 200px;
+    visibility: visible;
+    z-index: 2;
+}
+.settings-menu img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.settings-menu .row a{
+    display: absolute;
+    font-size: 12px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.settings-menu .row a p{
+    margin-top: 15px;
+}
+
+.settings-menu hr{
+    color: white;
+    margin-top: 10px;
+}
+
+.settings-menu-inner a{
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+/* Banner Photo */
+
+.cover{
+    padding-top: 60px;
+    position: relative;
+    background-repeat: no-repeat;
+    height: 430px;
+}
+
+/* lagyan ng  object-fit: cover; sa #coverphoto at #profilephoto pag ayaw na narereduce yung height nung picture */
+#coverphoto, #profilephoto, .userpic{
+    height: 100%;
+    width: 100%;
+}
+
+.banner{
+    display: absolute;
+    width: 175px;
+    height: 45px;
+    background: #7C9784;
+    position: absolute;
+    top: 385px;
+    left: 1173px;
+    padding: 10px;
+}
+
+.banner h6{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;    
+    line-height: 23px;
+    color: white;
+    cursor: pointer;
+}
+
+.banner img{
+    position: absolute;
+    float: right;
+    left: 125px;
+    bottom: 0.5px;
+}
+
+.sub-menu-1{
+    position: absolute;
+    width: 192px;
+    right: 0.5px;
+    top: 45px;
+    text-align: left;
+    display: none;
+}
+
+.sub-menu-1 ul, .profilelabel ul{
+    list-style: none;
+}
+
+.sub-menu-1 ul li, .profilelabel ul li{
+    padding: 10px;
+    margin: 5px;
+}
+
+.banner:hover .sub-menu-1, .profilemenu:hover .profilelabel {
+    display: block;
+    background-color: #314754;
+    width: 175px;
+    height: 105px;
+    color: white; 
+}
+
+.banner:hover .sub-menu-1 ul, .profilemenu:hover .profilelabel ul{
+    display: block;
+    margin: 5px;
+}
+
+.banner:hover .sub-menu-1 ul li:hover, .profilemenu:hover .profilelabel ul li:hover{
+    background-color: #7C9784;
+    width: 80px;
+}
+
+#filecover, #fileprofile{
+    display: none;
+}
+
+/* Profile Picture*/
+
+.profile {
+    width: 380px;
+    height: 200px;
+    background: #FEDB97;
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileimage{
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: #E5E5E5;
+    border-style: solid;
+    margin-top: -15%;
+    margin-left: 2.8%;
+    flex-wrap: wrap;
+    z-index: 2;
+}
+
+.profilemenu img{
+    margin-left: 250px;
+    margin-top: -75px;
+    cursor: pointer;
+}
+
+.profilemenu .profilelabel{
+    position: absolute;
+    width: 192px;
+    left: 120px;
+    top: 295px;
+    text-align: left;
+    display: none;
+}
+
+.profile h2{
+    font-size: 25px;
+    text-align: center;
+    margin-top: 110px;
+    font-weight: bold;
+}
+
+.profilecontent h4{ 
+    list-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
+.personalinfo{
+    margin: 20px 0;
+    background-color: #FEDB97;
+    width: 380px;
+    height: 300px;
+    border-radius: 20px;
+}
+
+.personalinfo h1{
+    font-size: 20px;
+    padding-top: 30px;
+    text-align: center;
+}
+
+
+/*Threads*/
+
+.threads h1{
+    margin-top: 20px;
+    text-align: center;
+    background-color: white;
+}
+
+.threadscontent .container{
+    background-color: white;
+    padding-top: 20px;
+}
+
+.threadscontent .userprofile{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #E5E5E5;
+    margin-left: 20px;
+}
+
+.threadscontent .row h2{
+    font-size: 20px;
+    margin-left: -50px;
+}
+
+.threadscontent .row a{
+    color: black;
+    text-decoration: none;
+}
+
+.threadscontent .row a:hover{
+    text-decoration: underline;
+}
+.threadscontent .row h4{
+    font-size: 20px;
+}
+
+.threadscontent .row h4,
+.threadscontent .row p{
+    font-weight: bold;
+    margin-top: -5px;
+    margin-left: -30px;
+
+}
+
+.threadscontent .row p{
+    font-size: x-small;
+    padding-top: 15px;
+}
+
+.threadscontent .row h6{
+    margin-left: 20px;
+    margin-left: -20px;
+}
+
+.threadscol .row h3{
+    font-weight: bold;
+    font-size: 20px;
+}
+.threadscol img{
+    width: 30px;
+    height: 30px;
+}
+
+.threadscol .row h4, .threadscol .row h6{
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.threadscol .row h6{
+    font-weight: bold;
+}
+
+.dropdown input{
+    display: none;
+}
+
+.dropdown button{
+    border-radius: 20px;
+    color: inherit;
+    border: none;
+    padding: none;
+}
+
+.dropdown button img{
+    width: 40px;
+    height: 40px;
+}
+
+.dropdown ul{
+    background-color: #314754;
+    text-align: center;
+    width: 10px;
+}
+
+.dropdown ul li label{
+    color: white; 
+}
+
+.dropdown-menu li:hover{
+    background-color: #7C9784;
+}
+
+
+
+@media (max-width: 839px){
+    nav ul .search-icon{
+        display: flex;
+        margin: 10px 50px 15px 0;
+    }
+}
+
+@media (max-width: 759px){
+    nav ul .icon{
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 

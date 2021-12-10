@@ -9,7 +9,7 @@
             $this->load->view("profiles/profile.php",$this->data);
             $this->data["title"]="Personal Information";
             $this->load->view("profiles/information.php",$this->data);
-            $this->data["title"]="My Thread";
+            $this->data["title"]="My Threads";
             $this->load->view("profiles/index",$this->data);
             $this->load->view("templates/footer.php");
         }
