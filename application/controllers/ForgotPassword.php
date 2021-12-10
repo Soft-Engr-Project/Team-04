@@ -167,7 +167,13 @@
                     $this->load->view("templates/footer.php");       
                 }
                 else{
-                    $query = $this->ResetPassword->change_pass($email);
+
+                    $hashed_pass = password_hash($this->input->post("password_1"), PASSWORD_DEFAULT);
+                    $data = array(
+
+                              'password' => $hashed_pass,
+                            );
+                    $query = $this->ResetPassword->change_pass($email,$data);
                         if ($query){
                         $this->load->view("templates/loginheader.php");
                         $this->load->view("pages/passwordverify");

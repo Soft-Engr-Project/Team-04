@@ -11,19 +11,14 @@
 		<!-- body -->
 		<h4><?php echo $post["body"];?></h4>
 		<!-- button see more  -->
-		<?php echo form_open("posts/".$post["slug"])?>
-			<input type="hidden" name="id" value="<?php echo $post["id"];?>">
+		<?php echo form_open("posts/".$post["id"])?>
 			<button class="btn btn-primary" type="submit">See More</button>
 		</form>
 		<?php if($this->session->userdata("user_id") == $post["user_id"]) :?>
 			<?php echo form_open("posts/delete/".$post["id"]);?>
-			<!--  -->
-				<input type="hidden" name="id" value="<?php echo $post["id"];?>">
-				<input type="hidden" name="slug" value="<?php echo $post["slug"];?>">
 				<button class="btn btn-primary">Delete</button>
 			</form>
-			<?php echo form_open("posts/edit/".$post["slug"]);?>
-				<input type="hidden" name="id" value="<?php echo $post["id"];?>">
+			<?php echo form_open("posts/edit/".$post["id"]);?>
 				<button class="btn btn-secondary" type="submit">Edit</button>
 			</form>
 		<?php endif;?>

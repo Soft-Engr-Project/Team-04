@@ -10,5 +10,12 @@
 
  **Changelog 12/3/2021**
  * Code Cleaning MVC
- * Home CRUD 
+ * Home CRUD
+
+**Changelog 12/10/2021**
+ * Home (Reaction,Comment)
+ * Convert Wireframe to Code (Profile)
+ * Setting(Personal Info)
+ * Completing SQL Files
+ 
  

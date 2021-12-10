@@ -8,13 +8,8 @@ class Login extends CI_Model{
         $this->load->database();
   }
 
- 
-
   // LOGIN USER
-  public function login_user() {
-    // Get user input 
-    $username = $this->input->post('username');
-    $password = $this->input->post('password');
+  public function login_user($username,$password) {
 
     // Check the database
     $this->db->select('*');
@@ -29,24 +24,25 @@ class Login extends CI_Model{
       $result2 = $q['password'];
       $result3  = $q['verified'];
       
-    
       if($result3==="0"){ // Check if user is verified
         echo "Sorry your not verified";
         redirect('/');
       }
       else{ // User is verified
-        if ($password == $result2) { // Check if password matched
+        if (password_verify($password, $result2)) { // Check if password matched
           // Set the session
           $user_data = array(
-            'user_id' => $q["userID"],
+            'user_id' => $q["user_id"],
             'username' => $q["username"],
             'email' => $q["email"],
             'success' => "You are now logged in",
             'logged_in'=> true
           );
+          
           $this->session->set_userdata($user_data);
           // $_SESSION['username'] = $username;
           // $_SESSION['success'] = "You are now logged in";
+          
           redirect("pages/view");
         }
         else{ // Incorrect password
