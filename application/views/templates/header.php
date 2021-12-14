@@ -31,11 +31,18 @@
             });
         });
     </script>
+<!-- style -->
+    <style type="text/css">
+        .logo a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <nav>   
         <ul>
-            <li class="logo"> Thinklik </li>
+            <li class="logo"> <a href="<?php echo base_url();?>pages/view">Thinklik</a> </li>
             <label class="icon">
                 <img src="<?php echo base_url();?>assets/image/magnifier.png" alt="magnifier" width="35px" height="35px">
             </label>
@@ -60,7 +67,7 @@
                             <img src="<?php echo base_url();?>assets/image/user.png" class="userpic" >
                         </div>
                         <div class="col-lg-8">
-                            <a href="#"><p> USERNAME </p> </a>
+                            <a href="#"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>
                     </div>

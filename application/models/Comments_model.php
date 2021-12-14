@@ -30,6 +30,17 @@
 		        $this->db->where("comment_id",$id);
         		return $this->db->update($this->comment_table,$data);
 		}
+
+		public function delete_posts($comment_id){
+			$this->db->where("comment_id",$comment_id);
+			return $this->db->delete($this->comment_table);
+		}
+		public function update_posts($comment_id,$data){
+			$this->db->where("comment_id",$comment_id);
+			return $this->db->update($this->comment_table,$data);
+		}
+
+
 	}
 
 ?>

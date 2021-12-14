@@ -40,29 +40,62 @@
                 $json_data = file_get_contents(FCPATH."reaction.json");
                 $react_id = $this->post_model->create_reaction_log($json_data);
 
+                // Upload a image
+                $config["upload_path"] = "./assets/images/posts"; 
+                // kung anong file extension yung need
+                $config["allowed_types"] = "gif|jpg|png";
+                // 2048 = 2gb kung ano yung max file size 
+                $config["max_size"] = "2048"; 
+                // kung ano yung max width ng images
+                $config["max_width"] = "2000"; 
+                // kung ano yung max height ng images
+                $config["max_height"] = "2000";
+
+                // use for library upload yung $config
+                $this->load->library('upload',$config);
+                // check kung pede bang iupload
+                if(! $this->upload->do_upload('userfile')){
+                    // dinidisplay nito yung error message
+                    $errors= array("error" => $this->upload->display_errors());
+                    // default
+                    $post_image = "";
+                    // eto piniprint pag di alam yung error
+                    // base sa na experience ko need yung picture ay di lalagpas ng 800x800
+                    echo $this->upload->display_errors();
+                    die();
+                }
+                else{
+                    $data = array("upload_data" => $this->upload->data());
+                    // var_dump($_FILES);
+                    // use file name
+                    $post_image = $_FILES['userfile']["name"];
+                }
                 $data =array(
-                        "title"=>$this->input->post("title"),
-                        "body" =>$this->input->post("body"),
-                        "slug" => url_title($this->input->post("title")),
-                        "category_id"=> $this->input->post("category_id"),
-                        "user_id" => $this->session->userdata("user_id"),
-                        "react_id" => $react_id
-                    );
-                
+                    "category_id"=> $this->input->post("category_id"),
+                    "user_id" => $this->session->userdata("user_id"),
+                    "react_id" => $react_id,
+                    "title"=>$this->input->post("title"),
+                    "body" =>$this->input->post("body"),
+                    "slug" => url_title($this->input->post("title")),
+                    "post_image" => $post_image
+            
+                );
+    
                 $this->post_model->create_post($data);
-                
-               
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
             }
 
         }
+        // delete a post 
         public function delete($id){
             $user_id = $this->post_model->get_posts($id)["user_id"];
+            $react_id = $this->input->post("react_id");
             if($this->session->userdata("user_id") != $user_id){
                 redirect("pages");
             }
 
+            $this->post_model->delete_reactions($react_id);
             $this->post_model->delete_post($id);
             $this->session->set_flashdata("post_delete","Delete a thread succesfully");
             redirect("pages");
@@ -86,11 +119,50 @@
             $this->load->view("templates/footer.php");
         }
         public function update(){ 
+            $post_id = $this->input->post("id");
+            $post_image = $this->input->post("post_image");
+            $image = $_FILES['userfile'];
+            if($image && $image["tmp_name"]){
+                echo "pasok";
+                unlink("assets/images/posts/".$post_image);
+
+                 $config["upload_path"] = "./assets/images/posts"; 
+                // kung anong file extension yung need
+                $config["allowed_types"] = "gif|jpg|png";
+                // 2048 = 2gb kung ano yung max file size 
+                $config["max_size"] = "2048"; 
+                // kung ano yung max width ng images
+                $config["max_width"] = "2000"; 
+                // kung ano yung max height ng images
+                $config["max_height"] = "2000";
+
+                // use for library upload yung $config
+                $this->load->library('upload',$config);
+                // check kung pede bang iupload
+                if(! $this->upload->do_upload('userfile')){
+                    // dinidisplay nito yung error message
+                    $errors= array("error" => $this->upload->display_errors());
+                    // default
+                    $post_image = "noimage.jpg";
+                    // eto piniprint pag di alam yung error
+                    // base sa na experience ko need yung picture ay di lalagpas ng 800x800
+                    echo $this->upload->display_errors();
+                    die();
+                }
+                else{
+                    $data = array("upload_data" => $this->upload->data());
+                    // var_dump($_FILES);
+                    // use file name
+                    $post_image = $_FILES['userfile']["name"];
+                }
+            }
+           
             $data=array(
             'title'=> $this->input->post('title'),
             'slug' => url_title($this->input->post('title')),
             'body' => $this->input->post('body'),
-            'category_id'=> $this->input->post("category_id")
+            'category_id'=> $this->input->post("category_id"),
+            'post_image' => $post_image
              );  
             $id = $this->input->post("id");
             $this->post_model->update_post($data,$id);
@@ -230,11 +302,7 @@
                     $this->post_model->update_upvotes($id,$data_downvote);
                 }
              }
-
              redirect("posts/".$id);
-             
-
-
         }
         
     }

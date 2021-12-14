@@ -14,7 +14,7 @@
                             <div class="col-lg-9">
                                 <a href="<?php echo site_url("profiles/view");?>"><h2>Username</h2> </a>
                                 <a href="<?php echo site_url("/profileposts/".$post["slug"]);?>"> <h4> <?php echo $post["title"];?></h4></a> 
-                                <h6> Body</h6> 
+                                <h6> <?php echo character_limiter($post["body"],300);?></h6> 
     
                                 <p>Posted on <?php echo $post["created_at"];?></p>
                                 
