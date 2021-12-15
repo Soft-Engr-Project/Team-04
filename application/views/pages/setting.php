@@ -4,9 +4,11 @@
 <br>
 <br>
 <h2><?= $title ?></h2>
+<?php if($this->session->userdata("admin") != true) :?>
 <div class="btn btn-outline-info">
     <a href="<?php echo site_url("PersonalInfo/update")?>">Personal Information</a>
 </div>
+<?php endif;?>
 <br>
 <br>
 <div class="btn btn-primary">

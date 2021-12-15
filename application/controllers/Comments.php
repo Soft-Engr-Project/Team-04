@@ -162,7 +162,7 @@
             $post_id = $this->input->post("post_id");
             $user_id = $this->input->post("user_id");
             // check if you are the owner
-            if($this->session->userdata("user_id") != $user_id){
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("posts/".$post_id);
             }
             $this->comments_model->delete_posts($comment_id);
@@ -174,7 +174,7 @@
             $user_id = $this->input->post("user_id");
             $post_id = $this->input->post("post_id");
             // check if you are the owner
-            if($this->session->userdata("user_id") != $user_id){
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("posts/".$post_id);
             }
             $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);

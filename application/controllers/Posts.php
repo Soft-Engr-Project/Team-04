@@ -91,7 +91,7 @@
         public function delete($id){
             $user_id = $this->post_model->get_posts($id)["user_id"];
             $react_id = $this->input->post("react_id");
-            if($this->session->userdata("user_id") != $user_id){
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("pages");
             }
 
@@ -103,7 +103,7 @@
         public function edit($id){
             $user_id = $this->post_model->get_posts($id)["user_id"];
 
-            if($this->session->userdata("user_id") != $user_id){
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("pages");
             }
             $this->data["post"] = $this->post_model->get_posts($id);

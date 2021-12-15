@@ -19,7 +19,7 @@
 		<?php echo form_open("posts/".$post["id"])?>
 			<button class="btn btn-primary" type="submit">See More</button>
 		</form>
-		<?php if($this->session->userdata("user_id") == $post["user_id"]) :?>
+		<?php if($this->session->userdata("user_id") == $post["user_id"] || $this->session->userdata("admin") == true) :?>
 			<?php echo form_open("posts/delete/".$post["id"]);?>
 			<input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
 				<button class="btn btn-primary">Delete</button>

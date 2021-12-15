@@ -48,7 +48,7 @@
 		            	 	<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="down_react">Downvote</button>
 		            	 </form>
 		            	 <p><?php echo $comment["downvote"];?></p>
-						 <?php if($this->session->userdata("user_id") == $comment["user_id"]) :?>
+						 <?php if($this->session->userdata("user_id") == $comment["user_id"] || $this->session->userdata("admin") == true) :?>
 							<?php echo form_open("comments/delete/".$comment["comment_id"])?>
 							<input type="hidden" name="post_id" value="<?php echo $post["id"];?>">
 							<input type="hidden" name="user_id" value="<?php echo $post["user_id"];?>">
