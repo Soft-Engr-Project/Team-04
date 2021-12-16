@@ -33,16 +33,16 @@
                         </div>
                     </div>
                     
-                    <h2>Username</h2>
+                    <h2><?php echo $this->session->userdata("username");?></h2>
                     <div class="profilecontent">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-lg-5">
-                                    <h4>Posts: 1</h4>
+                                    <h4>Posts: <?php echo count($posts)?></h4>
                                 </div>
     
                                 <div class="col-lg-7">
-                                    <h4>Reactions: 0</h4>
+                                    <h4>Reactions: <?php echo $react_count?></h4>
                                 </div> 
                             </div>
                         </div>
