@@ -9,20 +9,9 @@ class Registration extends CI_Model{
   }
   private $errors = array(); 
   // REGISTER USER
-  public function reg_user($code) {
+  public function insert_user($user_data) {
 
-    // Place all input values from the form in an array
-    $data = array(
-      'username'=> $this->input->post("username"),
-      'firstname'=> $this->input->post("firstname"),
-      'lastname'=> $this->input->post("lastname"),
-      'birthdate'=> $this->input->post("birthdate"),
-      'email' => $this->input->post("email"),
-      'password' => $this->input->post("password_1"),
-      'code' => $code,
-      'verified' => 0
-    );
-    return $this->db->insert('users',$data); // Insert the data
+  $this->db->insert('users',$user_data); // Insert the data in the database
   }
 
   // CHECK USERNAME IN THE DATABASE

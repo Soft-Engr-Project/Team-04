@@ -205,7 +205,8 @@
 /* End of Sign In*/
 
 .row .myrightsignup, .row .myleftsignin, 
-.row .myrightforgot, .row .myrightreset{
+.row .myrightforgot, .row .myrightreset,
+.row .rightverification{
     background-color: #B6B682;
     margin-top: -1px;
     height: 620px;
@@ -279,4 +280,13 @@
 
 }
 
-
+.rightverification header{
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: normal;
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 120px;
+    padding-bottom: 50px;
+    line-height: 100px;
+}

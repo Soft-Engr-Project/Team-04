@@ -55,11 +55,11 @@ class ResetPassword extends CI_Model{
   }
 
   // UPDATE PASSWORD IN DATABASE
-  public function change_pass($email) {
+  public function change_pass($email,$data) {
     // Place new password in array
-    $data = array(
-      'password' => $this->input->post("password_1"),
-    );
+    // $data = array(
+    //   'password' => $this->input->post("password_1"),
+    // );
     $query = $this->db->where('email', $email);
     return $this->db->update('users', $data); // Update the database
   }

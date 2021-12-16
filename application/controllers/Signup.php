@@ -25,7 +25,7 @@ class Signup extends CI_Controller{
         $this->form_validation->set_rules('username','Username','required|callback_checkUserName');
         $this->form_validation->set_rules('firstname','Firstname','required');
         $this->form_validation->set_rules('lastname','Lastname','required');
-        $this->form_validation->set_rules('birthdate','Birthdate','required');
+        $this->form_validation->set_rules('birthdate','Birthdate','required|callback_checkBirthdate');
         $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
         $this->form_validation->set_rules('password_1','Password','required');
         $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
@@ -35,22 +35,39 @@ class Signup extends CI_Controller{
             $this->load->view("pages/signup",$this->data);
             $this->load->view("templates/footer.php");     
         }else{ // If the is forms filled up correctly
-            // Code Generation
+            // Get form input
+            $password = $this->input->post("password_1");
+            $email = $this->input->post("email");
+            $username = $this->input->post("username");
+
+            $hashed_pass = password_hash($password, PASSWORD_DEFAULT); // hash the password
+
+            // Code Generation fo email verification
             $hash = md5(rand(0,1000));  // Generate hash value
             $code = substr(str_shuffle($hash), 0, 12); // Transform it to 12 key code
-            $this->Registration->reg_user($code); //pass the code and update the database
+
+            // Place all input values from the form in an array
+            $user_data = array(
+                'username'=> $username,
+                'firstname'=> $this->input->post("firstname"),
+                'lastname'=> $this->input->post("lastname"),
+                'birthdate'=> $this->input->post("birthdate"),
+                'email' => $email,
+                'password' => $hashed_pass,
+                'code' => $code,
+                'verified' => 0
+              );
+            $this->Registration->insert_user($user_data); // Pass the data and update the database
             
             // Content to be passed on email format
-            $username = $this->input->post('username');
-            $email = $this->input->post('email');
-            $data = array(
+            $email_data = array(
             'header' => 'Verify your account',
             'username' => $username,
             'body' => 'Verify',
             'button' => 'Verify',
             'link' => base_url()."Signup/verify/".$username."/".$code
              );
-            $this->send($email,'templates/email_format',$data); // Call email setup function
+            $this->send($email,'templates/email_format',$email_data); // Call email setup function
           
             // Load email sent html to notify the user
             $this->load->view("templates/loginheader.php");
@@ -58,6 +75,7 @@ class Signup extends CI_Controller{
             $this->load->view("templates/footer.php"); 
         }
     }
+   
 
     function checkUserName($username){
         if ($this->Registration->checkUserExist($username) == false) {
@@ -81,6 +99,20 @@ class Signup extends CI_Controller{
         else {
          $this->form_validation->set_message('checkEmail', 'Email already exists');
             return false;
+        }
+    }
+
+    function checkBirthdate($birthdate){
+        $dob = new DateTime($birthdate);
+        $now = new DateTime();
+        $difference = $now->diff($dob);
+        $age = $difference->y;
+        if($age<13){
+            $this->form_validation->set_message('checkBirthdate', 'User must be 13 and above to create an account');
+            return false;
+        }
+        else{
+            return true;
         }
     }
 

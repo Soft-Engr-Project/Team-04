@@ -2,50 +2,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Microblogging Site</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microblogging Site</title>
+
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+
     <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/flatly/bootstrap.min.css" integrity="sha384-qF/QmIAj5ZaYFAeQcrQ6bfVMAh4zZlrGwTPY7T/M+iTTLJqJBJjwwnsE5Y0mV7QK" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+       $(document).ready(function(){
+            var commentCount = 2 ;
+            console.log(commentCount);
+            $("#see_more_comments").click(function(){
+                commentCount += 2;
+                console.log(commentCount);
+                $("#comments").load("<?php echo base_url("posts/view/".$post["id"]);?>",{
+                    "commentCount" : commentCount
+                });
+            });
+        });
+    </script>
+<!-- style -->
+    <style type="text/css">
+        .logo a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="<?php echo base_url();?>pages/view">Microblogging Site</a>
-
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="<?php echo base_url();?>pages/view">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url("profiles/view");?>">Profile</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>pages/view/setting">Setting</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url();?>pages/view/logout">Logout</a>
-        </li>
+    <nav>   
+        <ul>
+            <li class="logo"> <a href="<?php echo base_url();?>pages/view">Thinklik</a> </li>
+            <label class="icon">
+                <img src="<?php echo base_url();?>assets/image/magnifier.png" alt="magnifier" width="35px" height="35px">
+            </label>
+            <li class="search-icon">
+                <input type="search" placeholder="Search here">
+            </li>
+            <div class="items">
+                <li><a href="<?php echo base_url();?>pages/view">Home</a></a></li>
+                <li><a href="<?php echo site_url("profiles/view");?>">Profile</a></li>
+            </div>
+            <li>
+                <div class="menuimage">
+                    <div class="iconmenu" onclick="settingsMenuToggle()"> 
+                        <img src="<?php echo base_url();?>assets/image/menu.png" alt="menu" width="40px" height="40px">
+                    </div>
+                </div>
+            </li>
+            <div class="settings-menu" >
+                <div class="settings-menu-inner">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <img src="<?php echo base_url();?>assets/image/user.png" class="userpic" >
+                        </div>
+                        <div class="col-lg-8">
+                            <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
+                        </div>
+                        <hr>
+                    </div>
+                    <a href="<?php echo base_url();?>pages/view/setting">Settings</a>
+                    <a href="#">Customization</a>
+                    <a href="<?php echo base_url();?>pages/view/logout">Logout</a>
+                </div>
+            </div>
         </ul>
-    </div>
-  </div>
-</nav>
-<div class="container p-3">
-<?php if($this->session->flashdata("post_create")) :?>
-   <?php echo '<p class ="alert alert-success">'.$this->session->flashdata("post_create").'</p>';?>
-   <?php unset($_SESSION['post_create']);?>
-<?php endif;?> 
-<?php if($this->session->flashdata("post_delete")) :?>
-   <?php echo '<p class ="alert alert-success">'.$this->session->flashdata("post_delete").'</p>';?>
-   <?php unset($_SESSION['post_delete']);?>
-<?php endif;?> 
-<?php if($this->session->flashdata("post_update")) :?>
-   <?php echo '<p class ="alert alert-success">'.$this->session->flashdata("post_update").'</p>';?>
-   <?php unset($_SESSION['post_update']);?>
-<?php endif;?> 
+    </nav>
+
+    
+
+
 
     
