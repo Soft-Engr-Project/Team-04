@@ -67,7 +67,7 @@
                             <img src="<?php echo base_url();?>assets/image/user.png" class="userpic" >
                         </div>
                         <div class="col-lg-8">
-                            <a href="#"><p> <?php echo $this->session->userdata("username");?> </p> </a>
+                            <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>
                     </div>

@@ -1,5 +1,30 @@
-<h1><a href="<?php echo site_url("posts/create")?>">Create Post</a></h1>
-<h2><?=$title?></h2>
+
+					<?php foreach($posts as $post):?>
+						<div class="homethread">
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="profilepost">
+                                </div>
+                                <div class="col-lg-7">
+                                    <a href="#"><h2><?php echo ucfirst($post["username"]);?></h2> </a>
+                                    <a href="#"><h4><?php echo $post["title"];?></h4></a> 
+                                </div>
+                                <div class="col-lg-4">
+                                    <p class="post-date">Posted on: <?php echo $post["created_at"];?></p>
+
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
 <?php foreach($posts as $post):?>
 	<!-- title -->

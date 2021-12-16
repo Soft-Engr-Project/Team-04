@@ -128,7 +128,9 @@ nav ul .icon{
 }
 
 .settings-menu .row a p{
+    max-width: 14ch;
     margin-top: 15px;
+    font-size: 15px;
 }
 
 .settings-menu hr{
@@ -141,6 +143,8 @@ nav ul .icon{
     text-decoration: none;
     font-size: 20px;
 }
+
+
 
 /* Banner Photo */
 
@@ -226,6 +230,10 @@ nav ul .icon{
 }
 
 /* Profile Picture*/
+
+/* yung pervcentage na width sa profile ay 89% ginawa kong percentage para sumunod pag lumiit
+at yung height ay 38%
+*/
 
 .profile {
     width: 380px;
@@ -318,12 +326,12 @@ nav ul .icon{
     margin-left: -50px;
 }
 
-.threadscontent .row a{
+.threadscontent .row a, .homethread .row a{
     color: black;
     text-decoration: none;
 }
 
-.threadscontent .row a:hover{
+.threadscontent .row a:hover, .homethread .row a:hover{
     text-decoration: underline;
 }
 .threadscontent .row h4{
@@ -365,7 +373,6 @@ nav ul .icon{
 .threadscol .row h6{
     font-weight: bold;
 }
-
 .dropdown input{
     display: none;
 }
@@ -394,6 +401,201 @@ nav ul .icon{
 
 .dropdown-menu li:hover{
     background-color: #7C9784;
+}
+
+
+/*Home */
+
+.topnamebox{
+    background-color: #314754 ;
+    margin-top: 9.3%;
+    margin-left: -2%;
+    width: 39%;
+    height: 500px auto;
+}
+
+.topnamebox .top, .topnamebox .allcat{
+    height: 71px;
+    background: #FEDB97;
+    margin-bottom: 10px;
+
+}
+
+.top h2, .allcat h2{
+    font-size: 25px;
+    padding: 20px 10px;
+}
+
+.topname, .categories{
+    padding: 10px 20px;
+
+}
+
+.topnamebox p{
+    color: white;
+    line-height: 10px;
+}
+
+.categories a{
+    text-decoration: none;
+}
+
+.categories a:hover{
+    text-decoration: underline;
+    color: #FEDB97;
+}
+
+.createthread{
+    margin-top: 16%;
+    margin-left: -50%;
+    background-color: white;
+    padding-top: 20px;
+}
+
+.createthread hr{
+    margin-left: -25px;
+    color: #314754;
+
+}
+
+.createthread .userprofile, .homethread .profilepost{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #E5E5E5;
+    margin-left: 20px;
+}
+
+.createthread a{
+    text-decoration: none;
+}
+
+.createthread a:hover{
+    background-color: #314754;
+}
+
+.createthread a .threadbox p{
+     color: black;
+     padding: 15px 20px;
+}
+
+.threadbox{
+    border: 1px solid #314754;
+    width: 60%;
+    height: 55px;
+    margin-left: 100px;
+    margin-top: -50px;
+    border-radius: 10px;
+}
+
+.threadbox:hover{
+    background-color: #B6B682;
+}
+
+.divcategor{
+    width: 150px;
+    height: 40px;
+    border: 1px solid #314754;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-left: -110%;
+}
+
+.divfilter{
+    width: 300px;
+    background: white;
+    margin-left: 13px;
+}
+
+.divfilter select{
+    width: 100%;
+    height: 40px;
+    padding: 0 10px 0 85px;
+    border-radius: 20px;
+    border: 1px solid #161611;
+    cursor: pointer;
+}
+
+.divfilter select::-ms-expand{
+    display: none;
+}
+
+.divfilter select:focus{
+    outline: none;
+    box-shadow: 0 0 10px -1px #314754 ;
+}
+
+.divfilter::after{
+    content: '\25BC';
+    position: absolute;
+    margin-left: -25px;
+    cursor:pointer;
+    pointer-events:none;
+    transition:.25s all ease;
+    background: #314754 ;
+    color: white;
+    padding: 8px;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+
+
+
+
+
+.divfilter .labelfilter{
+    position: absolute;
+    z-index: 4;
+    display: inline-block;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.divfilter select option{
+    column-count: 2;
+}
+
+.categoriesdiv{
+    margin-top: 25px;
+    margin-left: -350px;
+    height: 40px;
+    background-color:  #314754;
+    padding-left: 40px;
+}
+
+.categoriesdiv h3{
+    color: #FEDB97;
+    font-weight: bold;
+    padding-top: 3px;
+}
+
+.homethread{
+    background-color: white;
+}
+.homethread .profilepost{
+    margin-top: 20px;
+    margin-left: -300px;
+}
+
+.homethread .row h2{
+    font-size: 18px;
+    margin-top: 20px;
+    margin-left: -270px;
+}
+
+.homethread .row h4{
+    font-size: 15px;
+    margin-top: -5px;
+    margin-left: -250px;
+}
+
+.homethread .row p{
+    margin-top: 20px;
+    margin-left: 50px;
+    font-size: 10px;
+    font-weight: bold;
 }
 
 
