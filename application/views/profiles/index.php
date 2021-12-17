@@ -12,9 +12,13 @@
                                 <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile" >
                             </div>
                             <div class="col-lg-9">
-                                <a href="<?php echo site_url("profiles/view");?>"><h2>Username</h2> </a>
+                                <a href="<?php echo site_url("profiles/view");?>"><h2><?php echo $this->session->userdata("username");?></h2> </a>
                                 <a href="<?php echo site_url("/profileposts/".$post["slug"]);?>"> <h4> <?php echo $post["title"];?></h4></a> 
-                                <h6> Body</h6> 
+                                <!-- image -->
+                                <?php if(isset($post["post_image"])):?>
+                                    <img src="<?php echo base_url();?>assets/images/posts/<?php echo $post["post_image"];?>" alt="" width="300">
+                                <?php endif;?>
+                                <h6> <?php echo character_limiter($post["body"],300);?></h6> 
     
                                 <p>Posted on <?php echo $post["created_at"];?></p>
                                 
@@ -28,7 +32,7 @@
                                                         <img src="<?php echo base_url();?>assets/image/reactions.png" alt="reaction">
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <h3>0</h3>
+                                                        <h3><?php echo $post["upvote"];?></h3>
                                                     </div>  
                                                 </div>
                                             </a>
@@ -42,7 +46,7 @@
                                                         <img src="<?php echo base_url();?>assets/image/comment.png" alt="comment">
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <h3>0</h3>
+                                                        <h3><?php echo $post["post_comment_count"];?></h3>
                                                     </div>
                                                 </div>
                                             </a>
@@ -54,7 +58,7 @@
                                                     <h4>Categories: </h4>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <a href="#"><h6>Movies</h6></a>
+                                                    <a href="#"><h6><?php echo $post["name"];?></h6></a>
                                                 </div>
                                             </div>
                                         </div>                             
@@ -69,14 +73,16 @@
                                              <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li class="dropdown-item"> <?php echo form_open('/posts/edit/'.$post['slug']);?>
+                                            <li class="dropdown-item"> <?php echo form_open("posts/edit/".$post["id"]);?>
                                                 <input type="submit" id="edit">
                                                 
                                                 <label for="edit">Edit</label>
-                                            
+                                                
                                                 </form></li>
                                             <li class="dropdown-item"> 
-                                                     <?php echo form_open('/profileposts/delete/'.$post['id']);?>
+                                                <?php echo form_open("profileposts/delete/".$post["id"]);?>
+                                                <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+              
                                                 <input type="submit" id="remove">
                                                 <label for="remove">Remove</label>  
                                                  </form>

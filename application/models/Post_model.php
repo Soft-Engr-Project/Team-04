@@ -85,6 +85,11 @@ class Post_model extends CI_Model{
         $this->db->where("id",$id);
         return $this->db->update($this->post_table,$data);
     }
+    // delete a certain react log 
+    public function delete_reactions($react_id) {
+        $this->db->where("react_id",$react_id);
+        return $this->db->delete($this->reactions_table);
+    }
 
 
 

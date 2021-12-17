@@ -17,5 +17,11 @@
  * Convert Wireframe to Code (Profile)
  * Setting(Personal Info)
  * Completing SQL Files
+
+ **Changelog 12/17/2021**
+ * Home code(design)
+ * Profile RUD
+ * Signup Complexity
+ * Comment UD and Posting Image
  
  

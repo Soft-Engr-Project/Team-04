@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>/assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Profile</title>
 
@@ -31,11 +31,18 @@
             });
         });
     </script>
+<!-- style -->
+    <style type="text/css">
+        .logo a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <nav>   
         <ul>
-            <li class="logo"> Thinklik </li>
+            <li class="logo"> <a href="<?php echo base_url();?>pages/view">Thinklik</a> </li>
             <label class="icon">
                 <img src="<?php echo base_url();?>assets/image/magnifier.png" alt="magnifier" width="35px" height="35px">
             </label>
@@ -60,7 +67,7 @@
                             <img src="<?php echo base_url();?>assets/image/user.png" class="userpic" >
                         </div>
                         <div class="col-lg-8">
-                            <a href="#"><p> USERNAME </p> </a>
+                            <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>
                     </div>

@@ -30,6 +30,26 @@
 		        $this->db->where("comment_id",$id);
         		return $this->db->update($this->comment_table,$data);
 		}
+
+		public function delete_posts($comment_id){
+			$this->db->where("comment_id",$comment_id);
+			return $this->db->delete($this->comment_table);
+		}
+		public function update_posts($comment_id,$data){
+			$this->db->where("comment_id",$comment_id);
+			return $this->db->update($this->comment_table,$data);
+		}
+		public function get_comments_count(){
+			$this->db->where("id",$id);
+			$query = $this->db->get($this->post_table);
+			return $query->row_array();
+		}
+		public function comment_counts($id,$data){
+			$this->db->where("id",$id);
+			return $this->db->update($this->post_table,$data);
+		}
+
+
 	}
 
 ?>

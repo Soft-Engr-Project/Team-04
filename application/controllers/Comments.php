@@ -30,8 +30,14 @@
 					"content" => $body
 
 				);
+                $comment_count = $this->data["post"]["post_comment_count"] + 1;
+                $post_comment_count = array(
+                    "post_comment_count" => $comment_count
+
+                );
 				$data = $this->security->xss_clean($data);
-				$this->Comments_model->create($data);
+				$this->comments_model->create($data);
+                $this->comments_model->comment_counts($this->data["post"]["id"],$post_comment_count);
 				redirect("posts/".$id);
 			}
 		}
@@ -102,6 +108,7 @@
 
                     $this->post_model->update_reaction($react_id,$data);
                     $this->comments_model->update_upvotes($comment_id,$data_upvote);
+
                 }
              }
              else{
@@ -155,8 +162,69 @@
                redirect("posts/".$id);
           
 		}
-	}
+	
+        // delete 
+        public function delete($comment_id){
+            $react_id = $this->input->post("react_id");
+            $post_id = $this->input->post("post_id");
+            $user_id = $this->input->post("user_id");
+            $this->data["post"] = $this->post_model->get_posts($post_id);
+            // check if you are the owner
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+                redirect("posts/".$post_id);
+            }
+            $comment_count = $this->data["post"]["post_comment_count"] - 1;
+            $post_comment_count = array(
+                    "post_comment_count" => $comment_count
 
+            );
+            $this->comments_model->delete_posts($comment_id);
+            $this->post_model->delete_reactions($react_id);
+            $this->comments_model->comment_counts($post_id,$post_comment_count);
+            redirect("posts/".$post_id);
+        }
 
+        public function edit($comment_id){
+            $user_id = $this->input->post("user_id");
+            $post_id = $this->input->post("post_id");
+            // check if you are the owner
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+                redirect("posts/".$post_id);
+            }
+            $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
+            $this->data["title"]="Edit Comment";
+            // $this->data["slug"] = $slug;
+            if(empty($this->data["comment"])){
+                show_404();
+            }
+            $this->load->view("templates/viewPostHeader.php");
+            $this->load->view("comments/edit",$this->data);
+            $this->load->view("templates/footer.php");
+        }
+        public function update(){
+            $comment_id = $this->input->post("comment_id");
+            $content = $this->input->post("body");
+            $post_id = $this->input->post("post_id");
+            $this->form_validation->set_rules("body","Content","required");
+            
+            if($this->form_validation->run() == false){
+                $this->data["title"]="Edit Comment";
+                $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
+                $this->load->view("templates/viewPostHeader.php");
+                $this->load->view("comments/edit",$this->data);
+                $this->load->view("templates/footer.php");
+            }else{
+                $data = array(
+                    "content" => $content
+                );
+                $this->comments_model->update_posts($comment_id,$data);
+                redirect("posts/".$post_id);
+            }
+            
+        }
+
+    
+    
+    }
 
 ?>
