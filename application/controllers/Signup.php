@@ -25,9 +25,9 @@ class Signup extends CI_Controller{
         $this->form_validation->set_rules('username','Username','required|callback_checkUserName');
         $this->form_validation->set_rules('firstname','Firstname','required');
         $this->form_validation->set_rules('lastname','Lastname','required');
-        $this->form_validation->set_rules('birthdate','Birthdate','required');
+        $this->form_validation->set_rules('birthdate','Birthdate','required|callback_checkBirthdate');
         $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
-        $this->form_validation->set_rules('password_1','Password','required');
+        $this->form_validation->set_rules('password_1','Password','required|min_length[8]|max_length[25]|callback_check_strong_password');
         $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
         
         if($this->form_validation->run()===false){
@@ -102,6 +102,21 @@ class Signup extends CI_Controller{
         }
     }
 
+    function checkBirthdate($birthdate){
+        $this->form_validation->set_message('checkBirthdate', 'User must be 13 and above to create an account');
+        $dob = new DateTime($birthdate);
+        $now = new DateTime();
+        $difference = $now->diff($dob);
+        $age = $difference->y;
+        if($age<13){
+            
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     // EMAIL MESSAGE SETUP
     public function send($email,$template,$data){
        
@@ -137,26 +152,41 @@ class Signup extends CI_Controller{
     }
 
      // VERIFICATON OF DATA IN THE LINK
-        public function verify(){
-      
-            //Get data from URL
-            $username = $this->uri->segment(3); //get email from url
-            $code = $this->uri->segment(4); //get code from url
-            $data['verified'] = 1;
+    public function verify(){
+    
+        //Get data from URL
+        $username = $this->uri->segment(3); //get email from url
+        $code = $this->uri->segment(4); //get code from url
+        $data['verified'] = 1;
 
-            $query= $this->Registration->activate_acc($username, $code, $data); //check in the database
-           
-            // If true, inform the user in verify.php
-            if ($query){
-            $this->load->view("templates/loginheader.php");
-            $this->load->view("pages/verify");
-            $this->load->view("templates/footer.php");  
-           
-            }
-            else{
-                echo "Invalid URL";
-            }
+        $query= $this->Registration->activate_acc($username, $code, $data); //check in the database
+        
+        // If true, inform the user in verify.php
+        if ($query){
+        $this->load->view("templates/loginheader.php");
+        $this->load->view("pages/verify");
+        $this->load->view("templates/footer.php");  
+        
         }
+        else{
+            echo "Invalid URL";
+        }
+    }
+
+    public function is_password_strong($password){
+        $this->form_validation->set_message('check_strong_password', 'The password field must be contains at least one digit, one capital and small letter.');
+        if (preg_match('#[0-9]#', $password) && preg_match('#[a-z]#', $password)  && preg_match('#[A-Z]#', $password)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+  
+
+
+    
+    
 
 
 

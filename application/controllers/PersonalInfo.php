@@ -19,7 +19,7 @@
                 $this->form_validation->set_rules('username','Username','required|callback_checkUsername');
                 $this->form_validation->set_rules('firstname','Firstname','required');
                 $this->form_validation->set_rules('lastname','Lastname','required');
-                $this->form_validation->set_rules('birthdate','Birthdate','required');
+                $this->form_validation->set_rules('birthdate','Birthdate','required|callback_checkBirthdate');
                 $this->form_validation->set_rules('email','Email','required');
                 $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
                 $this->form_validation->set_rules('password_1','New Password');
@@ -53,7 +53,7 @@
                 }
             }
         
-     
+        
         function checkUsername($username){
             $this->form_validation->set_message('checkUsername', 'Username already exists');
             if($this->input->post('username') == $this->data['username']){ // Check if username is unchanged
@@ -67,28 +67,59 @@
             }
         }
 
-        function checkPassword(){
+        function checkPassword($password){
             $this->form_validation->set_message('checkPassword', 'Incorrect Current Password');
-            if (password_verify($this->input->post('password'), $this->data['password'])){
+            if (password_verify($password, $this->data['password'])){
                 return true;
             }
             else{
                 return false;
             }
         }
-        function checkNewPassword(){
+
+        function checkBirthdate($birthdate){
+            $this->form_validation->set_message('checkBirthdate', 'User must be 13 and above to create an account');
+            $dob = new DateTime($birthdate);
+            $now = new DateTime();
+            $difference = $now->diff($dob);
+            $age = $difference->y;
+            if($age<13){
+                
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
+        function is_password_strong($password){
+            $this->form_validation->set_message('check_strong_password', 'The password field must be contains at least one letter and one digit.');
+            if (preg_match('#[0-9]#', $password) && preg_match('#[a-z]#', $password)  && preg_match('#[A-Z]#', $password)) {
+                return TRUE;
+            }
+            return FALSE;
+        }
+
+        function checkNewPassword($password2){
             $this->form_validation->set_message('checkNewPassword', 'New password and confirm password does not match');
             $newPass = $this->input->post('password_1'); 
-            $confirmPass = $this->input->post('password_2');
+            $confirmPass = $password2;
 
             // Conditions for making it an optional field
             if ($newPass){ // If new pass field has a value
                 if ($newPass == $confirmPass){ // check if matches with confirm password
                     if ($newPass != $this->input->post('password')){ // then check if it is the same with old password
-                        return true;
+                        if (preg_match('#[0-9]#', $newPass) && preg_match('#[a-z]#', $newPass)  && preg_match('#[A-Z]#', $newPass)) {
+                            return true;
+                        }
+                        else{
+                            $this->form_validation->set_message('checkNewPassword', 'The password field must be contains at least one digit, one capital and small letter.');
+                            return false;
+                        }
+                     
                     }
                     else{
-                        // Print error here sayin "Cannot input old password"
+                        $this->form_validation->set_message('checkNewPassword', 'Cannot input old password');
                         return false;
                     }  
                 }
