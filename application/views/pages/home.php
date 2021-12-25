@@ -27,15 +27,9 @@
                         <h2>All Categories</h2>
                     </div>
                     <div class="categories">
-                        <a href="#"><p>Anime </p></a>
-                        <a href="#"><p>Business</p></a>
-                        <a href="#"><p>Car</p></a>
-                        <a href="#"><p>Entertainment</p></a>
-                        <a href="#"><p>Kdrama</p></a>
-                        <a href="#"><p>Manga</p></a>
-                        <a href="#"> <p>Movies</p></a>
-                        <a href="#"><p>Music</p></a>
-                        <a href="#"><p>Mystery</p></a>                     
+                        <?php foreach ($categories as $category): ?>
+                            <a href="#"><p><?php echo $category["name"];?> </p></a>
+                        <?php endforeach; ?>      
                     </div>
                 </div>
             </div>

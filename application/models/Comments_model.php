@@ -15,6 +15,9 @@
 		}
 		public function get_specific_comment($comment_id){
 			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
+				// connect to reaction table
+			$this->db->join($this->reactions_table,$this->reactions_table.".react_id = ".$this->comment_table.".react_id");
+				// connect to post table
 			$query = $this->db->get_where($this->comment_table,array("comment_id" => $comment_id));
 			return $query->row_array();
 		}
@@ -38,6 +41,15 @@
 		public function update_posts($comment_id,$data){
 			$this->db->where("comment_id",$comment_id);
 			return $this->db->update($this->comment_table,$data);
+		}
+		public function get_comments_count(){
+			$this->db->where("id",$id);
+			$query = $this->db->get($this->post_table);
+			return $query->row_array();
+		}
+		public function comment_counts($id,$data){
+			$this->db->where("id",$id);
+			return $this->db->update($this->post_table,$data);
 		}
 
 

@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["comments/delete"] = "comments/delete";
+$route["comments/create"] = "comments/create";
+$route["comments/fetch"] =  "comments/fetch";
+$route["comments/edit"] =  "comments/edit";
 $route["profiles"] = "profiles/view";
 $route["profileposts/(:any)"] = "profileposts/view/$1";
 $route["pages/view/profile"]="profiles/view";
@@ -15,3 +19,4 @@ $route["pages"]= "pages/view";
 $route["pages/view/(:any)"]="pages/view/$1";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+

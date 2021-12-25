@@ -18,7 +18,7 @@
             $this->data["comments"] = $this->Comments_model->get_comments($id);
             $this->load->view("templates/header.php");
             $this->load->view("posts/view",$this->data);
-            $this->load->view("templates/footer");
+            $this->load->view("templates/footer",$this->data);
         }
 
         public function create(){
@@ -42,6 +42,9 @@
 
                 // Upload a image
                 $config["upload_path"] = "./assets/images/posts"; 
+                 if(!file_exists(FCPATH."assets/images/post")){
+                    mkdir(FCPATH."assets/images/posts");
+                }
                 // kung anong file extension yung need
                 $config["allowed_types"] = "gif|jpg|png";
                 // 2048 = 2gb kung ano yung max file size 

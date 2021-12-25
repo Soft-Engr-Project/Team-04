@@ -173,7 +173,7 @@ class Signup extends CI_Controller{
         }
     }
 
-    public function is_password_strong($password){
+    public function check_strong_password($password){
         $this->form_validation->set_message('check_strong_password', 'The password field must be contains at least one digit, one capital and small letter.');
         if (preg_match('#[0-9]#', $password) && preg_match('#[a-z]#', $password)  && preg_match('#[A-Z]#', $password)) {
             return TRUE;

@@ -7,34 +7,55 @@
 	        parent::__construct();
 	        $this->load->model('Comments_model');
 	    }
-		public function create($id){
-			// $slug = $this->input->post("slug");
-			$this->form_validation->set_rules("comment","Comment","required");
-			$this->data["post"] = $this->post_model->get_posts($id);
-			if($this->form_validation->run() == false){
-				$this->load->view("templates/header.php");
-				$this->load->view("posts/view",$this->data);
-				$this->load->view("templates/footer.php");
-			}
-			else{
-				// get the reaction.json
-				$json_data = file_get_contents(FCPATH."reaction.json");
-                // get the react_id
-                $react_id = $this->post_model->create_reaction_log($json_data);
-				
-				$body = $this->input->post("comment");
-				$data = array(
-					"post_id" => $id,
-					"user_id" => $this->session->userdata("user_id"),
-					"react_id" => $react_id,
-					"content" => $body
+		public function create(){
+            if($this->input->is_ajax_request()){
+                $this->form_validation->set_rules("comment","Comment","required");
 
-				);
-				$data = $this->security->xss_clean($data);
-				$this->Comments_model->create($data);
-				redirect("posts/".$id);
-			}
+                if($this->form_validation->run() == false){
+                    $data = array("response" => "error","message" => validation_errors()); 
+                  
+                }
+                else{
+                    $id = $this->input->post("post_id");
+                    $this->data["post"] = $this->post_model->get_posts($id);
+                    $json_data = file_get_contents(FCPATH."reaction.json");
+                    $react_id = $this->post_model->create_reaction_log($json_data);
+                    $body = $this->input->post("comment");
+                    $data = array(
+                    "post_id" => $id,
+                    "user_id" => $this->session->userdata("user_id"),
+                    "react_id" => $react_id,
+                    "content" => $body
+                    );
+                    $comment_count = $this->data["post"]["post_comment_count"] + 1;
+                    $post_comment_count = array(
+                        "post_comment_count" => $comment_count
+
+                    );
+                    $data = $this->security->xss_clean($data);
+
+                    $this->comments_model->create($data);
+                    $this->comments_model->comment_counts($this->data["post"]["id"],$post_comment_count);
+                    $data = array("response" => "success","message" => "Comment is successfully added");
+                   
+                }
+            }
+            else{
+                $data = array("response" => "error","message" => "You need to have a request in ajax"); 
+        
+            }
+            echo json_encode($data);
 		}
+        // fetch or get all data
+        public function fetch(){
+            if($this->input->is_ajax_request()){
+                $post_id = $this->input->post("post_id");
+                $data = $this->comments_model->get_comments($post_id);
+                echo json_encode($data);
+            }else{
+                echo "No direct script access allowed";
+            }
+        }
 
 		public function reaction($id){
 			// get all vote
@@ -102,6 +123,7 @@
 
                     $this->post_model->update_reaction($react_id,$data);
                     $this->comments_model->update_upvotes($comment_id,$data_upvote);
+
                 }
              }
              else{
@@ -157,35 +179,60 @@
 		}
 	
         // delete 
-        public function delete($comment_id){
-            $react_id = $this->input->post("react_id");
-            $post_id = $this->input->post("post_id");
-            $user_id = $this->input->post("user_id");
+        public function delete(){
+            if($this->input->is_ajax_request()){
+                 $comment_id = $this->input->post("comment_id");
+            // get all the info about comment
+            $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
+            $react_id = $this->data["comment"]["react_id"];
+            $post_id = $this->data["comment"]["post_id"];
+            $user_id = $this->data["comment"]["user_id"];
+            
+            $this->data["post"] = $this->post_model->get_posts($post_id);
             // check if you are the owner
-            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
-                redirect("posts/".$post_id);
+
+            
+                if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+                    $data = array("response" => "error");
+                }else{
+                    $comment_count = $this->data["post"]["post_comment_count"] - 1;
+                    $post_comment_count = array(
+                        "post_comment_count" => $comment_count
+                    );
+                    $this->comments_model->delete_posts($comment_id);
+                    $this->post_model->delete_reactions($react_id);
+                    $this->comments_model->comment_counts($post_id,$post_comment_count);
+                    $data = array("response" => "success");
+                }
+            }else{
+                $data = array("response" => "error");
             }
-            $this->comments_model->delete_posts($comment_id);
-            $this->post_model->delete_reactions($react_id);
-            redirect("posts/".$post_id);
+           
+            echo json_encode($data);
         }
 
-        public function edit($comment_id){
-            $user_id = $this->input->post("user_id");
-            $post_id = $this->input->post("post_id");
-            // check if you are the owner
-            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
-                redirect("posts/".$post_id);
-            }
+        public function edit(){
+            $comment_id = $this->input->post("edit_id");
+            
+             // get all the info about comment
             $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
-            $this->data["title"]="Edit Comment";
-            // $this->data["slug"] = $slug;
-            if(empty($this->data["comment"])){
-                show_404();
+            $post_id = $this->data["comment"]["post_id"];
+            $user_id = $this->data["comment"]["user_id"];
+            // // check if you are the owner
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+                $data = array("response" => "error");
             }
-            $this->load->view("templates/viewPostHeader.php");
-            $this->load->view("comments/edit",$this->data);
-            $this->load->view("templates/footer.php");
+            $data = array("response" => "success");
+            echo json_encode($data);
+            // $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
+            // $this->data["title"]="Edit Comment";
+            // // $this->data["slug"] = $slug;
+            // if(empty($this->data["comment"])){
+            //     show_404();
+            // }
+            // $this->load->view("templates/viewPostHeader.php");
+            // $this->load->view("comments/edit",$this->data);
+            // $this->load->view("templates/footer.php");
         }
         public function update(){
             $comment_id = $this->input->post("comment_id");

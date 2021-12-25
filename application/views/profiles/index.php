@@ -32,7 +32,7 @@
                                                         <img src="<?php echo base_url();?>assets/image/reactions.png" alt="reaction">
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <h3>0</h3>
+                                                        <h3><?php echo $post["upvote"];?></h3>
                                                     </div>  
                                                 </div>
                                             </a>
@@ -46,7 +46,7 @@
                                                         <img src="<?php echo base_url();?>assets/image/comment.png" alt="comment">
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <h3>0</h3>
+                                                        <h3><?php echo $post["post_comment_count"];?></h3>
                                                     </div>
                                                 </div>
                                             </a>

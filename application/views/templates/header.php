@@ -14,23 +14,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
-
+    
     <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script>
-       $(document).ready(function(){
-            var commentCount = 2 ;
-            console.log(commentCount);
-            $("#see_more_comments").click(function(){
-                commentCount += 2;
-                console.log(commentCount);
-                $("#comments").load("<?php echo base_url("posts/view/".$post["id"]);?>",{
-                    "commentCount" : commentCount
-                });
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <!-- style -->
     <style type="text/css">
         .logo a{
