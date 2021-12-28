@@ -18,7 +18,7 @@
             $this->data["comments"] = $this->Comments_model->get_comments($id);
             $this->load->view("templates/header.php");
             $this->load->view("posts/view",$this->data);
-            $this->load->view("templates/footer");
+            $this->load->view("templates/footer",$this->data);
         }
 
         public function create(){
@@ -40,29 +40,65 @@
                 $json_data = file_get_contents(FCPATH."reaction.json");
                 $react_id = $this->post_model->create_reaction_log($json_data);
 
+                // Upload a image
+                $config["upload_path"] = "./assets/images/posts"; 
+                 if(!file_exists(FCPATH."assets/images/post")){
+                    mkdir(FCPATH."assets/images/posts");
+                }
+                // kung anong file extension yung need
+                $config["allowed_types"] = "gif|jpg|png";
+                // 2048 = 2gb kung ano yung max file size 
+                $config["max_size"] = "2048"; 
+                // kung ano yung max width ng images
+                $config["max_width"] = "2000"; 
+                // kung ano yung max height ng images
+                $config["max_height"] = "2000";
+
+                // use for library upload yung $config
+                $this->load->library('upload',$config);
+                // check kung pede bang iupload
+                if(! $this->upload->do_upload('userfile')){
+                    // dinidisplay nito yung error message
+                    $errors= array("error" => $this->upload->display_errors());
+                    // default
+                    $post_image = "";
+                    // eto piniprint pag di alam yung error
+                    // base sa na experience ko need yung picture ay di lalagpas ng 800x800
+                    echo $this->upload->display_errors();
+                    //die();
+                }
+                else{
+                    $data = array("upload_data" => $this->upload->data());
+                    // var_dump($_FILES);
+                    // use file name
+                    $post_image = $_FILES['userfile']["name"];
+                }
                 $data =array(
-                        "title"=>$this->input->post("title"),
-                        "body" =>$this->input->post("body"),
-                        "slug" => url_title($this->input->post("title")),
-                        "category_id"=> $this->input->post("category_id"),
-                        "user_id" => $this->session->userdata("user_id"),
-                        "react_id" => $react_id
-                    );
-                
+                    "category_id"=> $this->input->post("category_id"),
+                    "user_id" => $this->session->userdata("user_id"),
+                    "react_id" => $react_id,
+                    "title"=>$this->input->post("title"),
+                    "body" =>$this->input->post("body"),
+                    "slug" => url_title($this->input->post("title")),
+                    "post_image" => $post_image
+            
+                );
+    
                 $this->post_model->create_post($data);
-                
-               
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
             }
 
         }
+        // delete a post 
         public function delete($id){
             $user_id = $this->post_model->get_posts($id)["user_id"];
-            if($this->session->userdata("user_id") != $user_id){
+            $react_id = $this->input->post("react_id");
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("pages");
             }
 
+            $this->post_model->delete_reactions($react_id);
             $this->post_model->delete_post($id);
             $this->session->set_flashdata("post_delete","Delete a thread succesfully");
             redirect("pages");
@@ -70,8 +106,7 @@
         public function edit($id){
             $user_id = $this->post_model->get_posts($id)["user_id"];
 
-            if($this->session->userdata("user_id") != $user_id){
-                echo "hello"; die();
+            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("pages");
             }
             $this->data["post"] = $this->post_model->get_posts($id);
@@ -87,11 +122,50 @@
             $this->load->view("templates/footer.php");
         }
         public function update(){ 
+            $post_id = $this->input->post("id");
+            $post_image = $this->input->post("post_image");
+            $image = $_FILES['userfile'];
+            if($image && $image["tmp_name"]){
+                echo "pasok";
+                unlink("assets/images/posts/".$post_image);
+
+                 $config["upload_path"] = "./assets/images/posts"; 
+                // kung anong file extension yung need
+                $config["allowed_types"] = "gif|jpg|png";
+                // 2048 = 2gb kung ano yung max file size 
+                $config["max_size"] = "2048"; 
+                // kung ano yung max width ng images
+                $config["max_width"] = "2000"; 
+                // kung ano yung max height ng images
+                $config["max_height"] = "2000";
+
+                // use for library upload yung $config
+                $this->load->library('upload',$config);
+                // check kung pede bang iupload
+                if(! $this->upload->do_upload('userfile')){
+                    // dinidisplay nito yung error message
+                    $errors= array("error" => $this->upload->display_errors());
+                    // default
+                    $post_image = "noimage.jpg";
+                    // eto piniprint pag di alam yung error
+                    // base sa na experience ko need yung picture ay di lalagpas ng 800x800
+                    echo $this->upload->display_errors();
+                    die();
+                }
+                else{
+                    $data = array("upload_data" => $this->upload->data());
+                    // var_dump($_FILES);
+                    // use file name
+                    $post_image = $_FILES['userfile']["name"];
+                }
+            }
+           
             $data=array(
             'title'=> $this->input->post('title'),
             'slug' => url_title($this->input->post('title')),
             'body' => $this->input->post('body'),
-            'category_id'=> $this->input->post("category_id")
+            'category_id'=> $this->input->post("category_id"),
+            'post_image' => $post_image
              );  
             $id = $this->input->post("id");
             $this->post_model->update_post($data,$id);
@@ -231,11 +305,55 @@
                     $this->post_model->update_upvotes($id,$data_downvote);
                 }
              }
-
              redirect("posts/".$id);
-             
+        }
 
+        public function reports(){
+            $msg = '';
+         
+            
+            // Get user's input
+            $id = $this->input->post('id');
+            $type = $this->input->post('type');
+            $reason = $this->input->post('reason');
 
+            if ($type == 'posts'){
+                $query = $this->post_model->get_posts($id);
+            }
+            else{
+                $query = $this->comments_model->get_specific_comment($id);
+              
+            }
+        
+            // Prepare report status
+            $data = array(
+                'content_id'=> $id,
+                'type'    => $type,
+                'user_id'        => $this->session->userdata("user_id"),
+                'accused_id'    => $query['user_id'],
+                'reason'    => $reason
+            );
+            
+            // Insert report data
+            $insert = $this->post_model->create_report($data);
+   
+            if($insert){
+                $status = 1;
+                $msg .= 'Member has been added successfully.';
+                
+            }else{
+                $msg .= 'Some problem occurred, please try again.';
+            }
+            
+            
+            // Return response as JSON format
+            $alertType = ($status == 1)?'alert-success':'alert-danger';
+            $statusMsg = '<p class="alert '.$alertType.'">'.$msg.'</p>';
+            $data = array(
+                'status' => $status,
+                'message' => $msg 
+            );
+            echo json_encode($data);
         }
         
     }

@@ -1,9 +1,6 @@
-<h1><?=$title?></h1>
-<div>
-    <p>Field : Blah Blah Blah</p>
-    <p>Field : Blah Blah Blah</p>
-    <p>Field : Blah Blah Blah</p>
-    <p>Field : Blah Blah Blah</p>
-    <p>Field : Blah Blah Blah</p>
-    <p>Field : Blah Blah Blah</p>
-</div>
+
+                <div class="personalinfo">
+                    <h1>Personal Information</h1>
+                    <p>Name :</p>
+                </div>
+            </div>
