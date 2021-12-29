@@ -11,6 +11,12 @@
         public function index(){
                 $this->post_model->get_posts();
         }
+
+        // get filter
+        public function post_filter(){
+
+        }
+
         public function view($id=NULL){
             // if it is not set then $id is Null
             // $id = $this->input->post('id') ?? Null;
@@ -42,6 +48,7 @@
 
                 // Upload a image
                 $config["upload_path"] = "./assets/images/posts"; 
+                // kung walang post folder mag automatic make
                  if(!file_exists(FCPATH."assets/images/post")){
                     mkdir(FCPATH."assets/images/posts");
                 }
@@ -73,8 +80,9 @@
                     // use file name
                     $post_image = $_FILES['userfile']["name"];
                 }
+                $category_id = $this->input->post("category_id");
                 $data =array(
-                    "category_id"=> $this->input->post("category_id"),
+                    "category_id"=> $category_id,
                     "user_id" => $this->session->userdata("user_id"),
                     "react_id" => $react_id,
                     "title"=>$this->input->post("title"),
@@ -83,7 +91,10 @@
                     "post_image" => $post_image
             
                 );
-    
+                $data_category = array(
+                    "category_post_count" => ++$this->data["categories"]["category_post_count"]
+                );
+                $this->categories_model->category_count($category_id,$data_category);
                 $this->post_model->create_post($data);
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
@@ -92,12 +103,19 @@
         }
         // delete a post 
         public function delete($id){
+            $category_id = $this->input->post("category");
             $user_id = $this->post_model->get_posts($id)["user_id"];
             $react_id = $this->input->post("react_id");
             if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
                 redirect("pages");
             }
-
+            
+            // get category of specific post
+            $this->data["categories"] = $this->categories_model->get_categories($category_id);
+            $data_category = array(
+                    "category_post_count" => --$this->data["categories"]["category_post_count"]
+            );
+            $this->categories_model->category_count($category_id,$data_category);
             $this->post_model->delete_reactions($react_id);
             $this->post_model->delete_post($id);
             $this->session->set_flashdata("post_delete","Delete a thread succesfully");
@@ -122,7 +140,12 @@
             $this->load->view("templates/footer.php");
         }
         public function update(){ 
+            $category_id = $this->input->post("category_id");
             $post_id = $this->input->post("id");
+            // get the post for checking if the category is change
+            $this->data["post"] = $this->post_model->get_posts($post_id);
+            // get category of specific post
+            
             $post_image = $this->input->post("post_image");
             $image = $_FILES['userfile'];
             if($image && $image["tmp_name"]){
@@ -167,6 +190,19 @@
             'category_id'=> $this->input->post("category_id"),
             'post_image' => $post_image
              );  
+            
+            if($this->data["post"]["category_id"] != $category_id){
+                 $data_category = array(
+                    "category_post_count" => ++$this->data["categories"]["category_post_count"]
+                 );
+                 $this->categories_model->category_count($category_id,$data_category);
+
+                 $this->data["categories"] = $this->categories_model->get_categories($this->data["post"]["category_id"]);
+                  $data_category = array(
+                    "category_post_count" => --$this->data["categories"]["category_post_count"]
+                 );
+                 $this->categories_model->category_count($this->data["categories"]["category_id"],$data_category);
+            }
             $id = $this->input->post("id");
             $this->post_model->update_post($data,$id);
             $this->session->set_flashdata("post_update","Update post succesfully");

@@ -59,14 +59,9 @@
                                     <option value="">Anime</option>
                                     <option value="">Technology</option>
                                     <option value="">Programming Language</option>
-
                                 </select>
-
                             </div>
                         </div>
                     </div>
-                    <div class="homecatpost">
-                        <div class="categoriesdiv">
-                            <h3>ANIME</h3>
-                        </div>
+                    
                         

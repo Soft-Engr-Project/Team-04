@@ -9,15 +9,17 @@
 			<img src="<?php echo base_url();?>assets/images/posts/<?php echo $post["post_image"];?>" alt="" width="300">
 	<?php endif;?>
 	<!-- who post and when  and what category-->
-	<small class="post-date">Posted on : <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
+	<small class="post-date">Posted on : <?php echo $post["post_created_at"];?> in <?php echo $post["name"];?></small>
 	<small>Created by : <?php echo ucfirst($post["username"]);?></small>
 	<!-- body -->
 	<h4><?php echo $post["body"];?></h4>
 	<?php if($this->session->userdata("user_id") == $post["user_id"]) :?>
 			<?php echo form_open("posts/delete/".$post["id"]);?>
-				<button class="btn btn-primary">Delete</button>
+				<input type="hidden" name="category" value="<?php echo $post["category_id"]?>">
+                <button class="btn btn-primary">Delete</button>
 			</form>
 			<?php echo form_open("posts/edit/".$post["id"]);?>
+                <input type="hidden" name="category" value="<?php echo $post["category_id"]?>">
 				<button class="btn btn-secondary" type="submit">Edit</button>
 			</form>
     

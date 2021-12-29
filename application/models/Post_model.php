@@ -15,7 +15,7 @@ class Post_model extends CI_Model{
     public function get_posts($id=Null){
         if($id == False){
             // get posts table
-             $this->db->order_by($this->post_table.".id","DESC");
+             $this->db->order_by($this->post_table.".id","category_id DESC");
              $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
              $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
              $query = $this->db->get($this->post_table);
