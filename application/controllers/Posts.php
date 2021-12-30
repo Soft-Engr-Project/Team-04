@@ -344,51 +344,82 @@
              redirect("posts/".$id);
         }
 
-        public function reports(){
-            $msg = '';
-         
-            
-            // Get user's input
-            $id = $this->input->post('id');
-            $type = $this->input->post('type');
-            $reason = $this->input->post('reason');
+        // kukunin yung post id na nireport 
 
-            if ($type == 'posts'){
-                $query = $this->post_model->get_posts($id);
+        public function report_post_info(){
+            if($this->input->is_ajax_request()){
+            $post_id = $this->input->post("post_id");
+
+                if($post = $this->post_model->get_posts($post_id)){
+                    $data = array("response" => "success","post" => $post);
+                }else{
+                    $data = array("response" => "error","message" => "Failed");
+                }
             }
             else{
-                $query = $this->comments_model->get_specific_comment($id);
-              
+                $data = array("response" => "error","message" => "Failed");
             }
-        
-            // Prepare report status
-            $data = array(
-                'content_id'=> $id,
-                'type'    => $type,
-                'user_id'        => $this->session->userdata("user_id"),
-                'accused_id'    => $query['user_id'],
-                'reason'    => $reason
-            );
+        echo json_encode($data);
+        }
+        public function reports(){
             
-            // Insert report data
-            $insert = $this->post_model->create_report($data);
-   
-            if($insert){
-                $status = 1;
-                $msg .= 'Member has been added successfully.';
+            // check kung nag send ba ng request galing sa ajax
+            if($this->input->is_ajax_request()){
+                $msg = '';
+         
+            
+                // Get user's input
+                $id = $this->input->post('post_id');
+                $type = $this->input->post('type');
+                $reason = $this->input->post('reason');
+
+
+                if ($type == 'thread'){
+                    $query = $this->post_model->get_posts($id);
+                }
+                else{
+                    $query = $this->comments_model->get_specific_comment($id);
+                  
+                }
+            
+                // Prepare report status
+                $data = array(
+                    'content_id'=> $id,
+                    'type'    => $type,
+                    'user_id'        => $this->session->userdata("user_id"),
+                    'accused_id'    => $query['user_id'],
+                    'reason'    => $reason
+                );
+                
+                // Insert report data
+                $insert = $this->post_model->create_report($data);
+       
+                if($insert){
+                    $status = 1;
+                    $msg .= 'Member has been added successfully.';
+                    $data = array(
+                        'response' => "success",
+                        'message' => $msg 
+                    );  
+                }else{
+                    $msg .= 'Some problem occurred, please try again.';
+                    $data = array(
+                        'response' => "error",
+                        'message' => $msg 
+                    );
+                }
+                
+                // Return response as JSON format
+                // $alertType = ($status == 1)?'alert-success':'alert-danger';
+                // $statusMsg = '<p class="alert '.$alertType.'">'.$msg.'</p>';
                 
             }else{
-                $msg .= 'Some problem occurred, please try again.';
+                 $data = array(
+                        'response' => "error",
+                        'message' => "Failed to access" 
+                    );
             }
             
-            
-            // Return response as JSON format
-            $alertType = ($status == 1)?'alert-success':'alert-danger';
-            $statusMsg = '<p class="alert '.$alertType.'">'.$msg.'</p>';
-            $data = array(
-                'status' => $status,
-                'message' => $msg 
-            );
             echo json_encode($data);
         }
         
