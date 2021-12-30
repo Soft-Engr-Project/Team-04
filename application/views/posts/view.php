@@ -316,8 +316,8 @@
 
           });
       }
-      console.log(post_id,type,reason);
-
+      
+     $("#report_form")[0].reset();
     })
 
 
