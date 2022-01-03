@@ -21,7 +21,6 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <p class="post-date">Posted on: <?php echo $post["post_created_at"];?></p>
-
                                     </div>
                                 </div>
                              <?php endif;?>

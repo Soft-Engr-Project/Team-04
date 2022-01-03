@@ -56,7 +56,7 @@
                         </div>
                         <hr>
                     </div>
-                    <a href="<?php echo base_url();?>pages/view/setting">Settings</a>
+                    <a href="<?php echo base_url();?>pages/view/settings">Settings</a>
                     <a href="#">Customization</a>
                     <a href="<?php echo base_url();?>pages/view/logout">Logout</a>
                 </div>

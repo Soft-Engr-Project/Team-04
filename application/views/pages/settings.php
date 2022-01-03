@@ -11,12 +11,14 @@
 <?php endif;?>
 <br>
 <br>
-<div class="btn btn-primary">
+<div class="btn btn-outline-success">
     <a href="<?php echo site_url("customization/view")?>">Customization</a>
 </div>
 <br>
 <br>
-<div class="btn btn-danger">
-    <a href="<?php echo base_url();?>pages/view">Home</a>
+<?php if($this->session->userdata("admin") == true) :?>
+<div class="btn btn-outline-danger">
+    <a href="<?php echo base_url("Reports/view");?>">Report Logs</a>
 </div>
+<?php endif;?>
 </div>

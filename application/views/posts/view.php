@@ -9,11 +9,11 @@
 			<img src="<?php echo base_url();?>assets/images/posts/<?php echo $post["post_image"];?>" alt="" width="300">
 	<?php endif;?>
 	<!-- who post and when  and what category-->
-	<small class="post-date">Posted on : <?php echo $post["post_created_at"];?> in <?php echo $post["name"];?></small>
+	<small class="post-date">Posted on : <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
 	<small>Created by : <?php echo ucfirst($post["username"]);?></small>
 	<!-- body -->
 	<h4><?php echo $post["body"];?></h4>
-	<?php if($this->session->userdata("user_id") == $post["user_id"]) :?>
+	<?php if($this->session->userdata("user_id") == $post["user_id"] || $this->session->userdata("admin") == true ) :?>
 			<?php echo form_open("posts/delete/".$post["id"]);?>
 				<input type="hidden" name="category" value="<?php echo $post["category_id"]?>">
                 <button class="btn btn-primary">Delete</button>
@@ -27,42 +27,43 @@
   <?php elseif($this->session->userdata("user_id") != $post["user_id"]) :?>
 		
     <!-- Report button for posts -->
-    <a href="#" id="report_button" name="report" class="btn btn-danger" value= "<?php echo $post["id"]?>">Report</a>
+    <a href="#" id="report_button"  class="btn btn-danger" name="thread" value= "<?php echo $post["id"]?>">Report</a>
     
-    <!-- Modal for report action -->
-    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" >
-      <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
-      </div>
-
-      <!-- Modal Body -->
-      <div class="modal-body">
-        <div class="statusMsg"></div>
-        <form role="form" id="report_form">
-          <div class="form-group">
-            <input type="hidden" id="id_for_report" name="id" value="">	
-            <input type="hidden" id="report_type" name="type" value="thread">
-            <label for="message-text" class="col-form-label">Reason:</label>
-            <textarea name = "reason" class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-       <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-        <a href="#" class="btn btn-secondary" id="report_close">Close</a>
-        <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
-        </form>
-      </div>
-      </div>
-    </div>
-    </div>
+    
 	<?php endif;?>
+  <!-- Modal for report action -->
+    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" >
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="statusMsg"></div>
+          <form role="form" id="report_form">
+            <div class="form-group">
+            <input type="hidden" id="content_id" name="id" value="">
+              <input type="hidden" id="report_type" name="report_type" value="">
+              <label for="message-text" class="col-form-label">Reason:</label>
+              <textarea name = "reason" class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+        <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+          <a href="#" class="btn btn-secondary" id="report_close">Close</a>
+          <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 	<?php echo form_open("posts/reaction/".$post["id"]);?>
 		<input type="hidden" name="vote" value="1">
@@ -102,120 +103,53 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 
-    // Actions on modal show and hidden events
-    // $(function(){
-    //     $('#exampleModal').on('show.bs.modal', function(e){
-    
-    //         var type = $(e.relatedTarget).attr('data-type');
-    //         var userFunc = "userReport('posts');";
-    //         $('#exampleModalLabel').text('Report post');
-    //         if(type == 'discussion'){
-    //             userFunc = "userReport('discussion');";
-    //             var comment_id = $(this).attr("value");
-				//         $(".modal-body #id").val(comment_id);
-    //             var discussion = "discussion";
-    //             $(".modal-body #type").val(discussion);
-    //             // var rowId = $(e.relatedTarget).attr('rowID');
-    //             // editUser(rowId);
-    //             $('#exampleModalLabel').text('Report comment');
-    //         }
-    //         $('#userSubmit').attr("onclick", userFunc);
-    //     });
-        
-    //     // Clear text area after hiding
-    //     $('#exampleModal').on('hidden.bs.modal', function(){
-    //         $('#userSubmit').attr("onclick", "");
-    //         $(this).find('form')[0].reset();
-    //         $(this).find('.statusMsg').html('');
-          
-    //     });
-    // });
-
-    // // Send CRUD requests to the server-side script
-    // function userReport(type){
-      
-    //     var userData = '1', frmElement = '';
-    //     if(type == 'posts'){
-    //         frmElement = $("#exampleModal");
-    //         userData = frmElement.find('form').serialize();
-    //     }else if (type == 'discussion'){
-    //         frmElement = $("#exampleModal");
-    //         userData = frmElement.find('form').serialize();
-    //     }else{
-    //         frmElement = $(".row");
-    //         userData = 'id='+id;
-    //     }
-    //     frmElement.find('.statusMsg').html('');
-    //     $.ajax({
-    //         type: 'post',
-    //         url: "<?php echo base_url();?>posts/reports",
-    //         data: userData,
-    //         beforeSend: function(){
-              
-    //             frmElement.find('form').css("opacity", "0.5");
-    //         },
-    //         success:function(data){
-    //           $("exampleModal").modal('hide');
-    //           console.log(data);
-    //           let result = data.replace(/<!--  -->/g, "");
-    //                 data = JSON.parse(result);
-    //           Command: toastr["success"](data.message)
-    //         toastr.options = {
-    //           "closeButton": true,
-    //           "debug": false,
-    //           "newestOnTop": false,
-    //           "progressBar": true,
-    //           "positionClass": "toast-top-right",
-    //           "preventDuplicates": false,
-    //           "onclick": null,
-    //           "showDuration": "300",
-    //           "hideDuration": "1000",
-    //           "timeOut": "5000",
-    //           "extendedTimeOut": "1000",
-    //           "showEasing": "swing",
-    //           "hideEasing": "linear",
-    //           "showMethod": "fadeIn",
-    //           "hideMethod": "fadeOut"
-    //         }
-    //           if(data.status == 1){
-    //                 frmElement.find('form')[0].reset();
-                    
-
-    //                 // COMMENT MUNA, PANG UPDATE KO TO SA BUTTON getUsers();
-    //             }
-    //             frmElement.find('form').css("opacity", "");
-                
-    //         },
-    //         error: function () {
-    //           console.log("hello");
-    //         },
-    //     });
-    // }
-
-
     // ginagawa nito:
     // 1. tiga show ng modal  at inistore yung id don sa form
     // 2. gumawa din ako ng function na report_post_info para makolekta ko yung nireport na post
     $(document).on("click","#report_button",function(e){
         e.preventDefault();
-        var post_id = $(this).attr("value");
-         if(post_id == ""){
+        var content_id = $(this).attr("value"); // Get the ID of post/discussion on button
+        var type = $(this).attr("name"); // Get the ID of post/discussion on button
+        
+        if(content_id == ""){
           alert("Edit id is required");
         }else{
+          
           $.ajax({
-            url : "<?php echo base_url()?>posts/report_post_info",
+            url : "<?php echo base_url()?>reports/check_post",
             type : "post",
             data : {
-              post_id : post_id
+              content_id : content_id,
+              type:type
             },
             success : function(data){
               let result = data.replace(/<!--  -->/g, "");
               data = JSON.parse(result);
+
+              // Action if id is valid
               if(data.response == "success"){
-                 $("#exampleModal").modal("show");
-                 $("#id_for_report").val(data.post.id);
+                // Adjust value of modal if post or comment
+         
+                if(type == 'discussion'){ 
+                  $(".modal-body #content_id").val(content_id);
+                  $(".modal-body #report_type").val("discussion");
+                  $('#exampleModalLabel').text('Report comment');
+                
+                }
+                else{
+                  $(".modal-body #content_id").val(content_id);
+                  $(".modal-body #report_type").val("thread");
+                  $('#exampleModalLabel').text('Report post');
+                }
+               
+                // Show modal
+                $("#exampleModal").modal("show");
+                console.log (content_id);
               }
+
+              // Show error message
               else{
+                
                   Command: toastr["error"](data.message)
                   toastr.options = {
                   "closeButton": true,
@@ -240,6 +174,7 @@
           });
         }
     })
+
     // close button para lang mawala yung report log 
     $(document).on("click","#report_close",function(e){
       e.preventDefault();
@@ -251,22 +186,21 @@
     // submit mode
     $(document).on("click","#userSubmit",function(e){
       e.preventDefault();
-      post_id = $(this).attr("value");
-      type = $("#report_type").val();
+      content_id = $("#content_id").val();
+      report_type = $("#report_type").val();
       reason = $("#message-text").val();
-
       // check kung may laman yung post_id ,type and reason
-      if(post_id == "" || type == "" || reason == ""){
+      if(content_id == "" || report_type == "" || reason == ""){
         alert("Please Fill all the required form");
       }
       else{
         $.ajax({
-            url : "<?php echo base_url()?>posts/reports",
+            url : "<?php echo base_url()?>reports/submit_reports",
             type : "post",
             data : {
-              post_id : post_id,
-              type : type,
-              reason : reason
+              content_id : content_id,
+              report_type: report_type,
+              reason: reason
             },
             success : function(data){
               let result = data.replace(/<!--  -->/g, "");
@@ -335,30 +269,38 @@
             var commentbody = "";
             data.forEach(element => {
 
-               commentbody += "<div class='card bg-primary'>";
-                        commentbody += `<div class='card-body text-white' id='edit_container${element["comment_id"]}'>`;
-                        commentbody += `<h5 id="comment_owner">${element["content"]}[by <strong>${element["username"]}</strong>]</h5>`;
-                        if("<?php echo $this->session->userdata("user_id");?>" == element["user_id"] || Boolean(<?php echo $this->session->userdata("admin");?>) == true){
-                         commentbody += `<a href="#" id = "del" name="delete_edit" value="${element['comment_id']}" class="btn btn-outline-primary bg-light text-primary">Delete</a>`;  
-                          commentbody += `<a href="#" id = "edit" name="delete_edit" value="${element['comment_id']}" class="btn btn-outline-primary bg-light text-primary">Edit</a>`;
-                          commentbody+= `
-                          <div style="display:none;" id="textarea_container">
-                          <h4>Edit Comment</h4>
-                           <form action="" method="POST" id="edit_form">
-                            <input type="hidden" id="edit_id" value="">
-                            <div class="input-group">
-                                <textarea id="edit_textarea${element['comment_id']}" name="edit_comment" class="form-control" aria-label="With textarea" required></textarea>
-                              </div>
-                              <br>
-                              <button class="btn btn-danger" id="back_comment">Back</button>
-                              <button class="btn btn-success" id="update_comment">Update</button>
-                          </form>
-                          </div>`;
-                        }
-                        
-                else if("<?php echo $this->session->userdata("user_id");?>" != element["user_id"]){
-                   commentbody += `<button name="report" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-type="discussion" value="${element['comment_id']}">Report</button>`;  
-            
+              if ("<?php echo $reported_id?>" == element["comment_id"]){
+                console.log('ew')
+                commentbody += "<div class='card bg-danger'>";
+              }
+              else {
+                console.log('hi')
+                commentbody += "<div class='card bg-primary'>";
+              }
+
+              commentbody += `<div class='card-body text-white' id='edit_container${element["comment_id"]}'>`;
+              commentbody += `<h5 id="comment_owner">${element["content"]}[by <strong>${element["username"]}</strong>]</h5>`;
+              if("<?php echo $this->session->userdata("user_id");?>" == element["user_id"] || Boolean(<?php echo $this->session->userdata("admin");?>) == true){
+                commentbody += `<a href="#" id = "del" name="delete_edit" value="${element['comment_id']}" class="btn btn-outline-primary bg-light text-primary">Delete</a>`;  
+                commentbody += `<a href="#" id = "edit" name="delete_edit" value="${element['comment_id']}" class="btn btn-outline-primary bg-light text-primary">Edit</a>`;
+                commentbody+= `
+                <div style="display:none;" id="textarea_container">
+                <h4>Edit Comment</h4>
+                  <form action="" method="POST" id="edit_form">
+                  <input type="hidden" id="edit_id" value="">
+                  <div class="input-group">
+                      <textarea id="edit_textarea${element['comment_id']}" name="edit_comment" class="form-control" aria-label="With textarea" required></textarea>
+                    </div>
+                    <br>
+                    <button class="btn btn-danger" id="back_comment">Back</button>
+                    <button class="btn btn-success" id="update_comment">Update</button>
+                </form>
+                </div>`;
+                }
+                
+              else if(<?php echo $this->session->userdata("user_id");?> != element["user_id"]){
+                   commentbody += `<a href="#" id="report_button" class="btn btn-danger" name="discussion"  value="${element['comment_id']}">Report</a>`;  
+                  
                 }
                   commentbody += `<div class="mt-4"> 
                          <a href="#" id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}" class="btn btn-success">Upvote</a>`;

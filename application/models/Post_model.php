@@ -71,10 +71,7 @@ class Post_model extends CI_Model{
         return $this->db->delete($this->reactions_table);
     }
 
-    public function create_report($data) {
-        
-        return $this->db->insert('reports',$data);
-    }
+   
 
 
 
