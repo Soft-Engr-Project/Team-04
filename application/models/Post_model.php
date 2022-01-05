@@ -27,6 +27,20 @@ class Post_model extends CI_Model{
         $query = $this->db->get($this->post_table);
         return $query->row_array();
     }
+    public function get_posts_for_filter($id){
+        if($id > 0){
+            $this->db->where($this->post_table.".category_id",$id);
+            $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+            $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $query = $this->db->get($this->post_table);
+        }
+        else{
+            $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+            $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $query = $this->db->get($this->post_table);
+        }
+        return $query->result_array();
+    }
     public function create_post($data){
         return $this->db->insert($this->post_table,$data);
     }

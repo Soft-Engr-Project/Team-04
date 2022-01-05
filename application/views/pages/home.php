@@ -45,23 +45,5 @@
                     <hr>
                 </div>
 
-                <div class="catfil">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="divcategor">
-                                <p>Categories:</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="divfilter">
-                                <span class="labelfilter">Filter: </span>
-                                <select name="" id="">
-                                    <option value="">Anime</option>
-                                    <option value="">Technology</option>
-                                    <option value="">Programming Language</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
+                
                         

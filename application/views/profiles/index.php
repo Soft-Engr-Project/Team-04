@@ -12,11 +12,11 @@
                                 <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile" >
                             </div>
                             <div class="col-lg-9">
-                                <a href="<?php echo site_url("profiles/view");?>"><h2><?php echo $this->session->userdata("username");?></h2> </a>
+                                <a href="<?php echo site_url("profiles/view");?>"><h2><?php echo $user["username"]?></h2> </a>
                                 <a href="<?php echo site_url("/profileposts/".$post["slug"]);?>"> <h4> <?php echo $post["title"];?></h4></a> 
                                 <!-- image -->
-                                <?php if(isset($post["post_image"])):?>
-                                    <img src="<?php echo base_url();?>assets/images/posts/<?php echo $post["post_image"];?>" alt="" width="300">
+                                <?php if(!empty($post["post_image"])):?>
+                                    <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300">
                                 <?php endif;?>
                                 <h6> <?php echo character_limiter($post["body"],300);?></h6> 
     
@@ -65,7 +65,8 @@
 
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>    
+                            <?php if($user["user_id"] == $this->session->userdata("user_id")):?>
                             <div class="col-lg-1">
                                  <div class="menuthreads">
                                     <div class="dropdown">
@@ -91,6 +92,7 @@
                                     </div>
                                 </div>
                             </div>
+                           <?php endif;?>    
                             <hr>
                             
                         </div>

@@ -614,8 +614,12 @@ at yung height ay 38%
 }
 
 
-
-
+/*loading screen*/
+body{
+    background-color: #f7c607;
+    padding: 0;
+    margin: 0;
+}
 
 
 

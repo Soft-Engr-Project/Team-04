@@ -14,7 +14,14 @@
 
         // get filter
         public function post_filter(){
-
+            sleep(2);
+                $post = $_GET['category'];
+                
+                $data["categories"] = $this->categories_model->get_categories();
+               $data["posts"]=  $this->post_model->get_posts_for_filter($post);
+              echo json_encode($data);
+                    
+                  
         }
 
         public function view($id=NULL, $comment_id=NULL){
@@ -48,10 +55,12 @@
                 $react_id = $this->post_model->create_reaction_log($json_data);
 
                 // Upload a image
-                $config["upload_path"] = "./assets/images/posts"; 
+                $config["upload_path"] = "./assets/images/post"; 
                 // kung walang post folder mag automatic make
                  if(!file_exists(FCPATH."assets/images/post")){
-                    mkdir(FCPATH."assets/images/posts");
+                    mkdir(FCPATH."assets/images/");
+                    mkdir(FCPATH."assets/images/post");
+                    
                 }
                 // kung anong file extension yung need
                 $config["allowed_types"] = "gif|jpg|png";
@@ -73,14 +82,18 @@
                     // eto piniprint pag di alam yung error
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
-                    //die();
+                    die();
                 }
                 else{
                     $data = array("upload_data" => $this->upload->data());
                     // var_dump($_FILES);
                     // use file name
-                    $post_image = $_FILES['userfile']["name"];
+                    $post_image = "assets/images/post/".$_FILES['userfile']["name"];
+                    // var_dump($_FILES['userfile']);
+                    // var_dump($data);
+                    // die();
                 }
+
                 $category_id = $this->input->post("category_id");
                 $data =array(
                     "category_id"=> $category_id,
@@ -174,7 +187,7 @@
                     // eto piniprint pag di alam yung error
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
-                    die();
+                    //die();
                 }
                 else{
                     $data = array("upload_data" => $this->upload->data());

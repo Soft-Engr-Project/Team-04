@@ -5,8 +5,8 @@
 <br>
 <h3><?php echo $post["title"];?></h3>
 	<!-- image -->
-	<?php if(isset($post["post_image"])):?>
-			<img src="<?php echo base_url();?>assets/images/posts/<?php echo $post["post_image"];?>" alt="" width="300">
+	<?php if(isset($post["post_image"]) && !empty($post["post_image"])):?>
+			<img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300">
 	<?php endif;?>
 	<!-- who post and when  and what category-->
 	<small class="post-date">Posted on : <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
