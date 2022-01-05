@@ -29,13 +29,18 @@ nav ul{
     height: 70px auto;
 }
 
+nav .ms-n5 {
+    margin-left: -40px;
+}
+
 nav ul .logo{
-    flex: 1;
-    font-size: 40px;
-    font-weight: 500;
-    cursor: pointer;
+    border: 0px;
+    padding:0; 
+    margin:0;
+    border-collapse: collapse; font-size: 40px; 
+    text-decoration: none; 
+    color:white; 
     text-shadow: -10px 8px 2px rgb(49, 49, 49);
-    padding-right: 50px;
 }
 
 nav ul .items{
@@ -95,7 +100,6 @@ nav ul .icon{
     max-width: 250px;
     height: 200px;
     background: #314754;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     border-radius: 4px;
     overflow: hidden;
     top: 60px;
@@ -128,9 +132,7 @@ nav ul .icon{
 }
 
 .settings-menu .row a p{
-    max-width: 14ch;
     margin-top: 15px;
-    font-size: 15px;
 }
 
 .settings-menu hr{
@@ -159,6 +161,12 @@ nav ul .icon{
 #coverphoto, #profilephoto, .userpic{
     height: 100%;
     width: 100%;
+}
+
+.navbar .navbar-nav .dropdown .nav-link .userpic{
+    height: 53px;
+    width: 53px;
+    background: #FFF;
 }
 
 .banner{

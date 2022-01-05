@@ -1,3 +1,4 @@
+<div onclick="checkMousePointer()">
 <div class="container">
 <br>
 <br>

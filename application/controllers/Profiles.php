@@ -6,6 +6,11 @@
             if ($user_id == NULL) {
                 $user_id = $this->session->userdata("user_id");
             }
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
             $this->data["title"]="Profile";
             $this->data['posts'] = $this->profile_model->get_user_posts($user_id);
             $this->data["react_count"] = $this->profile_model->get_all_reaction($user_id);
@@ -19,6 +24,7 @@
             
             $this->load->view("profiles/index",$this->data);
             $this->load->view("templates/footer.php");
+            
         }
         public function upload_image(){
            

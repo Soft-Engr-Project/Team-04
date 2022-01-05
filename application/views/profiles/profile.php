@@ -1,3 +1,4 @@
+<div onclick="checkMousePointer()">
     <div class="cover">
         <?php if(!empty($user["user_cover_photo"])){?>
             <img src="<?php echo base_url().$user["user_cover_photo"];?>" id="coverphoto">

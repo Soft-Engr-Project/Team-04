@@ -27,6 +27,12 @@
         public function view($id=NULL, $comment_id=NULL){
             // if it is not set then $id is Null
             // $id = $this->input->post('id') ?? Null;
+
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
             $this->data["post"] = $this->post_model->get_posts($id);
             $this->data["comments"] = $this->Comments_model->get_comments($id);
             $this->data["reported_id"] = $comment_id;
@@ -36,6 +42,12 @@
         }
 
         public function create(){
+
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
             $this->data["title"] = "Create Post";
             // get all the categories
             $this->data["categories"] = $this->categories_model->get_categories();
@@ -136,6 +148,11 @@
             redirect("pages");
         }
         public function edit($id){
+             //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+            
             $user_id = $this->post_model->get_posts($id)["user_id"];
 
             if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
@@ -149,7 +166,7 @@
                 show_404();
             }
             $this->data["title"] = $this->data["post"]["title"];
-            $this->load->view("templates/viewPostHeader.php");
+            $this->load->view("templates/header.php");
             $this->load->view("posts/edit",$this->data);
             $this->load->view("templates/footer.php");
         }

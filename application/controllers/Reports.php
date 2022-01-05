@@ -12,6 +12,12 @@
         public function view($id=NULL){
             // if it is not set then $id is Null
             // $id = $this->input->post('id') ?? Null;
+
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
             $this->data["categories"] = $this->categories_model->get_categories();
             $this->data["report"]  = $this->Reports_model->get_reports();
             $this->load->view("templates/header.php");

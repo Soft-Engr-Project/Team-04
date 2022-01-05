@@ -6,6 +6,13 @@
             // APPPATH - ROOT FOLDER
             //THIS IF CHECK IF WE HAVE FOLDER PAGES IN THE VIEW AND IF IT HAS PAGES FOLDER THEN FIND A SPECIFIC
             // PHP FILE
+
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
+
             if(!file_exists(APPPATH."views/pages/".$page.".php")){
                show_404();
             }
@@ -26,6 +33,7 @@
            
             $this->load->view("templates/footer.php");
         }
+ 
 
     }
 

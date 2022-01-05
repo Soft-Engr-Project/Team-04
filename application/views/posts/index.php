@@ -32,7 +32,12 @@
                                 
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="profilepost">
+                                        <?php if(!empty($post["user_profile_photo"])){ ?>
+                                            <img style="border: 1px solid #000000;" src="<?php echo base_url().$post["user_profile_photo"];?>" class="profilepost">
+                                        <?php }
+                                        else{?>
+                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="profilepost">
+                                        <?php } ?>
                                     </div>
                                     <div class="col-lg-6">
                                         <a href="<?php echo site_url("profiles/view/".$post["user_id"]);?>"><h2><?php echo ucfirst($post["username"]);?></h2> </a>

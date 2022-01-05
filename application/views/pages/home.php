@@ -1,3 +1,4 @@
+<div onclick="checkMousePointer()">
 <?php 
   if (!isset($_SESSION['username'])) {
   	$_SESSION['msg'] = "You must log in first";
@@ -36,7 +37,11 @@
 
             <div class="col-lg 10">
                 <div class="createthread">
-                    <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                    <?php if(!empty($user["user_profile_photo"])){ ?>
+                        <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" >
+                    <?php } else{?>
+                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                    <?php } ?>
                     <a href="<?php echo site_url("posts/create")?>">
                     <div class="threadbox">
                           <p>Create Thread</p>

@@ -1,3 +1,5 @@
+<div onclick="checkMousePointer()">
+<div class="container">
 <h1><?=$title?></h1>
 <?php echo validation_errors();?>
 <?php echo form_open_multipart("posts/update") ;?>
@@ -38,3 +40,4 @@
   </div>
   <button type="submit" class="btn btn-success">Post</button>
 </form>
+</div>
