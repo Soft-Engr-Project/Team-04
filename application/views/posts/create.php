@@ -1,5 +1,11 @@
+<div onclick="checkMousePointer()">
+<br>
+<br>
+<br>
+<br>
+<div class="container"> 
 <?php echo validation_errors();?>
-<?php echo form_open("posts/create") ;?>
+<?php echo form_open_multipart("posts/create") ;?>
   <div class="form-group">
     <label for="title">Title : </label>
     <input type="text" class="form-control" name="title">
@@ -16,5 +22,12 @@
     <?php endforeach;?>
     </select>
   </div>
+  <div class="form-group mt-3">
+    <label for="file">Upload Image</label>
+    <div class="mt-3 mb-3">
+      <input type="file" name="userfile" size="20"> 
+    </div>
+  </div>
   <button type="submit" class="btn btn-success">Post</button>
 </form>
+</div>

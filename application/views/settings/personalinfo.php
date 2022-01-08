@@ -1,3 +1,10 @@
+<div onclick="checkMousePointer()">
+<div style="width: 100vw;
+    height: 100vh;"class="container">
+<br>
+<br>
+<br>
+<br>
 <h1><?=$title?></h1>
 <div>
     <?php echo form_open("PersonalInfo/update") ;?>
@@ -42,4 +49,5 @@
                         <div class="errorsignup">
                             <?php echo validation_errors();?>
                         </div>
+</div>
 </div>
