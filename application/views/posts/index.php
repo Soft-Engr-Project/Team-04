@@ -1,33 +1,29 @@
-<h1><?=$title?></h1>
+<h1><a href="<?php echo site_url("posts/create")?>">Create Post</a></h1>
+<h2><?=$title?></h2>
+
 <?php foreach($posts as $post):?>
-    
-    <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-            
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?php echo site_url("/posts/".$post["slug"]);?>">
-                <div>
-                    Read More
-                </div> 
-            </a></li>
-            <li><a class="dropdown-item">
-             <!--  pag gusto mo mag navigate sa controller  
-            gagamit ka ng site_url("(kung saan controller)/(function ni controller)")-->
-            <?php echo form_open('/posts/delete/'.$post['id']);?>
-                <input type="submit" class="btn btn-default p-0 text-dark" value="Delete">
-            </form>
-            </a></li>
-            <li><a class="dropdown-item">
-                <?php echo form_open('/posts/edit/'.$post['slug']);?>
-                    <input type="submit" class="btn btn-default p-0 text-dark" value="Edit">
-                </form>
-            </a></li>
-        </ul>
-    </div>
-    <h3><?php echo $post["title"];?></h3> 
-    <small class="post-date">Posted on <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
-    <p><?php echo character_limiter($post["body"],400);?></p>
-   
-    
+	<!-- title -->
+	<div class="mt-5">
+		<h3><?php echo $post["title"];?></h3>
+		<!-- who post and when -->
+		<small class="post-date">Posted on : <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
+		<small>Created by : <?php echo ucfirst($post["username"]);?></small>
+		<!-- body -->
+		<h4><?php echo $post["body"];?></h4>
+		<!-- button see more  -->
+		<?php echo form_open("posts/".$post["id"])?>
+			<button class="btn btn-primary" type="submit">See More</button>
+		</form>
+		<?php if($this->session->userdata("user_id") == $post["user_id"]) :?>
+			<?php echo form_open("posts/delete/".$post["id"]);?>
+				<button class="btn btn-primary">Delete</button>
+			</form>
+			<?php echo form_open("posts/edit/".$post["id"]);?>
+				<button class="btn btn-secondary" type="submit">Edit</button>
+			</form>
+		<?php endif;?>
+	</div>
 <?php endforeach;?>
+
+
+

@@ -1,29 +1,50 @@
+<!DOCTYPE html>
+<html>
 <body id="signin">
-<div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="myLeftCtn">
-                        <form action="<?php echo base_url();?>pages/view" method="POST" class="myForm text-center">
-                            <header> SIGN IN</header>
-                            <div class="form-group">
-                                    <img src="<?php echo base_url();?>assets/image/user.png" width="20" height="20">
-                                <input type="text" class="myinput" id="username" placeholder="Username" required>
+        <div class="squareyellow">
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="myleftsignin">
+                             <?php 
+    
+                                //if user attempts in login page after login, redirect to homepage
+                                if (isset($_SESSION['username']))redirect("pages/view");
+                            ?>
+                            <div class="myForm text-center">
+                                <?php echo form_open("Logins/login") ;?>
+                                    <header> Sign In</header>
+                                    <div class="form-group">
+                                            <img src="assets/image/user.png" width="20" height="20">
+                                        <input type="text" class="myinput" name="username" placeholder="USERNAME" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <img src="assets/image/lock.png"  width="20" height="20" >
+                                        <input type="password" class="myinput" name="password" placeholder="PASSWORD" required>
+                                    </div>
+                                    <a href="<?php echo site_url("ForgotPassword/forgot_password"); ?>"> 
+                                    <p>Forgot password?</p> </a>
+                                    <?php echo validation_errors();?>
+                                    <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
+                                </form>
                             </div>
-                            <div class="form-group">
-                                <img src="<?php echo base_url();?>assets/image/lock.png"  width="20" height="20" >
-                                <input type="password" class="myinput" id="password" placeholder="Password" required>
-                            </div>
-                            <a href="#"> <p>Forgot password?</p>  </a>
-                            <a href="#"><input type="submit" class="button1" value="SIGN IN"></a>
-                        </form>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="myRightCtn">
-                        <h4>Not yet a member?</h4>
-                        <a href="<?php echo site_url("signup/form/index")?>"><input type="submit" class="button1" value="Create new account"></a>          
+                    <div class="col-lg-6">
+                        <div class="myrightsignin">
+                            <h1>Thinklik</h1>
+                            <h4>Not yet a member?</h4>
+                            <a href="<?php echo site_url("Signup/register"); ?>">
+                            <input type="submit" class="button1" value="Create new account"></a>          
+                        </div>
                     </div>
                 </div>
             </div>
          </div>
+
+        
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+   
+</body>
+</html>
