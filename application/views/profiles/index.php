@@ -9,12 +9,14 @@
                         <div class="container">
                         <div class="row">
                             <div class="col-lg-2">
+                                <div class="circleimage">
                                 <?php if(!empty($user["user_profile_photo"])){ ?>
                                             <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" >
                                         <?php }
                                         else{?>
                                             <img style="border: 1px solid #000000;" src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
                                 <?php } ?>
+                                </div>
                             </div>
                             <div class="col-lg-9">
                                 <a href="<?php echo site_url("profiles/view");?>"><h2><?php echo $user["username"]?></h2> </a>

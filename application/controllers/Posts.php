@@ -21,7 +21,11 @@
                $data["posts"]=  $this->post_model->get_posts_for_filter($post);
               echo json_encode($data);
                     
-                  
+        }
+
+        // get the top user post 
+        public function top_post(){
+            $this->data["posts"] = $this->post_model->get_posts_high_react();
         }
 
         public function view($id=NULL, $comment_id=NULL){
@@ -94,7 +98,7 @@
                     // eto piniprint pag di alam yung error
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
-                    die();
+                    // die();
                 }
                 else{
                     $data = array("upload_data" => $this->upload->data());
@@ -170,6 +174,7 @@
             $this->load->view("posts/edit",$this->data);
             $this->load->view("templates/footer.php");
         }
+        
         public function update(){ 
             $category_id = $this->input->post("category_id");
             $post_id = $this->input->post("id");

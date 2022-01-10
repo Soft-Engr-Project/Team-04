@@ -41,6 +41,19 @@ class Post_model extends CI_Model{
         }
         return $query->result_array();
     }
+    // get the top 10 post with many reaction
+    public function get_posts_high_react(){
+        
+        $this->db->select('*');
+        $this->db->order_by($this->post_table.".post_comment_count DESC");
+        $this->db->limit(10,FALSE);
+        $this->db->where('MONTH(post_created_at)', date('m'));
+        $this->db->where('YEAR(post_created_at)', date('Y'));
+        $query = $this->db->get($this->post_table);
+
+        return $query->result_array();
+    }
+
     public function create_post($data){
         return $this->db->insert($this->post_table,$data);
     }

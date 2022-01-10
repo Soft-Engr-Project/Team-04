@@ -1,108 +1,215 @@
-<div onclick="checkMousePointer()">
-<div class="container">
-<br>
-<br>
-<br>
-<br>
-<h3><?php echo $post["title"];?></h3>
-	<!-- image -->
-	<?php if(isset($post["post_image"]) && !empty($post["post_image"])):?>
-			<img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300">
-	<?php endif;?>
-	<!-- who post and when  and what category-->
-	<small class="post-date">Posted on : <?php echo $post["created_at"];?> in <?php echo $post["name"];?></small>
-	<small>Created by : <?php echo ucfirst($post["username"]);?></small>
-	<!-- body -->
-	<h4><?php echo $post["body"];?></h4>
-	<?php if($this->session->userdata("user_id") == $post["user_id"] || $this->session->userdata("admin") == true ) :?>
-			<?php echo form_open("posts/delete/".$post["id"]);?>
-				<input type="hidden" name="category" value="<?php echo $post["category_id"]?>">
-                <button class="btn btn-primary">Delete</button>
-			</form>
-			<?php echo form_open("posts/edit/".$post["id"]);?>
-                <input type="hidden" name="category" value="<?php echo $post["category_id"]?>">
-				<button class="btn btn-secondary" type="submit">Edit</button>
-			</form>
-    
-  <!-- Show report button if it is other user post -->
-  <?php elseif($this->session->userdata("user_id") != $post["user_id"]) :?>
-		
-    <!-- Report button for posts -->
-    <a href="#" id="report_button"  class="btn btn-danger" name="thread" value= "<?php echo $post["id"]?>">Report</a>
-    
-    
-	<?php endif;?>
-  <!-- Modal for report action -->
-    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" >
-        <div class="modal-content">
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="viewthreadpic">
+                    <?php if(!empty($post["user_profile_photo"])){ ?>
+                        <img  src="<?php echo base_url().$post["user_profile_photo"];?>" alt="Profile Pic">
+                    <?php }
+                    else{?>
+                        <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
+                    <?php } ?>
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Report</h5>
-        </div>
-
-        <!-- Modal Body -->
-        <div class="modal-body">
-          <div class="statusMsg"></div>
-          <form role="form" id="report_form">
-            <div class="form-group">
-            <input type="hidden" id="content_id" name="id" value="">
-              <input type="hidden" id="report_type" name="report_type" value="">
-              <label for="message-text" class="col-form-label">Reason:</label>
-              <textarea name = "reason" class="form-control" id="message-text"></textarea>
+                </div>
+                <div class="threadcreatorname">
+                    <h3><?php echo ucfirst($post["username"]);?></h3>
+                </div>
             </div>
-          </form>
-        </div>
 
-        <!-- Modal Footer -->
-        <div class="modal-footer">
-        <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-          <a href="#" class="btn btn-secondary" id="report_close">Close</a>
-          <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
-          </form>
+            <div class="col-lg-9">
+                <div class="threadspost">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <h1><?php echo $post["title"];?></h1>
+                            <?php if(isset($post["post_image"]) && !empty($post["post_image"])):?>
+      <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300"> 
+      <?php endif;?>
+                        </div>
+                        <div class="col-lg-1">
+                          <?php if($this->session->userdata("user_id") == $post["user_id"] || $this->session->userdata("admin") == true ) :?>
+                            <div class="dropdown">
+                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
+                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item">
+
+                                      <?php echo form_open("posts/edit/".$post["id"]);?>
+                                        <input type="submit" id="editpost">
+                                            <label for="editpost">Edit</label>  
+                                      </form>
+                                    </li>
+                                    <li class="dropdown-item"> 
+                                      <?php echo form_open("posts/delete/".$post["id"]);?>
+                                        <input type="submit" id="remove">
+                                            <label for="remove">Remove</label>  
+                                      </form>
+                                    </li>
+                                </ul>
+                            </div>
+
+                          <?php elseif($this->session->userdata("user_id") != $post["user_id"]) :?>
+                            <div class="dropdown">
+                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
+                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item">
+                                            <a href="#" id="report_button" name="thread" value= "<?php echo $post["id"]?>">Report</a>
+                                    </li>
+                                </ul>
+                            </div>
+                          <?php endif;?>
+
+                            <!-- Modal for report action -->
+                            <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" >
+                                <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+                                </div>
+
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                  <div class="statusMsg"></div>
+                                  <form role="form" id="report_form">
+                                    <div class="form-group">
+                                    <input type="hidden" id="content_id" name="id" value="">
+                                      <input type="hidden" id="report_type" name="report_type" value="">
+                                      <label for="message-text" class="col-form-label">Reason:</label>
+                                      <textarea name = "reason" class="form-control" id="message-text"></textarea>
+                                    </div>
+                                  </form>
+                                </div>
+
+                                <!-- Modal Footer -->
+                                <div class="modal-footer">
+                                <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                  <a href="#" class="btn btn-secondary" id="report_close">Close</a>
+                                  <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                        </div>
+                    </div>
+                    <div>
+                        <img src="" alt="">
+                        <h3><?php echo $post["body"];?></h3>
+                    </div>
+                    <h6>Posted on: <?php echo $post["created_at"];?></h6>    
+                    
+                    <div class="threadmore">
+                        <div class="reaction">
+                            <div class="upbutton">
+                              <?php echo form_open("posts/reaction/".$post["id"]);?>
+                              <button name="submit" type="submit" value="up_react">
+                                <i class="fa fa-thumbs-up fa-lg"></i>
+                              <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                                <input type="numberlike" value="<?php echo $post["upvote"] ;?>">
+                              </button>
+                            </form>
+                            </div>
+
+                            <div class="downbutton">
+                              <?php echo form_open("posts/reaction/".$post["id"]);?>
+                                <button name="submit" type="submit" value="down_react">
+                                    <i class="fa fa-thumbs-down fa-lg"></i>
+                                    <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                                    <input type="numberlike" value="<?php echo $post["downvote"];?>">
+                                </button>
+                              </form>
+                            </div>
+                        </div> 
+                        <div class="totalcomments">
+                            <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
+                            <input type="numberlike" id="input1" value="0" name="">
+
+                        </div>
+                        <div class="whatcategory">
+                            <h4>Categories: </h4>
+                            <a href=""><?php echo $post["name"];?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <hr class="between">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="randomthreadtitle">
+                    <div class="top">
+                        <h2>Random Threads</h2>
+                    </div>
+                    <div class="categories">
+                        <a href="#"><p>Anime </p></a>
+                    </div>
+                </div>
+        
+            </div>
+            <div class="col-lg-9">
+                <div class="discussion">
+                    <h3>Discussion</h3>
+                    
+                    <div id="comments"></div> 
+                                        
+                    <div class="comments">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="circleimage">
+                                <?php if(!empty($post["user_profile_photo"])){ ?>
+                                    <img  class="userprofile" src="<?php echo base_url().$post["user_profile_photo"];?>" alt="Profile Pic">
+                                <?php }
+                                else{?>
+                                    <img class="userprofile" src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
+                                <?php } ?>    
+                                </div>         
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="commentuser">
+                                    <form action="" method="POST" id="create_form"> 
+                                        <input type="hidden" id="create_post_id" value="<?php echo $post["id"];?>">
+                                        <textarea class="text" type="comment" id="create_comment" placeholder="Write a Comment"></textarea>
+                                        <button type="submit" id="create">Comment</button>
+                                    </form>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-	<?php echo form_open("posts/reaction/".$post["id"]);?>
-		<input type="hidden" name="vote" value="1">
-		<input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
-		<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="up_react">Upvote</button>
-    </form>
-	<p><?php echo $post["upvote"] ;?></p>
-		<?php echo form_open("posts/reaction/".$post["id"]);?>
-		    <input type="hidden" name="vote" value="1">
-		    <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
-			<button class="btn btn-outline-primary bg-light text-primary" name="submit" type="submit" value="down_react">Downvote</button>
-		</form>
-	<p><?php echo $post["downvote"];?></p>
-	<!-- button delete -->
-	<hr>
-	<h3>Comments : </h3>
-		
-	<div id="comments">
-		   
-	</div>  
 
- 	<?php echo validation_errors();?>
- 	<form action="" method="POST" id="create_form"> 
-		<input type="hidden" id="create_post_id" value="<?php echo $post["id"];?>">
-		<div class="form-group">
-			  <label>Comment :</label>
-			  <textarea  class="form-control" id="create_comment"></textarea>
-		</div>
-		<button type="submit" class="btn btn-primary" id="create">Comment</button>
-	</form>
-	</div>
-	<br>
-	
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script>
+  <script>
+        function toastr_option(){
+                  toastr.options = {
+                  "closeButton": true,
+                  "debug": false,
+                  "newestOnTop": false,
+                  "progressBar": true,
+                  "positionClass": "toast-top-right",
+                  "preventDuplicates": false,
+                  "onclick": null,
+                  "showDuration": "300",
+                  "hideDuration": "1000",
+                  "timeOut": "5000",
+                  "extendedTimeOut": "1000",
+                  "showEasing": "swing",
+                  "hideEasing": "linear",
+                  "showMethod": "fadeIn",
+                  "hideMethod": "fadeOut"
+                }
+        } 
 
     // ginagawa nito:
     // 1. tiga show ng modal  at inistore yung id don sa form
@@ -152,23 +259,7 @@
               else{
                 
                   Command: toastr["error"](data.message)
-                  toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "newestOnTop": false,
-                  "progressBar": true,
-                  "positionClass": "toast-top-right",
-                  "preventDuplicates": false,
-                  "onclick": null,
-                  "showDuration": "300",
-                  "hideDuration": "1000",
-                  "timeOut": "5000",
-                  "extendedTimeOut": "1000",
-                  "showEasing": "swing",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-                }
+                  toastr_option();
               }
             }
 
@@ -209,43 +300,12 @@
               if(data.response == "success"){
                  $("#exampleModal").modal("hide");
                   Command: toastr["success"](data.message)
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
+                   toastr_option();
+
               }
               else{
                   Command: toastr["error"](data.message)
-                  toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "newestOnTop": false,
-                  "progressBar": true,
-                  "positionClass": "toast-top-right",
-                  "preventDuplicates": false,
-                  "onclick": null,
-                  "showDuration": "300",
-                  "hideDuration": "1000",
-                  "timeOut": "5000",
-                  "extendedTimeOut": "1000",
-                  "showEasing": "swing",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-                }
+                  toastr_option();
               }
             }
 
@@ -254,7 +314,6 @@
       
      $("#report_form")[0].reset();
     })
-
 
 
     function fetch(){
@@ -276,14 +335,38 @@
               }
               else {
                 console.log('hi')
-                commentbody += "<div class='card bg-primary'>";
+                commentbody+= `
+                <div class="comments">`;
               }
 
-              commentbody += `<div class='card-body text-white' id='edit_container${element["comment_id"]}'>`;
-              commentbody += `<h5 id="comment_owner">${element["content"]}[by <strong>${element["username"]}</strong>]</h5>`;
+
+
+              commentbody += `<div class="circleimage">
+                            <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">                                
+                            </div>
+                            <div class="row"> 
+                            <div class="col-lg-3">    
+                                <a href=""><h2>${element["username"]}</h2></a>
+                            </div>  
+                            <div class="col-lg-9">    
+                                <div class="commentdropdown">` ;
               if("<?php echo $this->session->userdata("user_id");?>" == element["user_id"] || Boolean(<?php echo $this->session->userdata("admin");?>) == true){
-                commentbody += `<a href="#" id = "del" name="delete_edit" value="${element['comment_id']}" class="btn btn-outline-primary bg-light text-primary">Delete</a>`;  
-                commentbody += `<a href="#" id = "edit" name="delete_edit" value="${element['comment_id']}" class="btn btn-outline-primary bg-light text-primary">Edit</a>`;
+                commentbody += `<div class="dropdown">
+                                        <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                                <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-item">
+                                                <input type="submit" id="edit" >
+                                                <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">Edit</label>
+                                            </li>
+                                            <li class="dropdown-item"> 
+                                                <input type="submit" id="remove">
+                                                    <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">Remove</label>  
+                                            </li>
+                                        </ul>
+                                    </div>`;  
+
                 commentbody+= `
                 <div style="display:none;" id="textarea_container">
                 <h4>Edit Comment</h4>
@@ -300,17 +383,46 @@
                 }
                 
               else if(<?php echo $this->session->userdata("user_id");?> != element["user_id"]){
-                   commentbody += `<a href="#" id="report_button" class="btn btn-danger" name="discussion"  value="${element['comment_id']}">Report</a>`;  
-                  
-                }
-                  commentbody += `<div class="mt-4"> 
-                         <a href="#" id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}" class="btn btn-success">Upvote</a>`;
-                  commentbody += `<p name="upvote_downvote">${element["upvote"]}</p>`;
-                  commentbody += `<a href="#" name="upvote_downvote" id="downvote_comment" value="${element["comment_id"]}" class="btn btn-success">Downvote</a>`;
-                  commentbody += ` <p name="upvote_downvote">${element["downvote"]}</p></div> `;
-                  commentbody += '</div>';
-                  commentbody += '</div>';
-                  commentbody += '<br>';
+                    commentbody += `<div class="dropdown">
+                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
+                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item">
+                                            <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">Report</a>
+                                    </li>
+                                </ul>
+                            </div>`;}
+
+            commentbody += `   </div>                              
+                            </div>  
+                        </div>
+                        <div class="commentuser">
+                            <p>${element["content"]}</p>
+                        </div>
+                            
+                        <div class="threadmore">
+                            <div class="reaction">
+                                    <button id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}">
+                                        <i class="fa fa-thumbs-up fa-lg"></i>                               
+                                        <input type="numberlike" id="input1" value="${element["upvote"]}" name="">
+                                    </button>
+    
+                                    <button id="downvote_comment" name="upvote_downvote" value="${element["comment_id"]}" >
+                                        <i class="fa fa-thumbs-down fa-lg" ></i>
+                                        <input type="numberlike" id="input1" value="${element["downvote"]}" name="">
+                                    </button>
+                            </div> 
+                            <div class="totalcomments">
+                                <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
+                                <input type="numberlike" id="input1" value="0" name="">
+    
+                            </div>
+                            <div class="whatcategory">
+                                <h4>Commented on: </h4>
+                            </div>
+                        </div>
+                </div>`;  
 
             });
             
@@ -339,43 +451,11 @@
                     data = JSON.parse(result);
                     if(data.response == "success"){
                         Command: toastr["success"](data.message)
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
+                        toastr_option();
                     }
                     else{
                         Command: toastr["error"](data.message)
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
+                        toastr_option();
                     }
                 },
                 error: function (request, error) {
@@ -383,7 +463,7 @@
                 }
             });
     
-        $("#create_form")[0].reset();	// Clear input area
+        $("#create_form")[0].reset(); // Clear input area
     });
 
       // Function for delete button on comment
@@ -482,23 +562,7 @@
               }
               else{
                   Command: toastr["error"](data.message)
-                  toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "newestOnTop": false,
-                  "progressBar": true,
-                  "positionClass": "toast-top-right",
-                  "preventDuplicates": false,
-                  "onclick": null,
-                  "showDuration": "300",
-                  "hideDuration": "1000",
-                  "timeOut": "5000",
-                  "extendedTimeOut": "1000",
-                  "showEasing": "swing",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-                }
+                  toastr_option();
               }
             }
 
@@ -533,23 +597,7 @@
                 $("p[name='upvote_downvote']").show();
                 $("button[name='report']").show();
               Command: toastr["success"](data.message)
-              toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": true,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-              }
+                toastr_option();
             }
             else{
               $("#edit_container"+edit_id).children("#textarea_container").css("display","none");
@@ -560,23 +608,7 @@
                 $("p[name='upvote_downvote']").show();
                 $("button[name='report']").show();
               Command: toastr["error"](data.message)
-                  toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "newestOnTop": false,
-                  "progressBar": true,
-                  "positionClass": "toast-top-right",
-                  "preventDuplicates": false,
-                  "onclick": null,
-                  "showDuration": "300",
-                  "hideDuration": "1000",
-                  "timeOut": "5000",
-                  "extendedTimeOut": "1000",
-                  "showEasing": "swing",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-                }
+                  toastr_option();
               }
             }
           });
@@ -594,7 +626,6 @@
                  data = JSON.parse(result);
                   if(data.response == "success"){
       
-
                 $("#edit_container"+edit_id).children("#textarea_container").css("display","none");
                 $("a[name ='delete_edit']").show();
                 $("#edit_container"+edit_id).children("#comment_owner").show();

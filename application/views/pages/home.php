@@ -10,19 +10,13 @@
             <div class="col-lg 2">
                 <div class="topnamebox">
                     <div class="top">
-                        <h2>Top of the Week</h2>
+                        <h2 class="m-3 p-3">Top of the Month</h2>
                     </div>
                     <div class="topname">
-                        <p>1. Echizen</p>
-                        <p>2. Echizen</p>
-                        <p>3. Echizen</p>
-                        <p>4. Echizen</p>
-                        <p>5. Echizen</p>
-                        <p>6. Echizen</p>
-                        <p>7. Echizen</p>
-                        <p>8. Echizen</p>
-                        <p>9. Echizen</p>
-                        <p>10. Echizen</p>
+                        <?php $no=1; foreach ($posts as $post): ?>
+                            <p><?php echo $no++;?> <a class="toppost" href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
+                        <?php endforeach ?>?>
+                        
                     </div>
                     <div class="allcat">
                         <h2>All Categories</h2>
@@ -37,11 +31,13 @@
 
             <div class="col-lg 10">
                 <div class="createthread">
+                    <div class="circleimage">
                     <?php if(!empty($user["user_profile_photo"])){ ?>
                         <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" >
                     <?php } else{?>
                         <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
                     <?php } ?>
+                    </div>
                     <a href="<?php echo site_url("posts/create")?>">
                     <div class="threadbox">
                           <p>Create Thread</p>
