@@ -25,10 +25,11 @@
         <ul>
         <nav class="navbar navbar-expand-md navbar-dark bg-* ">
             <div class="container-fluid ">
+                <!-- LOGO -->
                 <a class="logo" href="<?php echo base_url();?>pages/view" ><strong>Thinklik</strong>
-                
-
                 </a>
+
+                <!-- HAMBURGER BUTTON -->
                 <button type="button" 
                 class="navbar-toggler" 
                 data-bs-toggle="collapse"
@@ -36,50 +37,34 @@
                 aria-expanded="false"
                 >
                 <span class="navbar-toggler-icon"></span>
-
                 </button>
+
+                <!-- HAMBURGER DROPDOWN -->
                 <div class="collapse navbar-collapse" id="navbarCollapse" >
+                    
+                    <!-- SEARCHBAR -->
                     <div class="col-md-5 mx-auto">
-                        <div class="input-group">
-                            <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="search">
-                            <span class="input-group-append">
-                                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
+                        <?php echo form_open("Search/query_db") ;?>
+                            <div class="input-group">
+                                <input class="form-control border-end-0 border rounded-pill" name="search" type="search" placeholder="search">
+                                <span class="input-group-append">
+                                    <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
                     </div>
+                   
       
                     <a class="nav-item nav-link text-light" href="<?php echo base_url();?>pages/view">Home</a>
-                    <a class="nav-item nav-link text-light" href="<?php echo site_url("profiles/view");?>">Profile</a>
-                    
-                
-                    
-                        
+                    <a class="nav-item nav-link text-light" href="<?php echo site_url("profiles/view");?>">Profile</a>    
                 </div>
-                 
-
 
             </div>
-            <ul style="right:10px; top:5px; margin-bottom: 5px; margin-right: 227px;"class="navbar-nav float-right position-fixed  ">
-                            <li style="position:relative;" class="nav-item dropdown">
-                                <a class="nav-link " role="button" onclick="settingsMenuToggle()">
-                                    <?php if(!empty($user["user_profile_photo"])){ ?>
-                                            <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"];?>" class="userpic rounded-circle position-absolute">
-                                        <?php }
-                                        else{?>
-                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userpic rounded-circle position-absolute">
-                                    <?php } ?>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a href="<?php echo base_url();?>pages/view/setting">Settings</a>
-                                    <a href="#">Customization</a>
-                                    <a href="<?php echo base_url();?>pages/view/logout">Logout</a>
-                                </div>
-                            </li>   
-            </ul>
-                     <!--   -->
-                     <div style="position: fixed; margin-top: 15px;"class="settings-menu" >
+
+            <!-- PROFILE BUTTON  -->
+            <div style="position: fixed; margin-top: 15px;"class="settings-menu" >
                 <div class="settings-menu-inner">
                     <div class="row">
                         <div class="col">
@@ -102,6 +87,21 @@
                     <a href="<?php echo base_url();?>pages/view/logout">Logout</a>
                 </div>
             </div>
+
+            <!-- PROFILE DROPDOWN -->
+            <ul style="right:10px; top:5px; margin-bottom: 5px; margin-right: 227px;"class="navbar-nav float-right position-fixed  ">
+                <li style="position:relative;" class="nav-item dropdown">
+                    <a class="nav-link " role="button" onclick="settingsMenuToggle()">
+                        <?php if(!empty($user["user_profile_photo"])){ ?>
+                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"];?>" class="userpic rounded-circle position-absolute">
+                            <?php }
+                            else{?>
+                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userpic rounded-circle position-absolute">
+                        <?php } ?>
+                    </a>
+                </li>   
+            </ul>
+
         </nav>
         </ul>
     </nav>

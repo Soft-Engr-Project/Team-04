@@ -380,7 +380,7 @@
              redirect("posts/".$id);
         }
         
-        public function Mark($id){
+        public function view_comment($id){
         
             $query = $this->comments_model->get_specific_comment($id);
             if ($query){

@@ -19,6 +19,7 @@ class Post_model extends CI_Model{
              $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
              $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
              $query = $this->db->get($this->post_table);
+          
              return $query->result_array();
         }
         $this->db->where($this->post_table.".id",$id);
@@ -96,6 +97,15 @@ class Post_model extends CI_Model{
     public function delete_reactions($react_id) {
         $this->db->where("react_id",$react_id);
         return $this->db->delete($this->reactions_table);
+    }
+
+    public function get_posts_content(){
+        // get posts table
+        $this->db->select('id,title,body,post_created_at,users.user_id,users.username,users.user_profile_photo');
+        $this->db->order_by($this->post_table.".id","category_id DESC");
+        $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+        $query = $this->db->get($this->post_table);
+        return $query->result_array();
     }
 
    
