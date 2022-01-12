@@ -320,8 +320,9 @@ at yung height ay 38%
     background-color: white;
     padding-top: 20px;
 }
-
+/*dito may binago ko */
 .circleimage{
+    display: inline-block;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -477,7 +478,21 @@ at yung height ay 38%
     text-decoration: underline;
     color: #FEDB97;
 }
-
+/*dito may binago ko */
+.notification{
+    display: inline-block;
+    font-size: 30px;
+    margin-left: 50px;
+}
+.notification a{
+    text-decoration: none;
+    background-color: white;
+}
+.notification a:hover{
+    color: red;
+    background-color: none;
+    color: @nonhoovercolor;
+}
 .createthread{
     margin-top: 16%;
     margin-left: -50%;
@@ -490,25 +505,27 @@ at yung height ay 38%
     color: #314754;
 
 }
-
+/*dito may binago ko */
 .createthread .circleimage, .comments .circleimage{
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 
 .createthread a{
     text-decoration: none;
-}
 
+}
+/*dito may binago ko */
 .createthread a:hover{
     background-color: #314754;
+    background-color: white;
 }
 
 .createthread a .threadbox p{
      color: black;
      padding: 15px 20px;
 }
-
+/*dito may binago ko */
 .threadbox{
     border: 1px solid #314754;
     width: 60%;
@@ -516,6 +533,7 @@ at yung height ay 38%
     margin-left: 100px;
     margin-top: -50px;
     border-radius: 10px;
+    display: inline-block;
 }
 
 .threadbox:hover{

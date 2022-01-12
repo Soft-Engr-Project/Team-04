@@ -35,6 +35,18 @@
                     $data = $this->security->xss_clean($data);
 
                     $this->comments_model->create($data);
+                    // for notification
+                    if($this->session->userdata("user_id") !=  $this->data["post"]["user_id"]){
+                        $data = array(
+                            "action_id" => $this->comments_model->get_last_comment(),
+                            "type_of_notif" => "comment",
+                            "user_id" => $this->session->userdata("user_id"),
+                            "owner_id" => $this->data["post"]["user_id"],
+                            "post_id" => $this->data["post"]["id"],
+                            "read_status" => 0
+                        );
+                        $this->notification_model->create_notification($data);  
+                    }
                     $this->comments_model->comment_counts($this->data["post"]["id"],$post_comment_count);
                     $data = array("response" => "success","message" => "Comment is successfully added");
                    
@@ -95,7 +107,7 @@
                         "downvote" => $total_downvote
                     );
                      
-
+                    $this->notification_model->notification_delete($comment_id);
                     $this->post_model->delete_reaction($react_id,$data);
                     $this->comments_model->update_upvotes($comment_id,$data_upvote);
 
@@ -107,6 +119,7 @@
                         $index = array_search($user,$json_data["down_user_id"]);        
                         unset($json_data["down_user_id"][$index]);
                         $total_downvote -= 1;
+                        $this->notification_model->notification_delete($comment_id);
                     }
                     $json_data["up_user_id"][] = $user;
                     $json_data = json_encode($json_data);    
@@ -120,8 +133,18 @@
                         "upvote" => $total_upvote,
                         "downvote" => $total_downvote
                     );
-
-
+                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
+                        $data_notif = array(
+                            "action_id" =>  $comment_id,
+                            "type_of_notif" => "comment",
+                            "user_id" => $this->session->userdata("user_id"),
+                            "owner_id" => $this->data["comment"]["user_id"],
+                            "post_id" => $this->data["comment"]["post_id"],
+                            "read_status" => 0
+                        );
+                        
+                        $this->notification_model->create_notification($data_notif);  
+                    }
                     $this->post_model->update_reaction($react_id,$data);
                     $this->comments_model->update_upvotes($comment_id,$data_upvote);
                 }
@@ -148,6 +171,7 @@
                         "downvote" => $total_downvote
                     );
 
+                    $this->notification_model->notification_delete($comment_id);
                     $this->post_model->delete_reaction($react_id,$data);
                     $this->comments_model->update_upvotes($comment_id,$data_downvote);
                 }
@@ -157,6 +181,7 @@
                         $index = array_search($user,$json_data["up_user_id"]);
                         unset($json_data["up_user_id"][$index]);
                         $total_upvote -= 1;
+                         $this->notification_model->notification_delete($comment_id);
                     }
                     $json_data["down_user_id"][] = $user;
                     $json_data = json_encode($json_data);
@@ -169,9 +194,21 @@
                         "upvote" => $total_upvote,
                         "downvote" => $total_downvote
                     );
-
-                    $this->post_model->update_reaction($react_id,$data);
+                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
+                    $data_notif = array(
+                            "action_id" =>  $comment_id,
+                            "type_of_notif" => "comment",
+                            "user_id" => $this->session->userdata("user_id"),
+                            "owner_id" => $this->data["comment"]["user_id"],
+                            "post_id" => $this->data["comment"]["post_id"],
+                            "read_status" => 0
+                        );
+                        
+                        $this->notification_model->create_notification($data_notif);  
+                    }
                     $this->comments_model->update_upvotes($comment_id,$data_downvote);
+                    $this->post_model->update_reaction($react_id,$data);
+                   
                 }
              }
           
@@ -199,6 +236,8 @@
                         "post_comment_count" => $comment_count
                     );
                     $this->comments_model->delete_posts($comment_id);
+                    // delete also the notification
+                    $this->notification_model->notification_delete($comment_id);
                     $this->post_model->delete_reactions($react_id);
                     $this->comments_model->comment_counts($post_id,$post_comment_count);
                     $data = array("response" => "success");

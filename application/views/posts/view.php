@@ -449,6 +449,7 @@
                     fetch();
                     let result = data.replace(/<!--  -->/g, "");
                     data = JSON.parse(result);
+                    console.log(data);
                     if(data.response == "success"){
                         Command: toastr["success"](data.message)
                         toastr_option();

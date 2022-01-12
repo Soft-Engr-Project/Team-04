@@ -43,6 +43,9 @@
                           <p>Create Thread</p>
                     </div>
                     </a>
+                    <div class="notification">
+                        <a href="<?php echo base_url()?>notification/index/<?php echo $this->session->userdata("user_id")?>"><i class="fas fa-bell"><?php  echo (!empty($notification_count)) ? $notification_count : ""?></i></a>
+                    </div>
                     <hr>
                 </div>
 

@@ -305,7 +305,7 @@
                         "upvote" => $total_upvote,
                         "downvote" => $total_downvote
                     );
-
+                    $this->notification_model->notification_delete($id);
                     $this->post_model->delete_reaction($react_id,$data);
                     $this->post_model->update_upvotes($id,$data_upvote);
                 }
@@ -316,6 +316,7 @@
                         $index = array_search($user,$json_data["down_user_id"]);        
                         unset($json_data["down_user_id"][$index]);
                         $total_downvote -= 1;
+                        $this->notification_model->notification_delete($id);
                     }
                     $json_data["up_user_id"][] = $user;
                     $json_data = json_encode($json_data);    
@@ -328,6 +329,19 @@
                         "upvote" => $total_upvote,
                         "downvote" => $total_downvote
                     );
+                    // notification
+                     if($this->session->userdata("user_id") !=  $get_post["user_id"]){
+                    $data_notif = array(
+                        "action_id" => $get_post["id"],
+                        "type_of_notif" => "react",
+                        "user_id" => $this->session->userdata("user_id"),
+                        "owner_id" => $get_post["user_id"],
+                        "post_id" => $get_post["id"],
+                        "read_status" => 0
+                    );
+                    
+                    $this->notification_model->create_notification($data_notif);  
+                    }
                     $this->post_model->update_reaction($react_id,$data);
                     $this->post_model->update_upvotes($id,$data_upvote);
                 }
@@ -352,6 +366,7 @@
                         "upvote" => $total_upvote,
                         "downvote" => $total_downvote
                     );
+                    $this->notification_model->notification_delete($id);
                     $this->post_model->delete_reaction($react_id,$data);
                     $this->post_model->update_upvotes($id,$data_downvote);
                 }
@@ -361,6 +376,7 @@
                         $index = array_search($user,$json_data["up_user_id"]);
                         unset($json_data["up_user_id"][$index]);
                         $total_upvote -= 1;
+                        $this->notification_model->notification_delete($id);
                     }
                     $json_data["down_user_id"][] = $user;
                     $json_data = json_encode($json_data);
@@ -373,6 +389,18 @@
                         "upvote" => $total_upvote,
                         "downvote" => $total_downvote
                     );
+                      if($this->session->userdata("user_id") !=  $get_post["user_id"]){
+                    $data_notif = array(
+                        "action_id" => $get_post["id"],
+                        "type_of_notif" => "react",
+                        "user_id" => $this->session->userdata("user_id"),
+                        "owner_id" => $get_post["user_id"],
+                        "post_id" => $get_post["id"],
+                        "read_status" => 0
+                    );
+                    
+                    $this->notification_model->create_notification($data_notif);  
+                    }
                     $this->post_model->update_reaction($react_id,$data);
                     $this->post_model->update_upvotes($id,$data_downvote);
                 }

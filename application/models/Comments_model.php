@@ -5,6 +5,7 @@
 		private $users_table = "users";
 		private $post_table = "posts";
 		private $reactions_table = "reactions";
+		
 		public function create($data){
 			return $this->db->insert($this->comment_table,$data);
 		}
@@ -29,6 +30,12 @@
 		        return $query->row_array();
 
 		}
+		// get the last comment 
+		public function get_last_comment(){
+			return $this->db->insert_id($this->post_table);
+		}
+
+
 		public function update_upvotes($id,$data){
 		        $this->db->where("comment_id",$id);
         		return $this->db->update($this->comment_table,$data);

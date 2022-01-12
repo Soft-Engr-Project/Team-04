@@ -22,7 +22,7 @@
                $this->load->view("templates/header.php");
                $this->data["categories"] = $this->categories_model->get_categories();
                $this->data["posts"] = $this->post_model->get_posts_high_react();
-
+               $this->data["notification_count"] = $this->notification_model->get_notification_count($this->session->userdata("user_id"));
                $this->load->view("pages/".$page,$this->data);
                $this->data["title"] = " Latest Post";
                $this->data["posts"] = $this->post_model->get_posts();
