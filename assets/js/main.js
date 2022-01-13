@@ -1,3 +1,33 @@
+// Show Password in Login and Reset Password
+
+var password;
+var eye;
+function show(){
+    password =  document.getElementById("password");
+    eye = document.getElementById("eye");
+    state? showpassword() :  hidepassword();
+}
+
+function showconfirm(){
+    password =  document.getElementById("confirmpassword");
+    eye = document.getElementById("eye1");
+    state? showpassword() :  hidepassword();
+}
+
+function showpassword(){
+    password.setAttribute("type","password");
+    eye.style.color='#B6B682';
+    state = false;
+}
+
+function hidepassword(){
+    password.setAttribute("type","text");
+    eye.style.color='#5A817A';
+    state = true; 
+}
+
+
+
 
 // Menu Navbar
 let settingsmenu = document.querySelector (".settings-menu");

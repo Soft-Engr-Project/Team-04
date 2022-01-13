@@ -1,7 +1,7 @@
 <?php 
   if (isset($_SESSION['username'])) {
-  	$_SESSION['msg'] = "Please Logout First";
-  	redirect("/pages/view");
+    $_SESSION['msg'] = "Please Logout First";
+    redirect("/pages/view");
   }
 ?>
 
@@ -23,7 +23,7 @@
                 <div class="col-lg-6">
                     <div class="myrightreset">
                         <h5>Password Changed!</h5>
-                        <p class="passverify">Your password has been successfully changed. <br> Use your new password to log in.</p>
+                        <p class="change">Your password has been successfully changed. <br> Use your new password to log in.</p>
                     </div>
                 </div>
             </div>

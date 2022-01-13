@@ -1,8 +1,8 @@
 <div onclick="checkMousePointer()">
 <?php 
   if (!isset($_SESSION['username'])) {
-  	$_SESSION['msg'] = "You must log in first";
-  	redirect("/");
+    $_SESSION['msg'] = "You must log in first";
+    redirect("/");
   }
 ?>
 <div class="container-fluid">
@@ -10,13 +10,13 @@
             <div class="col-lg 2">
                 <div class="topnamebox">
                     <div class="top">
-                        <h2 class="m-3 p-3">Top of the Month</h2>
+                        <h2>Top of the Month</h2>
                     </div>
                     <div class="topname">
                         <?php $no=1; foreach ($posts as $post): ?>
-                            <p><?php echo $no++;?> <a class="toppost" href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
-                        <?php endforeach ?>?>
-                        
+                            <p><?php echo $no++;?>. <a class="toppost" href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
+                        <?php endforeach ?>
+
                     </div>
                     <div class="allcat">
                         <h2>All Categories</h2>
@@ -38,11 +38,11 @@
                         <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
                     <?php } ?>
                     </div>
-                    <a href="<?php echo site_url("posts/create")?>">
                     <div class="threadbox">
+                        <a href="<?php echo site_url("posts/create")?>">
                           <p>Create Thread</p>
+                        </a>
                     </div>
-                    </a>
                     <div class="notification">
                         <a href="<?php echo base_url()?>notification/index/<?php echo $this->session->userdata("user_id")?>"><i class="fas fa-bell"><?php  echo (!empty($notification_count)) ? $notification_count : ""?></i></a>
                     </div>

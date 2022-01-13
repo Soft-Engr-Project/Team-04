@@ -173,7 +173,7 @@
                             <div class="col-lg-9">
                                 <div class="commentuser">
                                     <form action="" method="POST" id="create_form"> 
-                                        <input type="hidden" id="create_post_id" value="<?php echo $post["id"];?>">
+                                        <input type="hidden" id="create_post_id" value="<?php echo $post["id"];?>" >
                                         <textarea class="text" type="comment" id="create_comment" placeholder="Write a Comment"></textarea>
                                         <button type="submit" id="create">Comment</button>
                                     </form>
@@ -210,6 +210,13 @@
                   "hideMethod": "fadeOut"
                 }
         } 
+
+        function showcomment(){
+                $("#containeredit"+comment_id).children("#textarea_container").css("display","none");
+                $("div[name ='delete_edit']").show();
+                $("#edit_container"+comment_id).children("#comment_owner").show();
+                $("#edit_container1"+comment_id).children("#comment_reaction").show();
+        }
 
     // ginagawa nito:
     // 1. tiga show ng modal  at inistore yung id don sa form
@@ -340,7 +347,6 @@
               }
 
 
-
               commentbody += `<div class="circleimage">
                             <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">                                
                             </div>
@@ -351,7 +357,7 @@
                             <div class="col-lg-9">    
                                 <div class="commentdropdown">` ;
               if("<?php echo $this->session->userdata("user_id");?>" == element["user_id"] || Boolean(<?php echo $this->session->userdata("admin");?>) == true){
-                commentbody += `<div class="dropdown">
+                commentbody += `<div class="dropdown" name="delete_edit">
                                         <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
                                                 <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                         </button>
@@ -365,21 +371,7 @@
                                                     <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">Remove</label>  
                                             </li>
                                         </ul>
-                                    </div>`;  
-
-                commentbody+= `
-                <div style="display:none;" id="textarea_container">
-                <h4>Edit Comment</h4>
-                  <form action="" method="POST" id="edit_form">
-                  <input type="hidden" id="edit_id" value="">
-                  <div class="input-group">
-                      <textarea id="edit_textarea${element['comment_id']}" name="edit_comment" class="form-control" aria-label="With textarea" required></textarea>
-                    </div>
-                    <br>
-                    <button class="btn btn-danger" id="back_comment">Back</button>
-                    <button class="btn btn-success" id="update_comment">Update</button>
-                </form>
-                </div>`;
+                                    </div>`;
                 }
                 
               else if(<?php echo $this->session->userdata("user_id");?> != element["user_id"]){
@@ -396,12 +388,28 @@
 
             commentbody += `   </div>                              
                             </div>  
-                        </div>
-                        <div class="commentuser">
-                            <p>${element["content"]}</p>
-                        </div>
-                            
-                        <div class="threadmore">
+                        </div> `
+                
+                commentbody += `<div id='containeredit${element["comment_id"]}'>`;  
+
+                commentbody+= `
+                 <div class="comment_edit" style="display:none;" id="textarea_container">
+                    <form action="" method="POST" id="edit_form">
+                    <input type="hidden" id="edit_id" value="">
+                            <textarea  class="text" id="edit_textarea${element['comment_id']}" name="edit_comment"></textarea>
+                            <button class="button1" id="update_comment">Update</button>
+                            <button id="back_comment">Cancel</button>
+                    </form>
+                </div> 
+                </div>`;
+
+            commentbody += `<div class="commentuser" id='edit_container${element["comment_id"]}'>`;
+            commentbody += `<p id="comment_owner">${element["content"]}</p>                     
+                            </div> `
+
+            commentbody += `<div id='edit_container1${element["comment_id"]}'>`;
+            commentbody +=`    
+                        <div class="threadmore" id="comment_reaction">
                             <div class="reaction">
                                     <button id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}">
                                         <i class="fa fa-thumbs-up fa-lg"></i>                               
@@ -422,10 +430,8 @@
                                 <h4>Commented on: </h4>
                             </div>
                         </div>
-                </div>`;  
-
-            });
-            
+                    </div>
+                    </div>`; });
             
             $("#comments").html(commentbody);
           }
@@ -449,7 +455,6 @@
                     fetch();
                     let result = data.replace(/<!--  -->/g, "");
                     data = JSON.parse(result);
-                    console.log(data);
                     if(data.response == "success"){
                         Command: toastr["success"](data.message)
                         toastr_option();
@@ -511,7 +516,7 @@
                 if(data.response == "success"){
                   swalWithBootstrapButtons.fire(
                   'Deleted!',
-                  'Your file has been deleted.',
+                  'Your comment has been deleted.',
                   'success'
                   )
                 }
@@ -524,7 +529,7 @@
           ) {
             swalWithBootstrapButtons.fire(
               'Cancelled',
-              'Your imaginary file is safe :)',
+              'Your comment is safe :)',
               'error'
             )
           }
@@ -551,13 +556,10 @@
                data = JSON.parse(result);
                
               if(data.response == "success"){
-                $("#edit_container"+comment_id).children("#textarea_container").css("display","block");
-                $("a[name ='delete_edit']").hide();
+                $("#containeredit"+comment_id).children("#textarea_container").css("display","block");
+                $("div[name ='delete_edit']").hide();
                 $("#edit_container"+comment_id).children("#comment_owner").hide();
-                $("#edit_container"+comment_id).children("#del").hide();
-                $("a[name='upvote_downvote']").hide();
-                $("p[name='upvote_downvote']").hide();
-                $("button[name='report']").hide();
+                $("#edit_container1"+comment_id).children("#comment_reaction").hide();
                 $("#edit_id").val(data.message.comment_id);
                 $("#edit_textarea"+comment_id).text(data.message.content);         
               }
@@ -590,24 +592,12 @@
             let result = data.replace(/<!--  -->/g, "");
                data = JSON.parse(result);
             if(data.response =="success"){
-               $("#edit_container"+edit_id).children("#textarea_container").css("display","none");
-                $("a[name ='delete_edit']").show();
-                $("#edit_container"+edit_id).children("#comment_owner").show();
-                $("#edit_container"+edit_id).children("#del").show();
-                $("a[name='upvote_downvote']").show();
-                $("p[name='upvote_downvote']").show();
-                $("button[name='report']").show();
+              showcomment();
               Command: toastr["success"](data.message)
                 toastr_option();
             }
             else{
-              $("#edit_container"+edit_id).children("#textarea_container").css("display","none");
-                $("a[name ='delete_edit']").show();
-                $("#edit_container"+edit_id).children("#comment_owner").show();
-                $("#edit_container"+edit_id).children("#del").show();
-                $("a[name='upvote_downvote']").show();
-                $("p[name='upvote_downvote']").show();
-                $("button[name='report']").show();
+              showcomment();
               Command: toastr["error"](data.message)
                   toastr_option();
               }
@@ -626,14 +616,7 @@
                    let result = data.replace(/<!--  -->/g, "");
                  data = JSON.parse(result);
                   if(data.response == "success"){
-      
-                $("#edit_container"+edit_id).children("#textarea_container").css("display","none");
-                $("a[name ='delete_edit']").show();
-                $("#edit_container"+edit_id).children("#comment_owner").show();
-                $("#edit_container"+edit_id).children("#del").show();
-                $("a[name='upvote_downvote']").show();
-                $("p[name='upvote_downvote']").show();
-                $("button[name='report']").show();
+                    showcomment();
                   }
                 }
               });
@@ -653,7 +636,6 @@
                fetch();
             }
         })
-
      })
      $(document).on("click","#downvote_comment",function(e){
         e.preventDefault();

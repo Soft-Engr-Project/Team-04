@@ -30,13 +30,10 @@
                               <div class="form-group">
                                   <input class="myinput" type="number" maxlength="6" pattern="[0-9]{6,}" name="passcode" >
                               </div>
+                              <h6 class="error"><?php echo validation_errors();?></h6>
                               <input type="submit" class="button1" value="Send Code">
                           </form>
                       </div>
-                        <div class="error">
-                          <?php echo validation_errors();?>
-
-                         </div>
                     </div>
                 </div>
             </div>

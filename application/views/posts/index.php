@@ -119,7 +119,9 @@
                                
                              posting+=`   <div class="row">
                                     <div class="col-lg-1">
-                                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="profilepost">
+                                        <div class="circleimage">
+                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                        </div>
                                     </div>
                                     <div class="col-lg-6">
 
@@ -188,5 +190,3 @@
         }
     </script>
 
-
-<!-- index.php para sa post nasa discord yung original -->

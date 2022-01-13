@@ -320,7 +320,7 @@ at yung height ay 38%
     background-color: white;
     padding-top: 20px;
 }
-/*dito may binago ko */
+
 .circleimage{
     display: inline-block;
     width: 50px;
@@ -431,12 +431,18 @@ at yung height ay 38%
     background-color: #7C9784;
 }
 
+.dropdown-menu li a:hover{
+    background-color: #7C9784;
+    color: white;
+    text-decoration: none;
+}
+
 
 /*Home */
 
 .topnamebox{
     background-color: #314754;
-    margin-top: 9.3%;
+    margin-top: 76px;
     margin-left: -2%;
     width: 39%;
     height: 500px auto;
@@ -450,19 +456,16 @@ at yung height ay 38%
 }
 
 .top h2, .allcat h2{
-    font-size: 25px;
+    font-size: 20px;
     padding: 20px 10px;
 }
 
-.topname, .categories{
-    padding: 10px 20px;
-}
-.toppost{
+.topname a{
     text-decoration: none;
     color: white;
 }
-.toppost:hover{
-    color: salmon;
+.topname, .categories{
+    padding: 10px 20px;
 }
 
 .topnamebox p, .randomthreadtitle{
@@ -474,25 +477,11 @@ at yung height ay 38%
     text-decoration: none;
 }
 
-.categories a:hover{
+.categories a:hover, .topname a:hover{
     text-decoration: underline;
-    color: #FEDB97;
+    color: white;
 }
-/*dito may binago ko */
-.notification{
-    display: inline-block;
-    font-size: 30px;
-    margin-left: 50px;
-}
-.notification a{
-    text-decoration: none;
-    background-color: white;
-}
-.notification a:hover{
-    color: red;
-    background-color: none;
-    color: @nonhoovercolor;
-}
+
 .createthread{
     margin-top: 16%;
     margin-left: -50%;
@@ -501,31 +490,24 @@ at yung height ay 38%
 }
 
 .createthread hr{
-    margin-left: -25px;
+    margin-left: -60px;
     color: #314754;
-
 }
-/*dito may binago ko */
+
 .createthread .circleimage, .comments .circleimage{
-    margin-left: 50px;
+    margin-left: 20px;
 }
 
-
-.createthread a{
+.threadbox a{
     text-decoration: none;
-
-}
-/*dito may binago ko */
-.createthread a:hover{
-    background-color: #314754;
-    background-color: white;
+    color: black;
 }
 
-.createthread a .threadbox p{
+.threadbox a p{
      color: black;
      padding: 15px 20px;
 }
-/*dito may binago ko */
+
 .threadbox{
     border: 1px solid #314754;
     width: 60%;
@@ -533,7 +515,6 @@ at yung height ay 38%
     margin-left: 100px;
     margin-top: -50px;
     border-radius: 10px;
-    display: inline-block;
 }
 
 .threadbox:hover{
@@ -587,10 +568,6 @@ at yung height ay 38%
     border-top-right-radius: 20px;
 }
 
-
-
-
-
 .divfilter .labelfilter{
     position: absolute;
     z-index: 4;
@@ -606,7 +583,7 @@ at yung height ay 38%
 
 .categoriesdiv{
     margin-top: 25px;
-    margin-left: -350px;
+    margin-left: -390px;
     height: 40px;
     background-color:  #314754;
     padding-left: 40px;
@@ -646,7 +623,21 @@ at yung height ay 38%
     font-weight: bold;
 }
 
+.notification{
+    position: absolute;
+    font-size: 40px;
+    margin-left: 60%;
+    margin-top: -60px;
+}
+.notification a{
+    text-decoration: none;
+    background-color: white;
+}
+.notification a:hover{
+    color: red;
+    background-color: none;
 
+}
 
 
 /* View Thread */
@@ -693,6 +684,7 @@ at yung height ay 38%
     text-decoration: underline;
     text-decoration-color: gray;
 }
+
 
 .threadspost h3{
     margin: -10px 60px 0 10px; 
@@ -751,11 +743,15 @@ button:active{
     transform: scale(1.2);
 }
 
-.reaction div {
+.reaction div, .reaction div#like.inactive, .reaction div#dislike.inactive{
     background-color:white;
 }
 
 .reaction div:hover{
+    background-color: #FEDB97;
+}
+
+.reaction div#like.active, .reaction div#dislike.active{
     background-color: #FEDB97;
 }
 
@@ -870,7 +866,10 @@ hr.between{
 }
 
 .commentuser button{
-    margin: 10px 0 10px -60px;
+    margin: 10px 0 10px 250px;
+}
+
+.commentuser button, .comment_edit button{
     border: none;
     background-color: #B6B682;
     color: black;
@@ -881,9 +880,31 @@ hr.between{
     letter-spacing: 2px;
 }
 
-.commentuser button:hover{
+.commentuser button:hover, .comment_edit button:hover{
     background-color: #314754;
     color: white;
+}
+
+.comment_edit{
+    margin-left: 73px;
+}
+
+.comment_edit .text{
+    width: 97.5%;
+    height: 10px auto;
+    padding: 10px 20px 10px  20px;
+    border-radius: 20px;
+    border: none;
+    font-size: 15px;
+    margin-top: -5px;
+}
+
+.comment_edit .button1{
+    margin-right: 550px;
+}
+
+.comment_edit button{
+    margin: 10px 0 10px 0;
 }
 
 
