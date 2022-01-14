@@ -87,7 +87,7 @@
        
                 if($insert){
                     $status = 1;
-                    $msg .= 'Member has been added successfully.';
+                    $msg .= 'Report successfully submitted.';
                     $data = array(
                         'response' => "success",
                         'message' => $msg 

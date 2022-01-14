@@ -5,7 +5,7 @@
     redirect("/");
   }
 ?>
-<div class="container-fluid">
+<div style="width: 100vw; height: 100vh;"class="container-fluid">
         <div class="row">
             <div class="col-lg 2">
                 <div class="topnamebox">

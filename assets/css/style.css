@@ -907,6 +907,40 @@ hr.between{
     margin: 10px 0 10px 0;
 }
 
+/*Loading*/
+
+.loading {
+    display: flex;
+    margin-left: 60px;
+  }
+  
+  .loading--full-height {
+    align-items: center;
+    height: 100%;
+  }
+  
+  .loading::after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    border: 10px solid #FEDB97;
+    border-top-color: #314754;
+    border-radius: 50%;
+    transform: rotate(0.16turn);
+    animation: loading 1s ease infinite;
+  }
+  
+  @keyframes loading {
+    /* Safari support */
+    from {
+      transform: rotate(0turn);
+    }
+    
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
 
 
 @media (max-width: 839px){

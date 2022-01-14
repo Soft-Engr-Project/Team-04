@@ -46,13 +46,14 @@
                     <div class="col-md-5 mx-auto">
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
-                            <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="search">
+                            <input class="form-control border-end-0 border rounded-pill" type="search" name="search" placeholder="search">
                             <span class="input-group-append">
                                 <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
                         </div>
+                        </form>
                     </div>
 
                     <!-- Navigation Link Buttons -->
@@ -79,7 +80,7 @@
             <div style="position: fixed; margin-top: 15px;" class="settings-menu" id="settings">
                 <div class="settings-menu-inner">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-4">
                             <a href="<?php echo site_url("profiles/view");?>">
                                 <?php if(!empty($user["user_profile_photo"])){ ?>
                                             <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userpic" >
@@ -89,7 +90,7 @@
                                 <?php } ?>
                             </a>
                         </div>
-                        <div style="margin-right: 22px;" class="col">
+                        <div style="margin-right: 22px;" class="col-lg-8">
                             <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>

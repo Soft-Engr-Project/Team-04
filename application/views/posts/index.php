@@ -58,7 +58,6 @@
                                     <div class="mt-5">
                                          <h3 class="col-lg-12">No post in this section</h3>
                                     </div>
-                                   
                                  </div>
                              <?php } ?>    
                         </div>
@@ -89,7 +88,7 @@
                     category : cat
                 },
                 beforeSend: function(){
-                    $("#filterposting").html('Waiting....');
+                    $("#filterposting").html('<div class="loading loading--full-height"></div>');
                 },
                 success:function(data){
                     
@@ -157,11 +156,13 @@
                                 
                                     posting +=`<div class="row">
                                         <div class="col-lg-1">
-                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="profilepost">
+                                            <div class="circleimage">
+                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                            </div>
                                         </div>
                                         <div class="col-lg-6">
-                                             <a href="<?php echo base_url()."profiles/view/"?>${element["user_id"]}"><h2>${element["username"]}</h2> </a>
-                                            <a href="<?php echo base_url()."posts/"?>${element["id"]}"><h4>${element["title"]}</h4></a> 
+                                             <a href="<?php echo base_url()."profiles/view/"?>${post["user_id"]}"><h2>${post["username"]}</h2> </a>
+                                            <a href="<?php echo base_url()."posts/"?>${post["id"]}"><h4>${post["title"]}</h4></a> 
                                         </div>
                                         <div class="col-lg-4">
                                             <p class="post-date">Posted on: ${post["post_created_at"]}</p>
