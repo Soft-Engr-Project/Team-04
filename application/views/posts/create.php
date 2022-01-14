@@ -3,7 +3,8 @@
 <br>
 <br>
 <br>
-<div class="container"> 
+<div style="width: 100vw;
+    height: 100vh;" class="container"> 
 <?php echo validation_errors();?>
 <?php echo form_open_multipart("posts/create") ;?>
   <div class="form-group">
