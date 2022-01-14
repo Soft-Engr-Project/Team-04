@@ -15,10 +15,11 @@ class Post_model extends CI_Model{
     public function get_posts($id=Null){
         if($id == False){
             // get posts table
-             $this->db->order_by($this->post_table.".id","DESC");
+             $this->db->order_by($this->post_table.".id","category_id DESC");
              $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
              $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
              $query = $this->db->get($this->post_table);
+          
              return $query->result_array();
         }
         $this->db->where($this->post_table.".id",$id);
@@ -27,6 +28,33 @@ class Post_model extends CI_Model{
         $query = $this->db->get($this->post_table);
         return $query->row_array();
     }
+    public function get_posts_for_filter($id){
+        if($id > 0){
+            $this->db->where($this->post_table.".category_id",$id);
+            $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+            $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $query = $this->db->get($this->post_table);
+        }
+        else{
+            $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+            $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $query = $this->db->get($this->post_table);
+        }
+        return $query->result_array();
+    }
+    // get the top 10 post with many reaction
+    public function get_posts_high_react(){
+        
+        $this->db->select('*');
+        $this->db->order_by($this->post_table.".post_comment_count DESC");
+        $this->db->limit(10,FALSE);
+        $this->db->where('MONTH(post_created_at)', date('m'));
+        $this->db->where('YEAR(post_created_at)', date('Y'));
+        $query = $this->db->get($this->post_table);
+
+        return $query->result_array();
+    }
+
     public function create_post($data){
         return $this->db->insert($this->post_table,$data);
     }
@@ -45,26 +73,6 @@ class Post_model extends CI_Model{
         $this->db->where("id",$id);
         return $this->db->update("posts",$data);
     }
-
-    // // check the user kung naka react na o hindi
-    // public function check_user_reaction($id,$user_id){
-    //     $this->db->where("id",$id);
-    //     $query = $this->db->get($this->reactions_table);
-    //     // pancheck
-    //     $json = json_decode($query->row_array()["reaction_log"],true);
-    //     echo "<pre>";
-    //     var_dump($json);
-    //     echo "</pre>";
-    //     die();
-    //     // foreach(json)
-    //     if(in_array($user_id,$json)){
-    //         return true;
-    //     }
-    //     else{
-    //         return false;
-    //     }
-
-    // }
     public function get_reaction($react_id){
         $this->db->join($this->reactions_table,$this->reactions_table.".react_id = ".$this->post_table.".react_id");
         $this->db->where($this->post_table.".react_id",$react_id);
@@ -90,6 +98,17 @@ class Post_model extends CI_Model{
         $this->db->where("react_id",$react_id);
         return $this->db->delete($this->reactions_table);
     }
+
+    public function get_posts_content(){
+        // get posts table
+        $this->db->select('id,title,body,post_created_at,users.user_id,users.username,users.user_profile_photo');
+        $this->db->order_by($this->post_table.".id","category_id DESC");
+        $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+        $query = $this->db->get($this->post_table);
+        return $query->result_array();
+    }
+
+   
 
 
 

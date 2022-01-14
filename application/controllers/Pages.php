@@ -6,6 +6,13 @@
             // APPPATH - ROOT FOLDER
             //THIS IF CHECK IF WE HAVE FOLDER PAGES IN THE VIEW AND IF IT HAS PAGES FOLDER THEN FIND A SPECIFIC
             // PHP FILE
+
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
+
             if(!file_exists(APPPATH."views/pages/".$page.".php")){
                show_404();
             }
@@ -14,6 +21,8 @@
                $this->data["title"]=ucfirst($page);
                $this->load->view("templates/header.php");
                $this->data["categories"] = $this->categories_model->get_categories();
+               $this->data["posts"] = $this->post_model->get_posts_high_react();
+               $this->data["notification_count"] = $this->notification_model->get_notification_count($this->session->userdata("user_id"));
                $this->load->view("pages/".$page,$this->data);
                $this->data["title"] = " Latest Post";
                $this->data["posts"] = $this->post_model->get_posts();
@@ -26,6 +35,7 @@
            
             $this->load->view("templates/footer.php");
         }
+ 
 
     }
 

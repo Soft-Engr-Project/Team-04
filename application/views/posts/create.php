@@ -1,8 +1,10 @@
+<div onclick="checkMousePointer()">
 <br>
 <br>
 <br>
 <br>
-<div class="container"> 
+<div style="width: 100vw;
+    height: 100vh;" class="container"> 
 <?php echo validation_errors();?>
 <?php echo form_open_multipart("posts/create") ;?>
   <div class="form-group">
@@ -30,3 +32,10 @@
   <button type="submit" class="btn btn-success">Post</button>
 </form>
 </div>
+
+
+<script>
+  // Replace the <textarea id="editor1"> with a CKEditor 4
+  // instance, using default configuration.
+  CKEDITOR.replace( 'editor1' );
+</script>

@@ -1,27 +1,22 @@
+<div onclick="checkMousePointer()">
 <?php 
   if (!isset($_SESSION['username'])) {
-  	$_SESSION['msg'] = "You must log in first";
-  	redirect("/");
+    $_SESSION['msg'] = "You must log in first";
+    redirect("/");
   }
 ?>
-<div class="container-fluid">
+<div style="width: 100vw; height: 100vh;"class="container-fluid">
         <div class="row">
             <div class="col-lg 2">
                 <div class="topnamebox">
                     <div class="top">
-                        <h2>Top of the Week</h2>
+                        <h2>Top of the Month</h2>
                     </div>
                     <div class="topname">
-                        <p>1. Echizen</p>
-                        <p>2. Echizen</p>
-                        <p>3. Echizen</p>
-                        <p>4. Echizen</p>
-                        <p>5. Echizen</p>
-                        <p>6. Echizen</p>
-                        <p>7. Echizen</p>
-                        <p>8. Echizen</p>
-                        <p>9. Echizen</p>
-                        <p>10. Echizen</p>
+                        <?php $no=1; foreach ($posts as $post): ?>
+                            <p><?php echo $no++;?>. <a class="toppost" href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
+                        <?php endforeach ?>
+
                     </div>
                     <div class="allcat">
                         <h2>All Categories</h2>
@@ -36,37 +31,23 @@
 
             <div class="col-lg 10">
                 <div class="createthread">
-                    <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
-                    <a href="<?php echo site_url("posts/create")?>">
-                    <div class="threadbox">
-                          <p>Create Thread</p>
+                    <div class="circleimage">
+                    <?php if(!empty($user["user_profile_photo"])){ ?>
+                        <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" >
+                    <?php } else{?>
+                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                    <?php } ?>
                     </div>
-                    </a>
+                    <div class="threadbox">
+                        <a href="<?php echo site_url("posts/create")?>">
+                          <p>Create Thread</p>
+                        </a>
+                    </div>
+                    <div class="notification">
+                        <a href="<?php echo base_url()?>notification/index/<?php echo $this->session->userdata("user_id")?>"><i class="fas fa-bell"><?php  echo (!empty($notification_count)) ? $notification_count : ""?></i></a>
+                    </div>
                     <hr>
                 </div>
 
-                <div class="catfil">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="divcategor">
-                                <p>Categories:</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="divfilter">
-                                <span class="labelfilter">Filter: </span>
-                                <select name="" id="">
-                                    <option value="">Anime</option>
-                                    <option value="">Technology</option>
-                                    <option value="">Programming Language</option>
-
-                                </select>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="homecatpost">
-                        <div class="categoriesdiv">
-                            <h3>ANIME</h3>
-                        </div>
+                
                         

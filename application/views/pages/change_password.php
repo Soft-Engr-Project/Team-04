@@ -5,6 +5,7 @@
   }
 ?>
 
+
 <body id="resetpassword">
     <div class="squareyellow">
         <div class="card">
@@ -25,29 +26,34 @@
                         <div class="myForm text-center">
                             <?php echo form_open("ForgotPassword/change_pass") ;?>
                                 <header> Reset Password</header>
+                                <p>Your password must contain a Mix Letters, Numbers and atleast 8 characters long</p>
                                 <label>New Password</label>
-                                <div class="form-group">
-                                    <input type="password" class="myinput" name="password_1" required>
+                                <div class="sign_icon">
+                                    <input type="password" class="myinput" id="password" name="password_1" required>
+                                    <i class="fa fa-lock  fa-2xl"></i>
                                 </div>
+                                <div class="visiblepassword">
+                                    <i class="fa fa-eye fa-xl" id="eye" onclick="show()"></i>
+                                </div>  
+                                <div class="sign_icon">
                                 <label>Confirm Password</label>
-                                <div class="form-group">
-                                    <input type="password" class="myinput" name="password_2" required>
+                                    <input type="password" class="myinput" id="confirmpassword" name="password_2" required>
+                                    <i class="fa fa-lock  fa-2xl"></i>
                                 </div>
+                                <div class="visiblepassword">
+                                    <i class="fa fa-eye fa-xl" id="eye1" onclick="showconfirm()"></i>
+                                </div>  
+                                <h6 class="error"><?php echo validation_errors();?></h6>
                                 <input type="submit" class="button1" value="Reset Password">
                             </form>
-                        </div>
-                        <div class="error">
-                        <?php echo validation_errors();?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-        
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
     
+    <script>
+        var state = false;
+    </script>
 </body>

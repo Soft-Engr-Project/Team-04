@@ -1,3 +1,5 @@
+<div onclick="checkMousePointer()">
+<div class="container">
 <h1><?=$title?></h1>
 <?php echo validation_errors();?>
 <?php echo form_open_multipart("posts/update") ;?>
@@ -15,8 +17,13 @@
   </div>
   <div class="form-group">
     <label for="body">Body :</label>
-    <textarea  class="form-control" id="editor1" name="body"><?php echo $post['body'];?></textarea>
+    <textarea  class="form-control" id='editor1' name="body"><?php echo $post['body'];?></textarea>
   </div>
+  <!-- // Replace the <textarea id="editor1"> with a CKEditor 4
+  instance, using default configuration. -->
+  <script type="text/javascript">
+    CKEDITOR.replace( 'editor1' );
+  </script>
   <div class="form-group">
     <label for="">Categories:</label>
     <select name="category_id" class="form-control ">
@@ -33,3 +40,4 @@
   </div>
   <button type="submit" class="btn btn-success">Post</button>
 </form>
+</div>

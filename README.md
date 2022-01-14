@@ -24,4 +24,10 @@
  * Signup Complexity
  * Comment UD and Posting Image
  
+ **Changelog 1/14/2022**
+ * Notification system(react and comment wala pa yung sub comment)
+ * Header design (responsive)
+ * Search bar
+ * View Thread design
+ * Filter the post
  

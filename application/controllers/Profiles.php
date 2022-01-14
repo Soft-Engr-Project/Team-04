@@ -2,8 +2,15 @@
 
     class Profiles extends CI_Controller{
         
-        public function view(){
-            $user_id = $this->session->userdata("user_id");
+        public function view($user_id=NULL){
+            if ($user_id == NULL) {
+                $user_id = $this->session->userdata("user_id");
+            }
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
             $this->data["title"]="Profile";
             $this->data['posts'] = $this->profile_model->get_user_posts($user_id);
             $this->data["react_count"] = $this->profile_model->get_all_reaction($user_id);
@@ -17,19 +24,22 @@
             
             $this->load->view("profiles/index",$this->data);
             $this->load->view("templates/footer.php");
+            
         }
         public function upload_image(){
            
-            // die();
-                 $id = $this->session->userdata('user_id');
-               
-
-                $config["upload_path"] = "./assets/images/posts"; 
-                if(file_exists(FCPATH."assets/images/post")){
-                    echo "Hello";
+                $user_id = $this->input->post("user_id");
+                $id = $this->session->userdata('user_id');
+                
+                if ($user_id != $id) {
+                    redirect("pages");
                 }
-                else{
-                     mkdir(FCPATH."assets/images/posts");
+
+                $config["upload_path"] = "./assets/images/post"; 
+                if(!file_exists(FCPATH."assets/images/post")){
+                    mkdir(FCPATH."assets/images/");
+                    mkdir(FCPATH."assets/images/post");
+                    
                 }
                 
                 // kung anong file extension yung need
@@ -59,7 +69,7 @@
                     $data = array("upload_data" => $this->upload->data());
                     // var_dump($_FILES);
                     // use file name
-                    $post_image = $_FILES['userfile']["name"];
+                    $post_image = "assets/images/post/".$_FILES['userfile']["name"];
                 }
                 $data = array(
                     "user_cover_photo" => $post_image
@@ -69,15 +79,21 @@
         }
          public function upload_profile(){
 
-                 $id = $this->session->userdata('user_id');
+                $user_id = $this->input->post("user_id");
+                $id = $this->session->userdata('user_id');
+                
+                if ($user_id != $id) {
+                    redirect("pages");
+                }
+                
                  
-                $config["upload_path"] = "./assets/images/posts"; 
-                if(file_exists(FCPATH."assets/images/post")){
-                    echo "Hello";
+                $config["upload_path"] = "./assets/images/post"; 
+                if(!file_exists(FCPATH."assets/images/post")){
+                      mkdir(FCPATH."assets/images/");
+                    mkdir(FCPATH."assets/images/post");
+
                 }
-                else{
-                     mkdir(FCPATH."assets/images/posts");
-                }
+               
                 // kung anong file extension yung need
                 $config["allowed_types"] = "gif|jpg|png";
                 // 2048 = 2gb kung ano yung max file size 
@@ -98,14 +114,15 @@
                     // eto piniprint pag di alam yung error
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
+                    die();
                     redirect("profiles/view");
-                    //die();
+                    
                 }
                 else{
                     $data = array("upload_data" => $this->upload->data());
                     // var_dump($_FILES);
                     // use file name
-                    $post_image = $_FILES['userfile']["name"];
+                    $post_image = "assets/images/post/".$_FILES['userfile']["name"];
                 }
                 $data = array(
                     "user_profile_photo" => $post_image
@@ -115,6 +132,13 @@
         }
         // may aayusin pa dito sa delete
         public function delete_image(){
+            $user_id = $this->input->post("user_id");
+            $id = $this->session->userdata('user_id');
+                
+            if ($user_id != $id) {
+                    redirect("pages");
+            }
+
             $cover_photo = $this->input->post("cover_photo") ?? "";
 
             if(!empty($cover_photo)){
@@ -128,7 +152,13 @@
             redirect("profiles/view");
         }
          public function delete_profile(){
+            $user_id = $this->input->post("user_id");
             $id = $this->session->userdata('user_id');
+                
+            if ($user_id != $id) {
+                    redirect("pages");
+            }
+
             $profile_photo = $this->input->post("profile_photo") ?? "";
 
             if(!empty($profile_photo)){

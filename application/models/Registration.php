@@ -8,10 +8,10 @@ class Registration extends CI_Model{
         $this->load->database();
   }
   private $errors = array(); 
+  
   // REGISTER USER
   public function insert_user($user_data) {
-
-  $this->db->insert('users',$user_data); // Insert the data in the database
+    $this->db->insert('users',$user_data); // Insert the data in the database
   }
 
   // CHECK USERNAME IN THE DATABASE

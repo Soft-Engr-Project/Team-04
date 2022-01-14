@@ -21,6 +21,7 @@
 			$this->load->view("posts/index.php",$this->data);
 			$this->load->view("templates/footer.php");
 		}
+		
 
 		
 	}

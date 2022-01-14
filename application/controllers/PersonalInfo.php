@@ -9,6 +9,11 @@
     }
         private $data = array();
         public function view(){
+            //for header pic
+            $user_idIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->load->view("templates/header.php",$this->data);
+
             $this->data["title"] = "My Information";
             $this->load->view("templates/header.php");
             $this->load->view("settings/personalinfo.php",$this->data);
@@ -16,6 +21,13 @@
         }
         public function update(){
                 // Rules for forms
+
+                //for header pic
+                $user_idIn = $this->session->userdata("user_id");
+                $this->data["user"] = $this->user_model->get_user($user_idIn);
+                $this->load->view("templates/header.php",$this->data);
+
+
                 $this->form_validation->set_rules('username','Username','required|callback_checkUsername');
                 $this->form_validation->set_rules('firstname','Firstname','required');
                 $this->form_validation->set_rules('lastname','Lastname','required');
@@ -46,9 +58,11 @@
                     }
                     $this->Personalize_model->update_user($data); // Update database
 
+
+
                     $header['title'] = 'Settings';
                     $this->load->view("templates/header.php");
-                    $this->load->view("pages/setting.php",$header);
+                    $this->load->view("pages/settings.php",$header);
                     $this->load->view("templates/footer.php");  
                 }
             }
