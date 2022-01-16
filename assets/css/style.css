@@ -671,7 +671,15 @@ at yung height ay 38%
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+/*eto may dinagdag ako*/
+.threadcreatorname a{
+    text-decoration: none;
+    color: black;
+}
+.threadcreatorname a:hover{
+    text-decoration: underline;
+    color: black;
+}
 .threadspost{
     margin-top: 130px;
     margin-left: 50px;

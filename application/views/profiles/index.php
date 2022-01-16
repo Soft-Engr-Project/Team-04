@@ -19,8 +19,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-9">
-                                <a href="<?php echo site_url("profiles/view");?>"><h2><?php echo $user["username"]?></h2> </a>
-                                <a href="<?php echo site_url("/profileposts/".$post["slug"]);?>"> <h4> <?php echo $post["title"];?></h4></a> 
+                                <a href="<?php echo site_url("profiles/view/".$post["user_id"]);?>"><h2><?php echo $user["username"]?></h2> </a>
+                                <a href="<?php echo site_url("/posts/view/".$post["id"]);?>"> <h4> <?php echo $post["title"];?></h4></a> 
                                 <!-- image -->
                                 <?php if(!empty($post["post_image"])):?>
                                     <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300">

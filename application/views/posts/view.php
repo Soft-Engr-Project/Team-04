@@ -11,7 +11,7 @@
 
                 </div>
                 <div class="threadcreatorname">
-                    <h3><?php echo ucfirst($post["username"]);?></h3>
+                    <h3><a href="<?php echo base_url()."profiles/view/".$post["user_id"];?>"><?php echo ucfirst($post["username"]);?></a></h3>
                 </div>
             </div>
 
@@ -101,25 +101,26 @@
                         <img src="" alt="">
                         <h3><?php echo $post["body"];?></h3>
                     </div>
-                    <h6>Posted on: <?php echo $post["created_at"];?></h6>    
+                    <h6>Posted on: <?php echo $post["post_created_at"];?></h6>    
                     
-                    <div class="threadmore">
+                    <div class="threadmore" id="posting">
                         <div class="reaction">
                             <div class="upbutton">
-                              <?php echo form_open("posts/reaction/".$post["id"]);?>
-                              <button name="submit" type="submit" value="up_react">
+                              
+
+                              <button name="submit" id="upvote_post" value="<?php echo $post["id"]?>">
                                 <i class="fa fa-thumbs-up fa-lg"></i>
-                              <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                            
                                 <input type="numberlike" value="<?php echo $post["upvote"] ;?>">
                               </button>
-                            </form>
+                            
                             </div>
 
                             <div class="downbutton">
-                              <?php echo form_open("posts/reaction/".$post["id"]);?>
-                                <button name="submit" type="submit" value="down_react">
+                              
+                                <button name="submit" id="downvote_post" value="<?php echo $post["id"]?>">
                                     <i class="fa fa-thumbs-down fa-lg"></i>
-                                    <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                                    
                                     <input type="numberlike" value="<?php echo $post["downvote"];?>">
                                 </button>
                               </form>
@@ -127,7 +128,7 @@
                         </div> 
                         <div class="totalcomments">
                             <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
-                            <input type="numberlike" id="input1" value="0" name="">
+                            <input type="numberlike" id="input1" value="<?php echo $post["post_comment_count"]?>" name="">
 
                         </div>
                         <div class="whatcategory">
@@ -322,6 +323,55 @@
      $("#report_form")[0].reset();
     })
 
+    function post_fetch(){
+        $.ajax({
+        url : "<?php echo base_url();?>posts/fetch",
+        type : "post",
+        data :{
+            post_id : <?php echo $post["id"];?>
+        },
+        success:function(data){
+            let result = data.replace(/<!--  -->/g, "");
+            data = JSON.parse(result);
+            var post = "";
+            post += `
+            <div class="reaction">
+                            <div class="upbutton">
+                              
+
+                              <button name="submit" id="upvote_post" value="${data["id"]}">
+                                <i class="fa fa-thumbs-up fa-lg"></i>
+                                <input type="numberlike" value="${data["upvote"]}">
+                              </button>
+                            
+                            </div>
+
+                            <div class="downbutton">
+                             
+                                <button name="submit" id="downvote_post" value="${data["id"]}">
+                                    <i class="fa fa-thumbs-down fa-lg"></i>
+                                    <input type="numberlike" value="${data["downvote"]}">
+                                </button>
+                            </div>
+                            </div> 
+                        <div class="totalcomments">
+                            <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
+                            <input type="numberlike" id="input1" value="${data["post_comment_count"]}" name="">
+
+                        </div>
+                        <div class="whatcategory">
+                            <h4>Categories: </h4>
+                            <a href="">${data["name"]}</a>
+                        </div>
+
+
+            `;
+            $("#posting").html(post);
+           
+        }
+      });
+    }
+
 
     function fetch(){
         $.ajax({
@@ -341,7 +391,6 @@
                 commentbody += "<div class='card bg-danger'>";
               }
               else {
-                console.log('hi')
                 commentbody+= `
                 <div class="comments">`;
               }
@@ -621,6 +670,40 @@
                 }
               });
      })
+
+     $(document).on("click","#upvote_post",function(e){
+        e.preventDefault();
+        var post_id = $(this).val();
+    
+        $.ajax({
+            url : "<?php echo base_url()?>posts/reaction",
+            type : "post",
+            data : {
+              post_id : post_id,
+              type_of_vote : "up_react"
+            },
+            success : function(data){   
+                
+                post_fetch();
+            }
+        });
+     });
+     $(document).on("click","#downvote_post",function(e){
+        e.preventDefault();
+        var post_id = $(this).val();
+        $.ajax({
+            url : "<?php echo base_url()?>posts/reaction",
+            type : "post",
+            data : {
+              post_id : post_id,
+              type_of_vote : "down_react"
+            },
+            success : function(data){   
+                
+                post_fetch();
+            }
+        });
+     });
 
      $(document).on("click","#upvote_comment",function(e){
         e.preventDefault();

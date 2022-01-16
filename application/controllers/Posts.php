@@ -244,9 +244,23 @@
             $this->session->set_flashdata("post_update","Update post succesfully");
             redirect("pages");
         }
-        public function reaction($id){
+        public function fetch(){
+            if($this->input->is_ajax_request()){
+                $post_id = $this->input->post("post_id");
 
-            $react_id = $this->input->post("react_id");
+                $data = $this->post_model->get_posts($post_id);
+                echo json_encode($data);
+            }else{
+                echo "No direct script access allowed";
+            }
+        }
+
+        public function reaction(){
+
+            $id = $this->input->post("post_id");
+            $get_post = $this->post_model->get_posts($id);
+            $react_id = $get_post["react_id"];
+           
             // $json_data = file_get_contents(FCPATH."reaction.json");
             // $json =  json_decode($json_data,true);
             // echo "<pre>";
@@ -279,12 +293,12 @@
              $json_data = file_get_contents(FCPATH."reaction.json");
              $json =  json_decode($json_data,true);
              // user na nagrereact
-             $get_post = $this->post_model->get_posts($id);
+            
              $total_upvote = $get_post["upvote"];
              $total_downvote = $get_post["downvote"];
              $user =  $this->session->userdata("user_id");
              // kung upvote ba o hindi
-             $type_of_vote = $this->input->post("submit");
+             $type_of_vote = $this->input->post("type_of_vote");
              // check kung upvote o hindi
              if($type_of_vote == "up_react"){
                 $json_data = json_decode($this->post_model->get_reaction($react_id)["react_log"],true);
@@ -347,7 +361,6 @@
                 }
              }
              else{
-                echo "down_react";
                 $json_data = json_decode($this->post_model->get_reaction($react_id)["react_log"],true);
                   
                 $downvote_array = $json_data["down_user_id"];
@@ -405,7 +418,6 @@
                     $this->post_model->update_upvotes($id,$data_downvote);
                 }
              }
-             redirect("posts/".$id);
         }
         
         public function view_comment($id){
