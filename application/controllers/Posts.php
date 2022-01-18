@@ -154,100 +154,104 @@
 
         public function edit($id)
         {
-            //for header pic
-            $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header.php",$this->data);
-            
             $userID = $this->post_model->get_posts($id)["user_id"];
-
-            if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
-                redirect("pages");
-            }
+            
             $this->data["post"] = $this->post_model->get_posts($id);
             $this->data["categories"] = $this->categories_model->get_categories();
             $this->data["title"]="Edit Post";
             // $this->data["slug"] = $slug;
-            if(empty($this->data["post"])) {
+            if(empty($this->data["post"])){
                 show_404();
             }
-            $this->data["title"] = $this->data["post"]["title"];
+            $this->data["title"] = "Edit Post";
             $this->load->view("templates/header.php");
             $this->load->view("posts/edit",$this->data);
             $this->load->view("templates/footer.php");
         }
         
         public function update()
-        { 
+        {
             $categoryID = $this->input->post("category_id");
             $postID = $this->input->post("id");
             // get the post for checking if the category is change
             $this->data["post"] = $this->post_model->get_posts($postID);
-            // get category of specific post
+            // get category of specific post 
+            $this->data["categories"] = $this->categories_model->get_categories();
+            $this->data["title"]="Edit Post";
+      
+            $this->form_validation->set_rules("title","Title","required");
+            $this->form_validation->set_rules("body","Body","required");
             
-            $postImage = $this->input->post("post_image");
-            $image = $_FILES['userfile'];
-            if($image && $image["tmp_name"]) {
-                unlink("assets/images/posts/".$postImage);
+            if($this->form_validation->run() == false) {
+                    $this->load->view("templates/header.php");
+                    $this->load->view("posts/edit.php",$this->data);
+                    $this->load->view("templates/footer.php");
+            }else {
+                $postImage = $this->input->post("post_image");
+                $image = $_FILES['userfile'];
+                if($image && $image["tmp_name"]) {
+                    unlink("assets/images/posts/".$postImage);
 
-                $config["upload_path"] = "./assets/images/posts"; 
-                // kung anong file extension yung need
-                $config["allowed_types"] = "gif|jpg|png";
-                // 2048 = 2gb kung ano yung max file size 
-                $config["max_size"] = "2048"; 
-                // kung ano yung max width ng images
-                $config["max_width"] = "2000"; 
-                // kung ano yung max height ng images
-                $config["max_height"] = "2000";
+                    $config["upload_path"] = "./assets/images/posts";
+                    // kung anong file extension yung need
+                    $config["allowed_types"] = "gif|jpg|png";
+                    // 2048 = 2gb kung ano yung max file size 
+                    $config["max_size"] = "2048";
+                    // kung ano yung max width ng images
+                    $config["max_width"] = "2000";
+                    // kung ano yung max height ng images
+                    $config["max_height"] = "2000";
 
-                // use for library upload yung $config
-                $this->load->library('upload',$config);
-                // check kung pede bang iupload
-                if(! $this->upload->do_upload('userfile')) {
-                    // dinidisplay nito yung error message
-                    $errors= array("error" => $this->upload->display_errors());
-                    // default
-                    $postImage = "noimage.jpg";
-                    // eto piniprint pag di alam yung error
-                    // base sa na experience ko need yung picture ay di lalagpas ng 800x800
-                    echo $this->upload->display_errors();
-                    //die();
+                    // use for library upload yung $config
+                    $this->load->library('upload',$config);
+                    // check kung pede bang iupload
+                    if(! $this->upload->do_upload('userfile')) {
+                        // dinidisplay nito yung error message
+                        $errors= array("error" => $this->upload->display_errors());
+                        // default
+                        $postImage = "noimage.jpg";
+                        // eto piniprint pag di alam yung error
+                        // base sa na experience ko need yung picture ay di lalagpas ng 800x800
+                        echo $this->upload->display_errors();
+                        //die();
+                    }
+                    else {
+                        $postData = array("upload_data" => $this->upload->data());
+                        // var_dump($_FILES);
+                        // use file name
+                        $postImage = $_FILES['userfile']["name"];
+                    }
                 }
-                else {
-                    $postData = array("upload_data" => $this->upload->data());
-                    // var_dump($_FILES);
-                    // use file name
-                    $postImage = $_FILES['userfile']["name"];
-                }
-            }
-           
-            $postData=array(
-            'title'=> $this->input->post('title'),
-            'slug' => url_title($this->input->post('title')),
-            'body' => $this->input->post('body'),
-            'category_id'=> $categoryID,
-            'post_image' => $postImage
-            );  
-            
-            if($this->data["post"]["category_id"] != $categoryID) {
-                $categoryData = array(
-                    "category_post_count" => ++$this->data["categories"]["category_post_count"]
-                );
-                $this->categories_model->category_count($categoryID,$categoryData);
+        
+                $postData=array(
+                'title'=> $this->input->post('title'),
+                'slug' => url_title($this->input->post('title')),
+                'body' => $this->input->post('body'),
+                'category_id'=> $categoryID,
+                'post_image' => $postImage
+                );  
+                
+                if($this->data["post"]["category_id"] != $categoryID) {
+                    $categoryData = array(
+                        "category_post_count" => ++$this->data["categories"]["category_post_count"]
+                    );
+                    $this->categories_model->category_count($categoryID,$categoryData);
 
-                $this->data["categories"] = $this->categories_model->get_categories($this->data["post"]["category_id"]);
-                $categoryData = array(
-                    "category_post_count" => --$this->data["categories"]["category_post_count"]
-                );
-                $this->categories_model->category_count($this->data["categories"]["category_id"],$categoryData);
+                    $this->data["categories"] = $this->categories_model->get_categories($this->data["post"]["category_id"]);
+                    $categoryData = array(
+                        "category_post_count" => --$this->data["categories"]["category_post_count"]
+                    );
+                    $this->categories_model->category_count($this->data["categories"]["category_id"],$categoryData);
+                }
+
+                $this->post_model->update_post($postData,$postID);
+                $this->session->set_flashdata("post_update","Update post succesfully");
+                redirect("pages");
             }
-  
-            $this->post_model->update_post($postData,$postID);
-            $this->session->set_flashdata("post_update","Update post succesfully");
-            redirect("pages");
         }
 
-        public function fetch(){
+        public function fetch()
+        {
             if($this->input->is_ajax_request()) {
                 $postID = $this->input->post("post_id");
 
@@ -258,8 +262,8 @@
             }
         }
 
-        public function reaction(){
-
+        public function reaction()
+        {
             $id = $this->input->post("post_id");
             $get_post = $this->post_model->get_posts($id);
             $reactID = $get_post["react_id"];
