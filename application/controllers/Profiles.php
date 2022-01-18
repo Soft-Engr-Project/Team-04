@@ -9,10 +9,10 @@
                 $userID = $this->session->userdata("user_id");
             }
             //for header pic
-            $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
+            $userIdIn = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($userIdIn);
             $this->load->view("templates/header.php",$this->data);
-
+            // kung sinong user yung viniew mo kung si session user o visit ka ng ibang profile
             $this->data["title"]="Profile";
             $this->data['posts'] = $this->profile_model->get_user_posts($userID);
             $this->data["react_count"] = $this->profile_model->get_all_reaction($userID);
@@ -23,7 +23,7 @@
             $this->data["title"]="Personal Information";
             $this->load->view("profiles/information.php",$this->data);
             $this->data["title"]="My Threads";
-            
+            $this->data["user"] = $this->user_model->get_user($userID);
             $this->load->view("profiles/index",$this->data);
             $this->load->view("templates/footer.php");
         }

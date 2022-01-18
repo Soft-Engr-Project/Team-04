@@ -20,7 +20,7 @@
 				// connect to reaction table
 			$this->db->join($this->reactions_table,$this->reactions_table.".react_id = ".$this->comment_table.".react_id");
 				// connect to post table
-			$query = $this->db->get_where($this->comment_table,array("comment_id" => $comment_id));
+			$query = $this->db->get_where($this->comment_table,array($this->comment_table.".comment_id" => $comment_id));
 			return $query->row_array();
 		}
 		public function get_reactions($comment_id){
@@ -52,15 +52,25 @@
 			return $this->db->update($this->comment_table,$data);
 		}
 
-		public function get_comments_count(){
-			$this->db->where("id",$id);
-			$query = $this->db->get($this->post_table);
+		// public function get_comments_count(){
+		// 	$this->db->where("id",$id);
+		// 	$query = $this->db->get($this->post_table);
+		// 	return $query->row_array();
+		// }
+		public function getSubcommentsCount($commentID){
+			
+			$this->db->where("comment_id",$commentID);
+			$query = $this->db->get($this->comment_table);
 			return $query->row_array();
 		}
 
 		public function comment_counts($id,$data){
 			$this->db->where("id",$id);
 			return $this->db->update($this->post_table,$data);
+		}
+		public function subcomment_counts($commentId,$data){
+			$this->db->where("comment_id",$commentId);
+			return $this->db->update($this->comment_table,$data);
 		}
 
 		public function get_comments_content($post_id){

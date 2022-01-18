@@ -32,7 +32,7 @@
                 'passcode' => $passcode,
                 'body' => 'Please Enter the 6 digit pin given above to proceed on changing password.'
                  );
-                $this->send($email,'templates/ChangePass_Email',$emaildata); // Call email setup function
+                $this->send($email,'templates/ChangePass_Email.php',$emailData); // Call email setup function
 
                 //logout user if user attempts to change pass when currently logged in and same input to change pass
                 //if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') == $email)) {
@@ -64,8 +64,8 @@
             $config = array(
                 'protocol' => 'smtp',
                 'smtp_host' => 'ssl://smtp.gmail.com',
-                'smtp_port' => '465';
-                'smtp_timeout' => '60';
+                'smtp_port' => '465',
+                'smtp_timeout' => '60',
                 'smtp_user' => 'thinklikblog@gmail.com',
                 'smtp_pass' => $password,
                 'charset' => 'utf-8',

@@ -32,7 +32,7 @@
                     );
                     
                     $commentCount = array(
-                        "post_comment_count" => $this->data["post"]["post_comment_count"] + 1;
+                        "post_comment_count" => $this->data["post"]["post_comment_count"] + 1
                     );
                     $commentData = $this->security->xss_clean($commentData);
 
@@ -140,7 +140,7 @@
                             "owner_id" => $this->data["comment"]["user_id"],
                             "post_id" => $this->data["comment"]["post_id"],
                             "read_status" => 0
-                        )
+                        );
                         $this->notification_model->create_notification($notifData);  
                     }
                     $this->post_model->update_reaction($reactID,$reactData);

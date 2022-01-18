@@ -400,8 +400,9 @@
                             <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">                                
                             </div>
                             <div class="row"> 
-                            <div class="col-lg-3">    
-                                <a href=""><h2>${element["username"]}</h2></a>
+                            <div class="col-lg-3"> 
+                            
+                                <a href="<?php echo base_url()?>profiles/view/${element["user_id"]}"><h2>${element["username"]}</h2></a>
                             </div>  
                             <div class="col-lg-9">    
                                 <div class="commentdropdown">` ;
@@ -471,12 +472,12 @@
                                     </button>
                             </div> 
                             <div class="totalcomments">
-                                <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
-                                <input type="numberlike" id="input1" value="0" name="">
+                                <a href="<?php echo base_url()?>subcomments/view/${element["comment_id"]}"><img src="<?php echo base_url();?>assets/image/comment.png" alt=""></a>
+                                <input type="numberlike" id="input1" value="${element["subcomment_count"]}" name="">
     
                             </div>
                             <div class="whatcategory">
-                                <h4>Commented on: </h4>
+                                <h4>Commented on: ${element["comment_created_at"]}</h4>
                             </div>
                         </div>
                     </div>
