@@ -1,50 +1,49 @@
 <?php
 //
-    class ForgotPassword extends CI_Controller{
-       public function __construct()
+    class ForgotPassword extends CI_Controller
+    {
+        private $data = array();
+        public function __construct()
         {
             parent::__construct();
             $this->load->model('ResetPassword');
 
         }
-        private $data = array();
-
-        public function forgot_password(){
-
+  
+        public function forgot_password()
+        {
             $this->form_validation->set_rules('email','Email','required|callback_checkEmailVerify');
-            if($this->form_validation->run()===false){
+            if($this->form_validation->run()===false) {
                 $this->load->view("templates/loginheader.php");
                 $this->load->view("pages/forgot_password",$this->data);
                 $this->load->view("templates/footer.php");     
-            }else{
+            }else {
                 // Code Generation
                 $passcode = random_int(0,999999);  // Generate hash value
                 $passcode = str_pad($passcode, 6, 0, STR_PAD_LEFT);
                 
-
                 // get user info and generate 6 digit code to be sent on email
                 $email = $this->input->post('email'); //Get user email input
                 $this->ResetPassword->passcode($email, $passcode); //pass the code and update the database
                 $user = $this->ResetPassword->get_user($email);
-                $data = array(
+                $emailData = array(
                 'header' => 'Account Password Reset:',
                 'user' => $user,
                 'passcode' => $passcode,
                 'body' => 'Please Enter the 6 digit pin given above to proceed on changing password.'
                  );
-                $this->send($email,'templates/ChangePass_Email',$data); // Call email setup function
+                $this->send($email,'templates/ChangePass_Email',$emaildata); // Call email setup function
 
                 //logout user if user attempts to change pass when currently logged in and same input to change pass
-
                 //if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') == $email)) {
 
                 // logout all sessions
-                if(($this->session->userdata('lock_id') != 1)){ //if user force to visit from login
+                if(($this->session->userdata('lock_id') != 1)) { //if user force to visit from login
                     $this->session->unset_userdata(array('username','user_id','email','success','logged_in'));
                 }
 
-                $lock_id = 0; // to lock out user attempt to access other pages
-                $newdata = array('email'=>$email, 'lock_id'=>$lock_id);
+                $lockID = 0; // to lock out user attempt to access other pages
+                $newdata = array('email'=>$email, 'lock_id'=>$lockID);
                 $this->session->set_userdata($newdata);
 
                 $this->load->view("templates/loginheader.php");
@@ -54,23 +53,25 @@
         }
 
         // EMAIL MESSAGE SETUP
-        public function send($email,$template,$data){
-           
-            $to =  $email;  
+        public function send($email,$template,$emailData)
+        {
+            $to =  $email;
             $subject = 'Change Password';
-            $from = 'thinklikblog@gmail.com';           
+            $from = 'thinklikblog@gmail.com';
             $password = env('PASSWORD'); //get password from env file
 
             // Config setup
-            $config['protocol'] = 'smtp';
-            $config['smtp_host'] = 'ssl://smtp.gmail.com';
-            $config['smtp_port'] = '465';
-            $config['smtp_timeout'] = '60';
-            $config['smtp_user'] = 'thinklikblog@gmail.com';    //Important
-            $config['smtp_pass'] = $password;  //Important
-            $config['charset'] = 'utf-8';
-            $config['newline'] = "\r\n";
-            $config['mailtype'] = 'html'; // or html
+            $config = array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.gmail.com',
+                'smtp_port' => '465';
+                'smtp_timeout' => '60';
+                'smtp_user' => 'thinklikblog@gmail.com',
+                'smtp_pass' => $password,
+                'charset' => 'utf-8',
+                'newline' => "\r\n",
+                'mailtype' => 'html'
+            );
 
             // Setup email from autoload['helper']
             $this->email->initialize($config);
@@ -80,13 +81,14 @@
             $this->email->subject($subject);
 
             // Load the format and content of email
-            $message=$this->email->message($this->load->view($template,$data,true));
+            $message=$this->email->message($this->load->view($template,$emailData,true));
   
             $status=$this->email->send(); // Send the email  
         }
 
 
-        function checkEmailVerify($email){
+        public function checkEmailVerify($email)
+        {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->form_validation->set_message('checkEmailVerify', 'Invalid email format');
                 return false;
@@ -101,80 +103,75 @@
             }
         }  
 
-        public function passverify(){
+        public function passverify()
+        {
             $email = $this->session->userdata('email');
-            if($this->session->userdata('email') == NULL){ //if user forces to visit
+            if($this->session->userdata('email') == NULL) { //if user forces to visit
                 redirect("/");
             }
-            else{
+            else {
                 $passcode = $this->input->post('passcode');
                 //check if same passcode
-                $query= $this->ResetPassword->check_passcode($email, $passcode); 
+                $query= $this->ResetPassword->check_passcode($email, $passcode);
 
                 // If true, direct to change password
-                if ($query){
+                if ($query) {
                     $this->session->set_userdata(array('lock_id'=>1));
                     $this->load->view("templates/loginheader.php");
                     $this->load->view("pages/change_password");
-                    $this->load->view("templates/footer.php"); 
+                    $this->load->view("templates/footer.php");
                 }
-                else{
-                    // $this->data["title"] = "Wrong passcode";
-                    // 
+                else {
                     $this->form_validation->set_rules("passcode","Code","callback_checkCode");
-                    if($this->form_validation->run() == false){
+                    if($this->form_validation->run() == false) {
                         $this->load->view("templates/loginheader.php");
                         $this->load->view("pages/passcode",$this->data);
                         $this->load->view("templates/footer.php");
                     }
-                    else{
+                    else {
                         redirect("ForgotPassword/passverify");
                     }
-                   
                 }
             }
-            
         }
 
         // check the code if it has an error
         public function checkCode($code){
-            if(is_null($this->ResetPassword->get_code($code))){
+            if(is_null($this->ResetPassword->get_code($code))) {
                 $this->form_validation->set_message('checkCode', 'Wrong passcode');
                 return false;
             }
-            else{
+            else {
                 return true;
             }
         }
 
-        public function change_pass(){
-            
+        public function change_pass()
+        {
             $email = $this->session->userdata('email');
-            if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') != NULL)){ //if user force to visit from login
+            if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') != NULL)) { //if user force to visit from login
                 redirect("/");
             }
-            else{
+            else {
                 //if user attempts to directly visit change pass, destroy session
-                if($this->session->userdata('lock_id') != 1){
+                if($this->session->userdata('lock_id') != 1) {
                     $this->session->sess_destroy();
                     redirect("/");
                 }
                 $this->form_validation->set_rules('password_1','Password','required');
                 $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
-                if($this->form_validation->run()===false){
+                if($this->form_validation->run()===false) {
                     $this->load->view("templates/loginheader.php");
                     $this->load->view("pages/change_password");
-                    $this->load->view("templates/footer.php");       
+                    $this->load->view("templates/footer.php");
                 }
-                else{
-
-                    $hashed_pass = password_hash($this->input->post("password_1"), PASSWORD_DEFAULT);
-                    $data = array(
-
-                              'password' => $hashed_pass,
+                else {
+                    $hashedPass = password_hash($this->input->post("password_1"), PASSWORD_DEFAULT);
+                    $dataPass = array(
+                              'password' => $hashedPass,
                             );
-                    $query = $this->ResetPassword->change_pass($email,$data);
-                        if ($query){
+                    $query = $this->ResetPassword->change_pass($email,$dataPass);
+                        if ($query) {
                         $this->load->view("templates/loginheader.php");
                         $this->load->view("pages/passwordverify");
                         $this->load->view("templates/footer.php"); 
@@ -182,8 +179,7 @@
                     }
                 }
             }
-        }
-               
+        }     
     }
 
 ?>
