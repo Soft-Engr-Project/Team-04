@@ -145,6 +145,7 @@
                 return true;
             }
         }
+        
 
         public function change_pass()
         {
@@ -158,8 +159,8 @@
                     $this->session->sess_destroy();
                     redirect("/");
                 }
-                $this->form_validation->set_rules('password_1','Password','required');
-                $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
+                $this->form_validation->set_rules('password_1', 'Password', 'required');
+                $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|callback_checkNewPassword');
                 if($this->form_validation->run()===false) {
                     $this->load->view("templates/loginheader.php");
                     $this->load->view("pages/change_password");
@@ -179,7 +180,45 @@
                     }
                 }
             }
-        }     
+        }
+        
+        public function checkNewPassword($password)
+        {
+            $this->form_validation->set_message('checkNewPassword', 'New password and confirm password does not match');
+            $email = $this->session->userdata('email');
+            $newPass = $this->input->post('password_1'); 
+            $confirmPass = $password;
+            $oldPass = $this->ResetPassword->get_old_password($email);
+            
+            // Conditions for making it an optional field
+            if ($newPass) { // If new pass field has a value
+                if ($newPass == $confirmPass) { // check if matches with confirm password
+                    if (!password_verify($newPass, $oldPass)) { // then check if it is the same with old password
+                        if (preg_match('#[0-9]#', $newPass) && preg_match('#[a-z]#', $newPass)  && preg_match('#[A-Z]#', $newPass)) {
+                            return true;
+                        }
+                        else {
+                            $this->form_validation->set_message('checkNewPassword', 'The password field must be contains at least one digit, one capital and small letter.');
+                            return false;
+                        }
+                    }
+                    else {
+                        $this->form_validation->set_message('checkNewPassword', 'Cannot input old password');
+                        return false;
+                    }  
+                }
+                else{
+                    return false;
+                }
+            }
+            elseif(empty($newPass) && !empty($confirmPass)) { // If only confirm password has a value
+                return false;
+            }
+            
+            else {   // If both field has no value
+                return true;    // Return true since it is optional
+            }
+        }
     }
 
 ?>

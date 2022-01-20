@@ -63,6 +63,12 @@ class ResetPassword extends CI_Model{
     $query = $this->db->where('email', $email);
     return $this->db->update('users', $data); // Update the database
   }
+
+  public function get_old_password($email)
+  {
+    $query = $this->db->get_where("users", array("email"=>$email));
+    return $query->row_array()['password'];
+  }
 }
 
 ?>

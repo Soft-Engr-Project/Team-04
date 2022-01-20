@@ -90,7 +90,7 @@
                                 <?php } ?>
                             </a>
                         </div>
-                        <div style="margin-right: 22px;" class="col-lg-8">
+                        <div style="margin-right: 22px;" class="col">
                             <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>
