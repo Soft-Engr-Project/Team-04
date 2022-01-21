@@ -135,7 +135,7 @@
                     if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]) {
                         $notifData = array(
                             "action_id" =>  $commentID,
-                            "type_of_notif" => "comment",
+                            "type_of_notif" => "react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $this->data["comment"]["user_id"],
                             "post_id" => $this->data["comment"]["post_id"],
@@ -193,7 +193,7 @@
                     if($this->session->userdata("user_id") != $this->data["comment"]["user_id"]) {
                     $notifData = array(
                             "action_id" =>  $commentID,
-                            "type_of_notif" => "comment",
+                            "type_of_notif" => "react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $this->data["comment"]["user_id"],
                             "post_id" => $this->data["comment"]["post_id"],

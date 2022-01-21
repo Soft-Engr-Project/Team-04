@@ -15,6 +15,7 @@
 		// eto para sa lahat ng subcomment na meron sa Comment
 		public function getSpecificComments($commentId){
 			// join comment table
+			$this->db->order_by($this->subcommentTable.".subcomment_id");
 			$this->db->join($this->commentTable,$this->commentTable.".comment_id = ".$this->subcommentTable.".comment_id");
 			$this->db->join($this->usersTable,$this->usersTable.".user_id = ".$this->subcommentTable.".user_id");
 			$this->db->where($this->subcommentTable.".comment_id",$commentId);
@@ -52,7 +53,10 @@
 			$this->db->where("subcomment_id",$subcommentId);
 			return $this->db->update($this->subcommentTable,$data);
 		}
-
+		// get the last comment 
+		public function getLastComment(){
+			return $this->db->insert_id($this->subcommentTable);
+		}
 
 	}
 

@@ -8,6 +8,7 @@
         {
             parent::__construct();
             $this->load->model('Reports_model');
+            $this->load->model('SubcommentModel');
         }
 
         public function view($id=NULL)
@@ -31,13 +32,14 @@
             if($this->input->is_ajax_request()) {
                 $post_id = $this->input->post("content_id"); // kukunin yung post id na nireport 
                 $type = $this->input->post("type");
-               
+                
                 if($type == "thread") {
                     if($post = $this->post_model->get_posts($post_id)) {
                         $data = array("response" => "success","post" => $post);
                     }else {
                         $data = array("response" => "error","message" => "Failed" );
                     }
+                    
                 }
                 elseif ($type == "discussion") {
                     if($post =$this->comments_model->get_specific_comment($post_id)) {
@@ -47,6 +49,15 @@
                     }
                     
                 }
+                elseif ($type == "reply") {
+                    // para sa reply sana
+                    
+                    if($post =$this->SubcommentModel->getSpecificSubcomments($post_id)) {
+                        $data = array("response" => "success","post" => $post);
+                    }else {
+                        $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
+                    }
+                } 
                 else {
                     $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                 }

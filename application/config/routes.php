@@ -1,5 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["subcomments/fetchSpecificComment"] = "subcomments/fetchSpecificComment";
+$route["subcomments/reaction"] = "subcomments/reaction";
+$route["subcomments/update"] = "subcomments/update";
+$route["subcomments/edit"] = "subcomments/edit";
+$route["subcomments/delete"]= "subcomments/delete";
+$route["subcomments/fetch"] = "subcomments/fetch";
 $route["subcomments/reaction"] = 'subcomments/reaction';
 $route["subcomments/view/(:any)"] = "subcomments/view/$1";
 $route["comments/reaction"] = "comments/reaction";
