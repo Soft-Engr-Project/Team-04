@@ -700,7 +700,7 @@
               type_of_vote : "down_react"
             },
             success : function(data){   
-                
+                console.log(data);
                 post_fetch();
             }
         });
