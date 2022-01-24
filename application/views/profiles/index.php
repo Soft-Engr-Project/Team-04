@@ -1,111 +1,91 @@
-            <div class="col-lg-8">
-                <div class="row">
-                    <div class="threads">
-                        <h1><?=$title?></h1>
-                        <hr>
-                    </div>
-                    <?php foreach($posts as $post):?>
-                    <div class="threadscontent">
-                        <div class="container">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="circleimage">
-                                <?php if(!empty($user["user_profile_photo"])){ ?>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="threads">
+                            <h1><?=$title?></h1>
+                            <hr>
+                        </div>
+                        <?php foreach($posts as $post):?>
+                        <div class="threadscontent">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <div class="circleimage">
+                                         <?php if(!empty($user["user_profile_photo"])){ ?>
                                             <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" >
                                         <?php }
                                         else{?>
                                             <img style="border: 1px solid #000000;" src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
-                                <?php } ?>
-                                </div>
-                            </div>
-                            <div class="col-lg-9">
-                                <a href="<?php echo site_url("profiles/view/".$post["user_id"]);?>"><h2><?php echo $user["username"]?></h2> </a>
-                                <a href="<?php echo site_url("/posts/view/".$post["id"]);?>"> <h4> <?php echo $post["title"];?></h4></a> 
-                                <!-- image -->
-                                <?php if(!empty($post["post_image"])):?>
-                                    <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300">
-                                <?php endif;?>
-                                <h6> <?php echo character_limiter($post["body"],300);?></h6> 
-    
-                                <p>Posted on <?php echo $post["created_at"];?></p>
-                                
-                                <div class="threadscol">
-                                    <div class="row">
-
-                                        <div class="col-lg-3">
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <img src="<?php echo base_url();?>assets/image/reactions.png" alt="reaction">
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <h3><?php echo $post["upvote"];?></h3>
-                                                    </div>  
-                                                </div>
-                                            </a>
-
+                                         <?php } ?>
                                         </div>
-
-                                        <div class="col-lg-3">
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <img src="<?php echo base_url();?>assets/image/comment.png" alt="comment">
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <h3><?php echo $post["post_comment_count"];?></h3>
-                                                    </div>
-                                                </div>
-                                            </a>
+                                        <?php if($user["user_id"] == $this->session->userdata("user_id")):?>
+                                        <div class="dropdown">
+                                            <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                                <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <label for="edit">
+                                                    <li class="dropdown-item">
+                                                         <?php echo form_open("posts/edit/".$post["id"]);?>
+                                                            <input type="submit" id="edit">
+                                                             Edit
+                                                        </form> 
+                                                    </li> 
+                                                </label>
+                                                <label for="remove">
+                                                    <li class="dropdown-item"> 
+                                                         <?php echo form_open("profileposts/delete/".$post["id"]);?>
+                                                    <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                                                    <input type="submit" id="remove">
+                                                        Remove
+                                                    </form>
+                                                    </li> 
+                                                </label>  
+                                            </ul>
                                         </div>
-                                  
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4">
-                                                    <h4>Categories: </h4>
+                                        <?php endif;?> 
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <h2><a href="<?php echo site_url("profiles/view/".$post["user_id"]);?>"><?php echo $user["username"]?> </a></h2>
+                                        <h4><a href="<?php echo site_url("/posts/view/".$post["id"]);?>"> <?php echo $post["title"];?></a></h4>
+                                        <h6> <?php if(!empty($post["post_image"])):?>
+                                            <img src="<?php echo base_url().$post["post_image"];?>" alt=""> </h6>
+                                        <?php endif;?>
+                                        <h6><?php echo character_limiter($post["body"],300);?></h6>
+                                        <p>Posted on: <?php echo $post["created_at"];?></p>
+            
+                                        <div class="threadmore">
+                                            <div class="profilereaction">
+                                                <div class="upbutton" id="like">
+                                                    <button id="likebtn">
+                                                        <i class="fa fa-thumbs-up" style="font-size:24px"></i>                              
+                                                        <input type="numberlike" id="input1" value="<?php echo $post["upvote"];?>" name="">
+                                                    </button>
                                                 </div>
-                                                <div class="col-lg-8 col-md-8">
-                                                    <a href="#"><h6><?php echo $post["name"];?></h6></a>
+                    
+                                                <div class="downbutton" id="dislike" >
+                                                    <button id="likebtn">
+                                                        <i class="fa fa-thumbs-down" style="font-size:24px"></i>
+                                                        <input type="numberlike" value="0" name="">
+                                                    </button>
                                                 </div>
+                                            </div> 
+                                            <div class="totalcomments">
+                                                <img src="<?php echo base_url();?>assets/image/comment.png" alt="comment">
+                                                <input type="numberlike" value="<?php echo $post["post_comment_count"];?>" name="">
+                    
                                             </div>
-                                        </div>                             
-
-                                    </div>
+                                            <div class="whatcategory">
+                                                <h4>Categories: </h4>
+                                                <a href=""><?php echo $post["name"];?></a>
+                                            </div>
+                                        </div>
+                                    </div>                         
                                 </div>
-                            </div>    
-                            <?php if($user["user_id"] == $this->session->userdata("user_id")):?>
-                            <div class="col-lg-1">
-                                 <div class="menuthreads">
-                                    <div class="dropdown">
-                                        <button type="button" id="buttonmenu" data-bs-toggle="dropdown"> 
-                                             <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li class="dropdown-item"> <?php echo form_open("posts/edit/".$post["id"]);?>
-                                                <input type="submit" id="edit">
-                                                
-                                                <label for="edit">Edit</label>
-                                                
-                                                </form></li>
-                                            <li class="dropdown-item"> 
-                                                <?php echo form_open("profileposts/delete/".$post["id"]);?>
-                                                <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
-              
-                                                <input type="submit" id="remove">
-                                                <label for="remove">Remove</label>  
-                                                 </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                           <?php endif;?>    
                             <hr>
-                            
+                            </div>
                         </div>
+                        <?php endforeach;?>
                     </div>
-                    <?php endforeach;?>
-
                 </div>
             </div>
         </div>

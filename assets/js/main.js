@@ -26,6 +26,9 @@ function hidepassword(){
     state = true; 
 }
 
+
+
+
 // Menu Navbar
 let settingsmenu = document.querySelector (".settings-menu");
 var el = document.getElementById('settings');
@@ -83,4 +86,39 @@ $(window).on('click', function(event){
             el.style.display = "none";
         settingsmenu.classList.remove("settings-menu-height");
     }
+});
+
+
+    // Review Cover Photo
+let coverphoto = document.querySelector("#smallcover");
+let filecover = document.querySelector("#filecover");
+
+filecover.addEventListener('change', function(){
+    //this refers to file
+    const choosedCover = this.files[0];
+    if (choosedCover) {
+        const reader = new FileReader(); //FileReader is a predefined function of JS
+        reader.addEventListener('load', function(){
+            coverphoto.setAttribute('src', reader.result);
+        });
+        reader.readAsDataURL(choosedCover);
+    }
+});
+
+
+
+// Change Profile Photo
+
+let profilephoto = document.querySelector("#smallprofile");
+let fileprofile = document.querySelector("#filepro");
+fileprofile.addEventListener('change', function(){
+    let choosedFile = this.files[0];
+    if (choosedFile) {
+        const reader = new FileReader(); //FileReader is a predefined function of JS
+        reader.addEventListener('load', function(){
+            profilephoto.setAttribute('src', reader.result);
+        });
+        reader.readAsDataURL(choosedFile);
+    }
+
 });

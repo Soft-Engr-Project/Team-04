@@ -82,7 +82,7 @@ class Signup extends CI_Controller
     }
    
 
-    private function checkUserName($username)
+    public function checkUserName($username)
     {
         if ($this->Registration->checkUserExist($username) == false) {
              return true;
@@ -93,7 +93,7 @@ class Signup extends CI_Controller
         }
     }
 
-    private function checkEmail($email)
+    public function checkEmail($email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->form_validation->set_message('checkEmail', 'Invalid email format');
@@ -109,7 +109,7 @@ class Signup extends CI_Controller
         }
     }
 
-    private function checkBirthdate($birthdate)
+    public function checkBirthdate($birthdate)
     {
         $this->form_validation->set_message('checkBirthdate', 'User must be 13 and above to create an account');
         $dob = new DateTime($birthdate);
@@ -134,8 +134,8 @@ class Signup extends CI_Controller
         $config = array(
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.gmail.com',
-            'smtp_port' => '465';
-            'smtp_timeout' => '60';
+            'smtp_port' => '465',
+            'smtp_timeout' => '60',
             'smtp_user' => 'thinklikblog@gmail.com',
             'smtp_pass' => $password,
             'charset' => 'utf-8',

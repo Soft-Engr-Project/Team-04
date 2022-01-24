@@ -73,7 +73,7 @@
                 // use file name
                 $post_image = "assets/images/post/".$_FILES['userfile']["name"];
             }
-            $userDdata = array(
+            $userData = array(
                 "user_cover_photo" => $post_image
             );
             $this->profile_model->update_db_user_info($id,$userData);

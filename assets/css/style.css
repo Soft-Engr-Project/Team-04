@@ -6,8 +6,13 @@
 }
 
 .color{
-    background-color: white;
+    background-color: red;
 }
+
+ul{
+    list-style: none;
+}
+
 
 /* Navbar */
 
@@ -104,7 +109,7 @@ nav ul .icon{
     overflow: hidden;
     top: 60px;
     right: 0.05%;
-    padding: 10px 10px 10px 30px;
+    padding: 10px 0 10px 30px;
     border-radius: 0px 0px 0px 50px;
     max-height:0;
     transition: max-height 0.3s;
@@ -132,7 +137,10 @@ nav ul .icon{
 }
 
 .settings-menu .row a p{
+    max-width: 14ch;
     margin-top: 15px;
+    font-size: 15px;
+    margin-left: -10px;
 }
 
 .settings-menu hr{
@@ -147,9 +155,128 @@ nav ul .icon{
 }
 
 
+.settings-menu-inner p, .profile h2, .homethread .toppost h4, .threadcreatorname h3,
+.reaction input, .totalcomments input, .profilecontent h4{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userpic{
+    height: 53px;
+    width: 53px;
+    background: #FFF;
+}
+
+
+
+/* Modal Banner and Profile */
+
+.covermodal{
+    background-color: rgba(0,0,0, 0.9);
+    width:100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .5s;
+}
+
+#coverpage:target, #profilepage:target{
+    opacity: 1;
+    visibility: visible;
+}
+    
+.changecover_profile{
+    width: 500px;
+    height: 400px;
+    background-color: #FEDB97;
+    margin: 150px 0 0 470px;
+    position: absolute;
+}
+
+.navbarsmall {
+    background-color: #314754;
+    width: 100%;
+    height: 40px;
+}
+
+.changecover_profile .imagesmall{
+    width: 100%;
+    height: 35%;
+}
+
+.profilesmall{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #E5E5E5;
+    border: solid 1px #314754;
+    margin-top: -15%;
+    margin-left: 5%;
+    flex-wrap: wrap;
+    z-index: 2;
+}
+
+.smallcontent input{
+    margin: 20px 0 0 140px;
+}
+
+#coverpage .smallcontent h4{
+    margin: 10px 0 0 150px;
+    font-weight: bold;
+}
+
+.smallcontent button{
+    padding: 8px 20px;
+    background-color: #7C9784;
+    font-weight: bold;
+    border: none;
+    border-radius: 10%;
+    color: white;
+    cursor: pointer;
+}
+
+#coverpage .smallbutton1{
+    margin: 60px 0 0 40px;
+}
+
+#coverpage .smallbutton2, #profilepage .smallbutton2 {
+    margin: -40px 0 0 360px;
+    position: absolute;
+}
+
+.smallcontent button:hover{
+    background-color: #314754;
+    color: white;
+}
+
+.reviewprofile{
+    width: 200px;
+    height: 200px;
+    margin-top: 10px;
+    margin-left: 150px;
+    border: solid 1px black;
+    background-color: white;
+}
+
+.reviewprofile img{
+    width: 100%;
+    height: 100%;
+}
+
+#profilepage .smallbutton1{
+    margin: 30px 0 0 40px;
+}
+
+#profilepage .smallcontent h4{
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
 
 /* Banner Photo */
-
 .cover{
     padding-top: 60px;
     position: relative;
@@ -158,84 +285,73 @@ nav ul .icon{
 }
 
 /* lagyan ng  object-fit: cover; sa #coverphoto at #profilephoto pag ayaw na narereduce yung height nung picture */
-#coverphoto, #profilephoto, .userpic{
+#coverphoto, #profilephoto{
     height: 100%;
     width: 100%;
 }
 
-.navbar .navbar-nav .dropdown .nav-link .userpic{
-    height: 53px;
-    width: 53px;
-    background: #FFF;
-}
-
-.banner{
-    display: absolute;
+.cover .bannercrud{
+    background: #7C9784;
     width: 175px;
     height: 45px;
-    background: #7C9784;
-    position: absolute;
     top: 385px;
-    left: 1173px;
+    left: 87%;
     padding: 10px;
 }
+.bannercrud{
+    position: absolute;
+    color: white;
+}
 
-.banner h6{
+.bannercrud h6{
     font-family: Roboto;
-    font-style: normal;
     font-weight: bold;
     font-size: 20px;    
-    line-height: 23px;
-    color: white;
     cursor: pointer;
 }
 
-.banner img{
-    position: absolute;
+.bannercrud img{
+    margin-top: -44px;
     float: right;
-    left: 125px;
-    bottom: 0.5px;
+    cursor: pointer;
 }
 
-.sub-menu-1{
+.photomenu{
     position: absolute;
-    width: 192px;
-    right: 0.5px;
-    top: 45px;
-    text-align: left;
-    display: none;
-}
-
-.sub-menu-1 ul, .profilelabel ul{
-    list-style: none;
-}
-
-.sub-menu-1 ul li, .profilelabel ul li{
-    padding: 10px;
-    margin: 5px;
-}
-
-.banner:hover .sub-menu-1, .profilemenu:hover .profilelabel {
-    display: block;
+    right: 0.1px;
+    margin-top: 2px;
     background-color: #314754;
-    width: 175px;
-    height: 105px;
-    color: white; 
-}
-
-.banner:hover .sub-menu-1 ul, .profilemenu:hover .profilelabel ul{
-    display: block;
-    margin: 5px;
-}
-
-.banner:hover .sub-menu-1 ul li:hover, .profilemenu:hover .profilelabel ul li:hover{
-    background-color: #7C9784;
-    width: 80px;
-}
-
-#filecover, #fileprofile{
     display: none;
 }
+
+.photomenu li, .profilelabel ul li{
+    padding: 0 15px 0 10px;
+    margin: 10px 0 0 10px;
+}
+
+.photomenu li a{
+    text-decoration: none;
+    color: white;
+    padding: 8px;
+}
+
+.photomenu li button{
+    background-color:#314754;;
+    border: none;
+    color: white;
+    padding: 8px;
+}
+
+.bannercrud:hover .photomenu{
+    display: block;
+    width: 175px;
+    height: 90px;
+}
+
+.photomenu li a:hover, .photomenu li button:hover{
+    background-color: #7C9784; 
+}
+
 
 /* Profile Picture*/
 
@@ -243,6 +359,9 @@ nav ul .icon{
 at yung height ay 38%
 */
 
+.container hr{
+    margin-top: -5px;
+}
 .profile {
     width: 380px;
     height: 200px;
@@ -257,40 +376,52 @@ at yung height ay 38%
     width: 300px;
     height: 300px;
     background: #E5E5E5;
-    border-style: solid;
-    margin-top: -15%;
-    margin-left: 2.8%;
-    flex-wrap: wrap;
+    border: solid 1px #314754;
+    margin: -200px 0 0 40px;
     z-index: 2;
 }
 
-.profilemenu img{
-    margin-left: 250px;
-    margin-top: -75px;
-    cursor: pointer;
+
+.profile .bannercrud:hover h6{
+    display: block;
 }
 
-.profilemenu .profilelabel{
-    position: absolute;
-    width: 192px;
-    left: 120px;
-    top: 295px;
-    text-align: left;
+.profile .bannercrud img{
+    margin-left: 247px;
+}
+
+.profile .bannercrud h6{
+    background: #7C9784;
+    margin-top: -40px;
+    padding: 5px 10px;
+    width: 175px;
+    height: 40px;
+    margin-left: 120px;
     display: none;
 }
 
+.profile .photomenu{
+    margin-top: -8px;
+}
+
+
+#fileprofile{
+    display: none;
+}
 .profile h2{
-    font-size: 25px;
+    font-size: 20px;
     text-align: center;
     margin-top: 110px;
     font-weight: bold;
+    padding: 0 20px;
+    width: 380px;
 }
 
 .profilecontent h4{ 
-    list-style: none;
-    font-size: 20px;
+    padding-left: 60px;
+    font-size: 15px;
     font-weight: bold;
-    padding-top: 20px;
+    width: 330px;
 }
 
 .personalinfo{
@@ -322,7 +453,6 @@ at yung height ay 38%
 }
 
 .circleimage{
-    display: inline-block;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -337,10 +467,9 @@ at yung height ay 38%
     object-fit: cover;
 }
 
-
 .threadscontent .row h2{
-    font-size: 20px;
-    margin-left: -50px;
+    font-size: 15px;
+    margin-left: -13%;
 }
 
 .threadscontent .row a, .homethread .row a, .comments a{
@@ -359,19 +488,19 @@ at yung height ay 38%
 .threadscontent .row h4,
 .threadscontent .row p{
     font-weight: bold;
-    margin-top: -5px;
-    margin-left: -30px;
-
+    margin: 5px 0 0 -10% ;
 }
 
+.threadscontent .row .dropdown{
+    margin: -56px 0 0 670%;
+}
 .threadscontent .row p{
     font-size: x-small;
-    padding-top: 15px;
+    padding: 15px;
 }
 
 .threadscontent .row h6{
-    margin-left: 20px;
-    margin-left: -20px;
+    margin: 0 12px 0 -10%;
     padding-top: 10px;
     text-indent: 10px;
     text-align: justify;
@@ -387,16 +516,20 @@ at yung height ay 38%
     height: 30px;
 }
 
-.threadscol .row h4, .threadscol .row h6{
+.threadscol .row h4{
     font-size: 15px;
     margin-top: 5px;
 }
 
 .threadscol .row h6{
+    font-size: 15px;
     font-weight: bold;
+    margin-top: -4.5px;
+    
 }
 .dropdown input{
     display: none;
+    margin-top: -5px;
 }
 
 .dropdown button{
@@ -414,27 +547,18 @@ at yung height ay 38%
 .dropdown ul{
     background-color: #314754;
     text-align: center;
-    width: 10px;
+    width: 1px;
 }
 
-.dropdown ul li label{
+.dropdown ul label li, .dropdown ul a, .dropdown ul a li{
     color: white; 
+    text-decoration: none;
+}
+
+.dropdown ul li:hover, .dropdown ul a:hover{
+    background-color: #7C9784;
+    color: white;
     cursor: pointer;
-}
-
-.dropdown ul li a{
-    text-decoration: none;
-    color: white;
-}
-
-.dropdown-menu li:hover{
-    background-color: #7C9784;
-}
-
-.dropdown-menu li a:hover{
-    background-color: #7C9784;
-    color: white;
-    text-decoration: none;
 }
 
 
@@ -458,12 +582,14 @@ at yung height ay 38%
 .top h2, .allcat h2{
     font-size: 20px;
     padding: 20px 10px;
+    text-align: center;
 }
 
-.topname a{
+.topname a, .categories p a{
     text-decoration: none;
     color: white;
 }
+
 .topname, .categories{
     padding: 10px 20px;
 }
@@ -473,14 +599,11 @@ at yung height ay 38%
     line-height: 10px;
 }
 
-.categories a{
-    text-decoration: none;
-}
-
 .categories a:hover, .topname a:hover{
     text-decoration: underline;
     color: white;
 }
+
 
 .createthread{
     margin-top: 16%;
@@ -596,49 +719,50 @@ at yung height ay 38%
 }
 
 .homethread{
-    background: white;
-}
+    background-color: rgb(253,240,213, 0.4);
+    margin-left: -390px;
+    padding-bottom: 20px;
+
+}   
 
 .homethread .circleimage{
-    margin-top: 20px;
-    margin-left: -300px;
+    margin: 20px 0 3px 50px;
 }
 
-.homethread .row h2{
-    font-size: 18px;
-    margin-top: 20px;
-    margin-left: -270px;
+.toppost{
+    display: grid;
+    grid-template-columns: 10% 80%;
 }
 
-.homethread .row h4{
+.toppost a{
+    color: black;
+    text-decoration: none;
+}
+
+.toppost a:hover{
+    color: black;
+    text-decoration: underline;
+}
+
+
+.homethread .toppost h2{
     font-size: 15px;
-    margin-top: -5px;
-    margin-left: -250px;
+    margin: 25px 0 0 10px;
 }
 
-.homethread .row p{
-    margin-top: 20px;
-    margin-left: 50px;
+
+.homethread .toppost h4{
+    font-size: 18px;
+    margin: 0 0 0 25px;
+    width: 800px;
+}
+
+.homethread .toppost p{
+    margin-top: -38px;
+    margin-left: 600px;
     font-size: 10px;
     font-weight: bold;
 }
-
-.notification{
-    position: absolute;
-    font-size: 40px;
-    margin-left: 60%;
-    margin-top: -60px;
-}
-.notification a{
-    text-decoration: none;
-    background-color: white;
-}
-.notification a:hover{
-    color: red;
-    background-color: none;
-
-}
-
 
 /* View Thread */
 
@@ -667,19 +791,13 @@ at yung height ay 38%
 .threadcreatorname h3{
     font-size: 20px;
     padding: 15px 10px 0 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
-/*eto may dinagdag ako*/
+
 .threadcreatorname a{
+    color: black;
     text-decoration: none;
-    color: black;
 }
-.threadcreatorname a:hover{
-    text-decoration: underline;
-    color: black;
-}
+
 .threadspost{
     margin-top: 130px;
     margin-left: 50px;
@@ -692,7 +810,6 @@ at yung height ay 38%
     text-decoration: underline;
     text-decoration-color: gray;
 }
-
 
 .threadspost h3{
     margin: -10px 60px 0 10px; 
@@ -715,7 +832,6 @@ at yung height ay 38%
 .reaction{
     border: 0.1px solid #FEDB97;
     border-radius: 20px;
-    width: 265.5px;
     text-align: center;
     position: relative;
     display: flex;
@@ -723,27 +839,45 @@ at yung height ay 38%
     margin-right: 60px;
 }
 
-.reaction input, .totalcomments input{
+.profilereaction{
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-left: -70px;
+}
+
+.threadmore input, .profilereaction input{
     width: 50px;
     border: none;
     background: none;
     color: black;
     font-size: 15px;
-    margin: 0 10;   
+    margin: 0 10px;   
     pointer-events: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-.reaction button {
-    color: black;
+.reaction button, .profilereaction button {
+    color: rgb(49,71,84);
     background: none;
-    border: none;
-    padding: 0 15px;
-    margin: 10px 0;
-    margin-left: 20px;
+    border: none;    
     cursor: pointer;
+}
+
+.threadspost .reaction button{
+    padding: 10px 0 10px 30px;
+    width: 100%;
+    height: 100%;
+}
+
+.comments .reaction button, .threadscontent .reaction button{
+    padding: 0 15px;
+    margin: 10px 0 10px 20px;
+}
+
+.threadmore .profilereaction{
+    margin-right: 50px;
+    padding: 20px;
 }
 
 button:active{
@@ -751,15 +885,7 @@ button:active{
     transform: scale(1.2);
 }
 
-.reaction div, .reaction div#like.inactive, .reaction div#dislike.inactive{
-    background-color:white;
-}
-
 .reaction div:hover{
-    background-color: #FEDB97;
-}
-
-.reaction div#like.active, .reaction div#dislike.active{
     background-color: #FEDB97;
 }
 
@@ -771,9 +897,13 @@ button:active{
     border-radius: 0 20px 20px 0;
 }
 
-.totalcomments{
-    margin-right: 70px;
+.threadscontent .totalcomments, .threadspost .totalcomments{
+    margin: 0 60px 0 -30px;
     padding-top: 5px;
+}
+
+.threadspost .totalcomments{
+    margin-left: 10px;
 }
 
 .totalcomments img{
@@ -788,10 +918,28 @@ button:active{
 
 .whatcategory h4{
     font-size: 15px;
+    margin-top: -2px;
+    font-weight: normal;
 }
+
+.threadscontent .threadmore .whatcategory h4{
+    font-weight: normal;
+    font-size: 15px;
+    margin: -5px 0 0 -40px;
+}
+
+.threadscontent .threadmore .whatcategory a{
+    margin-top: -7px;
+}
+
+.whatcategory h3{
+    font-size: 15px;
+    margin: -10px 0 0 -40px;
+}
+
 .whatcategory a{
     font-size: 15px;
-    margin: -3px 0 0 5px ;
+    margin: -4px 0 0 5px ;
     text-decoration: none;
     color: black;
     font-weight: bold;
@@ -915,6 +1063,7 @@ hr.between{
     margin: 10px 0 10px 0;
 }
 
+
 /*Loading*/
 
 .loading {
@@ -969,12 +1118,102 @@ hr.between{
 body{
     background-color: #f7c607;
     padding: 0;
-    margin: 0;
+    margin: 0;  
+
 }
 
 
+/* Notification */
+
+.notification_icon{
+    position: absolute;
+    font-size: 40px;
+    color: #314754;
+    margin: -60px 0 0 59%;
+}
+
+ .notification_icon .fa-bell{
+    cursor: pointer;
+}
+
+ .notifdropdown{
+    position: absolute;
+    width: 370px;
+    max-height: 400px;
+    background-color: #314754;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.125);
+    margin: 15px auto 0;
+    padding: 15px;
+    position: relative;
+    overflow-x: hidden;
+    z-index: 10;
+    display: none;
+}
+
+.notify_item .dropdown{
+    margin-left: 290px;
+    margin-top: -60px;
+    margin-bottom: 20px;
+}
+
+.notify_item a:hover .notify_item .dropdown{
+    display: block;
+}
+ .notifdropdown .notify_item a{
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    text-decoration: none;
+    color: white;
+}
+
+.notifdropdown .notify_item {
+    border-bottom: 1px solid white;
+}
 
 
+ .notifdropdown .notify_item .notify_img{
+    margin-right: 15px;
+    margin-left: -5px;
+}
+
+ .notifdropdown .notify_item .notify_info p{
+    margin-bottom: 5px;
+}
+
+ .notifdropdown .notify_item .notify_info p span{
+    color: #605dff;
+    margin-left: 5px;
+}
+
+ .notifdropdown .notify_item .notify_info .notify_time{
+    color: white;
+    font-size: 12px;
+}
+
+.notifdropdown.active{
+    margin-left: 45%;
+    margin-top: -5px;
+    position: absolute;
+    display: block;
+}
+
+.notify_item p{
+    color: white;
+    text-align: center;
+}
 
 
+.row h6 img{
+    max-width: 800px;
+    max-height:400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 10px outset #314754;
+}
 
+.threadscontent .row h4{
+    font-size: 20px;
+}
