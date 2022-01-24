@@ -1,4 +1,5 @@
-<div style="width: 100vw; height: 100vh;"class="container-fluid">
+<div onclick="checkMousePointer()">
+<div style="height: 100vh;"class="container-fluid">
         <div class="row">
             <div class="col-lg-3">
                 <div class="viewthreadpic">
@@ -11,7 +12,7 @@
 
                 </div>
                 <div class="threadcreatorname">
-                    <h3><?php echo ucfirst($post["username"]);?></h3>
+                    <h3><a href="<?php echo base_url()."profiles/view/".$post["user_id"];?>"><?php echo ucfirst($post["username"]);?></a></h3>
                 </div>
             </div>
 
@@ -21,8 +22,8 @@
                         <div class="col-lg-10">
                             <h1><?php echo $post["title"];?></h1>
                             <?php if(isset($post["post_image"]) && !empty($post["post_image"])):?>
-      <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300"> 
-      <?php endif;?>
+                            <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300"> 
+                            <?php endif;?>
                         </div>
                         <div class="col-lg-1">
                           <?php if($this->session->userdata("user_id") == $post["user_id"] || $this->session->userdata("admin") == true ) :?>
@@ -31,19 +32,23 @@
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <label for="editpost">
                                     <li class="dropdown-item">
-
                                       <?php echo form_open("posts/edit/".$post["id"]);?>
                                         <input type="submit" id="editpost">
-                                            <label for="editpost">Edit</label>  
+                                            Edit
                                       </form>
                                     </li>
+                                    </label>  
+
+                                    <label for="remove">
                                     <li class="dropdown-item"> 
                                       <?php echo form_open("posts/delete/".$post["id"]);?>
                                         <input type="submit" id="remove">
-                                            <label for="remove">Remove</label>  
+                                            Remove 
                                       </form>
                                     </li>
+                                    </label> 
                                 </ul>
                             </div>
 
@@ -53,9 +58,12 @@
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                 </button>
                                 <ul class="dropdown-menu">
+                                     <a href="#" id="report_button" name="thread" value= "<?php echo $post["id"]?>">
                                     <li class="dropdown-item">
-                                            <a href="#" id="report_button" name="thread" value= "<?php echo $post["id"]?>">Report</a>
+                                           Report
                                     </li>
+                                    </a>
+                                    
                                 </ul>
                             </div>
                           <?php endif;?>
@@ -101,25 +109,26 @@
                         <img src="" alt="">
                         <h3><?php echo $post["body"];?></h3>
                     </div>
-                    <h6>Posted on: <?php echo $post["created_at"];?></h6>    
+                    <h6>Posted on: <?php echo $post["post_created_at"];?></h6>    
                     
-                    <div class="threadmore">
+                    <div class="threadmore" id="posting">
                         <div class="reaction">
                             <div class="upbutton">
-                              <?php echo form_open("posts/reaction/".$post["id"]);?>
-                              <button name="submit" type="submit" value="up_react">
+                              
+
+                              <button name="submit" id="upvote_post" value="<?php echo $post["id"]?>">
                                 <i class="fa fa-thumbs-up fa-lg"></i>
-                              <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                            
                                 <input type="numberlike" value="<?php echo $post["upvote"] ;?>">
                               </button>
-                            </form>
+                            
                             </div>
 
                             <div class="downbutton">
-                              <?php echo form_open("posts/reaction/".$post["id"]);?>
-                                <button name="submit" type="submit" value="down_react">
+                              
+                                <button name="submit" id="downvote_post" value="<?php echo $post["id"]?>">
                                     <i class="fa fa-thumbs-down fa-lg"></i>
-                                    <input type="hidden" name="react_id" value="<?php echo $post["react_id"];?>">
+                                    
                                     <input type="numberlike" value="<?php echo $post["downvote"];?>">
                                 </button>
                               </form>
@@ -127,7 +136,7 @@
                         </div> 
                         <div class="totalcomments">
                             <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
-                            <input type="numberlike" id="input1" value="0" name="">
+                            <input type="numberlike" id="input1" value="<?php echo $post["post_comment_count"]?>" name="">
 
                         </div>
                         <div class="whatcategory">
@@ -147,7 +156,7 @@
                         <h2>Random Threads</h2>
                     </div>
                     <div class="categories">
-                        <a href="#"><p>Anime </p></a>
+                        <p><a href="#">Anime</a> </p>
                     </div>
                 </div>
         
@@ -322,6 +331,53 @@
      $("#report_form")[0].reset();
     })
 
+    function post_fetch(){
+        $.ajax({
+        url : "<?php echo base_url();?>posts/fetch",
+        type : "post",
+        data :{
+            post_id : <?php echo $post["id"];?>
+        },
+        success:function(data){
+            let result = data.replace(/<!--  -->/g, "");
+            data = JSON.parse(result);
+            var post = "";
+            post += `
+            <div class="reaction">
+                            <div class="upbutton">
+                              <button name="submit" id="upvote_post" value="${data["id"]}">
+                                <i class="fa fa-thumbs-up fa-lg"></i>
+                                <input type="numberlike" value="${data["upvote"]}">
+                              </button>
+                            
+                            </div>
+
+                            <div class="downbutton">
+                             
+                                <button name="submit" id="downvote_post" value="${data["id"]}">
+                                    <i class="fa fa-thumbs-down fa-lg"></i>
+                                    <input type="numberlike" value="${data["downvote"]}">
+                                </button>
+                            </div>
+                            </div> 
+                        <div class="totalcomments">
+                            <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
+                            <input type="numberlike" id="input1" value="${data["post_comment_count"]}" name="">
+
+                        </div>
+                        <div class="whatcategory">
+                            <h4>Categories: </h4>
+                            <a href="">${data["name"]}</a>
+                        </div>
+
+
+            `;
+            $("#posting").html(post);
+           
+        }
+      });
+    }
+
 
     function fetch(){
         $.ajax({
@@ -341,7 +397,6 @@
                 commentbody += "<div class='card bg-danger'>";
               }
               else {
-                console.log('hi')
                 commentbody+= `
                 <div class="comments">`;
               }
@@ -351,8 +406,9 @@
                             <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">                                
                             </div>
                             <div class="row"> 
-                            <div class="col-lg-3">    
-                                <a href=""><h2>${element["username"]}</h2></a>
+                            <div class="col-lg-3"> 
+                            
+                                <a href="<?php echo base_url()?>profiles/view/${element["user_id"]}"><h2>${element["username"]}</h2></a>
                             </div>  
                             <div class="col-lg-9">    
                                 <div class="commentdropdown">` ;
@@ -362,14 +418,18 @@
                                                 <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                         </button>
                                         <ul class="dropdown-menu">
+                                             <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">
                                             <li class="dropdown-item">
                                                 <input type="submit" id="edit" >
-                                                <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">Edit</label>
+                                               Edit
                                             </li>
+                                            </label>
+                                            <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">
                                             <li class="dropdown-item"> 
                                                 <input type="submit" id="remove">
-                                                    <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">Remove</label>  
+                                                    Remove
                                             </li>
+                                            </label>  
                                         </ul>
                                     </div>`;
                 }
@@ -380,10 +440,12 @@
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                 </button>
                                 <ul class="dropdown-menu">
+                                <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">
                                     <li class="dropdown-item">
-                                            <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">Report</a>
+                                            Report
                                     </li>
-                                </ul>
+                                    </label>
+                                </a>
                             </div>`;}
 
             commentbody += `   </div>                              
@@ -422,12 +484,12 @@
                                     </button>
                             </div> 
                             <div class="totalcomments">
-                                <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
-                                <input type="numberlike" id="input1" value="0" name="">
+                                <a href="<?php echo base_url()?>subcomments/view/${element["comment_id"]}"><img src="<?php echo base_url();?>assets/image/comment.png" alt=""></a>
+                                <input type="numberlike" id="input1" value="${element["subcomment_count"]}" name="">
     
                             </div>
                             <div class="whatcategory">
-                                <h4>Commented on: </h4>
+                                <h4>Commented on: ${element["comment_created_at"]}</h4>
                             </div>
                         </div>
                     </div>
@@ -622,6 +684,40 @@
               });
      })
 
+     $(document).on("click","#upvote_post",function(e){
+        e.preventDefault();
+        var post_id = $(this).val();
+    
+        $.ajax({
+            url : "<?php echo base_url()?>posts/reaction",
+            type : "post",
+            data : {
+              post_id : post_id,
+              type_of_vote : "up_react"
+            },
+            success : function(data){   
+                
+                post_fetch();
+            }
+        });
+     });
+     $(document).on("click","#downvote_post",function(e){
+        e.preventDefault();
+        var post_id = $(this).val();
+        $.ajax({
+            url : "<?php echo base_url()?>posts/reaction",
+            type : "post",
+            data : {
+              post_id : post_id,
+              type_of_vote : "down_react"
+            },
+            success : function(data){   
+                console.log(data);
+                post_fetch();
+            }
+        });
+     });
+
      $(document).on("click","#upvote_comment",function(e){
         e.preventDefault();
         var comment_id = $(this).attr("value");
@@ -654,3 +750,4 @@
 
      })
     </script>
+</div>

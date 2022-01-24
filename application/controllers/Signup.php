@@ -1,26 +1,31 @@
 <?php
-class Signup extends CI_Controller{
+class Signup extends CI_Controller
+{
+    private $data = array();
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Registration');
 
     }
-    private $data = array();
-    public function form(){
+    
+    public function form()
+    {
         $data["title"]="Signup";
         $this->load->view("templates/loginheader.php");
         $this->load->view("pages/signup.php",$data);
         $this->load->view("templates/footer.php");
     }
-    public function navigate(){
 
+    public function navigate()
+    {
         // ipapasok dito para  ipasok sa model
         redirect("logins/form");
     }
 
     // USER REISTRATION
-    public function register(){
+    public function register()
+    {
         // Rules for forms
         $this->form_validation->set_rules('username','Username','required|callback_checkUserName');
         $this->form_validation->set_rules('firstname','Firstname','required');
@@ -30,54 +35,55 @@ class Signup extends CI_Controller{
         $this->form_validation->set_rules('password_1','Password','required|min_length[8]|max_length[25]|callback_check_strong_password');
         $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
         
-        if($this->form_validation->run()===false){
+        if($this->form_validation->run()===false) {
             $this->load->view("templates/loginheader.php");
             $this->load->view("pages/signup",$this->data);
-            $this->load->view("templates/footer.php");     
-        }else{ // If the is forms filled up correctly
+            $this->load->view("templates/footer.php");
+        }else { // If the is forms filled up correctly
             // Get form input
             $password = $this->input->post("password_1");
             $email = $this->input->post("email");
             $username = $this->input->post("username");
 
-            $hashed_pass = password_hash($password, PASSWORD_DEFAULT); // hash the password
+            $hashedPass = password_hash($password, PASSWORD_DEFAULT); // hash the password
 
             // Code Generation fo email verification
             $hash = md5(rand(0,1000));  // Generate hash value
             $code = substr(str_shuffle($hash), 0, 12); // Transform it to 12 key code
 
             // Place all input values from the form in an array
-            $user_data = array(
+            $userData = array(
                 'username'=> $username,
                 'firstname'=> $this->input->post("firstname"),
                 'lastname'=> $this->input->post("lastname"),
                 'birthdate'=> $this->input->post("birthdate"),
                 'email' => $email,
-                'password' => $hashed_pass,
+                'password' => $hashedPass,
                 'code' => $code,
                 'verified' => 0
               );
-            $this->Registration->insert_user($user_data); // Pass the data and update the database
+            $this->Registration->insert_user($userData); // Pass the data and update the database
             
             // Content to be passed on email format
-            $email_data = array(
+            $emailData = array(
             'header' => 'Verify your account',
             'username' => $username,
             'body' => 'Verify',
             'button' => 'Verify',
             'link' => base_url()."Signup/verify/".$username."/".$code
-             );
-            $this->send($email,'templates/email_format',$email_data); // Call email setup function
+            );
+            $this->send($email,'templates/email_format',$emailData); // Call email setup function
           
             // Load email sent html to notify the user
             $this->load->view("templates/loginheader.php");
             $this->load->view("pages/checkemail.php");
-            $this->load->view("templates/footer.php"); 
+            $this->load->view("templates/footer.php");
         }
     }
    
 
-    function checkUserName($username){
+    public function checkUserName($username)
+    {
         if ($this->Registration->checkUserExist($username) == false) {
              return true;
         } 
@@ -87,7 +93,8 @@ class Signup extends CI_Controller{
         }
     }
 
-    function checkEmail($email){
+    public function checkEmail($email)
+    {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->form_validation->set_message('checkEmail', 'Invalid email format');
             return false;
@@ -102,40 +109,40 @@ class Signup extends CI_Controller{
         }
     }
 
-    function checkBirthdate($birthdate){
+    public function checkBirthdate($birthdate)
+    {
         $this->form_validation->set_message('checkBirthdate', 'User must be 13 and above to create an account');
         $dob = new DateTime($birthdate);
         $now = new DateTime();
         $difference = $now->diff($dob);
         $age = $difference->y;
-        if($age<13){
-            
+        if($age<13) {
             return false;
         }
-        else{
-            return true;
-        }
+        return true;
     }
 
     // EMAIL MESSAGE SETUP
-    public function send($email,$template,$data){
-       
-        $to =  $email;  
+    public function send($email,$template,$emailData)
+    {
+        $to =  $email;
         $subject = 'Email verification';
-        $from = 'thinklikblog@gmail.com';           
+        $from = 'thinklikblog@gmail.com';
         $password = env('PASSWORD'); //get password from env file
 
         // Config setup
-        $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.gmail.com';
-        $config['smtp_port'] = '465';
-        $config['smtp_timeout'] = '60';
-        $config['smtp_user'] = 'thinklikblog@gmail.com';    //Important
-        $config['smtp_pass'] = $password;  //Important
-        $config['charset'] = 'utf-8';
-        $config['newline'] = "\r\n";
-        $config['mailtype'] = 'html'; // or html
-        $config['validation'] = TRUE; // bool whether to validate email or not 
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => '465',
+            'smtp_timeout' => '60',
+            'smtp_user' => 'thinklikblog@gmail.com',
+            'smtp_pass' => $password,
+            'charset' => 'utf-8',
+            'newline' => "\r\n",
+            'mailtype' => 'html',
+            'validation' => TRUE
+        );
 
         // Setup email from autoload['helper']
         $this->email->initialize($config);
@@ -145,7 +152,7 @@ class Signup extends CI_Controller{
         $this->email->subject($subject);
 
         // Load the format and content of email
-        $message=$this->email->message($this->load->view($template,$data,true));
+        $message=$this->email->message($this->load->view($template,$emailData,true));
 
         $status=$this->email->send(); // Send the email
      

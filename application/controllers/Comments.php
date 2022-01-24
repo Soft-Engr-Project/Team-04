@@ -1,43 +1,45 @@
 <?php
 
-	class Comments extends CI_Controller{
+	class Comments extends CI_Controller
+    {
 		private $data = array();
+
 		public function __construct()
 	    {
 	        parent::__construct();
 	        $this->load->model('Comments_model');
 	    }
-		public function create(){
-            if($this->input->is_ajax_request()){
+        
+		public function create()
+        {
+            if($this->input->is_ajax_request()) {
                 $this->form_validation->set_rules("comment","Comment","required");
 
-                if($this->form_validation->run() == false){
+                if($this->form_validation->run() == false) {
                     $data = array("response" => "error","message" => validation_errors()); 
-                  
                 }
-                else{
+                else {
                     $id = $this->input->post("post_id");
                     $this->data["post"] = $this->post_model->get_posts($id);
-                    $json_data = file_get_contents(FCPATH."reaction.json");
-                    $react_id = $this->post_model->create_reaction_log($json_data);
+                    $json = file_get_contents(FCPATH."reaction.json");
+                    $reactID = $this->post_model->create_reaction_log($json);
                     $body = $this->input->post("comment");
-                    $data = array(
+                    $commentData = array(
                     "post_id" => $id,
                     "user_id" => $this->session->userdata("user_id"),
-                    "react_id" => $react_id,
+                    "react_id" => $reactID,
                     "content" => $body
                     );
-                    $comment_count = $this->data["post"]["post_comment_count"] + 1;
-                    $post_comment_count = array(
-                        "post_comment_count" => $comment_count
-
+                    
+                    $commentCount = array(
+                        "post_comment_count" => $this->data["post"]["post_comment_count"] + 1
                     );
-                    $data = $this->security->xss_clean($data);
+                    $commentData = $this->security->xss_clean($commentData);
 
-                    $this->comments_model->create($data);
+                    $this->comments_model->create($commentData);
                     // for notification
-                    if($this->session->userdata("user_id") !=  $this->data["post"]["user_id"]){
-                        $data = array(
+                    if($this->session->userdata("user_id") != $this->data["post"]["user_id"]) {
+                        $notifData = array(
                             "action_id" => $this->comments_model->get_last_comment(),
                             "type_of_notif" => "comment",
                             "user_id" => $this->session->userdata("user_id"),
@@ -45,271 +47,266 @@
                             "post_id" => $this->data["post"]["id"],
                             "read_status" => 0
                         );
-                        $this->notification_model->create_notification($data);  
+                        $this->notification_model->create_notification($notifData);  
                     }
-                    $this->comments_model->comment_counts($this->data["post"]["id"],$post_comment_count);
+                    $this->comments_model->comment_counts($this->data["post"]["id"], $commentCount);
                     $data = array("response" => "success","message" => "Comment is successfully added");
                    
                 }
             }
-            else{
-                $data = array("response" => "error","message" => "You need to have a request in ajax"); 
+            else {
+                $data = array("response" => "error","message" => "You need to have a request in ajax");
         
             }
             echo json_encode($data);
 		}
         // fetch or get all data
-        public function fetch(){
+        public function fetch()
+        {
             if($this->input->is_ajax_request()){
-                $post_id = $this->input->post("post_id");
-                $data = $this->comments_model->get_comments($post_id);
+                $postID = $this->input->post("post_id");
+                $data = $this->comments_model->get_comments($postID);
                 echo json_encode($data);
-            }else{
+            }
+            else {
                 echo "No direct script access allowed";
             }
         }
 
-		public function reaction(){
+		public function reaction()
+        {
             // get all vote
-            $comment_id =  $this->input->post("comment_id");
-            $type_of_vote = $this->input->post("type_of_vote");
-            $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
-            $react_id = $this->data["comment"]["react_id"];
-             $json_data = file_get_contents(FCPATH."reaction.json");
-             $json =  json_decode($json_data,true);
+            $commentID =  $this->input->post("comment_id");
+            $voteType = $this->input->post("type_of_vote");
+            $this->data["comment"] = $this->comments_model->get_specific_comment($commentID);
+            $reactID = $this->data["comment"]["react_id"];
+            $json = file_get_contents(FCPATH."reaction.json");
+            $json =  json_decode($json,true);
         
-             
-             $total_upvote = $this->data["comment"]["upvote"];
-             $total_downvote = $this->data["comment"]["downvote"];
-             $user =  $this->session->userdata("user_id");
+            $totalUpvote = $this->data["comment"]["upvote"];
+            $totalDownvote = $this->data["comment"]["downvote"];
+            $user = $this->session->userdata("user_id");
 
-             if($type_of_vote == "up_react"){
+            if($voteType == "up_react") {
                
-                $json_data = json_decode($this->comments_model->get_reactions($react_id)["react_log"],true);
+                $json = json_decode($this->comments_model->get_reactions($reactID)["react_log"],true);
                 
-                $upvote_array = $json_data["up_user_id"];
-                $downvote_array = $json_data["down_user_id"];
+                $upvoteJson = $json["up_user_id"];
+                $downvoteJson = $json["down_user_id"];
 
-                // check kung nasa nag upvote na 
-                if(in_array($user,$upvote_array)){ 
-                    
-                    $index = array_search($user,$json_data["up_user_id"]);
-                    unset($json_data["up_user_id"][$index]);
-                    $json_data = json_encode($json_data);    
+                // check kung nag upvote na 
+                if(in_array($user,$upvoteJson)) { 
+                    $index = array_search($user,$json["up_user_id"]);
+                    unset($json["up_user_id"][$index]);
+                    $json = json_encode($json);
 
-                    
-                    $data = array(
-                        "react_log" => $json_data
+                    $reactData = array(
+                        "react_log" => $json
                     );
-                    $total_upvote -= 1;
-                    $data_upvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $totalUpvote -= 1;
+                    $upvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
                     );
-                     
-                    $this->notification_model->notification_delete($comment_id);
-                    $this->post_model->delete_reaction($react_id,$data);
-                    $this->comments_model->update_upvotes($comment_id,$data_upvote);
-
+                    $this->notification_model->notification_delete($commentID);
+                    $this->post_model->delete_reaction($reactID,$reactData);
+                    $this->comments_model->update_upvotes($commentID,$upvoteData);
                 }
-                else{
-                    
+                else {
                     // check kung may react na siya sa downvote
-                    if(in_array($user,$downvote_array)){
-                        $index = array_search($user,$json_data["down_user_id"]);        
-                        unset($json_data["down_user_id"][$index]);
-                        $total_downvote -= 1;
-                        $this->notification_model->notification_delete($comment_id);
+                    if(in_array($user,$downvoteJson)) {
+                        $index = array_search($user,$json["down_user_id"]); 
+                        unset($json["down_user_id"][$index]);
+                        $totalDownvote -= 1;
+                        $this->notification_model->notification_delete($commentID);
                     }
-                    $json_data["up_user_id"][] = $user;
-                    $json_data = json_encode($json_data);    
+                    $json["up_user_id"][] = $user;
+                    $json = json_encode($json);
               
-                       
-                    $data = array(
-                        "react_log" => $json_data
+                    $reactData = array(
+                        "react_log" => $json
                     );
-                    $total_upvote += 1;
-                    $data_upvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $totalUpvote += 1;
+                    $upvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
                     );
-                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
-                        $data_notif = array(
-                            "action_id" =>  $comment_id,
-                            "type_of_notif" => "comment",
+
+                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]) {
+                        $notifData = array(
+                            "action_id" =>  $commentID,
+                            "type_of_notif" => "react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $this->data["comment"]["user_id"],
                             "post_id" => $this->data["comment"]["post_id"],
                             "read_status" => 0
                         );
-                        
-                        $this->notification_model->create_notification($data_notif);  
+                        $this->notification_model->create_notification($notifData);  
                     }
-                    $this->post_model->update_reaction($react_id,$data);
-                    $this->comments_model->update_upvotes($comment_id,$data_upvote);
+                    $this->post_model->update_reaction($reactID,$reactData);
+                    $this->comments_model->update_upvotes($commentID,$upvoteData);
                 }
              }
-             else{
-                
-                $json_data = json_decode($this->comments_model->get_reactions($react_id)["react_log"],true);
-                $upvote_array = $json_data["up_user_id"];
-                $downvote_array = $json_data["down_user_id"];
-
+             else {
+                $json = json_decode($this->comments_model->get_reactions($reactID)["react_log"],true);
+                $upvoteJson = $json["up_user_id"];
+                $downvoteJson = $json["down_user_id"];
 
                 // check kung nasa nag upvote na 
-                if(in_array($user,$downvote_array)){ 
-                    $index = array_search($user,$json_data["down_user_id"]);
-                    unset($json_data["down_user_id"][$index]);
-                    $json_data = json_encode($json_data);    
+                if(in_array($user,$downvoteJson)) {
+                    $index = array_search($user,$json["down_user_id"]);
+                    unset($json["down_user_id"][$index]);
+                    $json = json_encode($json);
 
-                    $data = array(
-                        "react_log" => $json_data
+                    $reactData = array(
+                        "react_log" => $json
                     );
-                    $total_downvote -= 1;
-                    $data_downvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $totalDownvote -= 1;
+                    $downvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
                     );
 
-                    $this->notification_model->notification_delete($comment_id);
-                    $this->post_model->delete_reaction($react_id,$data);
-                    $this->comments_model->update_upvotes($comment_id,$data_downvote);
+                    $this->notification_model->notification_delete($commentID);
+                    $this->post_model->delete_reaction($reactID,$reactData);
+                    $this->comments_model->update_upvotes($commentID,$downvoteData);
                 }
                 else{
-                    $upvote_array = $json_data["up_user_id"];
-                    if(in_array($user,$upvote_array)){
-                        $index = array_search($user,$json_data["up_user_id"]);
-                        unset($json_data["up_user_id"][$index]);
-                        $total_upvote -= 1;
-                         $this->notification_model->notification_delete($comment_id);
+                    $upvoteJson = $json["up_user_id"];
+                    if(in_array($user,$upvoteJson)){
+                        $index = array_search($user,$json["up_user_id"]);
+                        unset($json["up_user_id"][$index]);
+                        $totalUpvote -= 1;
+                         $this->notification_model->notification_delete($commentID);
                     }
-                    $json_data["down_user_id"][] = $user;
-                    $json_data = json_encode($json_data);
+                    $json["down_user_id"][] = $user;
+                    $json = json_encode($json);
 
-                    $data = array(
-                        "react_log" => $json_data
+                    $reactData = array(
+                        "react_log" => $json
                     );
-                    $total_downvote += 1;
-                    $data_downvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $totalDownvote += 1;
+                    $downvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
                     );
-                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
-                    $data_notif = array(
-                            "action_id" =>  $comment_id,
-                            "type_of_notif" => "comment",
+                    if($this->session->userdata("user_id") != $this->data["comment"]["user_id"]) {
+                    $notifData = array(
+                            "action_id" =>  $commentID,
+                            "type_of_notif" => "react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $this->data["comment"]["user_id"],
                             "post_id" => $this->data["comment"]["post_id"],
                             "read_status" => 0
                         );
-                        
-                        $this->notification_model->create_notification($data_notif);  
+                        $this->notification_model->create_notification($notifData);  
                     }
-                    $this->comments_model->update_upvotes($comment_id,$data_downvote);
-                    $this->post_model->update_reaction($react_id,$data);
-                   
+                    $this->comments_model->update_upvotes($commentID,$downvoteData);
+                    $this->post_model->update_reaction($reactID,$reactData);
                 }
              }
-          
         }
 	
-        // delete 
-        public function delete(){
-            if($this->input->is_ajax_request()){
-                 $comment_id = $this->input->post("comment_id");
+        public function delete()
+        {
+            if($this->input->is_ajax_request()) {
+                 $commentID = $this->input->post("comment_id");
             // get all the info about comment
-            $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
-            $react_id = $this->data["comment"]["react_id"];
-            $post_id = $this->data["comment"]["post_id"];
-            $user_id = $this->data["comment"]["user_id"];
+            $this->data["comment"] = $this->comments_model->get_specific_comment($commentID);
+            $reactID = $this->data["comment"]["react_id"];
+            $postID = $this->data["comment"]["post_id"];
+            $userID = $this->data["comment"]["user_id"];
             
-            $this->data["post"] = $this->post_model->get_posts($post_id);
+            $this->data["post"] = $this->post_model->get_posts($postID);
             // check if you are the owner
 
-            
-                if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+                if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
                     $data = array("response" => "error");
-                }else{
-                    $comment_count = $this->data["post"]["post_comment_count"] - 1;
-                    $post_comment_count = array(
-                        "post_comment_count" => $comment_count
+                }
+                else {
+                    $numComment = $this->data["post"]["post_comment_count"] - 1;
+                    $commentCount = array(
+                        "post_comment_count" => $numComment
                     );
-                    $this->comments_model->delete_posts($comment_id);
+                    $this->comments_model->delete_posts($commentID);
                     // delete also the notification
-                    $this->notification_model->notification_delete($comment_id);
-                    $this->post_model->delete_reactions($react_id);
-                    $this->comments_model->comment_counts($post_id,$post_comment_count);
+                    $this->notification_model->notification_delete($commentID);
+                    $this->post_model->delete_reactions($reactID);
+                    $this->comments_model->comment_counts($postID,$commentCount);
                     $data = array("response" => "success");
                 }
-            }else{
+            }
+            else {
                 $data = array("response" => "error");
             }
-           
             echo json_encode($data);
         }
 
-        public function edit(){
-            if($this->input->is_ajax_request()){
-                    $comment_id = $this->input->post("comment_id");
+        public function edit()
+        {
+            if($this->input->is_ajax_request()) {
+                    $commentID = $this->input->post("comment_id");
                      // get all the info about comment
-                    $this->data["comment"] = $this->comments_model->get_specific_comment($comment_id);
-                    $post_id = $this->data["comment"]["post_id"];
-                    $user_id = $this->data["comment"]["user_id"];
+                    $this->data["comment"] = $this->comments_model->get_specific_comment($commentID);
+                    $postID = $this->data["comment"]["post_id"];
+                    $userID = $this->data["comment"]["user_id"];
                     // // check if you are the owner
-                    if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+                    if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
                         $data = array("response" => "error","message"=>"Failed to access");
-                    }else{
+                    }
+                    else {
                         $this->data["title"]="Edit Comment";
                         
                         if(empty($this->data["comment"])){
                             $data = array("response" => "error","message"=>"Failed to access");
-                        }else{
+                        }
+                        else {
                             $data = array("response" => "success","message"=>$this->data["comment"]);
                         }
-                       
                     }
                 }
-            else{
+            else {
                  $data = array("response" => "error","message"=>"Failed to access");
             }
              echo json_encode($data);
         }
-        public function update(){
-            if($this->input->is_ajax_request()){
-                $comment_id = $this->input->post("edit_id");
+
+        public function update()
+        {
+            if($this->input->is_ajax_request()) {
+                $commentID = $this->input->post("edit_id");
                 $content = $this->input->post("edit_comment");
             
                 $this->form_validation->set_rules("edit_comment","Comment","required");
             
-                 if($this->form_validation->run() == false){
+                 if($this->form_validation->run() == false) {
                         $data = array("response" => "error","message"=>validation_errors());
-                 }else{
+                 }
+                 else {
                         $data = array(
                             "content" => $content
                         );
-                        $this->comments_model->update_posts($comment_id,$data);
+                        $this->comments_model->update_posts($commentID,$data);
                         $data = array("response" => "success","message"=>"Comment update successfully");
-                
                     }
             }
-            else{
+            else {
                 $data = array("response" => "error","message"=>"Failed to access");
             }
             echo json_encode($data);
         }
 
-     // if you want to cancel the edit portion
-        public function cancel_update(){
-            if($this->input->is_ajax_request()){
+        // if you want to cancel the edit portion
+        public function cancel_update() 
+        {
+            if($this->input->is_ajax_request()) {
                 $data = array("response" => "success");
-            }else{
+            }
+            else {
                 $data = array("response" => "error","message"=>"Failed to access");
             }
             echo json_encode($data);
-
         }
-    
     }
 
 ?>

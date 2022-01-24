@@ -1,55 +1,57 @@
 <?php
-    class Posts extends CI_Controller{
-
+    class Posts extends CI_Controller
+    {
         private $data = array();
 
-        public function __construct(){
-             parent::__construct();
+        public function __construct()
+        {
+            parent::__construct();
             $this->load->model('Comments_model');
         }
 
-        public function index(){
-                $this->post_model->get_posts();
+        public function index()
+        {
+            $this->post_model->get_posts();
         }
 
         // get filter
-        public function post_filter(){
+        public function post_filter()
+        {
             sleep(2);
-                $post = $_GET['category'];
+            $post = $_GET['category'];
                 
-                $data["categories"] = $this->categories_model->get_categories();
-               $data["posts"]=  $this->post_model->get_posts_for_filter($post);
-              echo json_encode($data);
+            $data["categories"] = $this->categories_model->get_categories();
+            $data["posts"]=  $this->post_model->get_posts_for_filter($post);
+            echo json_encode($data);
                     
         }
 
         // get the top user post 
-        public function top_post(){
+        public function top_post()
+        {
             $this->data["posts"] = $this->post_model->get_posts_high_react();
         }
 
-        public function view($id=NULL, $comment_id=NULL){
-            // if it is not set then $id is Null
-            // $id = $this->input->post('id') ?? Null;
-
+        public function view($id=NULL, $commentID=NULL)
+        {
             //for header pic
-            $user_idIn = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $userID = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($userID);
             $this->load->view("templates/header.php",$this->data);
 
             $this->data["post"] = $this->post_model->get_posts($id);
             $this->data["comments"] = $this->Comments_model->get_comments($id);
-            $this->data["reported_id"] = $comment_id;
+            $this->data["reported_id"] = $commentID;
             $this->load->view("templates/header.php");
             $this->load->view("posts/view",$this->data);
             $this->load->view("templates/footer",$this->data);
         }
 
-        public function create(){
-
+        public function create()
+        {
             //for header pic
-            $user_idIn = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $userID = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($userID);
             $this->load->view("templates/header.php",$this->data);
 
             $this->data["title"] = "Create Post";
@@ -60,108 +62,100 @@
             $this->form_validation->set_rules("title","Title","required");
             $this->form_validation->set_rules("body","Body","required");
 
-            
-
-            if($this->form_validation->run() == false){
+            if($this->form_validation->run() == false) {
                  $this->load->view("templates/header.php");
                  $this->load->view("posts/create.php",$this->data);
                  $this->load->view("templates/footer.php");
-            }else{
-                $json_data = file_get_contents(FCPATH."reaction.json");
-                $react_id = $this->post_model->create_reaction_log($json_data);
+            }else {
+                $json = file_get_contents(FCPATH."reaction.json");
+                $reactID = $this->post_model->create_reaction_log($json);
 
                 // Upload a image
-                $config["upload_path"] = "./assets/images/post"; 
+                $config["upload_path"] = "./assets/images/post";
                 // kung walang post folder mag automatic make
-                 if(!file_exists(FCPATH."assets/images/post")){
+                 if(!file_exists(FCPATH."assets/images/post")) {
                     mkdir(FCPATH."assets/images/");
                     mkdir(FCPATH."assets/images/post");
-                    
                 }
                 // kung anong file extension yung need
                 $config["allowed_types"] = "gif|jpg|png";
-                // 2048 = 2gb kung ano yung max file size 
-                $config["max_size"] = "2048"; 
+                // 2048 = 2gb kung ano yung max file size
+                $config["max_size"] = "2048";
                 // kung ano yung max width ng images
-                $config["max_width"] = "2000"; 
+                $config["max_width"] = "2000";
                 // kung ano yung max height ng images
                 $config["max_height"] = "2000";
 
                 // use for library upload yung $config
                 $this->load->library('upload',$config);
                 // check kung pede bang iupload
-                if(! $this->upload->do_upload('userfile')){
+                if(! $this->upload->do_upload('userfile')) {
                     // dinidisplay nito yung error message
-                    $errors= array("error" => $this->upload->display_errors());
+                    $errors = array("error" => $this->upload->display_errors());
                     // default
-                    $post_image = "";
+                    $postImage = "";
                     // eto piniprint pag di alam yung error
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
                     // die();
                 }
-                else{
-                    $data = array("upload_data" => $this->upload->data());
+                else {
+                    $postData = array("upload_data" => $this->upload->data());
                     // var_dump($_FILES);
                     // use file name
-                    $post_image = "assets/images/post/".$_FILES['userfile']["name"];
+                    $postImage = "assets/images/post/".$_FILES['userfile']["name"];
                     // var_dump($_FILES['userfile']);
                     // var_dump($data);
                     // die();
                 }
 
-                $category_id = $this->input->post("category_id");
-                $data =array(
-                    "category_id"=> $category_id,
+                $categoryID = $this->input->post("category_id");
+                $postData = array(
+                    "category_id"=> $categoryID,
                     "user_id" => $this->session->userdata("user_id"),
-                    "react_id" => $react_id,
+                    "react_id" => $reactID,
                     "title"=>$this->input->post("title"),
                     "body" =>$this->input->post("body"),
                     "slug" => url_title($this->input->post("title")),
-                    "post_image" => $post_image
+                    "post_image" => $postImage
             
                 );
-                $data_category = array(
+                $categoryData = array(
                     "category_post_count" => ++$this->data["categories"]["category_post_count"]
                 );
-                $this->categories_model->category_count($category_id,$data_category);
-                $this->post_model->create_post($data);
+                $this->categories_model->category_count($categoryID,$categoryData);
+                $this->post_model->create_post($postData);
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
             }
 
         }
-        // delete a post 
-        public function delete($id){
-            $category_id = $this->input->post("category");
-            $user_id = $this->post_model->get_posts($id)["user_id"];
-            $react_id = $this->input->post("react_id");
-            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
+
+        public function delete($id)
+        {
+            $categoryID = $this->input->post("category");
+            $userID = $this->post_model->get_posts($id)["user_id"];
+            $reactID = $this->input->post("react_id");
+            if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
                 redirect("pages");
             }
             
             // get category of specific post
-            $this->data["categories"] = $this->categories_model->get_categories($category_id);
-            $data_category = array(
+            $this->data["categories"] = $this->categories_model->get_categories($categoryID);
+            $categoryData = array(
                     "category_post_count" => --$this->data["categories"]["category_post_count"]
             );
-            $this->categories_model->category_count($category_id,$data_category);
-            $this->post_model->delete_reactions($react_id);
+            $this->categories_model->category_count($categoryID,$categoryData);
+            $this->post_model->delete_reactions($reactID);
             $this->post_model->delete_post($id);
             $this->session->set_flashdata("post_delete","Delete a thread succesfully");
             redirect("pages");
         }
-        public function edit($id){
-             //for header pic
-            $user_idIn = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($user_idIn);
-            $this->load->view("templates/header.php",$this->data);
-            
-            $user_id = $this->post_model->get_posts($id)["user_id"];
 
-            if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true){
-                redirect("pages");
-            }
+        public function edit($id)
+        {
+            $userID = $this->post_model->get_posts($id)["user_id"];
+            
             $this->data["post"] = $this->post_model->get_posts($id);
             $this->data["categories"] = $this->categories_model->get_categories();
             $this->data["title"]="Edit Post";
@@ -169,228 +163,228 @@
             if(empty($this->data["post"])){
                 show_404();
             }
-            $this->data["title"] = $this->data["post"]["title"];
+            $this->data["title"] = "Edit Post";
             $this->load->view("templates/header.php");
             $this->load->view("posts/edit",$this->data);
             $this->load->view("templates/footer.php");
         }
         
-        public function update(){ 
-            $category_id = $this->input->post("category_id");
-            $post_id = $this->input->post("id");
+        public function update()
+        {
+            $categoryID = $this->input->post("category_id");
+            $postID = $this->input->post("id");
             // get the post for checking if the category is change
-            $this->data["post"] = $this->post_model->get_posts($post_id);
-            // get category of specific post
+            $this->data["post"] = $this->post_model->get_posts($postID);
+            // get category of specific post 
+            $this->data["categories"] = $this->categories_model->get_categories();
+            $this->data["title"]="Edit Post";
+      
+            $this->form_validation->set_rules("title","Title","required");
+            $this->form_validation->set_rules("body","Body","required");
             
-            $post_image = $this->input->post("post_image");
-            $image = $_FILES['userfile'];
-            if($image && $image["tmp_name"]){
-                echo "pasok";
-                unlink("assets/images/posts/".$post_image);
+            if($this->form_validation->run() == false) {
+                    $this->load->view("templates/header.php");
+                    $this->load->view("posts/edit.php",$this->data);
+                    $this->load->view("templates/footer.php");
+            }else {
+                $postImage = $this->input->post("post_image");
+                $image = $_FILES['userfile'];
+                if($image && $image["tmp_name"]) {
+                    unlink("assets/images/posts/".$postImage);
 
-                 $config["upload_path"] = "./assets/images/posts"; 
-                // kung anong file extension yung need
-                $config["allowed_types"] = "gif|jpg|png";
-                // 2048 = 2gb kung ano yung max file size 
-                $config["max_size"] = "2048"; 
-                // kung ano yung max width ng images
-                $config["max_width"] = "2000"; 
-                // kung ano yung max height ng images
-                $config["max_height"] = "2000";
+                    $config["upload_path"] = "./assets/images/posts";
+                    // kung anong file extension yung need
+                    $config["allowed_types"] = "gif|jpg|png";
+                    // 2048 = 2gb kung ano yung max file size 
+                    $config["max_size"] = "2048";
+                    // kung ano yung max width ng images
+                    $config["max_width"] = "2000";
+                    // kung ano yung max height ng images
+                    $config["max_height"] = "2000";
 
-                // use for library upload yung $config
-                $this->load->library('upload',$config);
-                // check kung pede bang iupload
-                if(! $this->upload->do_upload('userfile')){
-                    // dinidisplay nito yung error message
-                    $errors= array("error" => $this->upload->display_errors());
-                    // default
-                    $post_image = "noimage.jpg";
-                    // eto piniprint pag di alam yung error
-                    // base sa na experience ko need yung picture ay di lalagpas ng 800x800
-                    echo $this->upload->display_errors();
-                    //die();
-                }
-                else{
-                    $data = array("upload_data" => $this->upload->data());
-                    // var_dump($_FILES);
-                    // use file name
-                    $post_image = $_FILES['userfile']["name"];
-                }
-            }
-           
-            $data=array(
-            'title'=> $this->input->post('title'),
-            'slug' => url_title($this->input->post('title')),
-            'body' => $this->input->post('body'),
-            'category_id'=> $this->input->post("category_id"),
-            'post_image' => $post_image
-             );  
-            
-            if($this->data["post"]["category_id"] != $category_id){
-                 $data_category = array(
-                    "category_post_count" => ++$this->data["categories"]["category_post_count"]
-                 );
-                 $this->categories_model->category_count($category_id,$data_category);
-
-                 $this->data["categories"] = $this->categories_model->get_categories($this->data["post"]["category_id"]);
-                  $data_category = array(
-                    "category_post_count" => --$this->data["categories"]["category_post_count"]
-                 );
-                 $this->categories_model->category_count($this->data["categories"]["category_id"],$data_category);
-            }
-            $id = $this->input->post("id");
-            $this->post_model->update_post($data,$id);
-            $this->session->set_flashdata("post_update","Update post succesfully");
-            redirect("pages");
-        }
-        public function reaction($id){
-
-            $react_id = $this->input->post("react_id");
-            // $json_data = file_get_contents(FCPATH."reaction.json");
-            // $json =  json_decode($json_data,true);
-            // echo "<pre>";
-            // var_dump($json);
-            // echo "<br>";
-            // $json[12][] =array(1,2);
-            // var_dump($json);
-            // echo "</pre>";
-
-            // check kung nasa json na
-            /*
-                {
-                    userid:1,
-                    reaction: upvote,
-                    userid:2 ,
-                    reaction: downvote,
-                }
-                { 
-                    reaction: upvote,
-                    userid:[ 1, 2 ,3, 4 ,5],
-                    reaction: downvote,
-                    userid:[7, 8]
-                }
-
-        
-            */
-            //  yung ginawa ko pag upvote tas pag pinindot yung upvote madedelete same kay downvote
-
-
-             $json_data = file_get_contents(FCPATH."reaction.json");
-             $json =  json_decode($json_data,true);
-             // user na nagrereact
-             $get_post = $this->post_model->get_posts($id);
-             $total_upvote = $get_post["upvote"];
-             $total_downvote = $get_post["downvote"];
-             $user =  $this->session->userdata("user_id");
-             // kung upvote ba o hindi
-             $type_of_vote = $this->input->post("submit");
-             // check kung upvote o hindi
-             if($type_of_vote == "up_react"){
-                $json_data = json_decode($this->post_model->get_reaction($react_id)["react_log"],true);
-                  
-                $upvote_array = $json_data["up_user_id"];
-                $downvote_array = $json_data["down_user_id"];
-                // check kung nasa nag upvote na 
-                if(in_array($user,$upvote_array)){ 
-                    $index = array_search($user,$json_data["up_user_id"]);
-                    unset($json_data["up_user_id"][$index]);
-                    $json_data = json_encode($json_data);    
-
-                    $data = array(
-                        "react_log" => $json_data
-                    );
-                    $total_upvote -= 1;
-                    $data_upvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
-                    );
-                    $this->notification_model->notification_delete($id);
-                    $this->post_model->delete_reaction($react_id,$data);
-                    $this->post_model->update_upvotes($id,$data_upvote);
-                }
-                else{
-                    // check kung may react na siya sa downvote
-                    
-                    if(in_array($user,$downvote_array)){
-                        $index = array_search($user,$json_data["down_user_id"]);        
-                        unset($json_data["down_user_id"][$index]);
-                        $total_downvote -= 1;
-                        $this->notification_model->notification_delete($id);
+                    // use for library upload yung $config
+                    $this->load->library('upload',$config);
+                    // check kung pede bang iupload
+                    if(! $this->upload->do_upload('userfile')) {
+                        // dinidisplay nito yung error message
+                        $errors= array("error" => $this->upload->display_errors());
+                        // default
+                        $postImage = "noimage.jpg";
+                        // eto piniprint pag di alam yung error
+                        // base sa na experience ko need yung picture ay di lalagpas ng 800x800
+                        echo $this->upload->display_errors();
+                        //die();
                     }
-                    $json_data["up_user_id"][] = $user;
-                    $json_data = json_encode($json_data);    
+                    else {
+                        $postData = array("upload_data" => $this->upload->data());
+                        // var_dump($_FILES);
+                        // use file name
+                        $postImage = $_FILES['userfile']["name"];
+                    }
+                }
+        
+                $postData=array(
+                'title'=> $this->input->post('title'),
+                'slug' => url_title($this->input->post('title')),
+                'body' => $this->input->post('body'),
+                'category_id'=> $categoryID,
+                'post_image' => $postImage
+                );  
                 
-                    $data = array(
-                        "react_log" => $json_data
+                if($this->data["post"]["category_id"] != $categoryID) {
+                    $categoryData = array(
+                        "category_post_count" => ++$this->data["categories"]["category_post_count"]
                     );
-                    $total_upvote += 1;
-                    $data_upvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $this->categories_model->category_count($categoryID,$categoryData);
+
+                    $this->data["categories"] = $this->categories_model->get_categories($this->data["post"]["category_id"]);
+                    $categoryData = array(
+                        "category_post_count" => --$this->data["categories"]["category_post_count"]
                     );
-                    // notification
-                     if($this->session->userdata("user_id") !=  $get_post["user_id"]){
-                    $data_notif = array(
-                        "action_id" => $get_post["id"],
-                        "type_of_notif" => "react",
-                        "user_id" => $this->session->userdata("user_id"),
-                        "owner_id" => $get_post["user_id"],
-                        "post_id" => $get_post["id"],
-                        "read_status" => 0
-                    );
-                    
-                    $this->notification_model->create_notification($data_notif);  
-                    }
-                    $this->post_model->update_reaction($react_id,$data);
-                    $this->post_model->update_upvotes($id,$data_upvote);
+                    $this->categories_model->category_count($this->data["categories"]["category_id"],$categoryData);
                 }
-             }
-             else{
-                echo "down_react";
-                $json_data = json_decode($this->post_model->get_reaction($react_id)["react_log"],true);
+
+                $this->post_model->update_post($postData,$postID);
+                $this->session->set_flashdata("post_update","Update post succesfully");
+                redirect("pages");
+            }
+        }
+
+        public function fetch()
+        {
+            if($this->input->is_ajax_request()) {
+                $postID = $this->input->post("post_id");
+
+                $data = $this->post_model->get_posts($postID);
+                echo json_encode($data);
+            }else{
+                echo "No direct script access allowed";
+            }
+        }
+
+        public function reaction()
+        {
+            $id = $this->input->post("post_id");
+            $get_post = $this->post_model->get_posts($id);
+            $reactID = $get_post["react_id"];
+           
+
+            //  yung ginawa ko pag upvote tas pag pinindot yung upvote madedelete same kay downvote
+            $json = file_get_contents(FCPATH."reaction.json");
+            $json =  json_decode($json,true);
+            // user na nagrereact
+            
+            $totalUpvote = $get_post["upvote"];
+            $totalDownvote = $get_post["downvote"];
+            $user =  $this->session->userdata("user_id");
+             // kung upvote ba o hindi
+            $voteType = $this->input->post("type_of_vote");
+             // check kung upvote o hindi
+            if($voteType == "up_react") {
+                $json = json_decode($this->post_model->get_reaction($reactID)["react_log"],true);
                   
-                $downvote_array = $json_data["down_user_id"];
-
+                $upvoteJson = $json["up_user_id"];
+                $downvoteJson = $json["down_user_id"];
                 // check kung nasa nag upvote na 
-                if(in_array($user,$downvote_array)){ 
-                    $index = array_search($user,$json_data["down_user_id"]);
-                    unset($json_data["down_user_id"][$index]);
-                    $json_data = json_encode($json_data);    
+                if(in_array($user,$upvoteJson)) { 
+                    $index = array_search($user,$json["up_user_id"]);
+                    unset($json["up_user_id"][$index]);
+                    $json = json_encode($json);    
 
-                    $data = array(
-                        "react_log" => $json_data
+                    $reactData = array(
+                        "react_log" => $json
                     );
-                    $total_downvote -= 1;
-                    $data_downvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $totalUpvote -= 1;
+                    $upvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
                     );
                     $this->notification_model->notification_delete($id);
-                    $this->post_model->delete_reaction($react_id,$data);
-                    $this->post_model->update_upvotes($id,$data_downvote);
+                    $this->post_model->delete_reaction($reactID,$reactData);
+                    $this->post_model->update_upvotes($id,$upvoteData);
                 }
-                else{
-                    $upvote_array = $json_data["up_user_id"];
-                    if(in_array($user,$upvote_array)){
-                        $index = array_search($user,$json_data["up_user_id"]);
-                        unset($json_data["up_user_id"][$index]);
-                        $total_upvote -= 1;
+                else {
+                    // check kung may react na siya sa downvote
+                    if(in_array($user,$downvoteJson)) {
+                        $index = array_search($user,$json["down_user_id"]);
+                        unset($json["down_user_id"][$index]);
+                        $totalDownvote -= 1;
                         $this->notification_model->notification_delete($id);
                     }
-                    $json_data["down_user_id"][] = $user;
-                    $json_data = json_encode($json_data);
 
-                    $data = array(
-                        "react_log" => $json_data
+                    $json["up_user_id"][] = $user;
+                    $json = json_encode($json);
+                
+                    $reactData= array(
+                        "react_log" => $json
                     );
-                    $total_downvote += 1;
-                    $data_downvote = array(
-                        "upvote" => $total_upvote,
-                        "downvote" => $total_downvote
+                    $totalUpvote += 1;
+                    $upvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
                     );
-                      if($this->session->userdata("user_id") !=  $get_post["user_id"]){
-                    $data_notif = array(
+
+                    // notification
+                    if($this->session->userdata("user_id") !=  $get_post["user_id"]) {
+                        $notifData = array(
+                            "action_id" => $get_post["id"],
+                            "type_of_notif" => "react",
+                            "user_id" => $this->session->userdata("user_id"),
+                            "owner_id" => $get_post["user_id"],
+                            "post_id" => $get_post["id"],
+                            "read_status" => 0
+                    );
+                    
+                    $this->notification_model->create_notification($notifData);
+                    }
+                    $this->post_model->update_reaction($reactID,$reactData);
+                    $this->post_model->update_upvotes($id,$upvoteData);
+                }
+            }
+            else {
+                $json = json_decode($this->post_model->get_reaction($reactID)["react_log"],true);
+                $downvoteJson = $json["down_user_id"];
+
+                // check kung nasa nag upvote na 
+                if(in_array($user,$downvoteJson)) {
+                    $index = array_search($user,$json["down_user_id"]);
+                    unset($json["down_user_id"][$index]);
+                    $json = json_encode($json);
+
+                    $reactData = array(
+                        "react_log" => $json
+                    );
+                    $totalDownvote -= 1;
+                    $downvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
+                    );
+                    $this->notification_model->notification_delete($id);
+                    $this->post_model->delete_reaction($reactID,$reactData);
+                    $this->post_model->update_upvotes($id,$downvoteData);
+                }
+                else {
+                    $upvoteJson = $json["up_user_id"];
+                    if(in_array($user,$upvoteJson)) {
+                        $index = array_search($user,$json["up_user_id"]);
+                        unset($json["up_user_id"][$index]);
+                        $totalUpvote -= 1;
+                        $this->notification_model->notification_delete($id);
+                    }
+                    $json["down_user_id"][] = $user;
+                    $json = json_encode($json);
+
+                    $reactData = array(
+                        "react_log" => $json
+                    );
+                    $totalDownvote += 1;
+                    $downvoteData = array(
+                        "upvote" => $totalUpvote,
+                        "downvote" => $totalDownvote
+                    );
+
+                    if($this->session->userdata("user_id") !=  $get_post["user_id"]) {
+                    $notifData = array(
                         "action_id" => $get_post["id"],
                         "type_of_notif" => "react",
                         "user_id" => $this->session->userdata("user_id"),
@@ -398,20 +392,18 @@
                         "post_id" => $get_post["id"],
                         "read_status" => 0
                     );
-                    
-                    $this->notification_model->create_notification($data_notif);  
+                    $this->notification_model->create_notification($notifData);
                     }
-                    $this->post_model->update_reaction($react_id,$data);
-                    $this->post_model->update_upvotes($id,$data_downvote);
+                    $this->post_model->update_reaction($reactID,$reactData);
+                    $this->post_model->update_upvotes($id,$downvoteData);
                 }
-             }
-             redirect("posts/".$id);
+            }
         }
         
-        public function view_comment($id){
-        
+        public function view_comment($id)
+        {
             $query = $this->comments_model->get_specific_comment($id);
-            if ($query){
+            if ($query) {
                 $this->view($query['post_id'], $id);
             }
         }

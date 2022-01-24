@@ -1,5 +1,9 @@
 <div onclick="checkMousePointer()">
 <div class="container">
+</br>
+</br>
+</br>
+</br>
 <h1><?=$title?></h1>
 <?php echo validation_errors();?>
 <?php echo form_open_multipart("posts/update") ;?>

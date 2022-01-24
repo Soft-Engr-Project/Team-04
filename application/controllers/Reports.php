@@ -1,20 +1,22 @@
 <?php
 
-    class Reports extends CI_Controller{
-        
+    class Reports extends CI_Controller
+    {
         private $data = array();
 
-        public function __construct(){
-        parent::__construct();
-        $this->load->model('Reports_model');
+        public function __construct()
+        {
+            parent::__construct();
+            $this->load->model('Reports_model');
+            $this->load->model('SubcommentModel');
         }
 
-        public function view($id=NULL){
-
-            $user_idIn = $this->session->userdata("user_id");
+        public function view($id=NULL)
+        {
+            $userID = $this->session->userdata("user_id");
 
             // Load data to be passed
-            $this->data["user"] = $this->user_model->get_user($user_idIn);
+            $this->data["user"] = $this->user_model->get_user($userID);
             $this->data["categories"] = $this->categories_model->get_categories();
             $this->data["report"]  = $this->Reports_model->get_reports();
 
@@ -25,51 +27,59 @@
         }
 
         // CHECKS IF THE REPORTED CONTENT EXISTS
-        public function check_post(){
-            if($this->input->is_ajax_request()){
+        public function check_post()
+        {
+            if($this->input->is_ajax_request()) {
                 $post_id = $this->input->post("content_id"); // kukunin yung post id na nireport 
-
                 $type = $this->input->post("type");
-               
-                if($type == "thread"){
-                    if($post = $this->post_model->get_posts($post_id)){
+                
+                if($type == "thread") {
+                    if($post = $this->post_model->get_posts($post_id)) {
                         $data = array("response" => "success","post" => $post);
-                    }else{
+                    }else {
                         $data = array("response" => "error","message" => "Failed" );
                     }
+                    
                 }
                 elseif ($type == "discussion") {
-                    if($post =$this->comments_model->get_specific_comment($post_id)){
+                    if($post =$this->comments_model->get_specific_comment($post_id)) {
                         $data = array("response" => "success","post" => $post);
-                    }else{
+                    }else {
                         $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                     }
                     
                 }
-                else{
+                elseif ($type == "reply") {
+                    // para sa reply sana
+                    
+                    if($post =$this->SubcommentModel->getSpecificSubcomments($post_id)) {
+                        $data = array("response" => "success","post" => $post);
+                    }else {
+                        $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
+                    }
+                } 
+                else {
                     $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                 }
             echo json_encode($data);
             }   
         }
 
-        public function submit_reports(){
-            
+        public function submit_reports()
+        {
             // check kung nag send ba ng request galing sa ajax
-            if($this->input->is_ajax_request()){
+            if($this->input->is_ajax_request()) {
                 $msg = '';
-         
-            
                 // Get user's input
                 $id = $this->input->post('content_id');
                 $type = $this->input->post('report_type');
                 $reason = $this->input->post('reason');
 
 
-                if ($type == 'thread'){
+                if ($type == 'thread') {
                     $query = $this->post_model->get_posts($id);
                 }
-                else{
+                else {
                     $query = $this->comments_model->get_specific_comment($id);
                   
                 }
@@ -85,33 +95,27 @@
                 // Insert report data
                 $insert = $this->Reports_model->create_report($data);
        
-                if($insert){
+                if($insert) {
                     $status = 1;
                     $msg .= 'Report successfully submitted.';
                     $data = array(
                         'response' => "success",
                         'message' => $msg 
                     );  
-                }else{
+                }else {
                     $msg .= 'Some problem occurred, please try again.';
                     $data = array(
                         'response' => "error",
                         'message' => $msg 
                     );
-                }
-                
-                // Return response as JSON format
-                // $alertType = ($status == 1)?'alert-success':'alert-danger';
-                // $statusMsg = '<p class="alert '.$alertType.'">'.$msg.'</p>';
-                
-            }else{
-                 $data = array(
-                        'response' => "error",
-                        'message' => "Failed to access" 
-                    );
+                }              
+            }else {
+                $data = array(
+                    'response' => "error",
+                    'message' => "Failed to access" 
+                );
             }
-            
-            echo json_encode($data);
+        echo json_encode($data);
         }
             
     }

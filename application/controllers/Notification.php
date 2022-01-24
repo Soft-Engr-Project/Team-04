@@ -1,9 +1,10 @@
 <?php
 
-
-	class Notification extends CI_Controller{
+	class Notification extends CI_Controller
+    {
 		private $data = array();
-		public function index($user_id){
+		public function index($user_id)
+        {
 			   $this->data["title"]=ucfirst('home');
                $this->load->view("templates/header.php");
                $this->data["categories"] = $this->categories_model->get_categories();
@@ -19,7 +20,6 @@
              
                $this->load->view("notification/index",$this->data);
 			   $this->load->view("templates/footer.php");
-
 		}
 	}
 

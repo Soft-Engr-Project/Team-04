@@ -1,5 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["subcomments/fetchSpecificComment"] = "subcomments/fetchSpecificComment";
+$route["subcomments/reaction"] = "subcomments/reaction";
+$route["subcomments/update"] = "subcomments/update";
+$route["subcomments/edit"] = "subcomments/edit";
+$route["subcomments/delete"]= "subcomments/delete";
+$route["subcomments/fetch"] = "subcomments/fetch";
+$route["subcomments/reaction"] = 'subcomments/reaction';
+$route["subcomments/view/(:any)"] = "subcomments/view/$1";
 $route["comments/reaction"] = "comments/reaction";
 $route["comments/cancel_update"] = "comments/cancel_update";
 $route["comments/update"] = "comments/update";
@@ -12,7 +20,9 @@ $route["profiles"] = "profiles/view";
 $route["profileposts/(:any)"] = "profileposts/view/$1";
 $route["pages/view/profile"]="profiles/view";
 $route["Signup/register"] = "Signup/register";
+$route["posts/fetch"] = "posts/fetch";
 $route["posts/post_filter"] = "posts/post_filter";
+$route["posts/reaction"] = "posts/reaction";
 $route['posts/update']="posts/update";
 $route['posts/create']="posts/create";
 $route['posts/report_post_info'] = 'posts/report_post_info';
