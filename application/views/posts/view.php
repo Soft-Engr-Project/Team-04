@@ -1,4 +1,5 @@
-<div style="width: 100vw; height: 100vh;"class="container-fluid">
+<div onclick="checkMousePointer()">
+<div style="height: 100vh;"class="container-fluid">
         <div class="row">
             <div class="col-lg-3">
                 <div class="viewthreadpic">
@@ -21,8 +22,8 @@
                         <div class="col-lg-10">
                             <h1><?php echo $post["title"];?></h1>
                             <?php if(isset($post["post_image"]) && !empty($post["post_image"])):?>
-      <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300"> 
-      <?php endif;?>
+                            <img src="<?php echo base_url().$post["post_image"];?>" alt="" width="300"> 
+                            <?php endif;?>
                         </div>
                         <div class="col-lg-1">
                           <?php if($this->session->userdata("user_id") == $post["user_id"] || $this->session->userdata("admin") == true ) :?>
@@ -31,19 +32,23 @@
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <label for="editpost">
                                     <li class="dropdown-item">
-
                                       <?php echo form_open("posts/edit/".$post["id"]);?>
                                         <input type="submit" id="editpost">
-                                            <label for="editpost">Edit</label>  
+                                            Edit
                                       </form>
                                     </li>
+                                    </label>  
+
+                                    <label for="remove">
                                     <li class="dropdown-item"> 
                                       <?php echo form_open("posts/delete/".$post["id"]);?>
                                         <input type="submit" id="remove">
-                                            <label for="remove">Remove</label>  
+                                            Remove 
                                       </form>
                                     </li>
+                                    </label> 
                                 </ul>
                             </div>
 
@@ -53,9 +58,12 @@
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                 </button>
                                 <ul class="dropdown-menu">
+                                     <a href="#" id="report_button" name="thread" value= "<?php echo $post["id"]?>">
                                     <li class="dropdown-item">
-                                            <a href="#" id="report_button" name="thread" value= "<?php echo $post["id"]?>">Report</a>
+                                           Report
                                     </li>
+                                    </a>
+                                    
                                 </ul>
                             </div>
                           <?php endif;?>
@@ -148,7 +156,7 @@
                         <h2>Random Threads</h2>
                     </div>
                     <div class="categories">
-                        <a href="#"><p>Anime </p></a>
+                        <p><a href="#">Anime</a> </p>
                     </div>
                 </div>
         
@@ -337,8 +345,6 @@
             post += `
             <div class="reaction">
                             <div class="upbutton">
-                              
-
                               <button name="submit" id="upvote_post" value="${data["id"]}">
                                 <i class="fa fa-thumbs-up fa-lg"></i>
                                 <input type="numberlike" value="${data["upvote"]}">
@@ -412,14 +418,18 @@
                                                 <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                         </button>
                                         <ul class="dropdown-menu">
+                                             <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">
                                             <li class="dropdown-item">
                                                 <input type="submit" id="edit" >
-                                                <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">Edit</label>
+                                               Edit
                                             </li>
+                                            </label>
+                                            <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">
                                             <li class="dropdown-item"> 
                                                 <input type="submit" id="remove">
-                                                    <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">Remove</label>  
+                                                    Remove
                                             </li>
+                                            </label>  
                                         </ul>
                                     </div>`;
                 }
@@ -430,10 +440,12 @@
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                 </button>
                                 <ul class="dropdown-menu">
+                                <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">
                                     <li class="dropdown-item">
-                                            <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">Report</a>
+                                            Report
                                     </li>
-                                </ul>
+                                    </label>
+                                </a>
                             </div>`;}
 
             commentbody += `   </div>                              
@@ -738,3 +750,4 @@
 
      })
     </script>
+</div>
