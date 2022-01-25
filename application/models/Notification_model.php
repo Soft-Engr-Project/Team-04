@@ -12,6 +12,7 @@
 		// get all the notification you have and display it in notification section
 		public function get_notification($user_id){
 			// get all the post and notif and join comment table and user_table
+			$this->db->order_by($this->notification_table.".notif_id DESC");
 			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->notification_table.".user_id");
 			// $this->db->join($this->comment_table,$this->comment_table.".comment_id = ".$this->notification_table.".action_id");
 			
