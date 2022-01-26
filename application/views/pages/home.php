@@ -90,7 +90,7 @@ document.querySelector('body').style.background = rgbaColor;
              data = JSON.parse(result);
              notificationBody = "";
              let count = 0;
-    
+            
             
              if(data != ""){
                 data.forEach(notify => {
@@ -276,17 +276,9 @@ document.querySelector('body').style.background = rgbaColor;
         }
      })
     }
-    $(document).on("click",".notifdropdown" ,function(e){
-        $.ajax({
-            url:"<?php echo base_url()?>notification/readNotification",
-            type: "POST",
-            data:{
-                userID : <?php echo $this->session->userdata("user_id")?>
-            }
-        });
-    })
+
     getNotification();
-    setInterval("bellCountChecker()",3000);
+    setInterval("bellCountChecker()",1000);
     setInterval("getNotification()",3000);
 
 </script>

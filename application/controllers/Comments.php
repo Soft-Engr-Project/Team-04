@@ -65,7 +65,7 @@
         {
             if($this->input->is_ajax_request()){
                 $postID = $this->input->post("post_id");
-                $data = $this->comments_model->get_comments($postID);
+                $data = $this->comments_model->get_comments($postID,2);
                 echo json_encode($data);
             }
             else {

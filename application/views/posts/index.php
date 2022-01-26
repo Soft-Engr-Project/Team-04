@@ -96,8 +96,15 @@
                                
                              posting+=` <div class="homethread">
                             <div class="toppost">
-                                <div class="circleimage">
-                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                <div class="circleimage">`
+                                if(element["user_profile_photo"]){
+                                    posting+=`
+                                    <img src="<?php echo base_url();?>${element["user_profile_photo"]}" class="userprofile">`;
+                                }else{
+                                    posting+=`
+                                    <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">`;    
+                                }
+                                posting+=` 
                                         </div>
                                 <div>
                                     <h2><a href="<?php echo base_url()."profiles/view/"?>${element["user_id"]}">${element["username"]}</a></h2>
@@ -124,9 +131,16 @@
                                 
                                     posting +=` <div class="homethread">
                             <div class="toppost">
-                                <div class="circleimage">
-                                    <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
-                                </div>
+                                <div class="circleimage">`
+                                if(post["user_profile_photo"]){
+                                    posting+=`
+                                    <img src="<?php echo base_url();?>${post["user_profile_photo"]}" class="userprofile">`;
+                                }else{
+                                    posting+=`
+                                    <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">`;    
+                                }
+                                posting+=
+                                `</div>
                                 <div>
                                     <h2><a href="<?php echo base_url()."profiles/view/"?>${post["user_id"]}">${post["username"]}</a></h2>
                                     <h4><a href="<?php echo base_url()."posts/"?>${post["id"]}">${post["title"]}</a></h4>
@@ -161,6 +175,13 @@
         $(document).ready(function(){
             $(".notification_icon .fa-bell").click(function(){
                 $(".notifdropdown").toggleClass("active");
+                $.ajax({
+                    url:"<?php echo base_url()?>notification/readNotification",
+                    type: "POST",
+                    data:{
+                    userID : <?php echo $this->session->userdata("user_id")?>
+                    }
+                });
             })
         });
     </script>

@@ -171,8 +171,8 @@
                         <div class="row">
                             <div class="col-lg-2">
                                 <div class="circleimage">
-                                <?php if(!empty($post["user_profile_photo"])){ ?>
-                                    <img  class="userprofile" src="<?php echo base_url().$post["user_profile_photo"];?>" alt="Profile Pic">
+                                <?php if(!empty($user["user_profile_photo"])){ ?>
+                                    <img  class="userprofile" src="<?php echo base_url().$user["user_profile_photo"];?>" alt="Profile Pic">
                                 <?php }
                                 else{?>
                                     <img class="userprofile" src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
@@ -402,8 +402,15 @@
               }
 
 
-              commentbody += `<div class="circleimage">
-                            <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">                                
+              commentbody += `<div class="circleimage">`;
+                            if(element["user_profile_photo"]){
+                                  commentbody+=`
+                                  <img src="<?php echo base_url();?>${element["user_profile_photo"]}" class="userprofile">`;
+                                }else{
+                                  commentbody+=`
+                                  <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">`;    
+                                }     
+                                commentbody+=`            
                             </div>
                             <div class="row"> 
                             <div class="col-lg-3"> 
