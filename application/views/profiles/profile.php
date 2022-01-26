@@ -86,4 +86,11 @@
                         </div>
                     </div>
                 </div>
+<script>
+
+const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+console.log(rgbaColor);
+document.querySelector('body').style.background = rgbaColor;
+
+</script>
 

@@ -53,6 +53,7 @@ class Login extends CI_Model{
         'email' => $q["email"],
         'success' => "You are now logged in",
         'admin' => true,
+        'bgColor' => $q["bgColor"],
         'logged_in'=> true
       );
       
@@ -92,6 +93,7 @@ class Login extends CI_Model{
               'username' => $q["username"],
               'email' => $q["email"],
               'success' => "You are now logged in",
+              'bgColor' => $q["bgColor"],
               'logged_in'=> true
             );
             

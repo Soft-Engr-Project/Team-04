@@ -3,6 +3,14 @@
     class Customization extends CI_Controller
     {
         private $data;
+
+        public function __construct()
+        {
+            parent::__construct();
+            $this->load->model('Personalize_model');
+        }
+        
+
         public function view()
         {
         	//for header pic
@@ -14,6 +22,19 @@
             $this->load->view("templates/header.php");
             $this->load->view("settings/customization.php",$this->data);
             $this->load->view("templates/footer.php");
+        }
+        public function uploadColor(){
+            if ($this->input->is_ajax_request()) { // just additional, to make sure request is from ajax
+                if ($this->input->post('submit')) {
+                    $user = $_SESSION["username"];
+                    $color = $this->input->post('color');
+
+                    // to model
+                    $this->Personalize_model->saveBgColor($user,$color);
+
+                    
+                }
+            }
         }
     }
 

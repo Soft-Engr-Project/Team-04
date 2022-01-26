@@ -48,6 +48,13 @@
                     </div>
                     <hr>
                 </div>
+<script>
 
+const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+console.log(rgbaColor);
+document.querySelector('body').style.background = rgbaColor;
+document.querySelector('createthread').style.background = rgbaColor;
+
+</script>
                 
                         
