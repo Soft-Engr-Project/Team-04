@@ -11,9 +11,17 @@
 			
 		<?php }elseif($notify["type_of_notif"] == 'react'){?>
 			<div>
-				<p><a href="<?php echo site_url("posts/view/".$notify["post_id"]);?>"><?php echo $notify["username"]?> reacted to your post</a></p>
+				<p><a href="<?php echo site_url("posts/view/".$notify["post_id"]);?>"><?php echo $notify["username"]?> reacted to your comment</a></p>
 			</div>
-		<?php }?>
+		<?php } elseif($notify["type_of_notif"] == 'reply') { ?>
+			<div>
+				<p><a href="<?php echo site_url("subcomments/view/".$notify["post_id"]);?>"><?php echo $notify["username"]?> reply to your comment</a></p>
+			</div>
+		<?php } elseif($notify["type_of_notif"] == 'reply_react') { ?>
+			<div>
+				<p><a href="<?php echo site_url("subcomments/view/".$notify["post_id"]);?>"><?php echo $notify["username"]?> reacted to your comment</a></p>
+			</div>
+		<?php } ?>
 <?php endforeach ?>
 <?php }else{?>
 	<div>

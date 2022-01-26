@@ -3,6 +3,9 @@
 application/cache/*
 !application/cache/index.html
 
+application/config/*
+
+
 application/logs/*
 !application/logs/index.html
 assets/images
@@ -30,3 +33,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+

@@ -34,24 +34,25 @@
                 <h1>Search Result</h1>
                 <hr>
         </div>
-
+        
             <!-- Loop through the results array -->
             <?php foreach($results as $keys => $values):?> 
                 <!-- Check if it has contents-->
                 <?php if($values):?> 
-                <div class="homethread">
                     <div class="homecatpost">
                         <div class="categoriesdiv">
                             <h3><?php echo $keys;?></h3>
                         </div>
                     </div>   
+                
                     
-                    
-                        <!-- Loop through the values of the key-->
-                        <?php foreach($values as $content):?>
-
+                    <!-- Loop through the values of the key-->
+                    <?php foreach($values as $content):?>
+                        <div class="homethread">
+                        
                             <!-- UI FOR THREADS-->
                             <?php if($keys == "Threads"):?>
+                                
                                 <div class="row">
                                     <div class="col-lg-1">
                                             <div class="circleimage">
@@ -71,7 +72,7 @@
                                         <p class="post-date">Posted on: <?php echo $content["post_created_at"];?></p>
                                     </div>
                                 </div>
-
+                                
                             <!-- UI FOR COMMENTS-->
                             <?php elseif($keys == "Comments"):?>
                                 <div class="row">
@@ -110,17 +111,15 @@
                                     <div class="col-lg-8">
                                         <a href="<?php echo site_url("profiles/view/".$content["user_id"]);?>"><h2><?php echo ucfirst($content["username"]);?></h2> </a>
                                     </div>
-   
                                 </div>
                             <?php endif; ?>
-                        <?php endforeach;?>
                         </div>
+                        
+                    <?php endforeach;?>
+                        
                 <?php endif; ?>
-                
-            <?php endforeach;?>
-
-
-            
+            <?php endforeach;?>  
+            </div>
         </div>
     </div>
 </div>

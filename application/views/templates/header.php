@@ -46,15 +46,52 @@
                     <div class="col-md-5 mx-auto">
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
-                            <input class="form-control border-end-0 border rounded-pill" type="search" name="search" placeholder="search">
-                            <span class="input-group-append">
-                                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                            <input class="form-control border-end-0 border rounded-pill" type="text" id = "search" name="search" >
+                            
                         </div>
                         </form>
+                        </br>
+                        </br>
+                        <ul id="demo"></ul>
                     </div>
+
+                    <!-- Suggestions -->
+                    <script>
+                        $(document).on("keyup","#search",function(e){
+                            e.preventDefault();
+                            var commentbody = "";
+                            var min_length = 0; 
+                            var keyword = e.target.value;
+                            console.log(keyword);
+                            if (keyword.length >= min_length) {
+                            $.ajax({
+                                url: "<?php echo base_url()?>search/suggestions",
+                                type: "post",
+                                data: {
+                                    keyword: keyword
+                                },
+                                success : function(data){
+                                    let result = data.replace(/<!--  -->/g, "");
+                                    data = JSON.parse(result);
+                                    console.log(data);
+                                    $("#demo").html('');
+                                    $.each(data, function() {
+                                        $.each(this, function(k, v) {
+                                            console.log(v);
+                                            $("#demo").append("<li>" + v + "</li>");
+                                        });
+                                        });
+                                },
+                                error : function (data){
+                                    console.log('hello');
+                                }
+                            });
+                        } else {
+                            $('#demo').hide();
+                        }
+                           
+                        });
+                        </script>
 
                     <!-- Navigation Link Buttons -->
                     <a style="margin:10px !important;" class="nav-item nav-link text-light m-0 p-0" href="<?php echo base_url();?>pages/view">Home</a>

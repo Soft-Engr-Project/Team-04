@@ -31,3 +31,9 @@
  * View Thread design
  * Filter the post
  
+ **Changelog 01/24/2022**
+ * Explore Selenium Chrome Extension - 3
+ * Notification Design - 5
+ * Forgot Password (password complexity) - 3 
+ * Subcomment - 5
+ * Code Cleaning (Code Smell according to Code Analysis) - 8

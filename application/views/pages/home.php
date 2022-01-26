@@ -5,7 +5,7 @@
     redirect("/");
   }
 ?>
-<div style="width: 100vw; height: 100vh;"class="container-fluid">
+    <div style="height: 100vh;"class="container-fluid">
         <div class="row">
             <div class="col-lg 2">
                 <div class="topnamebox">
@@ -14,17 +14,16 @@
                     </div>
                     <div class="topname">
                         <?php $no=1; foreach ($posts as $post): ?>
-                            <p><?php echo $no++;?>. <a class="toppost" href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
+                        <p><?php echo $no++;?>.  <a href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
                         <?php endforeach ?>
-
                     </div>
                     <div class="allcat">
                         <h2>All Categories</h2>
                     </div>
                     <div class="categories">
                         <?php foreach ($categories as $category): ?>
-                            <a href="#"><p><?php echo $category["name"];?> </p></a>
-                        <?php endforeach; ?>      
+                            <p><a href="#"><?php echo $category["name"];?> </a></p>
+                        <?php endforeach; ?>                  
                     </div>
                 </div>
             </div>
@@ -43,8 +42,11 @@
                           <p>Create Thread</p>
                         </a>
                     </div>
-                    <div class="notification">
-                        <a href="<?php echo base_url()?>notification/index/<?php echo $this->session->userdata("user_id")?>"><i class="fas fa-bell"><?php  echo (!empty($notification_count)) ? $notification_count : ""?></i></a>
+                    <div class="notification_icon">
+                        <i class="fas fa-bell bell_count"></i>
+                    </div>
+                    <div class="notifdropdown">                        
+                        
                     </div>
                     <hr>
                 </div>
@@ -58,3 +60,236 @@ document.querySelector('createthread').style.background = rgbaColor;
 </script>
                 
                         
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript">
+    function bellCountChecker() {
+            
+        $.ajax({
+            url: "<?php echo base_url();?>notification/bellCountChecker",
+            type: "Post",
+            data: {
+                userID : <?php echo $this->session->userdata("user_id")?>
+            },
+            success: function(data){
+                let result = data.replace(/<!--  -->/g, "");
+               data = JSON.parse(result);
+                $(".bell_count").html(data);
+            }
+        })
+    }
+    bellCountChecker();
+    function getNotification(){
+     $.ajax({
+        url : "<?php echo base_url()?>notification/getNotification",
+        type : "POST",
+        data :{
+            userID : <?php echo $this->session->userdata("user_id")?>
+        },
+        success: function(data){
+             let result = data.replace(/<!--  -->/g, "");
+             data = JSON.parse(result);
+             notificationBody = "";
+             let count = 0;
+    
+            
+             if(data != ""){
+                data.forEach(notify => {
+                   
+                    if(notify["type_of_notif"] == "comment"){
+                     notificationBody += `
+                        <div class="notify_item">
+                            <a href="<?php echo base_url();?>posts/view/${notify['post_id']}">
+                            <div class="notify_img">
+                                 <div class="circleimage">`;
+                                    if(notify["user_profile_photo"]){
+                                     
+                     notificationBody += `   
+                                    <img src="<?php echo base_url();?>${notify['user_profile_photo']}" class="userprofile" >`;
+                                    } else{
+                     notificationBody += `
+                                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">`;
+                                    }
+                     notificationBody += `
+                                 </div>
+                            </div>
+                            <div class="notify_info">
+                                <p>${notify["username"]} commented in your post wiw</p>
+                                <span class="notify_time">10 minutes ago</span>
+                            </div>
+                            </a>`;
+                     notificationBody += `
+                        <div class="dropdown">
+                                    <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <label for="edit">
+                                            <li class="dropdown-item">
+                                                <input type="submit" id="edit">
+                                                Edit
+                                            </li> 
+                                        </label>
+                                        <label for="remove">
+                                            <li class="dropdown-item"> 
+                                                <input type="submit" id="remove">
+                                                    Remove
+                                            </li> 
+                                        </label>  
+                                    </ul>
+                                </div>          
+                            </div> 
+                     `;
+                    }
+                    else if(notify["type_of_notif"] == 'react'){
+                                    notificationBody += `
+                                    <div class="notify_item">
+                                        <a href="<?php echo base_url();?>posts/view/${notify['post_id']}">
+                                        <div class="notify_img">
+                                            <div class="circleimage">`;
+                                                      if(notify["user_profile_photo"]){ 
+                                                        notificationBody +=`<img src="<?php echo base_url()?>${notify['user_profile_photo']}" class="userprofile" >`
+                                                      } else {
+                                                        notificationBody +=`<img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">`;
+                                                      } 
+                                                      notificationBody +=`
+                                           </div>
+                                        </div>
+                                        <div class="notify_info">
+                                                <p>${notify["username"]}  reacted to your post</p>
+                                                <span class="notify_time">10 minutes ago</span>
+                                            </div>
+                                            </a>
+                                            <div class="dropdown">
+                                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                                    <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <label for="edit">
+                                                        <li class="dropdown-item">
+                                                            <input type="submit" id="edit">
+                                                            Edit
+                                                        </li> 
+                                                    </label>
+                                                    <label for="remove">
+                                                        <li class="dropdown-item"> 
+                                                            <input type="submit" id="remove">
+                                                                Remove
+                                                        </li> 
+                                                    </label>  
+                                                </ul>
+                                            </div>          
+                                        </div> 
+                                    `;
+                                    }
+                                    else if(notify["type_of_notif"] == 'reply') {
+                                    notificationBody += `
+                                    <div class="notify_item">
+                                        <a href="<?php echo base_url();?>subcomments/view/${notify['post_id']}">
+                                        <div class="notify_img">
+                                            <div class="circleimage">`;
+                                                if(notify["user_profile_photo"]) { 
+                                                    notificationBody += `<img src="<?php echo base_url()?>${notify['user_profile_photo']}" class="userprofile" >`;
+                                                } else{ 
+                                                    notificationBody += `<img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">`;
+                                                } 
+                                        notificationBody += ` 
+                                            </div>
+                                        </div>
+                                        <div class="notify_info">
+                                            <p>${notify["username"]} reply to your comment</p>
+                                            <span class="notify_time">10 minutes ago</span>
+                                        </div>
+                                        </a>
+                                        <div class="dropdown">
+                                            <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                                <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <label for="edit">
+                                                    <li class="dropdown-item">
+                                                        <input type="submit" id="edit">
+                                                        Edit
+                                                    </li> 
+                                                </label>
+                                                <label for="remove">
+                                                    <li class="dropdown-item"> 
+                                                        <input type="submit" id="remove">
+                                                            Remove
+                                                    </li> 
+                                                </label>  
+                                            </ul>
+                                        </div>          
+                                    </div> 
+                                    `;
+                                    }
+                                    else if(notify["type_of_notif"] == 'reply_react') {
+                                        notificationBody += `
+                                        <div class="notify_item">
+                                            <a href="<?php echo base_url();?>subcomments/view/${notify['post_id']}">
+                                            <div class="notify_img">
+                                                <div class="circleimage">`;
+                                                    if($notify["user_profile_photo"]){ 
+                                                        notificationBody += `<img src="<?php echo base_url()?>${notify['user_profile_photo']}" class="userprofile" >`;
+                                                    } else{
+                                                        notificationBody += `<img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">`;
+                                                    }
+                                        notificationBody+=`   
+                                                </div>
+                                            </div>
+                                            <div class="notify_info">
+                                                    <p>${notify["username"]} reacted to your comment</p>
+                                                    <span class="notify_time">10 minutes ago</span>
+                                                </div>
+                                                </a>
+                                                <div class="dropdown">
+                                                    <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <label for="edit">
+                                                            <li class="dropdown-item">
+                                                                <input type="submit" id="edit">
+                                                                Edit
+                                                            </li> 
+                                                        </label>
+                                                        <label for="remove">
+                                                            <li class="dropdown-item"> 
+                                                                <input type="submit" id="remove">
+                                                                    Remove
+                                                            </li> 
+                                                        </label>  
+                                                    </ul>
+                                                </div>          
+                                            </div>             
+                                        `;
+                                        } 
+                });
+               
+             }else{
+                notificationBody+=`
+                        <div class="notify_item">
+                            <p>No Notification Found</p>
+                        </div>`;
+             }
+             $(".notifdropdown").html(notificationBody);
+
+        }
+     })
+    }
+    $(document).on("click",".notifdropdown" ,function(e){
+        $.ajax({
+            url:"<?php echo base_url()?>notification/readNotification",
+            type: "POST",
+            data:{
+                userID : <?php echo $this->session->userdata("user_id")?>
+            }
+        });
+    })
+    getNotification();
+    setInterval("bellCountChecker()",3000);
+    setInterval("getNotification()",3000);
+
+</script>
