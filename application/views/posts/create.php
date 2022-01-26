@@ -39,3 +39,8 @@
   // instance, using default configuration.
   CKEDITOR.replace( 'editor1' );
 </script>
+
+<script>
+const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+document.querySelector('body').style.background = rgbaColor;
+</script>

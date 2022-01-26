@@ -26,9 +26,6 @@ function hidepassword(){
     state = true; 
 }
 
-
-
-
 // Menu Navbar
 let settingsmenu = document.querySelector (".settings-menu");
 var el = document.getElementById('settings');
@@ -195,7 +192,6 @@ const pickr = Pickr.create({
 //      rgbaClear = "rgba(255, 255, 255, 1)";
 //      document.querySelector('body').style.background = rgbaClear;
 // })
-
     // Review Cover Photo
 let coverphoto = document.querySelector("#smallcover");
 let filecover = document.querySelector("#filecover");
