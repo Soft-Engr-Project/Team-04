@@ -12,6 +12,30 @@
         $query = $this->db->get($this->users_table);
         return $query->row_array();
       }
+
+      public function search_all($key){
+        $results = array();
+
+        $this->db->select('id,title,body,post_created_at,users.user_id,users.username,users.user_profile_photo');
+        $this->db->like('title', $key); 
+        $this->db->or_like('body', $key);
+        $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+        $query = $this->db->get('posts');
+        $results['Threads'] = $query->result_array();
+
+        $this->db->select('comment_id,post_id,content,created_at,users.user_id,users.username,users.user_profile_photo');
+        $this->db->like('content', $key); 
+        $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
+        $query = $this->db->get('discussion');
+        $results['Comments'] = $query->result_array();
+
+        $this->db->like('username', $key); 
+        $query = $this->db->get('users');
+        $results['Profiles'] = $query->result_array();
+
+        
+        return $results;
+      }
     }
 
 
