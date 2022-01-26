@@ -36,6 +36,17 @@
         
         return $results;
       }
+
+      public function get_suggestions($key){
+        $this->db->select('title');
+        $this->db->like('title', $key); 
+        
+        $this->db->limit(10);
+        $query = $this->db->get('posts');
+        return $query->result_array();
+      }
+      
+
     }
 
 
