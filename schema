@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2022 at 12:33 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Generation Time: Jan 27, 2022 at 01:45 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.0.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,8 +41,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `username`, `password`, `email`, `2FA_code`, `created_at`) VALUES
-(1, 'admin', 'password', 'richardandrei.sunga@tup.edu.ph', '599466', '2022-01-02 06:55:47'),
-(2, 'admin1', 'password', 'arishavelle18@yahoo.com', '599466', '2022-01-14 07:35:58');
+(1, 'admin', 'password', 'richardandrei.sunga@tup.edu.ph', '350410', '2022-01-02 06:55:47'),
+(2, 'admin1', 'password', 'arishavelle18@yahoo.com', '350410', '2022-01-14 07:35:58');
 
 -- --------------------------------------------------------
 
@@ -170,16 +170,11 @@ INSERT INTO `notification` (`notif_id`, `action_id`, `type_of_notif`, `user_id`,
 (198, 209, 'comment', 6, 10, 77, 0),
 (201, 211, 'comment', 7, 10, 86, 0),
 (249, 77, 'react', 6, 10, 77, 0),
-(264, 151, 'comment', 6, 11, 77, 0),
+(264, 151, 'comment', 6, 11, 77, 1),
 (302, 178, 'comment', 7, 6, 77, 1),
-(303, 94, 'reply', 6, 11, 150, 0),
-(304, 96, 'reply', 6, 11, 150, 0),
-(306, 98, 'reply', 6, 7, 170, 1),
 (307, 170, 'comment', 6, 7, 96, 1),
 (309, 171, 'comment', 6, 7, 96, 1),
-(310, 99, 'reply', 6, 7, 170, 1),
 (311, 182, 'comment', 7, 9, 95, 0),
-(315, 100, 'reply', 7, 6, 187, 1),
 (317, 187, 'react', 7, 6, 95, 1),
 (318, 96, 'react', 6, 7, 96, 1);
 
@@ -446,8 +441,8 @@ INSERT INTO `reactions` (`react_id`, `react_log`) VALUES
 
 CREATE TABLE `reports` (
   `id` int(11) NOT NULL,
-  `content_id` int(11) NOT NULL,
-  `type` enum('thread','discussion','reply') NOT NULL,
+  `post_id` int(11) DEFAULT NULL,
+  `comment_id` int(11) DEFAULT NULL,
   `complainant_id` int(11) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -457,15 +452,13 @@ CREATE TABLE `reports` (
 -- Dumping data for table `reports`
 --
 
-INSERT INTO `reports` (`id`, `content_id`, `type`, `complainant_id`, `reason`, `created_at`) VALUES
-(1, 77, 'thread', 11, 'sa 2ru lang', '2022-01-01 06:06:56'),
-(3, 78, 'thread', 10, 'awitizers karin', '2022-01-01 06:43:36'),
-(4, 144, 'discussion', 10, '12312321313 123', '2022-01-01 06:43:56'),
-(5, 166, 'discussion', 11, '1', '2022-01-03 11:30:51'),
-(6, 144, 'discussion', 10, 'asd', '2022-01-04 11:34:47'),
-(7, 150, 'discussion', 6, 'granbeeee', '2022-01-21 09:54:24'),
-(8, 71, 'reply', 6, 'suppp karl', '2022-01-21 10:06:42'),
-(9, 72, 'reply', 6, 'asdadad', '2022-01-21 10:29:02');
+INSERT INTO `reports` (`id`, `post_id`, `comment_id`, `complainant_id`, `reason`, `created_at`) VALUES
+(1, 77, NULL, 11, 'sa 2ru lang', '2022-01-01 06:06:56'),
+(3, 78, NULL, 10, 'awitizers karin', '2022-01-01 06:43:36'),
+(4, NULL, 144, 10, '12312321313 123', '2022-01-01 06:43:56'),
+(5, NULL, 166, 11, '1', '2022-01-03 11:30:51'),
+(6, NULL, 144, 10, 'asd', '2022-01-04 11:34:47'),
+(7, NULL, 150, 6, 'granbeeee', '2022-01-21 09:54:24');
 
 -- --------------------------------------------------------
 
@@ -619,13 +612,17 @@ ALTER TABLE `categories`
 ALTER TABLE `discussion`
   ADD PRIMARY KEY (`comment_id`),
   ADD KEY `post_id` (`post_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `react_id` (`react_id`);
 
 --
 -- Indexes for table `notification`
 --
 ALTER TABLE `notification`
-  ADD PRIMARY KEY (`notif_id`);
+  ADD PRIMARY KEY (`notif_id`),
+  ADD KEY `notification_ibfk_1` (`owner_id`),
+  ADD KEY `notification_ibfk_2` (`user_id`),
+  ADD KEY `post_id` (`post_id`);
 
 --
 -- Indexes for table `posts`
@@ -647,13 +644,18 @@ ALTER TABLE `reactions`
 --
 ALTER TABLE `reports`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`complainant_id`);
+  ADD KEY `user_id` (`complainant_id`),
+  ADD KEY `comment_id` (`comment_id`),
+  ADD KEY `post_id` (`post_id`);
 
 --
 -- Indexes for table `subcomment`
 --
 ALTER TABLE `subcomment`
-  ADD PRIMARY KEY (`subcomment_id`);
+  ADD PRIMARY KEY (`subcomment_id`),
+  ADD KEY `comment_id` (`comment_id`),
+  ADD KEY `react_id` (`react_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -728,7 +730,16 @@ ALTER TABLE `users`
 --
 ALTER TABLE `discussion`
   ADD CONSTRAINT `discussion_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `discussion_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `discussion_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `discussion_ibfk_3` FOREIGN KEY (`react_id`) REFERENCES `reactions` (`react_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `posts`
@@ -742,7 +753,17 @@ ALTER TABLE `posts`
 -- Constraints for table `reports`
 --
 ALTER TABLE `reports`
-  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`complainant_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`complainant_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `discussion` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `subcomment`
+--
+ALTER TABLE `subcomment`
+  ADD CONSTRAINT `subcomment_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `discussion` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `subcomment_ibfk_2` FOREIGN KEY (`react_id`) REFERENCES `reactions` (`react_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `subcomment_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
