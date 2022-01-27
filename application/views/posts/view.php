@@ -164,11 +164,6 @@
             <div class="col-lg-9">
                 <div class="discussion">
                     <h3>Discussion</h3>
-                    
-                    <div id="comments"></div> 
-                    <div class="d-flex justify-content-center" id="removeSeeMore">
-                        <button id="seeMore" value="" class="btn btn-info" style="display:none;">See More</button>
-                    </div>
                     <div class="comments">
                         <div class="row">
                             <div class="col-lg-2">
@@ -192,6 +187,11 @@
                             </div>
                         </div>
                     </div>
+                    <div id="comments"></div> 
+                    <div class="d-flex justify-content-center" id="removeSeeMore">
+                        <button id="seeMore" value="" class="btn btn-info" style="display:none;">See More</button>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -202,6 +202,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    var flag = 0;
         function toastr_option(){
                   toastr.options = {
                   "closeButton": true,
@@ -390,7 +391,9 @@
         url : "<?php echo base_url();?>comments/fetch",
         type : "post",
         data :{
-            post_id : <?php echo $post["id"];?>
+            post_id : <?php echo $post["id"];?>,
+            offset : 0,
+            limit :3
         },
         success : function(data){
             let result = data.replace(/<!--  -->/g, "");
@@ -398,12 +401,159 @@
             var commentbody = "";
             let comment_id;
             let count = 0;
-            console.log(data);
+           
             if(data["comments"] != ""){
               
             data["comments"].forEach(element => {
-              count++;
-              comment_id = element['comment_id'];
+            
+              if ("<?php echo $reported_id?>" == element["comment_id"]){
+                console.log('ew')
+                commentbody += "<div class='card bg-danger'>";
+              }
+              else {
+                commentbody+= `
+                <div class="comments">`;
+              }
+
+
+              commentbody += `<div class="circleimage">`;
+                            if(element["user_profile_photo"]){
+                                  commentbody+=`
+                                  <img src="<?php echo base_url();?>${element["user_profile_photo"]}" class="userprofile">`;
+                                }else{
+                                  commentbody+=`
+                                  <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">`;    
+                                }     
+                                commentbody+=`            
+                            </div>
+                            <div class="row"> 
+                            <div class="col-lg-3"> 
+                            
+                                <a href="<?php echo base_url()?>profiles/view/${element["user_id"]}"><h2>${element["username"]}</h2></a>
+                            </div>  
+                            <div class="col-lg-9">    
+                                <div class="commentdropdown">` ;
+              if("<?php echo $this->session->userdata("user_id");?>" == element["user_id"] || Boolean(<?php echo $this->session->userdata("admin");?>) == true){
+                commentbody += `<div class="dropdown" name="delete_edit">
+                                        <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
+                                                <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                             <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">
+                                            <li class="dropdown-item">
+                                                <input type="submit" id="edit" >
+                                               Edit
+                                            </li>
+                                            </label>
+                                            <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">
+                                            <li class="dropdown-item"> 
+                                                <input type="submit" id="remove">
+                                                    Remove
+                                            </li>
+                                            </label>  
+                                        </ul>
+                                    </div>`;
+                }
+                
+              else if(<?php echo $this->session->userdata("user_id");?> != element["user_id"]){
+                    commentbody += `<div class="dropdown">
+                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
+                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                </button>
+                                <ul class="dropdown-menu">
+                                <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">
+                                    <li class="dropdown-item">
+                                            Report
+                                    </li>
+                                    </label>
+                                </a>
+                            </div>`;}
+
+            commentbody += `   </div>                              
+                            </div>  
+                        </div> `
+                
+                commentbody += `<div id='containeredit${element["comment_id"]}'>`;  
+
+                commentbody+= `
+                 <div class="comment_edit" style="display:none;" id="textarea_container">
+                    <form action="" method="POST" id="edit_form">
+                    <input type="hidden" id="edit_id" value="">
+                            <textarea  class="text" id="edit_textarea${element['comment_id']}" name="edit_comment"></textarea>
+                            <button class="button1" id="update_comment">Update</button>
+                            <button id="back_comment">Cancel</button>
+                    </form>
+                </div> 
+                </div>`;
+
+            commentbody += `<div class="commentuser" id='edit_container${element["comment_id"]}'>`;
+            commentbody += `<p id="comment_owner">${element["content"]}</p>                     
+                            </div> `
+
+            commentbody += `<div id='edit_container1${element["comment_id"]}'>`;
+            commentbody +=`    
+                        <div class="threadmore" id="comment_reaction">
+                            <div class="reaction">
+                                    <button id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}">
+                                        <i class="fa fa-thumbs-up fa-lg"></i>                               
+                                        <input type="numberlike" id="input1" value="${element["upvote"]}" name="">
+                                    </button>
+    
+                                    <button id="downvote_comment" name="upvote_downvote" value="${element["comment_id"]}" >
+                                        <i class="fa fa-thumbs-down fa-lg" ></i>
+                                        <input type="numberlike" id="input1" value="${element["downvote"]}" name="">
+                                    </button>
+                            </div> 
+                            <div class="totalcomments">
+                                <a href="<?php echo base_url()?>subcomments/view/${element["comment_id"]}"><img src="<?php echo base_url();?>assets/image/comment.png" alt=""></a>
+                                <input type="numberlike" id="input1" value="${element["subcomment_count"]}" name="">
+    
+                            </div>
+                            <div class="whatcategory">
+                                <h4>Commented on: ${element["comment_created_at"]}</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>`; });
+            $("#comments").append(commentbody);
+            flag += 3;
+            
+            
+           
+          }
+          
+        }
+          });
+        }
+
+        // Function for create comment
+    fetch();
+    $(window).scroll(function(){
+      if($(window).scrollTop() >= $(document).height() - $(window).height()){
+        
+        $.ajax({
+        url : "<?php echo base_url();?>comments/fetch",
+        type : "post",
+        data :{
+            post_id : <?php echo $post["id"];?>,
+            offset : flag,
+            limit :3
+        },
+        success : function(data){
+          
+            let result = data.replace(/<!--  -->/g, "");
+            data = JSON.parse(result);
+            var commentbody = "";
+            let comment_id;
+            let count = 0;
+            console.log(data);
+
+          
+            if(data["comments"] != ""){
+              
+            data["comments"].forEach(element => {
+            
               if ("<?php echo $reported_id?>" == element["comment_id"]){
                 console.log('ew')
                 commentbody += "<div class='card bg-danger'>";
@@ -513,162 +663,19 @@
                         </div>
                     </div>
                     </div>`; });
-            $("#seeMore").val(comment_id);
-            $("#comments").html(commentbody);
+            $("#comments").append(commentbody);
+            flag+=3;
             
-            if(data["count"] > 3){
-              $("#seeMore").css("display","block");
-            }
            
           }
-          else{
-                $("#seeMore").css("display","none");
-          }
+          
         }
           });
-        }
-
-        // Function for create comment
-    fetch();
-// seemore
-      $(document).on("click","#seeMore",function(e){
-        e.preventDefault();
-        let commentId = $(this).attr("value");
-        let commentbody = "";
-        $.ajax({
-          url:"<?php echo base_url();?>comments/loadMore",
-          type:"post",
-          data:{
-            commentId :commentId,
-            postId : <?php echo $post["id"];?>
-          },
-          success:function(data){ 
-            let result = data.replace(/<!--  -->/g, "");
-                    data = JSON.parse(result);
-            console.log(data);
-            if(data != ""){
-            data.forEach(element => {
-              commentId = element['comment_id'];
-              if ("<?php echo $reported_id?>" == element["comment_id"]){
-                console.log('ew')
-                commentbody += "<div class='card bg-danger'>";
-              }
-              else {
-                commentbody+= `
-                <div class="comments">`;
-              }
 
 
-              commentbody += `<div class="circleimage">`;
-                            if(element["user_profile_photo"]){
-                                  commentbody+=`
-                                  <img src="<?php echo base_url();?>${element["user_profile_photo"]}" class="userprofile">`;
-                                }else{
-                                  commentbody+=`
-                                  <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">`;    
-                                }     
-                                commentbody+=`            
-                            </div>
-                            <div class="row"> 
-                            <div class="col-lg-3"> 
-                            
-                                <a href="<?php echo base_url()?>profiles/view/${element["user_id"]}"><h2>${element["username"]}</h2></a>
-                            </div>  
-                            <div class="col-lg-9">    
-                                <div class="commentdropdown">` ;
-              if("<?php echo $this->session->userdata("user_id");?>" == element["user_id"] || Boolean(<?php echo $this->session->userdata("admin");?>) == true){
-                commentbody += `<div class="dropdown" name="delete_edit">
-                                        <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown"> 
-                                                <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                             <label for="edit" id="edit" name="delete_edit" value="${element['comment_id']}">
-                                            <li class="dropdown-item">
-                                                <input type="submit" id="edit" >
-                                               Edit
-                                            </li>
-                                            </label>
-                                            <label for="remove"  id = "del" name="delete_edit" value="${element['comment_id']}">
-                                            <li class="dropdown-item"> 
-                                                <input type="submit" id="remove">
-                                                    Remove
-                                            </li>
-                                            </label>  
-                                        </ul>
-                                    </div>`;
-                }
-                
-              else if(<?php echo $this->session->userdata("user_id");?> != element["user_id"]){
-                    commentbody += `<div class="dropdown">
-                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
-                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
-                                </button>
-                                <ul class="dropdown-menu">
-                                <a href="#" id="report_button" name="discussion"  value="${element['comment_id']}">
-                                    <li class="dropdown-item">
-                                            Report
-                                    </li>
-                                    </label>
-                                </a>
-                            </div>`;}
-
-            commentbody += `   </div>                              
-                            </div>  
-                        </div> `
-                
-                commentbody += `<div id='containeredit${element["comment_id"]}'>`;  
-
-                commentbody+= `
-                 <div class="comment_edit" style="display:none;" id="textarea_container">
-                    <form action="" method="POST" id="edit_form">
-                    <input type="hidden" id="edit_id" value="">
-                            <textarea  class="text" id="edit_textarea${element['comment_id']}" name="edit_comment"></textarea>
-                            <button class="button1" id="update_comment">Update</button>
-                            <button id="back_comment">Cancel</button>
-                    </form>
-                </div> 
-                </div>`;
-
-            commentbody += `<div class="commentuser" id='edit_container${element["comment_id"]}'>`;
-            commentbody += `<p id="comment_owner">${element["content"]}</p>                     
-                            </div> `
-
-            commentbody += `<div id='edit_container1${element["comment_id"]}'>`;
-            commentbody +=`    
-                        <div class="threadmore" id="comment_reaction">
-                            <div class="reaction">
-                                    <button id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}">
-                                        <i class="fa fa-thumbs-up fa-lg"></i>                               
-                                        <input type="numberlike" id="input1" value="${element["upvote"]}" name="">
-                                    </button>
-    
-                                    <button id="downvote_comment" name="upvote_downvote" value="${element["comment_id"]}" >
-                                        <i class="fa fa-thumbs-down fa-lg" ></i>
-                                        <input type="numberlike" id="input1" value="${element["downvote"]}" name="">
-                                    </button>
-                            </div> 
-                            <div class="totalcomments">
-                                <a href="<?php echo base_url()?>subcomments/view/${element["comment_id"]}"><img src="<?php echo base_url();?>assets/image/comment.png" alt=""></a>
-                                <input type="numberlike" id="input1" value="${element["subcomment_count"]}" name="">
-    
-                            </div>
-                            <div class="whatcategory">
-                                <h4>Commented on: ${element["comment_created_at"]}</h4>
-                            </div>
-                        </div>
-                    </div>
-                    </div>`; 
-                });
-                $("#seeMore").val(commentId);
-                $("#comments").append(commentbody);
-              }
-              else{
-                $("#seeMore").css("display","none");
-              }
-            }
-        });
-        
-      })
+      }
+    })
+     
 
 
       $(document).on("click","#create",function(e){

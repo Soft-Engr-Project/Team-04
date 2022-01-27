@@ -19,7 +19,7 @@
         {
             sleep(2);
             $post = $_GET['category'];
-                
+          
             $data["categories"] = $this->categories_model->get_categories();
             $data["posts"]=  $this->post_model->get_posts_for_filter($post);
             echo json_encode($data);

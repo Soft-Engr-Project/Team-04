@@ -9,7 +9,7 @@
 		public function create($data){
 			return $this->db->insert($this->comment_table,$data);
 		}
-		public function get_comments($post_id,$limit = Null){
+		public function get_comments($post_id,$limit = Null,$offset=Null){
 			if(is_null($limit)){
 				$this->db->order_by($this->comment_table.".comment_id DESC");
 				$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
@@ -17,8 +17,8 @@
 				return $query->result_array();
 			}
 			else{
-				$this->db->order_by($this->comment_table.".comment_id DESC");
-				$this->db->limit($limit);
+				$this->db->order_by($this->comment_table.".comment_created_at DESC");
+				$this->db->limit($limit,$offset);
 				$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
 				$query = $this->db->get_where($this->comment_table,array("post_id" => $post_id));
 				return $query->result_array();
