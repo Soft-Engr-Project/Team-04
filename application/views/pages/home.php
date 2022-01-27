@@ -55,6 +55,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+document.querySelector('body').style.background = rgbaColor;
+</script>
+                
+
 <script type="text/javascript">
     function bellCountChecker() {
             

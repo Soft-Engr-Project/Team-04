@@ -49,5 +49,22 @@
           return $query->row_array();
         
        }
+
+       public function saveBgColor($user,$color){
+
+          $this->db->select('*');
+          $this->db->where('username', $user); 
+
+          $query = $this->db->get('users'); 
+          if ($query->num_rows() > 0){
+            $this->db->where('username', $user); 
+            $colors['bgColor'] = $color;
+            $this->db->update('users', $colors);
+
+            $newColor = array('bgColor'=>$color);
+            $this->session->set_userdata($newColor);
+           
+          } 
+       }
     }
 ?>

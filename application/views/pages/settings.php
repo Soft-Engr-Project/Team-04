@@ -24,3 +24,9 @@
 </div>
 <?php endif;?>
 </div>
+
+<script>
+//color bg
+const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+document.querySelector('body').style.background = rgbaColor;
+</script>
