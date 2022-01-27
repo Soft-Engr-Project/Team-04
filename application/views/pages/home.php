@@ -114,7 +114,7 @@ document.querySelector('body').style.background = rgbaColor;
                             </div>
                             <div class="notify_info">
                                 <p>${notify["username"]} commented in your post wiw</p>
-                                <span class="notify_time">10 minutes ago</span>
+                                <span class="notify_time">${notify["notif_created_at"]}</span>
                             </div>
                             </a>`;
                      notificationBody += `
@@ -156,7 +156,7 @@ document.querySelector('body').style.background = rgbaColor;
                                         </div>
                                         <div class="notify_info">
                                                 <p>${notify["username"]}  reacted to your post</p>
-                                                <span class="notify_time">10 minutes ago</span>
+                                                <span class="notify_time">${notify["notif_created_at"]}</span>
                                             </div>
                                             </a>
                                             <div class="dropdown">
@@ -197,7 +197,7 @@ document.querySelector('body').style.background = rgbaColor;
                                         </div>
                                         <div class="notify_info">
                                             <p>${notify["username"]} reply to your comment</p>
-                                            <span class="notify_time">10 minutes ago</span>
+                                            <span class="notify_time">${notify["notif_created_at"]}</span>
                                         </div>
                                         </a>
                                         <div class="dropdown">
@@ -238,7 +238,7 @@ document.querySelector('body').style.background = rgbaColor;
                                             </div>
                                             <div class="notify_info">
                                                     <p>${notify["username"]} reacted to your comment</p>
-                                                    <span class="notify_time">10 minutes ago</span>
+                                                    <span class="notify_time">${notify["notif_created_at"]}</span>
                                                 </div>
                                                 </a>
                                                 <div class="dropdown">

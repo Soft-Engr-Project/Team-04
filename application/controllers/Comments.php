@@ -65,7 +65,21 @@
         {
             if($this->input->is_ajax_request()){
                 $postID = $this->input->post("post_id");
-                $data = $this->comments_model->get_comments($postID,2);
+                $data = $this->comments_model->get_comments($postID,3);
+                $checker = $this->comments_model->checkIfHasComment($postID);
+                $commentCount = $this->post_model->get_posts($postID)["post_comment_count"];
+                $data = array("comments" => $data ,"check" => $checker,"count" => $commentCount);
+                echo json_encode($data);
+            }
+            else {
+                echo "No direct script access allowed";
+            }
+        }
+        public function loadMore(){
+            if($this->input->is_ajax_request()){
+                $postID = $this->input->post("postId");
+                $commentId = $this->input->post("commentId");
+                $data = $this->comments_model->getCommentfetch($commentId,$postID);
                 echo json_encode($data);
             }
             else {

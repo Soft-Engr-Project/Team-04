@@ -9,11 +9,36 @@
 		public function create($data){
 			return $this->db->insert($this->comment_table,$data);
 		}
-		public function get_comments($post_id){
-			$this->db->order_by($this->comment_table.".comment_id ASC");
+		public function get_comments($post_id,$limit = Null){
+			if(is_null($limit)){
+				$this->db->order_by($this->comment_table.".comment_id DESC");
+				$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
+				$query = $this->db->get_where($this->comment_table,array("post_id" => $post_id));
+				return $query->result_array();
+			}
+			else{
+				$this->db->order_by($this->comment_table.".comment_id DESC");
+				$this->db->limit($limit);
+				$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
+				$query = $this->db->get_where($this->comment_table,array("post_id" => $post_id));
+				return $query->result_array();
+			}
+		}
+		public function getCommentfetch($commentID,$postId,$limit = 3) {
+			$this->db->order_by($this->comment_table.".comment_id DESC");
+			$this->db->limit($limit);
 			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");
-			$query = $this->db->get_where($this->comment_table,array("post_id" => $post_id));
-			return $query->result_array();
+			$this->db->where($this->comment_table.".post_id" ,$postId);
+			$this->db->where("comment_id < ", $commentID);
+			$query = $this->db->get($this->comment_table);
+			return $query->result_array();	
+		}
+		public function checkIfHasComment($postId){
+			$this->db->where("post_id" ,$postId);
+			$query = $this->db->get($this->comment_table);
+			
+			return $query->num_rows();
+		
 		}
 		public function get_specific_comment($comment_id){
 			$this->db->join($this->users_table,$this->users_table.".user_id = ".$this->comment_table.".user_id");

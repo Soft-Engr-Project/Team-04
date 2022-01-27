@@ -11,6 +11,9 @@ class Post_model extends CI_Model{
         $this->load->database();
         
     }
+    public function getCountsComment(){
+        $this->db->where("id",$postID);
+    }
     // get all the posts
     public function get_posts($id=Null){
         if($id == False){
