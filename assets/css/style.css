@@ -16,6 +16,20 @@ ul{
 
 
 /* Navbar */
+ul.ui-autocomplete {  cursor: default; background:#314754;}   
+ul.ui-menu .ui-menu-item a {
+    color:#fff;
+}
+/* workarounds */
+html .ui-autocomplete { position: absolute; top:70px; left: 532px; width:1px; } /* without this, the menu expands to 100% in IE6 */
+ul.ui-menu {
+    list-style:none;
+    padding: 2px;
+    margin: 0;
+    display:block;
+    float: left;
+}
+
 
 nav{
     z-index: 20;

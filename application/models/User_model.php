@@ -38,19 +38,17 @@
       }
 
       public function get_suggestions($key){
-        $this->db->select('title');
-        $this->db->like('title', $key); 
-        
-        $this->db->limit(10);
-        $query = $this->db->get('posts');
-        return $query->result_array();
+        $response = array();
+        $this->db->select('*');
+        if($key['keyword']){ // if there is any input
+            $this->db->where("title like '%".$key['keyword']."%' ");
+            $this->db->limit(5);
+            $result = $this->db->get('posts')->result();
+            foreach($result as $row){
+                $response[] = array("label"=>$row->title);
+            }
+        }
+        return $response;
       }
-      
-
     }
-
-
-
-
-
 ?>

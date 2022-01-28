@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Profile</title>
@@ -18,7 +18,10 @@
     <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    <script src='https://cdn.rawgit.com/pguso/jquery-plugin-circliful/master/js/jquery.circliful.min.js'></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
 </head>
 <body>
     <nav>   
@@ -47,50 +50,45 @@
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
                             <input class="form-control border-end-0 border rounded-pill" type="text" id = "search" name="search" >
-                            
                         </div>
                         </form>
-                       <!--  </br>
-                        </br> -->
-                        <ul id="demo"></ul>
                     </div>
 
                     <!-- Suggestions -->
                     <script>
-                        $(document).on("keyup","#search",function(e){
-                            e.preventDefault();
-                            var commentbody = "";
-                            var min_length = 0; 
-                            var keyword = e.target.value;
-                            console.log(keyword);
-                            if (keyword.length >= min_length) {
-                            $.ajax({
-                                url: "<?php echo base_url()?>search/suggestions",
-                                type: "post",
-                                data: {
-                                    keyword: keyword
+                        $(document).ready(function(){
+                            $("#search").autocomplete({
+                                source: function( request, response){
+                                    $.ajax({
+                                        url: "<?php echo base_url()?>search/suggestions",
+                                        type: "post",
+                                        data: {
+                                            keyword: request.term
+                                        },
+                                        success : function(data){
+                                            const seen = new Set();
+                                            //console.log(typeof data);
+                                            let result = data.replace(/<!--  -->/g, "");
+                                            data = JSON.parse(result);
+                                            //get unique values
+                                            const filteredArr = data.filter(el => {
+                                                const duplicate = seen.has(el.label);
+                                                seen.add(el.label);
+                                                return !duplicate;
+                                            });
+                                            //console.log(filteredArr);
+                                            response(filteredArr);
+                                        }
+                                    });
                                 },
-                                success : function(data){
-                                    let result = data.replace(/<!--  -->/g, "");
-                                    data = JSON.parse(result);
-                                    console.log(data);
-                                    $("#demo").html('');
-                                    $.each(data, function() {
-                                        $.each(this, function(k, v) {
-                                            console.log(v);
-                                            $("#demo").append("<li>" + v + "</li>");
-                                        });
-                                        });
-                                },
-                                error : function (data){
-                                    console.log('hello');
+                                select: function(values, ui){
+                                    $('#search').val(ui.item.label);
+                                    return false;
                                 }
                             });
-                        } else {
-                            $('#demo').hide();
-                        }
-                           
                         });
+
+
                         </script>
 
                     <!-- Navigation Link Buttons -->

@@ -40,11 +40,9 @@
 
         public function suggestions() {
             if($this->input->is_ajax_request()) {
-            $keyword = $this->input->post('keyword');
-            $results = $this->user_model->get_suggestions($keyword);
-            $data['var'] = $results;
-          
-            echo json_encode($data['var']);
+                $keyword = $this->input->post();
+                $data = $this->user_model->get_suggestions($keyword);
+                echo json_encode($data);
             }
         
         }
