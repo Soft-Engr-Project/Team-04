@@ -16,8 +16,10 @@ class Reports_model extends CI_Model{
     public function get_reports(){
         // GET ALL REPORTS
         $reports = array();
-        $this->db->select('reports.* , users.username');
+        $this->db->select('reports.*,reports.id AS report_id, users.username AS complainant');
         $this->db->join('users','users.user_id = reports.complainant_id');
+        // $this->db->join('posts','posts.id = reports.post_id','left');
+        // $this->db->join('discussion','discussion.comment_id = reports.comment_id','left');
         $query = $this->db->get('reports');
     
         $q = $query->result_array();
@@ -28,22 +30,16 @@ class Reports_model extends CI_Model{
 
         // Loop through the reports to get the content
         foreach($q as $report){
-            if ($report['type'] == 'thread'){
-                $query_report = $this->post_model->get_posts($report['content_id']);
-                $report['complainant'] = $report['username'];
-                $report['report_id'] = $report['id'];
-                $report = array_merge($report,$query_report);
+            if ($report['post_id']){
+                $query_report = $this->post_model->get_posts($report['post_id']);
+                $report += $query_report;
             }
             else{
-                $query_comment = $this->comments_model->get_specific_comment($report['content_id']);
-                $report['complainant'] = $report['username'];
-                $report['report_id'] = $report['id'];
-                $report = array_merge($report,$query_comment);
+                $query_comment = $this->comments_model->get_specific_comment($report['comment_id']);
+                $report += $query_comment;
             }
-        //     echo '<pre>';
-        // var_dump($report);
-        // echo '</pre>';
-            $reports [$report['report_id']] = $report;
+            
+            $reports [$report['id']] = $report;
         }
         // echo '<pre>';
         // var_dump($reports);

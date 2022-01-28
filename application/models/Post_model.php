@@ -28,7 +28,7 @@ class Post_model extends CI_Model{
         $query = $this->db->get($this->post_table);
         return $query->row_array();
     }
-    public function get_posts_for_filter($id){
+    public function get_posts_for_filter($id,$limit=NULL,$offset=NULL){
         if($id > 0){
             $this->db->where($this->post_table.".category_id",$id);
             $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");

@@ -13,8 +13,6 @@
 </div>
 
 <script>
-
-// Simple example, see optional options for more configuration.
 const pickr = Pickr.create({
     el: '.color-picker',
     theme: 'classic', // or 'monolith', or 'nano'
@@ -52,8 +50,6 @@ const pickr = Pickr.create({
         }
     }
 });
-
-
 pickr.on('change', (color, source, instance) => {
     const rgbaColor = color.toRGBA().toString();
     console.log(rgbaColor);

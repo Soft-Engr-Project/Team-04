@@ -37,3 +37,10 @@
  * Forgot Password (password complexity) - 3 
  * Subcomment - 5
  * Code Cleaning (Code Smell according to Code Analysis) - 8
+
+ **Changelog(1/28/2022)**
+ * Profile Design(iniimprove) 
+ * Update Datebase 
+ * Search bar (improve nilagyan ng auto suggest) 
+ * Notification Convert to ajax
+ * Load More

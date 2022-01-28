@@ -90,7 +90,7 @@ document.querySelector('body').style.background = rgbaColor;
              data = JSON.parse(result);
              notificationBody = "";
              let count = 0;
-    
+            
             
              if(data != ""){
                 data.forEach(notify => {
@@ -114,7 +114,7 @@ document.querySelector('body').style.background = rgbaColor;
                             </div>
                             <div class="notify_info">
                                 <p>${notify["username"]} commented in your post wiw</p>
-                                <span class="notify_time">10 minutes ago</span>
+                                <span class="notify_time">${notify["notif_created_at"]}</span>
                             </div>
                             </a>`;
                      notificationBody += `
@@ -156,7 +156,7 @@ document.querySelector('body').style.background = rgbaColor;
                                         </div>
                                         <div class="notify_info">
                                                 <p>${notify["username"]}  reacted to your post</p>
-                                                <span class="notify_time">10 minutes ago</span>
+                                                <span class="notify_time">${notify["notif_created_at"]}</span>
                                             </div>
                                             </a>
                                             <div class="dropdown">
@@ -197,7 +197,7 @@ document.querySelector('body').style.background = rgbaColor;
                                         </div>
                                         <div class="notify_info">
                                             <p>${notify["username"]} reply to your comment</p>
-                                            <span class="notify_time">10 minutes ago</span>
+                                            <span class="notify_time">${notify["notif_created_at"]}</span>
                                         </div>
                                         </a>
                                         <div class="dropdown">
@@ -238,7 +238,7 @@ document.querySelector('body').style.background = rgbaColor;
                                             </div>
                                             <div class="notify_info">
                                                     <p>${notify["username"]} reacted to your comment</p>
-                                                    <span class="notify_time">10 minutes ago</span>
+                                                    <span class="notify_time">${notify["notif_created_at"]}</span>
                                                 </div>
                                                 </a>
                                                 <div class="dropdown">
@@ -276,17 +276,9 @@ document.querySelector('body').style.background = rgbaColor;
         }
      })
     }
-    $(document).on("click",".notifdropdown" ,function(e){
-        $.ajax({
-            url:"<?php echo base_url()?>notification/readNotification",
-            type: "POST",
-            data:{
-                userID : <?php echo $this->session->userdata("user_id")?>
-            }
-        });
-    })
+
     getNotification();
-    setInterval("bellCountChecker()",3000);
+    setInterval("bellCountChecker()",1000);
     setInterval("getNotification()",3000);
 
 </script>

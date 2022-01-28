@@ -86,7 +86,6 @@ $(window).on('click', function(event){
 });
 
 
-
 // pickr.on('init', instance => {
 //     console.log('Event: "init"', instance);
 // }).on('hide', instance => {
@@ -126,28 +125,7 @@ $(window).on('click', function(event){
 
 
 
-// pickr.on('change', (color, source, instance) => {
-//     const rgbaColor = color.toRGBA().toString();
-//     console.log(rgbaColor);
-//     document.querySelector('body').style.background = rgbaColor;
-// }).on('save', (color, instance) => {
-//     const rgbaSave = color.toRGBA().toString();
-//      // save to db
-//     createCookie("colorSave", rgbaSave, "10");
 
-//     var colors = {
-//         color : rgbaSave,
-//         submit : true
-//     };
-
-//     $.ajax({
-//      url: '<?php echo base_url();?>Customization/uploadColor',
-//      type: 'POST',
-//      data: colors,
-//      success: function(result){
-//         console.log(result);
-//      }
-//    });
 
 
 
