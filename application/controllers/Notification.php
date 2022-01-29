@@ -12,7 +12,9 @@
 		public function index($user_id)
         {
 			   $this->data["title"]=ucfirst('home');
-               $this->load->view("templates/header.php");
+               $userID = $this->session->userdata("user_id");
+               $this->data["user"] = $this->user_model->get_user($userID);
+               $this->load->view("templates/header",$this->data);
                $this->data["categories"] = $this->categories_model->get_categories();
                $this->data["posts"] = $this->post_model->get_posts_high_react();
                $this->load->view("pages/home",$this->data);
@@ -25,7 +27,7 @@
                $this->data["notification"] = $this->notification_model->get_notification($user_id);
              
                $this->load->view("notification/index",$this->data);
-			   $this->load->view("templates/footer.php");
+			   $this->load->view("templates/footer");
 		}
         public function bellCountChecker()
         {

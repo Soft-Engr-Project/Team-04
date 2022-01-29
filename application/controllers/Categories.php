@@ -8,9 +8,11 @@
 		{
 			$this->data["title"] = "Categories";
 			$this->data["categories"] = $this->categories_model->get_categories();
-			$this->load->view("templates/header.php");
-			$this->load->view("categories/display.php",$this->data);
-			$this->load->view("templates/footer.php");
+			$userID = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($userID);
+			$this->load->view("templates/header",$this->data);
+			$this->load->view("categories/display",$this->data);
+			$this->load->view("templates/footer");
 		}
 		// iviview lahat ng same category 
 		public function view($name)
@@ -21,9 +23,11 @@
 				show_404();
 			}
 			$this->data["posts"] = $this->categories_model->get_posts_by_category($name);
-			$this->load->view("templates/header.php");
-			$this->load->view("posts/index.php",$this->data);
-			$this->load->view("templates/footer.php");
+			$userID = $this->session->userdata("user_id");
+            $this->data["user"] = $this->user_model->get_user($userID);
+			$this->load->view("templates/header",$this->data);
+			$this->load->view("posts/index",$this->data);
+			$this->load->view("templates/footer");
 		}
 	}
 

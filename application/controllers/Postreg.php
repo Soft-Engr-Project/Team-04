@@ -7,14 +7,14 @@
             $this->form_validation->set_rules('username','Username','required');
             $this->form_validation->set_rules('password','Password','required');
             if($this->form_validation->run()===false){
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("pages/login",$this->data);
-                $this->load->view("templates/footer.php");     
+                $this->load->view("templates/footer");     
             }else{
                 $this->server->login_user();
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("pages/view",$this->data);
-                $this->load->view("templates/footer.php");     
+                $this->load->view("templates/footer");     
             }
         }
 
@@ -30,9 +30,9 @@
 
             $this->form_validation->set_rules('email','Email','required|callback_checkEmailVerify');
             if($this->form_validation->run()===false){
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("pages/forgot_password",$this->data);
-                $this->load->view("templates/footer.php");     
+                $this->load->view("templates/footer");     
             }else{
                 // Code Generation
                 $passcode = random_int(0,999999);  // Generate hash value
@@ -68,9 +68,9 @@
                 $this->session->set_userdata($newdata);
 
 
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("pages/passcode",$this->data);
-                $this->load->view("templates/footer.php");
+                $this->load->view("templates/footer");
 
 
             }
@@ -89,18 +89,18 @@
                 // If true, direct to change password
                 if ($query){
                     $this->session->set_userdata(array('lock_id'=>1));
-                    $this->load->view("templates/loginheader.php");
+                    $this->load->view("templates/loginheader");
                     $this->load->view("pages/change_password");
-                    $this->load->view("templates/footer.php"); 
+                    $this->load->view("templates/footer"); 
                 }
                 else{
                     // $this->data["title"] = "Wrong passcode";
                     // 
                     $this->form_validation->set_rules("passcode","Code","callback_checkCode");
                     if($this->form_validation->run() == false){
-                        $this->load->view("templates/loginheader.php");
+                        $this->load->view("templates/loginheader");
                         $this->load->view("pages/passcode",$this->data);
-                        $this->load->view("templates/footer.php");
+                        $this->load->view("templates/footer");
                     }
                     else{
                         redirect("postreg/passverify");
@@ -137,16 +137,16 @@
                 $this->form_validation->set_rules('password_1','Password','required');
                 $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
                 if($this->form_validation->run()===false){
-                    $this->load->view("templates/loginheader.php");
+                    $this->load->view("templates/loginheader");
                     $this->load->view("pages/change_password");
-                    $this->load->view("templates/footer.php");       
+                    $this->load->view("templates/footer");       
                 }
                 else{
                     $query = $this->server->change_pass($email);
                         if ($query){
-                        $this->load->view("templates/loginheader.php");
+                        $this->load->view("templates/loginheader");
                         $this->load->view("pages/passwordverify");
-                        $this->load->view("templates/footer.php"); 
+                        $this->load->view("templates/footer"); 
                         $this->session->sess_destroy();
                     }
                 }
@@ -182,9 +182,9 @@
             $this->form_validation->set_rules('password_1','Password','required');
             $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
             if($this->form_validation->run()===false){
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("pages/signup",$this->data);
-                $this->load->view("templates/footer.php");     
+                $this->load->view("templates/footer");     
             }else{
                 
                 // Code Generation
@@ -216,9 +216,9 @@
 
                 mail($to, $subject, $message, $headers); // Send our email
                 //echo "Check your email";
-                $this->load->view("templates/loginheader.php");
-                $this->load->view("pages/checkemail.php");
-                $this->load->view("templates/footer.php"); 
+                $this->load->view("templates/loginheader");
+                $this->load->view("pages/checkemail");
+                $this->load->view("templates/footer"); 
    
             }
         }
@@ -235,11 +235,11 @@
 
             $query= $this->server->activate_acc($username, $code, $data); //check in the database
            
-            // If true, inform the user in verify.php
+            // If true, inform the user in verify
             if ($query){
-            $this->load->view("templates/loginheader.php");
+            $this->load->view("templates/loginheader");
             $this->load->view("pages/verify");
-            $this->load->view("templates/footer.php");  
+            $this->load->view("templates/footer");  
            
             }
             else{

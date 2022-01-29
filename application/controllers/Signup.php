@@ -12,9 +12,9 @@ class Signup extends CI_Controller
     public function form()
     {
         $data["title"]="Signup";
-        $this->load->view("templates/loginheader.php");
-        $this->load->view("pages/signup.php",$data);
-        $this->load->view("templates/footer.php");
+        $this->load->view("templates/loginheader");
+        $this->load->view("pages/signup",$data);
+        $this->load->view("templates/footer");
     }
 
     public function navigate()
@@ -36,9 +36,9 @@ class Signup extends CI_Controller
         $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
         
         if($this->form_validation->run()===false) {
-            $this->load->view("templates/loginheader.php");
+            $this->load->view("templates/loginheader");
             $this->load->view("pages/signup",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/footer");
         }else { // If the is forms filled up correctly
             // Get form input
             $password = $this->input->post("password_1");
@@ -76,9 +76,9 @@ class Signup extends CI_Controller
             $this->send($email,'templates/email_format',$emailData); // Call email setup function
           
             // Load email sent html to notify the user
-            $this->load->view("templates/loginheader.php");
-            $this->load->view("pages/checkemail.php");
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/loginheader");
+            $this->load->view("pages/checkemail");
+            $this->load->view("templates/footer");
         }
     }
    
@@ -169,11 +169,11 @@ class Signup extends CI_Controller
 
         $query= $this->Registration->activate_acc($username, $code, $data); //check in the database
         
-        // If true, inform the user in verify.php
+        // If true, inform the user in verify
         if ($query){
-        $this->load->view("templates/loginheader.php");
+        $this->load->view("templates/loginheader");
         $this->load->view("pages/verify");
-        $this->load->view("templates/footer.php");  
+        $this->load->view("templates/footer");  
         
         }
         else{

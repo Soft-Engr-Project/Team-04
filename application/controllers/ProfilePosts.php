@@ -11,9 +11,9 @@
             // PHP FILE
             $this->data['posts'] = $this->post_model->get_posts();
             $this->data["title"]="Latest Post";
-            $this->load->view("templates/header.php");
+            $this->load->view("templates/header");
             $this->load->view("profiles/index",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/footer");
         }
 
         public function view($slug=NULL)
@@ -25,9 +25,9 @@
                 show_404();
             }
             $this->data["title"] = $this->data["post"]["title"];
-            $this->load->view("templates/viewPostHeader.php");
+            $this->load->view("templates/viewPostHeader");
             $this->load->view("profiles/view",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/footer");
         }
 
         public function delete($id)
@@ -59,9 +59,9 @@
                 show_404();
             }
             $this->data["title"] = $this->data["post"]["title"];
-            $this->load->view("templates/viewPostHeader.php");
+            $this->load->view("templates/viewPostHeader");
             $this->load->view("posts/edit",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/footer");
         }
 
         public function update()

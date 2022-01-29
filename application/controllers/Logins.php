@@ -11,9 +11,9 @@ class Logins extends CI_Controller
     public function form()
     {
         $data["title"]="Login";
-        $this->load->view("templates/loginheader.php");
-        $this->load->view("pages/login.php",$data);
-        $this->load->view("templates/footer.php");
+        $this->load->view("templates/loginheader");
+        $this->load->view("pages/login",$data);
+        $this->load->view("templates/footer");
     }
     
     public function login()
@@ -21,9 +21,9 @@ class Logins extends CI_Controller
         $this->form_validation->set_rules('username','Username','required');
         $this->form_validation->set_rules('password','Password','required');
         if($this->form_validation->run()===false) {
-            $this->load->view("templates/loginheader.php");
+            $this->load->view("templates/loginheader");
             $this->load->view("pages/login",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/footer");
         }
         else {
             // Get user login input
@@ -49,15 +49,15 @@ class Logins extends CI_Controller
                 $newdata = array('email'=>$email);
                 $this->session->set_userdata($newdata);
                 
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("templates/2FAformat",$this->data);
-                $this->load->view("templates/footer.php");
+                $this->load->view("templates/footer");
             }
             else {
                 $this->Login->login_user($username,$password); // Login validation
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("pages/view",$this->data);
-                $this->load->view("templates/footer.php");
+                $this->load->view("templates/footer");
             }
         }
     }
@@ -109,9 +109,9 @@ class Logins extends CI_Controller
                 redirect("pages/view"); // Log in the user
             }
             else {
-                $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
                 $this->load->view("templates/2FAformat",$this->data);
-                $this->load->view("templates/footer.php");
+                $this->load->view("templates/footer");
             }   
         }   
     }
