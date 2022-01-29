@@ -9,10 +9,10 @@
             // APPPATH - ROOT FOLDER
             //THIS IF CHECK IF WE HAVE FOLDER PAGES IN THE VIEW AND IF IT HAS PAGES FOLDER THEN FIND A SPECIFIC
             // PHP FILE
-            $data['posts'] = $this->post_model->get_posts();
-            $data["title"]="Latest Post";
+            $this->data['posts'] = $this->post_model->get_posts();
+            $this->data["title"]="Latest Post";
             $this->load->view("templates/header");
-            $this->load->view("profiles/index",$data);
+            $this->load->view("profiles/index",$this->data);
             $this->load->view("templates/footer");
         }
 
@@ -24,9 +24,9 @@
             if(empty($data["post"])) {
                 show_404();
             }
-            $data["title"] = $data["post"]["title"];
+            $this->data["title"] = $this->data["post"]["title"];
             $this->load->view("templates/viewPostHeader");
-            $this->load->view("profiles/view", $data);
+            $this->load->view("profiles/view",$this->data);
             $this->load->view("templates/footer");
         }
 
@@ -58,9 +58,9 @@
             if(empty($data["post"])) {
                 show_404();
             }
-            $data["title"] = $data["post"]["title"];
+            $this->data["title"] = $this->data["post"]["title"];
             $this->load->view("templates/viewPostHeader");
-            $this->load->view("posts/edit", $data);
+            $this->load->view("posts/edit",$this->data);
             $this->load->view("templates/footer");
         }
 

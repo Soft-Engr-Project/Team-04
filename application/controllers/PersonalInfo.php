@@ -12,11 +12,12 @@
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
-       
-            $data["title"] = "My Information";
-            $this->load->view("templates/header", $data);
-            $this->load->view("settings/personalinfo");
+            $this->data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header",$this->data);
+
+            $this->data["title"] = "My Information";
+            $this->load->view("templates/header",$this->data);
+            $this->load->view("settings/personalinfo",$this->data);
             $this->load->view("templates/footer");
         }
 
@@ -24,8 +25,8 @@
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$data);
+            $this->data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header",$this->data);
 
             // Rules for forms
             $this->form_validation->set_rules('username','Username','required|callback_checkUsername');
@@ -40,8 +41,9 @@
             $data = $this->Personalize_model->getUserInfo($userID);
             
             if($this->form_validation->run()===false) {
-                $data["title"] = "My Information";
-                $this->load->view("settings/personalinfo",$data);
+                $this->data["title"] = "My Information";
+                $this->load->view("settings/personalinfo",$this->data);
+                $this->load->view("templates/footer");     
             }
             else {
                 $userData = array(
@@ -57,9 +59,9 @@
                 }
                 $this->Personalize_model->update_user($userData); // Update database
 
-                $data['title'] = 'Settings';
-                $this->load->view("pages/settings", $data);
-                
+                $header['title'] = 'Settings';
+                $this->load->view("pages/settings",$header);
+                $this->load->view("templates/footer");
             }
             $this->load->view("templates/footer");
         }

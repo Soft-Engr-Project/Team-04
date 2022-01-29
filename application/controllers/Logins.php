@@ -11,9 +11,9 @@ class Logins extends CI_Controller
     public function form()
     {
         $data["title"]="Login";
-        $this->load->view("templates/loginheader.php", $data);
-        $this->load->view("pages/login.php");
-        $this->load->view("templates/footer.php");
+        $this->load->view("templates/loginheader");
+        $this->load->view("pages/login",$data);
+        $this->load->view("templates/footer");
     }
     
     public function login()
@@ -22,8 +22,11 @@ class Logins extends CI_Controller
         $this->form_validation->set_rules('password','Password','required');
         $this->load->view("templates/loginheader");
         if($this->form_validation->run()===false) {
-            $this->load->view("pages/login");// Load body
-        }else {
+            $this->load->view("templates/loginheader");
+            $this->load->view("pages/login",$this->data);
+            $this->load->view("templates/footer");
+        }
+        else {
             // Get user login input
             $username = $this->input->post('username');
             $password = $this->input->post('password');

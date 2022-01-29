@@ -20,9 +20,9 @@
             $data["report"]  = $this->Reports_model->get_reports();
 
             // Show reports
-            $this->load->view("templates/header.php");
-            $this->load->view("settings/report_logs",$data);
-            $this->load->view("templates/footer",$data);
+            $this->load->view("templates/header",$this->data);
+            $this->load->view("settings/report_logs",$this->data);
+            $this->load->view("templates/footer",$this->data);
         }
 
         // CHECKS IF THE REPORTED CONTENT EXISTS

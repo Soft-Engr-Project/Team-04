@@ -12,9 +12,9 @@ class Signup extends CI_Controller
     public function form()
     {
         $data["title"]="Signup";
-        $this->load->view("templates/loginheader.php");
-        $this->load->view("pages/signup.php",$data);
-        $this->load->view("templates/footer.php");
+        $this->load->view("templates/loginheader");
+        $this->load->view("pages/signup",$data);
+        $this->load->view("templates/footer");
     }
 
     public function navigate()
@@ -37,7 +37,7 @@ class Signup extends CI_Controller
         
         if($this->form_validation->run()===false) {
             $this->load->view("templates/loginheader");
-            $this->load->view("pages/signup", $data);
+            $this->load->view("pages/signup",$this->data);
             $this->load->view("templates/footer");
         }else { // If the is forms filled up correctly
             // Get form input
@@ -167,7 +167,7 @@ class Signup extends CI_Controller
 
         $query= $this->Registration->activate_acc($username, $code, $data); //check in the database
         
-        // If true, inform the user in verify.php
+        // If true, inform the user in verify
         if ($query){
         $this->load->view("templates/loginheader");
         $this->load->view("pages/verify");
