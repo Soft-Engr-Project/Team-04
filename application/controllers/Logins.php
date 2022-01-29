@@ -20,9 +20,12 @@ class Logins extends CI_Controller
     {
         $this->form_validation->set_rules('username','Username','required');
         $this->form_validation->set_rules('password','Password','required');
+        // para mawala yung tag sa validation_error()
+        $this->form_validation->set_error_delimiters('','');
         $this->load->view("templates/loginheader");
         if($this->form_validation->run()===false) {
-            $this->load->view("pages/login");// Load body
+            $data["error"] =  validation_errors();
+            $this->load->view("pages/login", $data);// Load body
         }else {
             // Get user login input
             $username = $this->input->post('username');
@@ -50,9 +53,9 @@ class Logins extends CI_Controller
                 $this->load->view("templates/2FAformat", $data); // Load body
        
             }else {
-                $this->Login->login_user($username,$password); // Login validation
-       
-                $this->load->view("pages/view"); // Load body
+                $data["error"] = $this->Login->login_user($username,$password); // Login validation 
+                $this->load->view("pages/login", $data);// Load body
+                // $this->load->view("pages/view"); // Load body
   
             }
             $this->load->view("templates/footer");
@@ -128,4 +131,3 @@ class Logins extends CI_Controller
 
 
 
-?>

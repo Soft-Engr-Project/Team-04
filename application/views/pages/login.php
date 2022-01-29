@@ -15,9 +15,9 @@
                                 <?php echo form_open("Logins/login") ;?>
                                 <header> Sign In</header>  
                                 <div class="sign_icon">
-                                    <input type="text" class="myinput" placeholder="USERNAME" name="username" required>
+                                    <input type="text" class="myinput" placeholder="USERNAME" name="username" >
                                     <i class="fa fa-user  fa-2xl"></i>    
-                                    <input type="password" class="myinput" id="password" placeholder="PASSWORD" name="password" required>
+                                    <input type="password" class="myinput" id="password" placeholder="PASSWORD" name="password" >
                                     <i class="fa fa-lock  fa-2xl"></i>
                                 </div>
                                 <div class="visiblepassword">
@@ -25,7 +25,7 @@
                                 </div>   
                                 
                                 <a href="<?php echo site_url("ForgotPassword/forgot_password"); ?>"> <p>Forgot password?</p>  </a>
-                                <h6 class="error"><?php echo validation_errors();?></h6>
+                                <h6 class="error"><?php echo isset($error)? $error : "" ;?></h6>
                                 <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
                             </form>
                         </div>

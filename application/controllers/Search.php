@@ -50,4 +50,3 @@
         echo $this->user_model->fetch_data($this->uri->segment(3));
         }
     }
-?>

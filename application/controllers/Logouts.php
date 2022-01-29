@@ -10,4 +10,3 @@ class Logouts extends CI_Controller
     }
 }
 
-?>
