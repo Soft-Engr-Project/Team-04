@@ -32,18 +32,18 @@
             $commentId = $this->input->post("commentId");
 			$this->form_validation->set_rules("reply","Reply","required");
             
-            $this->data["subcomment"] = $this->Comments_model->get_specific_comment($commentId);
-            $this->data["user"] = $this->User_model->get_user($this->session->userdata("user_id"));
-            $this->data["comment"] = $this->Comments_model->getSubcommentsCount($commentId);
+            $data["subcomment"] = $this->Comments_model->get_specific_comment($commentId);
+            $data["user"] = $this->User_model->get_user($this->session->userdata("user_id"));
+            $data["comment"] = $this->Comments_model->getSubcommentsCount($commentId);
             
 			if($this->form_validation->run() == false) {
 				// feel ko kaya di to gumagana kase naka ajax nako 
-                $data = array("response" => "error","message" => validation_errors()); 
+                $json_data = array("response" => "error","message" => validation_errors()); 
 				 
 			}
             if($this->form_validation->run()) { 
 		
-                    // $this->data["post"] = $this->Post_model->get_posts($postId);
+                    // $data["post"] = $this->Post_model->get_posts($postId);
                     $jsonData = file_get_contents(FCPATH."reaction.json");
                     $reactId = $this->Post_model->create_reaction_log($jsonData);
                     $body = $this->input->post("reply");
@@ -61,7 +61,7 @@
                     // "content" => $body
                     // );
                    
-                    $commentCount = $this->data["comment"]["subcomment_count"] + 1;
+                    $commentCount = $data["comment"]["subcomment_count"] + 1;
                     $subcommentCount = array(
                         "subcomment_count" => $commentCount
 
@@ -70,25 +70,25 @@
                     $this->SubcommentModel->create($data);
                     // $this->comments_model->create($data);
                     // // for notification
-                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
+                    if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]){
                         $data = array(
                             "action_id" => $this->SubcommentModel->getLastComment(),
                             "type_of_notif" => "reply",
                             "user_id" => $this->session->userdata("user_id"),
-                            "owner_id" => $this->data["comment"]["user_id"],
-                            "post_id" => $this->data["comment"]["comment_id"],
+                            "owner_id" => $data["comment"]["user_id"],
+                            "post_id" => $data["comment"]["comment_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($data);  
                     }
-                    $this->Comments_model->subcomment_counts($this->data["comment"]["comment_id"],$subcommentCount);
-                    $data = array("response" => "success","message" => "Create comment successfully");          
+                    $this->Comments_model->subcomment_counts($data["comment"]["comment_id"],$subcommentCount);
+                    $json_data = array("response" => "success","message" => "Create comment successfully");          
                 }
             }
             else {
-                $data = array("response" => "error","message" => "Invalid to Access"); 
+                $json_data = array("response" => "error","message" => "Invalid to Access"); 
             }
-            echo json_encode($data);
+            echo json_encode($json_data);
             
 		}
         function fetchSpecificComment() {
@@ -107,17 +107,17 @@
                 show_404();
             }
             $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header.php",$this->data);
-            $this->data["comments"] = $this->Comments_model->get_specific_comment($commentId);
-            $this->data["post"] = $this->post_model->get_posts($this->data["comments"]["post_id"]);
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header.php",$data);
+            $data["comments"] = $this->Comments_model->get_specific_comment($commentId);
+            $data["post"] = $this->post_model->get_posts($data["comments"]["post_id"]);
         
-            $this->data["reported_id"] = $commentId;
-            $this->data["commentId"] = $commentId;
-            $this->data["subcomment"] = $this->SubcommentModel->getSpecificComments($commentId);
+            $data["reported_id"] = $commentId;
+            $data["commentId"] = $commentId;
+            $data["subcomment"] = $this->SubcommentModel->getSpecificComments($commentId);
            
-            $this->load->view("subcomments/view",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("subcomments/view", $data);
+            $this->load->view("templates/footer");
 
         }
 
@@ -126,39 +126,39 @@
             // get all the info about comment
             if($this->input->is_ajax_request()){
                 $subcommentId = $this->input->post("subcomment_id");
-                $this->data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentId);
-                $reactID = $this->data["subcomment"]["react_id"];
+                $data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentId);
+                $reactID = $data["subcomment"]["react_id"];
                 
-                // $postID = $this->data["subcomment"]["post_id"];
-                $userID = $this->data["subcomment"]["user_id"];
-                $commentID = $this->data["subcomment"]["comment_id"];
-                // $this->data["post"] = $this->Post_model->get_posts($postID);
+                // $postID = $data["subcomment"]["post_id"];
+                $userID = $data["subcomment"]["user_id"];
+                $commentID = $data["subcomment"]["comment_id"];
+                // $data["post"] = $this->Post_model->get_posts($postID);
                 // check if you are the owner
 
                     if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
-                        $data = array("response" => "error","message" => validation_errors()); 
+                        $json_data = array("response" => "error", "message" => validation_errors()); 
                     }
                     else {
                         $this->SubcommentModel->deleteSubcomment($subcommentId);
                         // delete also the notification
                         $this->notification_model->notification_delete($subcommentId);
                         $this->Post_model->delete_reactions($reactID);
-                        $this->data["comment"] = $this->Comments_model->getSubcommentsCount($commentID);
-                        $commentCount = $this->data["comment"]["subcomment_count"] - 1;
+                        $data["comment"] = $this->Comments_model->getSubcommentsCount($commentID);
+                        $commentCount = $data["comment"]["subcomment_count"] - 1;
                         $subcommentCount = array(
                             "subcomment_count" => $commentCount
 
                         );
-                        $this->Comments_model->subcomment_counts($this->data["comment"]["comment_id"],$subcommentCount);
+                        $this->Comments_model->subcomment_counts($data["comment"]["comment_id"],$subcommentCount);
                         // $this->comments_model->comment_counts($postID,$commentCount);
                         // $data = array("response" => "success");
-                        $data = array("response" => "success","message" => "Comment is deleted successfully"); 
+                        $json_data = array("response" => "success", "message" => "Comment is deleted successfully"); 
                     }
                 }
                 else {
-                    $data = array("response" => "error","message" => "Invalid to Access"); 
+                    $json_data = array("response" => "error", "message" => "Invalid to Access"); 
                 }
-                echo json_encode($data);
+                echo json_encode($json_data);
         }
 
         function edit() {
@@ -166,23 +166,23 @@
                         $subcommentId = $this->input->post("subcomment_id");
 
                         // get all the info about comment
-                        $this->data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentId);
-                        // $commentID = $this->data["subcomment"]["comment_id"];
-                        $userID = $this->data["subcomment"]["user_id"];
+                        $data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentId);
+                        // $commentID = $data["subcomment"]["comment_id"];
+                        $userID = $data["subcomment"]["user_id"];
                         // // check if you are the owner
                         if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
-                            $data = array("response" => "error","message"=>"Failed to access");
+                            $json_data = array("response" => "error", "message"=>"Failed to access");
                         }
-                        elseif(empty($this->data["subcomment"])){
-                            $data = array("response" => "error","message"=>"Failed to access");
+                        elseif(empty($data["subcomment"])){
+                            $json_data = array("response" => "error", "message"=>"Failed to access");
                         }
                         else{
-                            $data = array("response" => "success","message"=> $this->data["subcomment"]);
+                            $json_data = array("response" => "success", "message"=> $data["subcomment"]);
                         }
                     } else {
-                        $data = array("response" => "error","message"=>"Failed to access");
+                        $json_data = array("response" => "error", "message"=>"Failed to access");
                     }
-                    echo json_encode($data);
+                    echo json_encode($json_data);
         }
 
         function update(){
@@ -192,21 +192,21 @@
                     $this->form_validation->set_rules("editSubcommentReply","Reply","required");
 
                     if($this->form_validation->run() === False){
-                        $data = array("response" => "error","message" => validation_errors());
+                        $json_data = array("response" => "error", "message" => validation_errors());
                     }
                     else {
                     $data = array(
                         "reply" => $content
                       );
                     $this->SubcommentModel->updateSubcomment($subcommentID,$data);
-                    $data = array("response" => "success","message"=>"Comment update successfully");
+                    $json_data = array("response" => "success", "message"=>"Comment update successfully");
                     }
                 
                 }
                 else {
-                    $data = array("response" => "error","message" => "Failed to access");
+                    $json_data = array("response" => "error", "message" => "Failed to access");
                 }
-                echo json_encode($data);
+                echo json_encode($json_data);
                 
         }
         
@@ -215,13 +215,13 @@
             // get all vote
             $subcommentID =  $this->input->post("subcommentId");
             $voteType = $this->input->post("type_of_vote");
-            $this->data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentID);
-            $reactID = $this->data["subcomment"]["react_id"];
+            $data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentID);
+            $reactID = $data["subcomment"]["react_id"];
             $json = file_get_contents(FCPATH."reaction.json");
             $json =  json_decode($json,true);
            
-            $totalUpvote = $this->data["subcomment"]["sub_upvote"];
-            $totalDownvote = $this->data["subcomment"]["sub_downvote"];
+            $totalUpvote = $data["subcomment"]["sub_upvote"];
+            $totalDownvote = $data["subcomment"]["sub_downvote"];
             $user = $this->session->userdata("user_id");
             $json = json_decode($this->SubcommentModel->getReactions($reactID)["react_log"],true);
 
@@ -273,13 +273,13 @@
                     );
                     
 
-                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
+                    if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]){
                         $data = array(
                             "action_id" => $this->SubcommentModel->getLastComment(),
                             "type_of_notif" => "reply_react",
                             "user_id" => $this->session->userdata("user_id"),
-                            "owner_id" => $this->data["comment"]["user_id"],
-                            "post_id" => $this->data["comment"]["comment_id"],
+                            "owner_id" => $data["comment"]["user_id"],
+                            "post_id" => $data["comment"]["comment_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($data);  
@@ -333,13 +333,13 @@
                         "sub_upvote" => $totalUpvote,
                         "sub_downvote" => $totalDownvote
                     );
-                    if($this->session->userdata("user_id") !=  $this->data["comment"]["user_id"]){
+                    if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]){
                         $data = array(
                             "action_id" => $this->SubcommentModel->getLastComment(),
                             "type_of_notif" => "reply_react",
                             "user_id" => $this->session->userdata("user_id"),
-                            "owner_id" => $this->data["comment"]["user_id"],
-                            "post_id" => $this->data["comment"]["comment_id"],
+                            "owner_id" => $data["comment"]["user_id"],
+                            "post_id" => $data["comment"]["comment_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($data);  

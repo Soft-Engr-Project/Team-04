@@ -2,7 +2,6 @@
 
     class Reports extends CI_Controller
     {
-        private $data = array();
 
         public function __construct()
         {
@@ -16,14 +15,14 @@
             $userID = $this->session->userdata("user_id");
 
             // Load data to be passed
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->data["categories"] = $this->categories_model->get_categories();
-            $this->data["report"]  = $this->Reports_model->get_reports();
+            $data["user"] = $this->user_model->get_user($userID);
+            $data["categories"] = $this->categories_model->get_categories();
+            $data["report"]  = $this->Reports_model->get_reports();
 
             // Show reports
             $this->load->view("templates/header.php");
-            $this->load->view("settings/report_logs",$this->data);
-            $this->load->view("templates/footer",$this->data);
+            $this->load->view("settings/report_logs",$data);
+            $this->load->view("templates/footer",$data);
         }
 
         // CHECKS IF THE REPORTED CONTENT EXISTS
@@ -35,17 +34,17 @@
                 
                 if($type == "thread") {
                     if($post = $this->post_model->get_posts($post_id)) {
-                        $data = array("response" => "success","post" => $post);
+                        $json_data = array("response" => "success","post" => $post);
                     }else {
-                        $data = array("response" => "error","message" => "Failed" );
+                        $json_data = array("response" => "error","message" => "Failed" );
                     }
                     
                 }
                 elseif ($type == "discussion") {
                     if($post =$this->comments_model->get_specific_comment($post_id)) {
-                        $data = array("response" => "success","post" => $post);
+                        $json_data = array("response" => "success","post" => $post);
                     }else {
-                        $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
+                        $json_data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                     }
                     
                 }
@@ -53,13 +52,13 @@
                     // para sa reply sana
                     
                     if($post =$this->SubcommentModel->getSpecificSubcomments($post_id)) {
-                        $data = array("response" => "success","post" => $post);
+                        $json_data = array("response" => "success","post" => $post);
                     }else {
-                        $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
+                        $json_data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                     }
                 } 
                 else {
-                    $data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
+                    $json_data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                 }
             echo json_encode($data);
             }   
@@ -78,8 +77,7 @@
 
                 if ($type == 'thread') {
                     $query = $this->post_model->get_posts($id);
-                }
-                else {
+                }else {
                     $query = $this->comments_model->get_specific_comment($id);
                   
                 }
@@ -98,24 +96,24 @@
                 if($insert) {
                     $status = 1;
                     $msg .= 'Report successfully submitted.';
-                    $data = array(
+                    $json_data = array(
                         'response' => "success",
                         'message' => $msg 
                     );  
                 }else {
                     $msg .= 'Some problem occurred, please try again.';
-                    $data = array(
+                    $json_data = array(
                         'response' => "error",
                         'message' => $msg 
                     );
                 }              
             }else {
-                $data = array(
+                $json_data = array(
                     'response' => "error",
                     'message' => "Failed to access" 
                 );
             }
-        echo json_encode($data);
+        echo json_encode($json_data);
         }
             
     }

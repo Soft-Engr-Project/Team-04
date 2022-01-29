@@ -1,8 +1,6 @@
 <?php
     class Posts extends CI_Controller
     {
-        private $data = array();
-
         public function __construct()
         {
             parent::__construct();
@@ -17,7 +15,7 @@
         // get filter
         public function post_filter()
         {
-            sleep(2);
+            
             $post = $_GET['category'];
           
             $data["categories"] = $this->categories_model->get_categories();
@@ -29,43 +27,41 @@
         // get the top user post 
         public function top_post()
         {
-            $this->data["posts"] = $this->post_model->get_posts_high_react();
+            $data["posts"] = $this->post_model->get_posts_high_react();
         }
 
         public function view($id=NULL, $commentID=NULL)
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header.php",$this->data);
+            $data["user"] = $this->user_model->get_user($userID);
+            
+            $data["post"] = $this->post_model->get_posts($id);
+            $data["comments"] = $this->Comments_model->get_comments($id);
+            $data["reported_id"] = $commentID;
 
-            $this->data["post"] = $this->post_model->get_posts($id);
-            $this->data["comments"] = $this->Comments_model->get_comments($id);
-            $this->data["reported_id"] = $commentID;
-            $this->load->view("templates/header.php");
-            $this->load->view("posts/view",$this->data);
-            $this->load->view("templates/footer",$this->data);
+            $this->load->view("templates/header", $data);
+            $this->load->view("posts/view");
+            $this->load->view("templates/footer");
         }
 
         public function create()
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header.php",$this->data);
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header",$data);
 
-            $this->data["title"] = "Create Post";
+            $data["title"] = "Create Post";
             // get all the categories
-            $this->data["categories"] = $this->categories_model->get_categories();
+            $data["categories"] = $this->categories_model->get_categories();
 
             // test it using form_validation
             $this->form_validation->set_rules("title","Title","required");
             $this->form_validation->set_rules("body","Body","required");
 
             if($this->form_validation->run() == false) {
-                 $this->load->view("templates/header.php");
-                 $this->load->view("posts/create.php",$this->data);
-                 $this->load->view("templates/footer.php");
+                 $this->load->view("posts/create", $data);
             }else {
                 $json = file_get_contents(FCPATH."reaction.json");
                 $reactID = $this->post_model->create_reaction_log($json);
@@ -87,7 +83,7 @@
                 $config["max_height"] = "2000";
 
                 // use for library upload yung $config
-                $this->load->library('upload',$config);
+                $this->load->library('upload', $config);
                 // check kung pede bang iupload
                 if(! $this->upload->do_upload('userfile')) {
                     // dinidisplay nito yung error message
@@ -98,8 +94,7 @@
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
                     // die();
-                }
-                else {
+                }else {
                     $postData = array("upload_data" => $this->upload->data());
                     // var_dump($_FILES);
                     // use file name
@@ -121,14 +116,14 @@
             
                 );
                 $categoryData = array(
-                    "category_post_count" => ++$this->data["categories"]["category_post_count"]
+                    "category_post_count" => ++$data["categories"]["category_post_count"]
                 );
-                $this->categories_model->category_count($categoryID,$categoryData);
+                $this->categories_model->category_count($categoryID, $categoryData);
                 $this->post_model->create_post($postData);
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
             }
-
+            $this->load->view("templates/footer");
         }
 
         public function delete($id)
@@ -141,9 +136,9 @@
             }
             
             // get category of specific post
-            $this->data["categories"] = $this->categories_model->get_categories($categoryID);
+            $data["categories"] = $this->categories_model->get_categories($categoryID);
             $categoryData = array(
-                    "category_post_count" => --$this->data["categories"]["category_post_count"]
+                    "category_post_count" => --$data["categories"]["category_post_count"]
             );
             $this->categories_model->category_count($categoryID,$categoryData);
             $this->post_model->delete_reactions($reactID);
@@ -155,18 +150,17 @@
         public function edit($id)
         {
             $userID = $this->post_model->get_posts($id)["user_id"];
-            
-            $this->data["post"] = $this->post_model->get_posts($id);
-            $this->data["categories"] = $this->categories_model->get_categories();
-            $this->data["title"]="Edit Post";
-            // $this->data["slug"] = $slug;
-            if(empty($this->data["post"])){
+            $data["user"] = $this->user_model->get_user($userID);
+            $data["post"] = $this->post_model->get_posts($id);
+            $data["categories"] = $this->categories_model->get_categories();
+            $data["title"]="Edit Post";
+            // $data["slug"] = $slug;
+            if(empty($data["post"])) {
                 show_404();
             }
-            $this->data["title"] = "Edit Post";
-            $this->load->view("templates/header.php");
-            $this->load->view("posts/edit",$this->data);
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/header", $data);
+            $this->load->view("posts/edit");
+            $this->load->view("templates/footer");
         }
         
         public function update()
@@ -174,18 +168,18 @@
             $categoryID = $this->input->post("category_id");
             $postID = $this->input->post("id");
             // get the post for checking if the category is change
-            $this->data["post"] = $this->post_model->get_posts($postID);
+            $data["post"] = $this->post_model->get_posts($postID);
             // get category of specific post 
-            $this->data["categories"] = $this->categories_model->get_categories();
-            $this->data["title"]="Edit Post";
+            $data["categories"] = $this->categories_model->get_categories();
+            $data["title"]="Edit Post";
       
             $this->form_validation->set_rules("title","Title","required");
             $this->form_validation->set_rules("body","Body","required");
             
             if($this->form_validation->run() == false) {
-                    $this->load->view("templates/header.php");
-                    $this->load->view("posts/edit.php",$this->data);
-                    $this->load->view("templates/footer.php");
+                    $this->load->view("templates/header");
+                    $this->load->view("posts/edit", $data);
+                    $this->load->view("templates/footer");
             }else {
                 $postImage = $this->input->post("post_image");
                 $image = $_FILES['userfile'];
@@ -214,8 +208,7 @@
                         // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                         echo $this->upload->display_errors();
                         //die();
-                    }
-                    else {
+                    }else {
                         $postData = array("upload_data" => $this->upload->data());
                         // var_dump($_FILES);
                         // use file name
@@ -231,20 +224,20 @@
                 'post_image' => $postImage
                 );  
                 
-                if($this->data["post"]["category_id"] != $categoryID) {
+                if($data["post"]["category_id"] != $categoryID) {
                     $categoryData = array(
-                        "category_post_count" => ++$this->data["categories"]["category_post_count"]
+                        "category_post_count" => ++$data["categories"]["category_post_count"]
                     );
-                    $this->categories_model->category_count($categoryID,$categoryData);
+                    $this->categories_model->category_count($categoryID, $categoryData);
 
-                    $this->data["categories"] = $this->categories_model->get_categories($this->data["post"]["category_id"]);
+                    $data["categories"] = $this->categories_model->get_categories($data["post"]["category_id"]);
                     $categoryData = array(
-                        "category_post_count" => --$this->data["categories"]["category_post_count"]
+                        "category_post_count" => --$data["categories"]["category_post_count"]
                     );
-                    $this->categories_model->category_count($this->data["categories"]["category_id"],$categoryData);
+                    $this->categories_model->category_count($data["categories"]["category_id"], $categoryData);
                 }
 
-                $this->post_model->update_post($postData,$postID);
+                $this->post_model->update_post($postData, $postID);
                 $this->session->set_flashdata("post_update","Update post succesfully");
                 redirect("pages");
             }
@@ -254,7 +247,6 @@
         {
             if($this->input->is_ajax_request()) {
                 $postID = $this->input->post("post_id");
-
                 $data = $this->post_model->get_posts($postID);
                 echo json_encode($data);
             }else{

@@ -2,7 +2,6 @@
 //
     class ForgotPassword extends CI_Controller
     {
-        private $data = array();
         public function __construct()
         {
             parent::__construct();
@@ -13,10 +12,9 @@
         public function forgot_password()
         {
             $this->form_validation->set_rules('email','Email','required|callback_checkEmailVerify');
+            $this->load->view("templates/loginheader");
             if($this->form_validation->run()===false) {
-                $this->load->view("templates/loginheader.php");
-                $this->load->view("pages/forgot_password",$this->data);
-                $this->load->view("templates/footer.php");     
+                $this->load->view("pages/forgot_password");
             }else {
                 // Code Generation
                 $passcode = random_int(0,999999);  // Generate hash value
@@ -32,24 +30,23 @@
                 'passcode' => $passcode,
                 'body' => 'Please Enter the 6 digit pin given above to proceed on changing password.'
                  );
-                $this->send($email,'templates/ChangePass_Email.php',$emailData); // Call email setup function
+                $this->send($email, 'templates/ChangePass_Email.php', $emailData); // Call email setup function
 
                 //logout user if user attempts to change pass when currently logged in and same input to change pass
                 //if(($this->session->userdata('lock_id') != 1) && ($this->session->userdata('email') == $email)) {
 
                 // logout all sessions
                 if(($this->session->userdata('lock_id') != 1)) { //if user force to visit from login
-                    $this->session->unset_userdata(array('username','user_id','email','success','logged_in'));
+                    $this->session->unset_userdata(array('username', 'user_id', 'email', 'success', 'logged_in'));
                 }
 
                 $lockID = 0; // to lock out user attempt to access other pages
                 $newdata = array('email'=>$email, 'lock_id'=>$lockID);
                 $this->session->set_userdata($newdata);
 
-                $this->load->view("templates/loginheader.php");
-                $this->load->view("pages/passcode",$this->data);
-                $this->load->view("templates/footer.php");
+                $this->load->view("pages/passcode");
             }
+            $this->load->view("templates/footer");
         }
 
         // EMAIL MESSAGE SETUP
@@ -81,7 +78,7 @@
             $this->email->subject($subject);
 
             // Load the format and content of email
-            $message=$this->email->message($this->load->view($template,$emailData,true));
+            $message=$this->email->message($this->load->view($template, $emailData, true));
   
             $status=$this->email->send(); // Send the email  
         }
@@ -113,25 +110,24 @@
                 $passcode = $this->input->post('passcode');
                 //check if same passcode
                 $query= $this->ResetPassword->check_passcode($email, $passcode);
-
+                $this->load->view("templates/loginheader");
                 // If true, direct to change password
                 if ($query) {
                     $this->session->set_userdata(array('lock_id'=>1));
-                    $this->load->view("templates/loginheader.php");
                     $this->load->view("pages/change_password");
-                    $this->load->view("templates/footer.php");
+               
                 }
                 else {
                     $this->form_validation->set_rules("passcode","Code","callback_checkCode");
                     if($this->form_validation->run() == false) {
-                        $this->load->view("templates/loginheader.php");
-                        $this->load->view("pages/passcode",$this->data);
-                        $this->load->view("templates/footer.php");
+                        $this->load->view("pages/passcode");
                     }
                     else {
                         redirect("ForgotPassword/passverify");
                     }
+                    
                 }
+                $this->load->view("templates/footer");
             }
         }
 
@@ -161,24 +157,23 @@
                 }
                 $this->form_validation->set_rules('password_1', 'Password', 'required');
                 $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|callback_checkNewPassword');
-                if($this->form_validation->run()===false) {
-                    $this->load->view("templates/loginheader.php");
+                $this->load->view("templates/loginheader");
+                if($this->form_validation->run()===false) { 
                     $this->load->view("pages/change_password");
-                    $this->load->view("templates/footer.php");
                 }
                 else {
                     $hashedPass = password_hash($this->input->post("password_1"), PASSWORD_DEFAULT);
                     $dataPass = array(
                               'password' => $hashedPass,
                             );
-                    $query = $this->ResetPassword->change_pass($email,$dataPass);
+                    $query = $this->ResetPassword->change_pass($email, $dataPass);
                         if ($query) {
-                        $this->load->view("templates/loginheader.php");
                         $this->load->view("pages/passwordverify");
-                        $this->load->view("templates/footer.php"); 
+                        
                         $this->session->sess_destroy();
                     }
                 }
+                $this->load->view("templates/footer"); 
             }
         }
         

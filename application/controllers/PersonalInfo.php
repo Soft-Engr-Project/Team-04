@@ -2,8 +2,6 @@
 
     class PersonalInfo extends CI_Controller
     {
-        private $data = array();
-
         public function __construct()
         {
             parent::__construct();
@@ -14,21 +12,20 @@
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header.php",$this->data);
-
-            $this->data["title"] = "My Information";
-            $this->load->view("templates/header.php");
-            $this->load->view("settings/personalinfo.php",$this->data);
-            $this->load->view("templates/footer.php");
+            $data["user"] = $this->user_model->get_user($userID);
+       
+            $data["title"] = "My Information";
+            $this->load->view("templates/header", $data);
+            $this->load->view("settings/personalinfo");
+            $this->load->view("templates/footer");
         }
 
         public function update()
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header.php",$this->data);
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header",$data);
 
             // Rules for forms
             $this->form_validation->set_rules('username','Username','required|callback_checkUsername');
@@ -40,13 +37,11 @@
             $this->form_validation->set_rules('password_1','New Password');
             $this->form_validation->set_rules('password_2', 'Confirm Password', 'callback_checkNewPassword');
 
-            $this->data = $this->Personalize_model->getUserInfo($userID);
+            $data = $this->Personalize_model->getUserInfo($userID);
             
             if($this->form_validation->run()===false) {
-                $this->data["title"] = "My Information";
-                $this->load->view("templates/header.php");
-                $this->load->view("settings/personalinfo.php",$this->data);
-                $this->load->view("templates/footer.php");     
+                $data["title"] = "My Information";
+                $this->load->view("settings/personalinfo",$data);
             }
             else {
                 $userData = array(
@@ -62,38 +57,37 @@
                 }
                 $this->Personalize_model->update_user($userData); // Update database
 
-                $header['title'] = 'Settings';
-                $this->load->view("templates/header.php");
-                $this->load->view("pages/settings.php",$header);
-                $this->load->view("templates/footer.php");
+                $data['title'] = 'Settings';
+                $this->load->view("pages/settings", $data);
+                
             }
+            $this->load->view("templates/footer");
         }
         
         
-        private function checkUsername($username)
+        public function checkUsername($username)
         {
             $this->form_validation->set_message('checkUsername', 'Username already exists');
-            if($this->input->post('username') == $this->data['username']) { // Check if username is unchanged
+            if($this->input->post('username') == $username) { // Check if username is unchanged
                 return true;
-            }
-            elseif ($this->Personalize_model->checkUserExist($username) == false) {
+            }elseif ($this->Personalize_model->checkUserExist($username) == false) {
                 return true;
-            } 
-            else {
+            }else {
                 return false;
             }
         }
 
-        private function checkPassword($password)
+        public function checkPassword($password)
         {
             $this->form_validation->set_message('checkPassword', 'Incorrect Current Password');
-            if (password_verify($password, $this->data['password'])) {
+            $data = $this->Personalize_model->getUserInfo($this->session->userdata("user_id"));
+            if (password_verify($password, $data['password'])) {
                 return true;
             }
             return false;
         }
 
-        private function checkBirthdate($birthdate)
+        public function checkBirthdate($birthdate)
         {
             $this->form_validation->set_message('checkBirthdate', 'User must be 13 and above to create an account');
             $dob = new DateTime($birthdate);
@@ -106,45 +100,32 @@
             return true;
         }
 
-        private function is_password_strong($password) {
-            $this->form_validation->set_message('check_strong_password', 'The password field must be contains at least one letter and one digit.');
-            if (preg_match('#[0-9]#', $password) && preg_match('#[a-z]#', $password)  && preg_match('#[A-Z]#', $password)) {
-                return TRUE;
-            }
-            return FALSE;
-        }
-
-        private function checkNewPassword($password2){
+        public function checkNewPassword($password2){
             $this->form_validation->set_message('checkNewPassword', 'New password and confirm password does not match');
-            $newPass = $this->input->post('password_1'); 
+            $newPass = $this->input->post('password_1');
+            $oldPass = $this->Personalize_model->getUserInfo($this->session->userdata("user_id"))['password'];
             $confirmPass = $password2;
 
             // Conditions for making it an optional field
             if ($newPass) { // If new pass field has a value
                 if ($newPass == $confirmPass) { // check if matches with confirm password
-                    if ($newPass != $this->input->post('password')) { // then check if it is the same with old password
+                    if (!password_verify($newPass, $oldPass)) { // then check if it is the same with old password
                         if (preg_match('#[0-9]#', $newPass) && preg_match('#[a-z]#', $newPass)  && preg_match('#[A-Z]#', $newPass)) {
                             return true;
-                        }
-                        else {
+                        }else {
                             $this->form_validation->set_message('checkNewPassword', 'The password field must be contains at least one digit, one capital and small letter.');
                             return false;
                         }
-                    }
-                    else {
+                    }else {
                         $this->form_validation->set_message('checkNewPassword', 'Cannot input old password');
                         return false;
                     }  
-                }
-                else{
+                }else{ 
                     return false;
                 }
-            }
-            elseif(empty($newPass) && !empty($confirmPass)) { // If only confirm password has a value
+            }elseif(empty($newPass) && !empty($confirmPass)) { // If only confirm password has a value
                 return false;
-            }
-            
-            else {   // If both field has no value
+            }else {   // If both field has no value
                 return true;    // Return true since it is optional
             }
         }

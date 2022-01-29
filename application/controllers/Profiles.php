@@ -10,22 +10,27 @@
             }
             //for header pic
             $userIdIn = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userIdIn);
-            $this->load->view("templates/header.php",$this->data);
+            $data["user"] = $this->user_model->get_user($userIdIn);
+     
+
             // kung sinong user yung viniew mo kung si session user o visit ka ng ibang profile
-            $this->data["title"]="Profile";
-            $this->data['posts'] = $this->profile_model->get_user_posts($userID);
-            $this->data["react_count"] = $this->profile_model->get_all_reaction($userID);
-            // $this->data["comment_count"] = $this->profile_model->get_all_comment($userID);
-            $this->load->view("templates/header.php");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("profiles/profile.php",$this->data);
-            $this->data["title"]="Personal Information";
-            $this->load->view("profiles/information.php",$this->data);
-            $this->data["title"]="My Threads";
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("profiles/index",$this->data);
-            $this->load->view("templates/footer.php");
+            $data["title"]="Profile";
+            $data['posts'] = $this->profile_model->get_user_posts($userID);
+            $data["react_count"] = $this->profile_model->get_all_reaction($userID);
+
+            // $data["comment_count"] = $this->profile_model->get_all_comment($userID);
+            $this->load->view("templates/header", $data);
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("profiles/profile", $data);
+
+            $data["title"]="Personal Information";
+            $this->load->view("profiles/information", $data);
+
+            $data["title"]="My Threads";
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("profiles/index", $data);
+
+            $this->load->view("templates/footer");
         }
 
         public function upload_image()
@@ -54,7 +59,7 @@
             $config["max_height"] = "2000";
 
             // use for library upload yung $config
-            $this->load->library('upload',$config);
+            $this->load->library('upload', $config);
             // check kung pede bang iupload
             if(! $this->upload->do_upload('userfile')) {
                 // dinidisplay nito yung error message
@@ -76,7 +81,7 @@
             $userData = array(
                 "user_cover_photo" => $post_image
             );
-            $this->profile_model->update_db_user_info($id,$userData);
+            $this->profile_model->update_db_user_info($id, $userData);
             redirect("profiles/view");
         }
 
@@ -105,7 +110,7 @@
             $config["max_height"] = "2000";
 
             // use for library upload yung $config
-            $this->load->library('upload',$config);
+            $this->load->library('upload', $config);
             // check kung pede bang iupload
             if(! $this->upload->do_upload('userfile')) {
                 // dinidisplay nito yung error message
@@ -128,7 +133,7 @@
             $userData = array(
                 "user_profile_photo" => $post_image
             );
-            $this->profile_model->update_db_user_info($id,$userData);
+            $this->profile_model->update_db_user_info($id, $userData);
             redirect("profiles/view");
         }
         // may aayusin pa dito sa delete
