@@ -401,12 +401,15 @@
             data = JSON.parse(result);
             var commentbody = "";
             let comment_id;
-            let count = 0;
+        
             console.log(data);
             if(data["comments"] != ""){
-              
+
+            totalComments = data["count"]
+          
             data["comments"].forEach(element => {
-              count++;
+           
+              
               comment_id = element['comment_id'];
               if ("<?php echo $reported_id?>" == element["comment_id"]){
                 console.log('ew')
@@ -519,7 +522,7 @@
                     </div>`; });
             $("#seeMore").val(comment_id);
             $("#comments").html(commentbody);
-            if(count != 4){
+            if(totalComments <= 4 || flag == 1){
                 $("#seeMore").hide();
             }
             else{
@@ -530,16 +533,21 @@
           else{
                 $("#seeMore").css("display","none");
           }
+          seeMore(comment_id);
         }
           });
         }
 
         // Function for create comment
     fetch();
+    
 // See More ginamitan ko ng fetch() na function bali yung 4 na front galing sa fetch tas yung iba nasa seeMore
-      $(document).on("click","#seeMore",function(e){
-        e.preventDefault();
-        let commentId = $(this).attr("value");
+    
+    // Get the id of comment then prints more comment 
+    flag = 0;   
+    function seeMore(id){
+      if (flag == 1){
+        let commentId = id;
         let commentbody = "";
         console.log(commentId);
         $.ajax({
@@ -669,6 +677,11 @@
                 });
                 $("#seeMore").val(commentId);
                 $("#comments").append(commentbody);
+                if(totalComments <= 4 || flag == 1){
+                  $("#seeMore").hide();
+                }else {
+                $("#seeMore").show();
+                }
               }
               else{
                 $("#seeMore").hide();
@@ -676,8 +689,22 @@
               
             }
         });
-        
-      })
+      }
+    }
+   
+    $(document).on("click","#seeMore",function(e){
+      e.preventDefault();
+      let commentId = $(this).attr("value");
+      console.log();
+      if (flag == 0){
+        flag = 1;
+        seeMore(commentId);
+      }else {
+        flag = 0;
+      }
+      console.log(flag)
+    })
+    
 
       // realtime checker ng number ng comment
       function realtimeCommentCount(){

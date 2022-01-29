@@ -72,7 +72,8 @@
                 
                 $data = $this->comments_model->get_comments($postID,$limit);
                 $numRow = $this->comments_model->checkIfHasComment($postID);
-                $json_data = array("comments" => $data,"row" => $numRow);
+                $count = $this->comments_model-> get_comments_count($postID);
+                $json_data = array("comments" => $data, "row" => $numRow, "count" => $count);
                 echo json_encode($json_data);
             }
             else {
