@@ -107,16 +107,16 @@
                 show_404();
             }
             $userID = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$this->data);
-            $this->data["comments"] = $this->Comments_model->get_specific_comment($commentId);
-            $this->data["post"] = $this->post_model->get_posts($this->data["comments"]["post_id"]);
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header.php",$data);
+            $data["comments"] = $this->Comments_model->get_specific_comment($commentId);
+            $data["post"] = $this->post_model->get_posts($data["comments"]["post_id"]);
         
             $data["reported_id"] = $commentId;
             $data["commentId"] = $commentId;
             $data["subcomment"] = $this->SubcommentModel->getSpecificComments($commentId);
            
-            $this->load->view("subcomments/view",$this->data);
+            $this->load->view("subcomments/view", $data);
             $this->load->view("templates/footer");
 
         }

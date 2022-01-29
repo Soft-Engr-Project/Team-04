@@ -34,7 +34,6 @@
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-<<<<<<< HEAD
             $data["user"] = $this->user_model->get_user($userID);
             
             $data["post"] = $this->post_model->get_posts($id);
@@ -44,32 +43,16 @@
             $this->load->view("templates/header", $data);
             $this->load->view("posts/view");
             $this->load->view("templates/footer");
-=======
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->data["post"] = $this->post_model->get_posts($id);
-            $this->data["comments"] = $this->Comments_model->get_comments($id);
-            $this->data["reported_id"] = $commentID;
-
-            $this->load->view("templates/header",$this->data);
-            $this->load->view("posts/view",$this->data);
-            $this->load->view("templates/footer",$this->data);
->>>>>>> b289369aa6056ca5f6f64b3f19a9e32cbb4251c8
         }
 
         public function create()
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-<<<<<<< HEAD
             $data["user"] = $this->user_model->get_user($userID);
             $this->load->view("templates/header",$data);
 
             $data["title"] = "Create Post";
-=======
-            $this->data["user"] = $this->user_model->get_user($userID);
-            
-            $this->data["title"] = "Create Post";
->>>>>>> b289369aa6056ca5f6f64b3f19a9e32cbb4251c8
             // get all the categories
             $data["categories"] = $this->categories_model->get_categories();
 
@@ -78,13 +61,7 @@
             $this->form_validation->set_rules("body","Body","required");
 
             if($this->form_validation->run() == false) {
-<<<<<<< HEAD
                  $this->load->view("posts/create", $data);
-=======
-                $this->load->view("templates/header",$this->data);
-                 $this->load->view("posts/create",$this->data);
-                 $this->load->view("templates/footer");
->>>>>>> b289369aa6056ca5f6f64b3f19a9e32cbb4251c8
             }else {
                 $json = file_get_contents(FCPATH."reaction.json");
                 $reactID = $this->post_model->create_reaction_log($json);
@@ -173,7 +150,6 @@
         public function edit($id)
         {
             $userID = $this->post_model->get_posts($id)["user_id"];
-<<<<<<< HEAD
             $data["user"] = $this->user_model->get_user($userID);
             $data["post"] = $this->post_model->get_posts($id);
             $data["categories"] = $this->categories_model->get_categories();
@@ -184,19 +160,6 @@
             }
             $this->load->view("templates/header", $data);
             $this->load->view("posts/edit");
-=======
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->data["post"] = $this->post_model->get_posts($id);
-            $this->data["categories"] = $this->categories_model->get_categories();
-            $this->data["title"]="Edit Post";
-            // $this->data["slug"] = $slug;
-            if(empty($this->data["post"])){
-                show_404();
-            }
-            $this->data["title"] = "Edit Post";
-            $this->load->view("templates/header",$this->data);
-            $this->load->view("posts/edit",$this->data);
->>>>>>> b289369aa6056ca5f6f64b3f19a9e32cbb4251c8
             $this->load->view("templates/footer");
         }
         
@@ -205,13 +168,7 @@
             $categoryID = $this->input->post("category_id");
             $postID = $this->input->post("id");
             // get the post for checking if the category is change
-<<<<<<< HEAD
             $data["post"] = $this->post_model->get_posts($postID);
-=======
-            $this->data["post"] = $this->post_model->get_posts($postID);
-            $userID = $this->data["post"]["user_id"];
-            $this->data["user"] = $this->user_model->get_user($userID);
->>>>>>> b289369aa6056ca5f6f64b3f19a9e32cbb4251c8
             // get category of specific post 
             $data["categories"] = $this->categories_model->get_categories();
             $data["title"]="Edit Post";
@@ -220,13 +177,8 @@
             $this->form_validation->set_rules("body","Body","required");
             
             if($this->form_validation->run() == false) {
-<<<<<<< HEAD
                     $this->load->view("templates/header");
                     $this->load->view("posts/edit", $data);
-=======
-                    $this->load->view("templates/header",$this->data);
-                    $this->load->view("posts/edit",$this->data);
->>>>>>> b289369aa6056ca5f6f64b3f19a9e32cbb4251c8
                     $this->load->view("templates/footer");
             }else {
                 $postImage = $this->input->post("post_image");

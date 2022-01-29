@@ -10,20 +10,26 @@
             }
             //for header pic
             $userIdIn = $this->session->userdata("user_id");
-            $this->data["user"] = $this->user_model->get_user($userIdIn);
-            $this->load->view("templates/header",$this->data);
+            $data["user"] = $this->user_model->get_user($userIdIn);
+     
+
             // kung sinong user yung viniew mo kung si session user o visit ka ng ibang profile
-            $this->data["title"]="Profile";
-            $this->data['posts'] = $this->profile_model->get_user_posts($userID);
-            $this->data["react_count"] = $this->profile_model->get_all_reaction($userID);
-            // $this->data["comment_count"] = $this->profile_model->get_all_comment($userID);
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("profiles/profile",$this->data);
-            $this->data["title"]="Personal Information";
-            $this->load->view("profiles/information",$this->data);
-            $this->data["title"]="My Threads";
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("profiles/index",$this->data);
+            $data["title"]="Profile";
+            $data['posts'] = $this->profile_model->get_user_posts($userID);
+            $data["react_count"] = $this->profile_model->get_all_reaction($userID);
+
+            // $data["comment_count"] = $this->profile_model->get_all_comment($userID);
+            $this->load->view("templates/header", $data);
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("profiles/profile", $data);
+
+            $data["title"]="Personal Information";
+            $this->load->view("profiles/information", $data);
+
+            $data["title"]="My Threads";
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("profiles/index", $data);
+
             $this->load->view("templates/footer");
         }
 
@@ -113,9 +119,8 @@
                 $post_image = "";
                 // eto piniprint pag di alam yung error
                 // base sa na experience ko need yung picture ay di lalagpas ng 800x800
-                // aayusin ko to 
                 echo $this->upload->display_errors();
-                // die();
+                die();
                 redirect("profiles/view");
                 
             }

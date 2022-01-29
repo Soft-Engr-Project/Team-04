@@ -20,9 +20,9 @@
             $data["categories"] = $this->categories_model->get_categories();
             
             // Show results
-            $this->load->view("templates/header",$this->data);
-            $this->load->view("pages/search",$this->data);
-            $this->load->view("templates/footer",$this->data);
+            $this->load->view("templates/header.php", $data);
+            $this->load->view("pages/search");
+            $this->load->view("templates/footer");
         }
 
         public function query_db()

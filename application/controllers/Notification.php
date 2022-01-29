@@ -11,22 +11,20 @@
 		private $data = array();
 		public function index($user_id)
         {
-			   $this->data["title"]=ucfirst('home');
-               $userID = $this->session->userdata("user_id");
-               $this->data["user"] = $this->user_model->get_user($userID);
-               $this->load->view("templates/header",$this->data);
-               $this->data["categories"] = $this->categories_model->get_categories();
-               $this->data["posts"] = $this->post_model->get_posts_high_react();
-               $this->load->view("pages/home",$this->data);
-               $this->data["title"]="Notification";
+               $data["categories"] = $this->categories_model->get_categories();
+               $data["posts"] = $this->post_model->get_posts_high_react();
+              
+               $data["title"]="Notification";
                // display all the notification you have
                $dataNotif = array(
                		"read_status" => 1
                );
-               $this->notification_model->read_notification($user_id,$data);
-               $this->data["notification"] = $this->notification_model->get_notification($user_id);
-             
-               $this->load->view("notification/index",$this->data);
+               $this->notification_model->read_notification($user_id, $dataNotif);
+               $data["notification"] = $this->notification_model->get_notification($user_id);
+
+               $this->load->view("templates/header", $data);
+               $this->load->view("pages/home");
+               $this->load->view("notification/index");
 			   $this->load->view("templates/footer");
 		}
         public function bellCountChecker()
