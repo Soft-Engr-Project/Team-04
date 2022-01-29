@@ -33,11 +33,13 @@ class Signup extends CI_Controller
         $this->form_validation->set_rules('birthdate','Birthdate','required|callback_checkBirthdate');
         $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
         $this->form_validation->set_rules('password_1','Password','required|min_length[8]|max_length[25]|callback_check_strong_password');
+      
         $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
-        
+        $this->form_validation->set_error_delimiters('','');
         if($this->form_validation->run()===false) {
+            $data["error"] =  validation_errors();
             $this->load->view("templates/loginheader");
-            $this->load->view("pages/signup", $data);
+            $this->load->view("pages/signup");
             $this->load->view("templates/footer");
         }else { // If the is forms filled up correctly
             // Get form input
@@ -199,4 +201,3 @@ class Signup extends CI_Controller
 }
 
 
-?>
