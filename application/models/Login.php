@@ -100,8 +100,7 @@ class Login extends CI_Model{
             $this->session->set_userdata($user_data);
             // $_SESSION['username'] = $username;
             // $_SESSION['success'] = "You are now logged in";
-            
-            redirect("pages/view");
+            return "Login Success";
           }
           else{ // Incorrect password
             return "Username and password incorrect";

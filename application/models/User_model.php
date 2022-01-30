@@ -18,7 +18,10 @@
         }
         
       }
-
+      public function isLogin($userID,$isLogin){
+          $this->db->where("user_id",$userID);
+          $this->db->update($this->users_table,$isLogin);
+      }
       public function search_all($key){
         $results = array();
 

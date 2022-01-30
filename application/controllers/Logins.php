@@ -6,6 +6,7 @@ class Logins extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Login');
+        $this->load->model('User_model');
     }
 	
     public function form()
@@ -54,6 +55,13 @@ class Logins extends CI_Controller
        
             }else {
                 $data["error"] = $this->Login->login_user($username,$password); // Login validation 
+                if($data["error"] == "Login Success"){
+                    $isLog =array(
+                        "isLogin" => 1
+                    );
+                    $this->User_model->isLogin($this->session->userdata("user_id"),$isLog);
+                    redirect("pages/view");
+                }
                 $this->load->view("pages/login", $data);// Load body
                 // $this->load->view("pages/view"); // Load body
   

@@ -110,3 +110,48 @@
 			</div>
 		</div>
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
+	<script type="text/javascript">
+
+		function fetchUser(){
+			$.ajax({
+	        url : "<?php echo base_url();?>admins/fetchUser",
+	        type : "post",
+	        success:function(data){
+	        let result = data.replace(/<!--  -->/g, "");
+            data = JSON.parse(result);
+            userBody = "";
+            let count = 0;
+	        	data["users"].forEach(user => {
+	        				count++;
+							 userBody += `	<tr>
+									<td>${count}</td>
+									<td><a href="#usermodalid">${user["username"]}</a></td>
+									<td>${user["firstname"]}</td>
+                                    <td>${user["lastname"]}</td>
+                                    <td>${user["birthdate"]}</td>
+									<td>
+										<span class="dot">`;
+											if(user["isLogin"] == 1){
+										userBody += `<i class="bg-success"></i>
+                                           	 Online`
+											}else {
+												userBody += `<i style="background-color:grey;"></i>
+                                           	 Offline`;
+											}
+										userBody += `	
+										</span>
+									</td>
+								</tr>`;
+	        	});
+							
+                $("tbody").html(userBody);     
+	        }
+	       });
+		}
+ fetchUser();
+ setInterval("fetchUser()",2000);
+	</script>

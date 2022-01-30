@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["admins/fetchUser"] = "admins/fetchUser";
 $route["subcomments/fetchSpecificComment"] = "subcomments/fetchSpecificComment";
 $route["subcomments/reaction"] = "subcomments/reaction";
 $route["subcomments/update"] = "subcomments/update";
