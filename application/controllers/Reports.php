@@ -60,7 +60,7 @@
                 else {
                     $json_data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
                 }
-            echo json_encode($data);
+            echo json_encode($json_data);
             }   
         }
 
@@ -74,31 +74,34 @@
                 $type = $this->input->post('report_type');
                 $reason = $this->input->post('reason');
 
-
                 if ($type == 'thread') {
-                    $query = $this->post_model->get_posts($id);
+                    $query = $this->post_model->get_posts($id)["reports_count"];
+                    $reportsData = array(
+                        'post_id'=> $id,
+                        'complainant_id' => $this->session->userdata("user_id"),
+                        'reason'=> $reason
+                    );
+                    $count = array("reports_count" => ++$query);
+                    $this->Reports_model->update_count($id, $count);
                 }else {
                     $query = $this->comments_model->get_specific_comment($id);
+                    $reportsData = array(
+                        'comment_id'=> $id,
+                        'complainant_id' => $this->session->userdata("user_id"),
+                        'reason'=> $reason
+                    );
                   
                 }
-            
-                // Prepare report status
-                $data = array(
-                    'content_id'=> $id,
-                    'type'    => $type,
-                    'complainant_id'        => $this->session->userdata("user_id"),
-                    'reason'    => $reason
-                );
-                
+
                 // Insert report data
-                $insert = $this->Reports_model->create_report($data);
-       
+                $insert = $this->Reports_model->create_report($reportsData);
+               
                 if($insert) {
                     $status = 1;
                     $msg .= 'Report successfully submitted.';
                     $json_data = array(
                         'response' => "success",
-                        'message' => $msg 
+                        'message' => $msg,
                     );  
                 }else {
                     $msg .= 'Some problem occurred, please try again.';
@@ -110,7 +113,8 @@
             }else {
                 $json_data = array(
                     'response' => "error",
-                    'message' => "Failed to access" 
+                    'message' => "Failed to access",
+                    'data' => $insert
                 );
             }
         echo json_encode($json_data);

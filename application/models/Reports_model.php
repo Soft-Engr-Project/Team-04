@@ -10,7 +10,12 @@ class Reports_model extends CI_Model{
 
     // INSERT REPORT DETAILS IN THE DB
     public function create_report($data) {
-        return $this->db->insert('reports',$data);
+        return $this->db->insert('reports', $data);
+    }
+    
+    public function update_count($id, $count) {
+        $this->db->where('id', $id);
+        $this->db->update('posts', $count);
     }
     
     public function get_reports(){

@@ -258,7 +258,7 @@
             success : function(data){
               let result = data.replace(/<!--  -->/g, "");
               data = JSON.parse(result);
-
+              console.log(data);
               // Action if id is valid
               if(data.response == "success"){
                 // Adjust value of modal if post or comment
@@ -327,8 +327,7 @@
                   Command: toastr["success"](data.message)
                    toastr_option();
 
-              }
-              else{
+              }else{
                   Command: toastr["error"](data.message)
                   toastr_option();
               }

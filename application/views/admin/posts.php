@@ -6,7 +6,7 @@
 					<p>
 						<i class="fas fa-envelope"></i>
 					</p>
-					<h3>100</h3>
+					<h3><?php echo $counts["posts"];?></h3>
                     <p>Total Posts</p>
 				</div>
 			</div>
@@ -34,15 +34,19 @@
 								</tr>
 							</thead>
 							<tbody>
+							<?php $count = 0;
+								foreach($posts as $post):
+								$count++?>
 								<tr>
-									<td>1</td>
-									<td>Mema Try</td>
-									<td> Username</td>
-                                    <td>3</td>
-                                    <td>20</td>
-                                    <td>50</td>
-                                    <td>1</td>
+									<td><?php echo $count;?></td>
+									<td><?php echo $post["title"];?></td>
+									<td><?php echo $post["username"];?></td>
+                                    <td><?php echo $post["post_comment_count"];?></td>
+                                    <td><?php echo $post["upvote"];?></td>
+                                    <td><?php echo $post["downvote"];?></td>
+                                    <td><?php echo $post["reports_count"];?></td>
 								</tr>
+							<?php endforeach;?>
 							</tbody>
 						</table>
 					</div>

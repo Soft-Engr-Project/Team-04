@@ -10,7 +10,7 @@
 
 		public function get_categories($id=Null){
 			if($id == Null){
-				$this->db->order_by("name","DESC");
+				
 				$query = $this->db->get("categories");
 				return $query->result_array();
 			}

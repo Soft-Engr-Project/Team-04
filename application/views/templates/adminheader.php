@@ -50,15 +50,15 @@
 	<div class="sidebar">
 		<ul class="sidebar-nav">
 			<li class="sidebar-nav-item">
-				<a href="profile_admin.html" class="sidebar-nav-link ">
+				<a href="<?php echo base_url();?>Admins/profile" class="sidebar-nav-link ">
 					<div>
-						<img src="p.jpg" alt="">
+						<img src="<?php echo base_url();?>assets/image/user.png"  alt="">
 					</div>
 					<span>Profile</span>
 				</a>
 			</li>
 			<li class="sidebar-nav-item">
-				<a href="#" class="sidebar-nav-link active">
+				<a href="<?php echo base_url();?>Admins/dashboard" class="sidebar-nav-link active">
 					<div>
 						<i class="fas fa-tachometer-alt"></i>
 					</div>
@@ -68,7 +68,7 @@
 				</a>
 			</li>
 			<li class="sidebar-nav-item">
-				<a href="users_adminview.html" class="sidebar-nav-link">
+				<a href="<?php echo base_url();?>Admins/users" class="sidebar-nav-link">
 					<div>
 						<i class="fas fa-users"></i>
 					</div>
@@ -76,7 +76,7 @@
 				</a>
 			</li>
 			<li  class="sidebar-nav-item">
-				<a href="categories_adminview.html" class="sidebar-nav-link">
+				<a href="<?php echo base_url();?>Admins/categories" class="sidebar-nav-link">
 					<div>
 						<i class="fas fa-mail-bulk"></i>
 					</div>
@@ -84,7 +84,7 @@
 				</a>
 			</li>
             <li  class="sidebar-nav-item">
-				<a href="#" class="sidebar-nav-link">
+				<a href="<?php echo base_url();?>Admins/posts" class="sidebar-nav-link">
 					<div>
 						<i class="fas fa-envelope"></i>
 					</div>

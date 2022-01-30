@@ -5,6 +5,7 @@
         {
             parent::__construct();
             $this->load->model('Comments_model');
+            $this->load->model('Categories_model');
         }
 
         public function index()
@@ -115,10 +116,15 @@
                     "post_image" => $postImage
             
                 );
-                $categoryData = array(
-                    "category_post_count" => ++$data["categories"]["category_post_count"]
-                );
-                $this->categories_model->category_count($categoryID, $categoryData);
+
+                // Loop through the categories to update the value of count
+                foreach ($data["categories"] as $category) {
+                    if ($category["category_id"] == $categoryID) {
+                        $categoryData["category_post_count"] = ++$category["category_post_count"];
+                    }
+                }
+                
+                $this->Categories_model->category_count($categoryID, $categoryData);
                 $this->post_model->create_post($postData);
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");

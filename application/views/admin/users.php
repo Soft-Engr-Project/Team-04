@@ -6,7 +6,7 @@
 					<p>
 						<i class="fas fa-users"></i>
 					</p>
-					<h3>100</h3>
+					<h3><?php echo $counts["users"];?></h3>
                     <p>Total User</p>
 				</div>
 			</div>
@@ -33,12 +33,15 @@
 								</tr>
 							</thead>
 							<tbody>
+							<?php $count = 0;
+								foreach($users as $user):
+								$count++?>
 								<tr>
-									<td>1</td>
-									<td><a href="#usermodalid">darkerplexing_22</a></td>
-									<td>Diana</td>
-                                    <td>Fama</td>
-                                    <td>03/07/2020</td>
+									<td><?php echo $count;?></td>
+									<td><a href="#usermodalid"><?php echo $user["username"];?></a></td>
+									<td><?php echo $user["firstname"];?></td>
+                                    <td><?php echo $user["lastname"];?></td>
+                                    <td><?php echo $user["birthdate"];?></td>
 									<td>
 										<span class="dot">
 											<i class="bg-success"></i>
@@ -46,20 +49,7 @@
 										</span>
 									</td>
 								</tr>
-                                <tr>
-                                    
-									<td>2</td>
-									<td><a href="#">trytrytry</a></td>
-									<td>Try1</td>
-                                    <td>Try2</td>
-                                    <td>03/07/2020</td>
-									<td>
-										<span class="dot">
-											<i class="bg-primary"></i>
-                                            Offline
-										</span>
-									</td>
-								</tr>
+                            <?php endforeach;?>
 							</tbody>
 						</table>
 					</div>

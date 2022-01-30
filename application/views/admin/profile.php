@@ -5,12 +5,12 @@
 					<div class="cardprofile">
 						<div class="content">
 							<div>
-								<h6>usernameeeee </h6>
+								<h6><?php echo $admin["username"];?></h6>
 								<h4>Admin</h4>	
 							</div>
 						</div>
 						<div class="cardprofile-image">
-							<img src="p.jpg" alt="">
+							<img src="<?php echo base_url();?>assets/image/user.png" alt="">
 						</div>
 					</div>
 					<a href="#" class="connectprofile"> View Profile</a>
@@ -26,25 +26,17 @@
 							<p>First Name:</p>
 							<p>Last Name:</p>
 							<p>Birthdate:</p>
-							<p>Total Posts:</p>
-							<p>Total Likes:</p>
-							<p>Total Disikes:</p>
-							<p>Total Comments:</p>
-							<p>Total Reported:</p>
+							<p>Email:</p>
 							<p>Account Created:</p>
 
 						</div>
 						<div class="col-8 col-m-8 col-sm-8">
-							<p>Test palang</p>
-							<p>Hello</p>
-							<p>Try</p>
-							<p>03/07/2001</p>
-							<p>30</p>
-							<p>30</p>
-							<p>50</p>
-							<p>10</p>
-							<p>10</p>
-							<p>10</p>
+							<p><?php echo $admin["username"];?></p>
+							<p><?php echo $admin["firstname"];?></p>
+							<p><?php echo $admin["lastname"];?></p>
+							<p><?php echo $admin["birthdate"];?></p>
+							<p><?php echo $admin["email"];?></p>
+							<p><?php echo $admin["created_at"];?></p>
 						</div>
 					</div>
 				</div>

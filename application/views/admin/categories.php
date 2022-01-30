@@ -6,7 +6,7 @@
 					<p>
 						<i class="fas fa-mail-bulk"></i>
 					</p>
-					<h3>100</h3>
+					<h3><?php echo $counts["categories"];?></h3>
                     <p>Total Categories</p>
 				</div>
 			</div>	
@@ -39,14 +39,18 @@
 								</tr>
 							</thead>
 							<tbody>
+							<?php $count = 0;
+								foreach($categories as $category):
+								$count++?>
 								<tr>
-									<td>1</td>
-									<td><a href="#">Technology</a></td>
-									<td>07/07/05</td>
-									<td>500</td>
+									<td><?php echo $count;?></td>
+									<td><a href="#"><?php echo $category["name"];?></a></td>
+									<td><?php echo $category["created_at"];?></td>
+									<td><?php echo $category["category_post_count"];?></td>
 									<td><button type="submit" class="removebutton">Remove</button></td>
 								</tr>
 							</tbody>
+							<?php endforeach;?>
 						</table>
 					</div>
 				</div>

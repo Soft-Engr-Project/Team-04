@@ -40,7 +40,7 @@
             <div class="catfil">
                 <div class="homethread">
                     <?php foreach($report as $post):?>
-                        <?php if($post["type"] == 'thread'):?>
+                        <?php if($post["post_id"]):?>
                         <div class="row">
                             <div class="col-lg-1">
                                 <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="profilepost">
