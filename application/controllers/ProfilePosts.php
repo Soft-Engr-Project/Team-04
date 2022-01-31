@@ -3,31 +3,31 @@
 
     class ProfilePosts extends CI_Controller
     {
-        private $data = array();
+
         public function index()
         {
             // APPPATH - ROOT FOLDER
             //THIS IF CHECK IF WE HAVE FOLDER PAGES IN THE VIEW AND IF IT HAS PAGES FOLDER THEN FIND A SPECIFIC
             // PHP FILE
-            $this->data['posts'] = $this->post_model->get_posts();
-            $this->data["title"]="Latest Post";
-            $this->load->view("templates/header.php");
-            $this->load->view("profiles/index",$this->data);
-            $this->load->view("templates/footer.php");
+            $data['posts'] = $this->post_model->get_posts();
+            $data["title"]="Latest Post";
+            $this->load->view("templates/header");
+            $this->load->view("profiles/index",$data);
+            $this->load->view("templates/footer");
         }
 
         public function view($slug=NULL)
         {
             // kukunin yung laman sa model
-            $this->data["post"] = $this->post_model->get_posts($slug);
+            $data["post"] = $this->post_model->get_posts($slug);
             // check kung walang laman;
-            if(empty($this->data["post"])) {
+            if(empty($data["post"])) {
                 show_404();
             }
-            $this->data["title"] = $this->data["post"]["title"];
-            $this->load->view("templates/viewPostHeader.php");
-            $this->load->view("profiles/view",$this->data);
-            $this->load->view("templates/footer.php");
+            $data["title"] = $data["post"]["title"];
+            $this->load->view("templates/viewPostHeader");
+            $this->load->view("profiles/view", $data);
+            $this->load->view("templates/footer");
         }
 
         public function delete($id)
@@ -51,17 +51,17 @@
             if($this->session->userdata("user_id") != $user_id && $this->session->userdata("admin") != true) {
                 redirect("pages");
             }
-            $this->data["post"] = $this->post_model->get_posts($id);
-            $this->data["categories"] = $this->categories_model->get_categories();
-            $this->data["title"]="Edit Post";
-            // $this->data["slug"] = $slug;
-            if(empty($this->data["post"])) {
+            $data["post"] = $this->post_model->get_posts($id);
+            $data["categories"] = $this->categories_model->get_categories();
+            $data["title"]="Edit Post";
+            // $data["slug"] = $slug;
+            if(empty($data["post"])) {
                 show_404();
             }
-            $this->data["title"] = $this->data["post"]["title"];
-            $this->load->view("templates/viewPostHeader.php");
-            $this->load->view("posts/edit",$this->data);
-            $this->load->view("templates/footer.php");
+            $data["title"] = $data["post"]["title"];
+            $this->load->view("templates/viewPostHeader");
+            $this->load->view("posts/edit", $data);
+            $this->load->view("templates/footer");
         }
 
         public function update()
@@ -109,4 +109,3 @@
 
 
 
-?>

@@ -1,7 +1,7 @@
 <?php
 class Signup extends CI_Controller
 {
-    private $data = array();
+
     public function __construct()
     {
         parent::__construct();
@@ -33,12 +33,14 @@ class Signup extends CI_Controller
         $this->form_validation->set_rules('birthdate','Birthdate','required|callback_checkBirthdate');
         $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
         $this->form_validation->set_rules('password_1','Password','required|min_length[8]|max_length[25]|callback_check_strong_password');
+      
         $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|matches[password_1]');
-        
+        $this->form_validation->set_error_delimiters('','');
         if($this->form_validation->run()===false) {
-            $this->load->view("templates/loginheader.php");
-            $this->load->view("pages/signup",$this->data);
-            $this->load->view("templates/footer.php");
+            $data["error"] =  validation_errors();
+            $this->load->view("templates/loginheader");
+            $this->load->view("pages/signup");
+            $this->load->view("templates/footer");
         }else { // If the is forms filled up correctly
             // Get form input
             $password = $this->input->post("password_1");
@@ -73,12 +75,12 @@ class Signup extends CI_Controller
             'button' => 'Verify',
             'link' => base_url()."Signup/verify/".$username."/".$code
             );
-            $this->send($email,'templates/email_format',$emailData); // Call email setup function
+            $this->send($email, 'templates/email_format', $emailData); // Call email setup function
           
             // Load email sent html to notify the user
-            $this->load->view("templates/loginheader.php");
-            $this->load->view("pages/checkemail.php");
-            $this->load->view("templates/footer.php");
+            $this->load->view("templates/loginheader");
+            $this->load->view("pages/checkemail");
+            $this->load->view("templates/footer");
         }
     }
    
@@ -87,8 +89,7 @@ class Signup extends CI_Controller
     {
         if ($this->Registration->checkUserExist($username) == false) {
              return true;
-        } 
-        else {
+        }else {
          $this->form_validation->set_message('checkUserName', 'Username already exists');
             return false;
         }
@@ -103,8 +104,7 @@ class Signup extends CI_Controller
        
         if ($this->Registration->checkEmail($email) == false) {
              return true;
-        } 
-        else {
+        }else {
          $this->form_validation->set_message('checkEmail', 'Email already exists');
             return false;
         }
@@ -124,7 +124,7 @@ class Signup extends CI_Controller
     }
 
     // EMAIL MESSAGE SETUP
-    public function send($email,$template,$emailData)
+    public function send($email, $template, $emailData)
     {
         $to =  $email;
         $subject = 'Email verification';
@@ -153,7 +153,7 @@ class Signup extends CI_Controller
         $this->email->subject($subject);
 
         // Load the format and content of email
-        $message=$this->email->message($this->load->view($template,$emailData,true));
+        $message=$this->email->message($this->load->view($template, $emailData, true));
 
         $status=$this->email->send(); // Send the email
      
@@ -171,12 +171,11 @@ class Signup extends CI_Controller
         
         // If true, inform the user in verify.php
         if ($query){
-        $this->load->view("templates/loginheader.php");
+        $this->load->view("templates/loginheader");
         $this->load->view("pages/verify");
-        $this->load->view("templates/footer.php");  
+        $this->load->view("templates/footer");  
         
-        }
-        else{
+        }else {
             echo "Invalid URL";
         }
     }
@@ -202,4 +201,3 @@ class Signup extends CI_Controller
 }
 
 
-?>

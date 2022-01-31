@@ -22,8 +22,13 @@
 <div class="btn btn-outline-danger">
     <a href="<?php echo base_url("Reports/view");?>">Report Logs</a>
 </div>
+<div class="btn btn-outline-danger">
+    <a href="<?php echo base_url("Admins/dashboard");?>">Dashboard</a>
+</div>
 <?php endif;?>
 </div>
+
+
 
 <script>
 //color bg
