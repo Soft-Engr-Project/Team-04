@@ -21,6 +21,10 @@
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
     <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </head>
 <body>
     <nav>   
@@ -46,19 +50,19 @@
 
                     <!-- Search Bar -->
                     <div class="col-md-5 mx-auto">
+                        
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
-                            <input class="form-control border-end-0 border rounded-pill" type="text" id = "search" name="search" >
-                            <div id="hidden" style="height: 0px;"></div>
+                            <input class="form-control border-end-0 border rounded-pill" type="text" id = "searchbar" name="searchbar" autocomplete = "off">
                         </div>
-                        </form>
+                    </form>
                     </div>
 
                     <!-- Suggestions -->
                     <script>
-                        $(document).ready(function(){
-                            $("#search").autocomplete({
-                                appendTo: "#hidden",
+                        $(document).on("keyup","#searchbar",function(e){
+                         e.preventDefault();
+                            $("#searchbar").autocomplete({
                                 source: function( request, response){
                                     $.ajax({
                                         url: "<?php echo base_url()?>search/suggestions",
@@ -83,7 +87,7 @@
                                     });
                                 },
                                 select: function(values, ui){
-                                    $('#search').val(ui.item.label);
+                                    $('#searchbar').val(ui.item.label);
                                     return false;
                                 },
                             });

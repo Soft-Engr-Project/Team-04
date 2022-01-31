@@ -7,12 +7,21 @@
         private $reactions_table = "reactions";
         private $comment_table = "discussion";
     
-      public function get_user($user_id){
-        $this->db->where("user_id",$user_id);
-        $query = $this->db->get($this->users_table);
-        return $query->row_array();
+      public function get_user($user_id=Null){
+        if($user_id) {
+          $this->db->where("user_id",$user_id);
+          $query = $this->db->get($this->users_table);
+          return $query->row_array();
+        }else {
+          $query = $this->db->get($this->users_table);
+          return $query->result_array();
+        }
+        
       }
-
+      public function isLogin($userID,$isLogin){
+          $this->db->where("user_id",$userID);
+          $this->db->update($this->users_table,$isLogin);
+      }
       public function search_all($key){
         $results = array();
 

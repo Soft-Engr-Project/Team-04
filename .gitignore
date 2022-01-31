@@ -3,7 +3,7 @@
 application/cache/*
 !application/cache/index.html
 
-application/config/*
+application/config/
 
 
 application/logs/*

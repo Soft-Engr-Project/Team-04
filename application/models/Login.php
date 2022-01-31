@@ -82,8 +82,8 @@ class Login extends CI_Model{
         $result3 = $q['verified'];
         
         if($result3==="0"){ // Check if user is verified
-          echo "Sorry your not verified";
-          redirect('/');
+          return "Sorry your account not verified";
+         ;
         }
         else{ // User is verified
           if (password_verify($password, $result2)) { // Check if password matched
@@ -100,19 +100,17 @@ class Login extends CI_Model{
             $this->session->set_userdata($user_data);
             // $_SESSION['username'] = $username;
             // $_SESSION['success'] = "You are now logged in";
-            
-            redirect("pages/view");
+            return "Login Success";
           }
           else{ // Incorrect password
-            echo "Username and password incorrect";
-            redirect('/');
+            return "Username and password incorrect";
+            
           } 
         }
     }
 
     else {  // Incorrect username
-      echo "Username incorrect";
-      redirect('/');
+      return "Username incorrect and password incorrect";
     }
   }
 
