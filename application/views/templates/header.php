@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
-    <script src='https://cdn.rawgit.com/pguso/jquery-plugin-circliful/master/js/jquery.circliful.min.js'></script>
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
     <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
 </head>
@@ -50,6 +49,7 @@
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
                             <input class="form-control border-end-0 border rounded-pill" type="text" id = "search" name="search" >
+                            <div id="hidden" style="height: 0px;"></div>
                         </div>
                         </form>
                     </div>
@@ -58,6 +58,7 @@
                     <script>
                         $(document).ready(function(){
                             $("#search").autocomplete({
+                                appendTo: "#hidden",
                                 source: function( request, response){
                                     $.ajax({
                                         url: "<?php echo base_url()?>search/suggestions",
@@ -84,7 +85,7 @@
                                 select: function(values, ui){
                                     $('#search').val(ui.item.label);
                                     return false;
-                                }
+                                },
                             });
                         });
 
