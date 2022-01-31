@@ -4,9 +4,11 @@
 
 				<div class="counter">
 					<p>
-						<i class="fas fa-users"></i>
+						<em class="fas fa-users"></em>
 					</p>
-					<h3><?php echo $counts["users"];?></h3>
+					<h3>
+						<?php echo $counts["users"];?>
+					</h3>
                     <p>Total User</p>
 				</div>
 			</div>
@@ -21,15 +23,15 @@
 						</h3>
 					</div>
 					<div class="card-content">
-						<table>
+						<table aria-describedby="myTable">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Username</th>
-									<th>First Name</th>
-									<th>Last Name</th>
-									<th>Birthdate</th>
-                                    <th>Status</th>
+									<th scope="col" >#</th>
+									<th scope="col" >Username</th>
+									<th scope="col" >First Name</th>
+									<th scope="col" >Last Name</th>
+									<th scope="col" >Birthdate</th>
+                                    <th scope="col" >Status</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -44,7 +46,7 @@
                                     <td><?php echo $user["birthdate"];?></td>
 									<td>
 										<span class="dot">
-											<i class="bg-success"></i>
+											<em class="bg-success"></em>
                                             Online
 										</span>
 									</td>
@@ -76,7 +78,7 @@
 					<div class="col-8 col-m-8 	col-sm-8">
 						<div class="card">
 							<h3 class="profile_admin">Personal Information</h3>
-							<a href="#"><i class="fas fa-arrow-left"></i></a>
+							<a href="#"><em class="fas fa-arrow-left"></em></a>
 							<div class="row">
 								<div class="col-4 col-m-4 col-sm-4">
 									<p>Username</p>

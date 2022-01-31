@@ -4,9 +4,11 @@
 
 				<div class="counter">
 					<p>
-						<i class="fas fa-envelope"></i>
+						<em class="fas fa-envelope"></em>
 					</p>
-					<h3><?php echo $counts["posts"];?></h3>
+					<h3>
+						<?php echo $counts["posts"];?>
+					</h3>
                     <p>Total Posts</p>
 				</div>
 			</div>
@@ -21,16 +23,16 @@
 						</h3>
 					</div>
 					<div class="card-content">
-						<table>
+						<table aria-describedby="myTable">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Title Posts</th>
-									<th> Username</th>
-                                    <th>Comments</th>
-                                    <th>Likes</th>
-                                    <th>Dislikes</th>
-                                    <th>Report</th>
+									<th scope="col" >#</th>
+									<th scope="col" >Title Posts</th>
+									<th scope="col" > Username</th>
+                                    <th scope="col" >Comments</th>
+                                    <th scope="col" >Likes</th>
+                                    <th scope="col" >Dislikes</th>
+                                    <th scope="col" >Report</th>
 								</tr>
 							</thead>
 							<tbody>

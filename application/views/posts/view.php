@@ -117,7 +117,7 @@
                               
 
                               <button name="submit" id="upvote_post" value="<?php echo $post["id"]?>">
-                                <i class="fa fa-thumbs-up fa-lg"></i>
+                                <em class="fa fa-thumbs-up fa-lg"></em>
                             
                                 <input type="numberlike" value="<?php echo $post["upvote"] ;?>">
                               </button>
@@ -127,7 +127,7 @@
                             <div class="downbutton">
                               
                                 <button name="submit" id="downvote_post" value="<?php echo $post["id"]?>">
-                                    <i class="fa fa-thumbs-down fa-lg"></i>
+                                    <em class="fa fa-thumbs-down fa-lg"></em>
                                     
                                     <input type="numberlike" value="<?php echo $post["downvote"];?>">
                                 </button>

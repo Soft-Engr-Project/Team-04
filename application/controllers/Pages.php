@@ -20,7 +20,7 @@
             $this->load->view("templates/header",$data);
             if($page == "home") {
                $data["categories"] = $this->categories_model->get_categories();
-               $data["posts"] = $this->post_model->get_posts_high_react();
+               $data["postsTop"] = $this->post_model->get_posts_high_react();
                $data["notification_count"] = $this->notification_model->get_notification_count($userIdIn);
                $data["notification"] = $this->notification_model->get_notification($userIdIn);
                $data["title"] = " Latest Post";

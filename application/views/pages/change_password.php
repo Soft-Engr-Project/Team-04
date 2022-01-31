@@ -30,18 +30,18 @@
                                 <label>New Password</label>
                                 <div class="sign_icon">
                                     <input type="password" class="myinput" id="password" name="password_1" required>
-                                    <i class="fa fa-lock  fa-2xl"></i>
+                                    <em class="fa fa-lock  fa-2xl"></em>
                                 </div>
                                 <div class="visiblepassword">
-                                    <i class="fa fa-eye fa-xl" id="eye" onclick="show()"></i>
+                                    <em class="fa fa-eye fa-xl" id="eye" onclick="show()"></em>
                                 </div>  
                                 <div class="sign_icon">
                                 <label>Confirm Password</label>
                                     <input type="password" class="myinput" id="confirmpassword" name="password_2" required>
-                                    <i class="fa fa-lock  fa-2xl"></i>
+                                    <em class="fa fa-lock  fa-2xl"></em>
                                 </div>
                                 <div class="visiblepassword">
-                                    <i class="fa fa-eye fa-xl" id="eye1" onclick="showconfirm()"></i>
+                                    <em class="fa fa-eye fa-xl" id="eye1" onclick="showconfirm()"></em>
                                 </div>  
                                 <h6 class="error"><?php echo validation_errors();?></h6>
                                 <input type="submit" class="button1" value="Reset Password">

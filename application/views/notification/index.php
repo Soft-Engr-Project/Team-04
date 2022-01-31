@@ -1,4 +1,6 @@
-<h2><?=$title?></h2>
+<h2>
+	<?=$title?>
+</h2>
 <div class="row">
 	<?php if(!empty($notification)){?>
 <?php foreach ($notification as $notify): ?>

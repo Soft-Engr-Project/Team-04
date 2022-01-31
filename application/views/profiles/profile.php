@@ -3,9 +3,9 @@
             <div class="changecover_profile">
                 <div class="navbarsmall"></div>
                 <?php if(!empty($user["user_cover_photo"])){?>
-                    <img src="<?php echo base_url().$user["user_cover_photo"];?>"id="smallcover" class="imagesmall">
+                    <img src="<?php echo base_url().$user["user_cover_photo"];?>"id="smallcover" class="imagesmall" alt="Cover Photo">
                 <?php }else{?>
-                    <img src="<?php echo base_url();?>assets/image/defaultcover.png" alt="" id="smallcover" class="imagesmall">
+                    <img src="<?php echo base_url();?>assets/image/defaultcover.png" alt="Cover Photo" id="smallcover" class="imagesmall">
                 <?php } ?> 
                 <div class="profilesmall">
                     <img src="" alt="">
@@ -26,9 +26,9 @@
             <div class="changecover_profile">
                 <div class="reviewprofile">
                     <?php if(!empty($user["user_profile_photo"])){?>
-                        <img src="<?php echo base_url().$user["user_profile_photo"];?>" id="smallprofile">
+                        <img src="<?php echo base_url().$user["user_profile_photo"];?>" id="smallprofile" alt="Profile Photo">
                     <?php }else{?>
-                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" id="smallprofile">
+                        <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" id="smallprofile">
                     <?php } ?>
                 </div>
                 <div class="smallcontent">
@@ -44,9 +44,9 @@
         </div>
         
         <div class="cover">
-            <?php if(!empty ($user["user_cover_photo"])){?> <img src="<?php echo base_url().$user ["user_cover_photo"];?>" id="coverphoto">
+            <?php if(!empty ($user["user_cover_photo"])){?> <img src="<?php echo base_url().$user ["user_cover_photo"];?>" id="coverphoto" alt="Cover Photo">
             <?php }else{?>
-                <img src="<?php echo base_url();?>assets/image/defaultcover.png" alt="" id="coverphoto">
+                <img src="<?php echo base_url();?>assets/image/defaultcover.png" alt="Cover Photo" id="coverphoto">
             <?php } ?>
             <?php if($user["user_id"] == $this->session->userdata("user_id")):?>
             <div class="bannercrud" >
@@ -71,9 +71,9 @@
                     <div class="profile">
                         <div class="profileimage">
                         <?php if(!empty($user["user_profile_photo"])){?>
-                            <img src="<?php echo base_url().$user["user_profile_photo"];?>" id="profilephoto">
+                            <img src="<?php echo base_url().$user["user_profile_photo"];?>" id="profilephoto" alt="Profile Photo" >
                         <?php }else{?>
-                             <img src="<?php echo base_url();?>assets/image/user.png" alt="" id="profilephoto">
+                             <img src="<?php echo base_url();?>assets/image/user.png"  id="profilephoto" alt="Profile Photo" >
                         <?php } ?>    
                         <?php if($user["user_id"] == $this->session->userdata("user_id")):?>                  
                         <div class="bannercrud">

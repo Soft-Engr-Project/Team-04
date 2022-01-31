@@ -16,12 +16,12 @@
                                 <header> Sign In</header>  
                                 <div class="sign_icon">
                                     <input type="text" class="myinput" placeholder="USERNAME" name="username" >
-                                    <i class="fa fa-user  fa-2xl"></i>    
+                                    <em class="fa fa-user  fa-2xl"></em>    
                                     <input type="password" class="myinput" id="password" placeholder="PASSWORD" name="password" >
-                                    <i class="fa fa-lock  fa-2xl"></i>
+                                    <em class="fa fa-lock  fa-2xl"></em>
                                 </div>
                                 <div class="visiblepassword">
-                                    <i class="fa fa-eye fa-xl" id="eye" onclick="show()"></i>
+                                    <em class="fa fa-eye fa-xl" id="eye" onclick="show()"></em>
                                 </div>   
                                 
                                 <a href="<?php echo site_url("ForgotPassword/forgot_password"); ?>"> <p>Forgot password?</p>  </a>
