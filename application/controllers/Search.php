@@ -17,15 +17,15 @@
         public function view($results)
         {
             $userID = $this->session->userdata("user_id");
-            $this->data["results"] = $results;
+            $data["results"] = $results;
        
-            $this->data["user"] = $this->user_model->get_user($userID);
-            $this->data["categories"] = $this->categories_model->get_categories();
+            $data["user"] = $this->user_model->get_user($userID);
+            $data["categories"] = $this->categories_model->get_categories();
             
             // Show results
-            $this->load->view("templates/header.php");
-            $this->load->view("pages/search",$this->data);
-            $this->load->view("templates/footer",$this->data);
+            $this->load->view("templates/header.php", $data);
+            $this->load->view("pages/search", $data);
+            $this->load->view("templates/footer", $data);
         }
 
         public function query_db()
