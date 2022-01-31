@@ -54,6 +54,7 @@
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
                             <input class="form-control border-end-0 border rounded-pill" type="text" id = "searchbar" name="searchbar" autocomplete = "off">
+                            <div id="hidden" style="height: 0px;"></div>
                         </div>
                     </form>
                     </div>
@@ -63,6 +64,7 @@
                         $(document).on("keyup","#searchbar",function(e){
                          e.preventDefault();
                             $("#searchbar").autocomplete({
+                                appendTo: "#hidden",
                                 source: function( request, response){
                                     $.ajax({
                                         url: "<?php echo base_url()?>search/suggestions",
