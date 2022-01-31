@@ -17,7 +17,7 @@
             if(!file_exists(APPPATH."views/pages/".$page.".php")) {
                show_404();
             }
-            $this->load->view("templates/header");
+            $this->load->view("templates/header",$data);
             if($page == "home") {
                $data["categories"] = $this->categories_model->get_categories();
                $data["posts"] = $this->post_model->get_posts_high_react();

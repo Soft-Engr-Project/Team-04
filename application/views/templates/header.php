@@ -73,6 +73,7 @@
                                             keyword: request.term
                                         },
                                         success : function(data){
+                                            keywords = e.target.value;
                                             const seen = new Set();
                                             //console.log(typeof data);
                                             let result = data.replace(/<!--  -->/g, "");
@@ -82,6 +83,20 @@
                                                 const duplicate = seen.has(el.label);
                                                 seen.add(el.label);
                                                 return !duplicate;
+                                            });
+                                            // sort values alphabetically
+                                            filteredArr.sort((a, b) => {
+                                                // Sort results by matching input with keyword position in result
+                                                if(a.label.toLowerCase().indexOf(keywords.toLowerCase()) > b.label.toLowerCase().indexOf(keywords.toLowerCase())) {
+                                                    return 1;
+                                                } else if (a.label.toLowerCase().indexOf(keywords.toLowerCase()) < b.label.toLowerCase().indexOf(keywords.toLowerCase())) {
+                                                    return -1;
+                                                } else {
+                                                    if(a.label > b.label)
+                                                        return 1;
+                                                    else
+                                                        return -1;
+                                                }
                                             });
                                             //console.log(filteredArr);
                                             response(filteredArr);
@@ -94,9 +109,7 @@
                                 },
                             });
                         });
-
-
-                        </script>
+                    </script>
 
                     <!-- Navigation Link Buttons -->
                     <a style="margin:10px !important;" class="nav-item nav-link text-light m-0 p-0" href="<?php echo base_url();?>pages/view">Home</a>

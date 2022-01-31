@@ -2,6 +2,9 @@
 
     class Search extends CI_Controller
     {
+
+        private $data = array();
+
         public function __construct()
         {
             parent::__construct();
@@ -14,15 +17,15 @@
         public function view($results)
         {
             $userID = $this->session->userdata("user_id");
-            $data["results"] = $results;
-            
-            $data["user"] = $this->user_model->get_user($userID);
-            $data["categories"] = $this->categories_model->get_categories();
+            $this->data["results"] = $results;
+       
+            $this->data["user"] = $this->user_model->get_user($userID);
+            $this->data["categories"] = $this->categories_model->get_categories();
             
             // Show results
-            $this->load->view("templates/header.php", $data);
-            $this->load->view("pages/search");
-            $this->load->view("templates/footer");
+            $this->load->view("templates/header.php");
+            $this->load->view("pages/search",$this->data);
+            $this->load->view("templates/footer",$this->data);
         }
 
         public function query_db()
@@ -50,3 +53,4 @@
         echo $this->user_model->fetch_data($this->uri->segment(3));
         }
     }
+?>
