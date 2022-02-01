@@ -92,7 +92,7 @@
 				</a>
 			</li>
 			<li  class="sidebar-nav-item">
-				<a href="#" class="sidebar-nav-link">
+				<a href="<?php echo base_url();?>Logouts/admin_logout" class="sidebar-nav-link">
 					<div>
 						<i class="fas fa-sign-out"></i>
 					</div>

@@ -4,17 +4,11 @@
 
 				<div class="counter">
 					<p>
-<<<<<<< HEAD
-						<i class="fas fa-mail-bulk"></i>
-					</p>
-					<h3><?php echo $counts["categories"];?></h3>
-=======
 						<em class="fas fa-mail-bulk"></em>
 					</p>
 					<h3>
 						<?php echo $counts["categories"];?>
 					</h3>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
                     <p>Total Categories</p>
 				</div>
 			</div>	

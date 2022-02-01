@@ -29,6 +29,7 @@ $route['posts/create']="posts/create";
 $route['posts/report_post_info'] = 'posts/report_post_info';
 $route["posts/reports"] = "posts/reports";
 $route['posts/(:any)']="posts/view/$1";
+$route['admins/dashboard']="admins/dashboard";
 // $route['posts']='posts/index';
 // $route['default_controller'] = 'pages/view';
 $route['default_controller'] = 'logins/form';

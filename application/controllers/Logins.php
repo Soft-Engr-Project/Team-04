@@ -113,7 +113,7 @@ class Logins extends CI_Controller
         }else {
             $this->form_validation->set_rules("passcode","Code","callback_checkCode");
             if($this->form_validation->run() != false) {
-                redirect("pages/view"); // Log in the user
+                redirect("admins/dashboard");
             }else {
                 $this->load->view("templates/loginheader", $data);
                 $this->load->view("templates/2FAformat");

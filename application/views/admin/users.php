@@ -4,17 +4,11 @@
 
 				<div class="counter">
 					<p>
-<<<<<<< HEAD
-						<i class="fas fa-users"></i>
-					</p>
-					<h3><?php echo $counts["users"];?></h3>
-=======
 						<em class="fas fa-users"></em>
 					</p>
 					<h3>
 						<?php echo $counts["users"];?>
 					</h3>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
                     <p>Total User</p>
 				</div>
 			</div>
@@ -52,11 +46,7 @@
                                     <td><?php echo $user["birthdate"];?></td>
 									<td>
 										<span class="dot">
-<<<<<<< HEAD
-											<i class="bg-success"></i>
-=======
 											<em class="bg-success"></em>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
                                             Online
 										</span>
 									</td>

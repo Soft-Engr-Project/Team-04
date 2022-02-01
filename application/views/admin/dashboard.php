@@ -4,17 +4,11 @@
 				<a href="users_adminview.html">
 				<div class="counter">
 					<p>
-<<<<<<< HEAD
-						<i class="fas fa-users"></i>
-					</p>
-					<h3><?php echo $counts["users"];?></h3>
-=======
 						<em class="fas fa-users"></em>
 					</p>
 					<h3>
 						<?php echo $counts["users"];?>
 					</h3>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					<p>Total Users</p>
 				</div>
 				</a>
@@ -22,11 +16,7 @@
 			<div class="col-3 col-m-6 col-sm-6">
 				<div class="counter">
 					<p>
-<<<<<<< HEAD
-						<i class="fas fa-mail-bulk"></i>
-=======
 						<em class="fas fa-mail-bulk"></em>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					</p>
 					<h3><?php echo $counts["categories"];?></h3>
 					<p>Total Categories</p>
@@ -36,17 +26,11 @@
 				<a href="#">
 				<div class="counter">
 					<p>
-<<<<<<< HEAD
-						<i class="fas fa-envelope"></i>
-					</p>
-					<h3><?php echo $counts["posts"];?></h3>
-=======
 						<em class="fas fa-envelope"></em>
 					</p>
 					<h3>
 						<?php echo $counts["posts"];?>
 					</h3>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					<p>Total Posts</p>
 				</div>
 				</a>
@@ -55,17 +39,11 @@
 				<a href="#report">
 				<div class="counter">
 					<p>
-<<<<<<< HEAD
-						<i class="fas fa-flag"></i>
-					</p>
-					<h3><?php echo $counts["reports"];?></h3>
-=======
 						<em class="fas fa-flag"></em>
 					</p>
 					<h3>
 						<?php echo $counts["reports"];?>
 					</h3>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					<p>Total Reports</p>
 				</div>
 				</a>
