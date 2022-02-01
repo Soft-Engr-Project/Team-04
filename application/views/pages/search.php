@@ -23,7 +23,9 @@
                 </div>
                 <div class="categories">
                     <?php foreach ($categories as $category): ?>
-                        <a href="#"><p><?php echo $category["name"];?> </p></a>
+                        <a href="#"><p>
+                            <?php echo $category["name"];?>
+                        </p></a>
                     <?php endforeach; ?>      
                 </div>
             </div>
@@ -57,10 +59,10 @@
                                     <div class="col-lg-1">
                                             <div class="circleimage">
                                             <?php if(!empty($content["user_profile_photo"])){ ?>
-                                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile">
+                                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile" alt="Profile Photo">
                                             <?php }
                                             else{?>
-                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userprofile" alt="Profile Photo">
                                             <?php } ?>
                                             </div>
                                     </div>
@@ -79,10 +81,10 @@
                                     <div class="col-lg-1">
                                             <div class="circleimage">
                                             <?php if(!empty($content["user_profile_photo"])){ ?>
-                                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile">
+                                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile" alt="Profile Photo">
                                             <?php }
                                             else{?>
-                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userprofile">
                                             <?php } ?>
                                             </div>
                                     </div>
@@ -101,10 +103,10 @@
                                     <div class="col-lg-1">
                                             <div class="circleimage">
                                             <?php if(!empty($content["user_profile_photo"])){ ?>
-                                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile">
+                                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile" alt="Profile Photo">
                                             <?php }
                                             else{?>
-                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                                <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userprofile">
                                             <?php } ?>
                                             </div>
                                     </div>

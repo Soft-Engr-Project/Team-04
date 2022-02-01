@@ -26,7 +26,7 @@
                 echo "No direct script access allowed";
             }
         }
-		function create() {
+		public function create() {
             if($this->input->is_ajax_request()){
                 
             $commentId = $this->input->post("commentId");
@@ -91,7 +91,7 @@
             echo json_encode($json_data);
             
 		}
-        function fetchSpecificComment() {
+        public function fetchSpecificComment() {
             if($this->input->is_ajax_request()){
                 $commentId = $this->input->post("comments");
                 $data = $this->Comments_model->get_specific_comment($commentId);
@@ -102,7 +102,7 @@
             }
         }
 
-        function view($commentId = Null) {
+        public function view($commentId = Null) {
             if($commentId == Null){
                 show_404();
             }
@@ -121,7 +121,7 @@
 
         }
 
-        function delete() {
+        public function delete() {
            
             // get all the info about comment
             if($this->input->is_ajax_request()){
@@ -161,7 +161,7 @@
                 echo json_encode($json_data);
         }
 
-        function edit() {
+        public function edit() {
                     if($this->input->is_ajax_request()) {
                         $subcommentId = $this->input->post("subcomment_id");
 
@@ -185,7 +185,7 @@
                     echo json_encode($json_data);
         }
 
-        function update(){
+        public function update(){
                 if($this->input->is_ajax_request()) {
                     $subcommentID = $this->input->post("editSubcommentId");
                     $content = $this->input->post("editSubcommentReply");
@@ -210,7 +210,7 @@
                 
         }
         
-        function reaction()
+        public function reaction()
         {
             // get all vote
             $subcommentID =  $this->input->post("subcommentId");
@@ -273,7 +273,7 @@
                     );
                     
 
-                    if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]){
+                    if($this->session->userdata("user_id") !=  $data["subcomment"]["user_id"]){
                         $data = array(
                             "action_id" => $this->SubcommentModel->getLastComment(),
                             "type_of_notif" => "reply_react",
@@ -333,7 +333,7 @@
                         "sub_upvote" => $totalUpvote,
                         "sub_downvote" => $totalDownvote
                     );
-                    if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]){
+                    if($this->session->userdata("user_id") !=  $data["subcomment"]["user_id"]){
                         $data = array(
                             "action_id" => $this->SubcommentModel->getLastComment(),
                             "type_of_notif" => "reply_react",

@@ -4,9 +4,17 @@
 
 				<div class="counter">
 					<p>
+<<<<<<< HEAD
 						<i class="fas fa-mail-bulk"></i>
 					</p>
 					<h3><?php echo $counts["categories"];?></h3>
+=======
+						<em class="fas fa-mail-bulk"></em>
+					</p>
+					<h3>
+						<?php echo $counts["categories"];?>
+					</h3>
+>>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
                     <p>Total Categories</p>
 				</div>
 			</div>	
@@ -28,14 +36,14 @@
 						</div>
 					</div>
 					<div class="card-content">
-						<table>
+						<table aria-describedby="myTable">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Categories</th>
-									<th>Date Created</th>
-									<th> Total Posts</th>
-									<th>Remove Category</th>
+									<th scope="col" >#</th>
+									<th scope="col" >Categories</th>
+									<th scope="col" >Date Created</th>
+									<th scope="col" > Total Posts</th>
+									<th scope="col" >Remove Category</th>
 								</tr>
 							</thead>
 							<tbody>

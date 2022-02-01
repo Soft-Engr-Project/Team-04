@@ -58,7 +58,7 @@
             $data["categories"] = $this->categories_model->get_categories();
 
             // test it using form_validation
-            $this->form_validation->set_rules("title","Title","required");
+            $this->form_validation->set_rules("title","Title","required|min_length[10]");
             $this->form_validation->set_rules("body","Body","required");
 
             if($this->form_validation->run() == false) {
@@ -179,7 +179,7 @@
             $data["categories"] = $this->categories_model->get_categories();
             $data["title"]="Edit Post";
       
-            $this->form_validation->set_rules("title","Title","required");
+            $this->form_validation->set_rules("title","Title","required|min_length[10]");
             $this->form_validation->set_rules("body","Body","required");
             
             if($this->form_validation->run() == false) {

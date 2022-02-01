@@ -5,7 +5,9 @@
 					<div class="cardprofile">
 						<div class="content">
 							<div>
-								<h6><?php echo $admin["username"];?></h6>
+								<h6>
+									<?php echo $admin["username"];?>
+								</h6>
 								<h4>Admin</h4>	
 							</div>
 						</div>

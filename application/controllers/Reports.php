@@ -114,7 +114,6 @@
                 $json_data = array(
                     'response' => "error",
                     'message' => "Failed to access",
-                    'data' => $insert
                 );
             }
         echo json_encode($json_data);

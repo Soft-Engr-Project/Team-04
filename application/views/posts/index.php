@@ -10,7 +10,9 @@
                             <select name="" id="category_filter">
                                 <option value="0">Show All</option>
                                 <?php foreach ($categories as $category) :?>
-                                    <option value="<?php echo $category["category_id"];?>"><?php echo $category["name"];?></option>
+                                    <option value="<?php echo $category["category_id"];?>">
+                                        <?php echo $category["name"];?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -29,10 +31,10 @@
                         <div class="toppost">
                             <div class="circleimage">
                                 <?php if(!empty($post["user_profile_photo"])){ ?>
-                                    <img style="border: 1px solid #000000;" src="<?php echo base_url().$post["user_profile_photo"];?>" class="userprofile">
+                                    <img style="border: 1px solid #000000;" src="<?php echo base_url().$post["user_profile_photo"];?>" class="userprofile" alt="Profile Photo">
                                 <?php }
                                 else{?>
-                                    <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                    <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userprofile">
                                 <?php } ?>
                             </div>
 

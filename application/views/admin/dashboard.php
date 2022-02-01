@@ -4,9 +4,17 @@
 				<a href="users_adminview.html">
 				<div class="counter">
 					<p>
+<<<<<<< HEAD
 						<i class="fas fa-users"></i>
 					</p>
 					<h3><?php echo $counts["users"];?></h3>
+=======
+						<em class="fas fa-users"></em>
+					</p>
+					<h3>
+						<?php echo $counts["users"];?>
+					</h3>
+>>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					<p>Total Users</p>
 				</div>
 				</a>
@@ -14,7 +22,11 @@
 			<div class="col-3 col-m-6 col-sm-6">
 				<div class="counter">
 					<p>
+<<<<<<< HEAD
 						<i class="fas fa-mail-bulk"></i>
+=======
+						<em class="fas fa-mail-bulk"></em>
+>>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					</p>
 					<h3><?php echo $counts["categories"];?></h3>
 					<p>Total Categories</p>
@@ -24,9 +36,17 @@
 				<a href="#">
 				<div class="counter">
 					<p>
+<<<<<<< HEAD
 						<i class="fas fa-envelope"></i>
 					</p>
 					<h3><?php echo $counts["posts"];?></h3>
+=======
+						<em class="fas fa-envelope"></em>
+					</p>
+					<h3>
+						<?php echo $counts["posts"];?>
+					</h3>
+>>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					<p>Total Posts</p>
 				</div>
 				</a>
@@ -35,9 +55,17 @@
 				<a href="#report">
 				<div class="counter">
 					<p>
+<<<<<<< HEAD
 						<i class="fas fa-flag"></i>
 					</p>
 					<h3><?php echo $counts["reports"];?></h3>
+=======
+						<em class="fas fa-flag"></em>
+					</p>
+					<h3>
+						<?php echo $counts["reports"];?>
+					</h3>
+>>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 					<p>Total Reports</p>
 				</div>
 				</a>
@@ -48,17 +76,17 @@
 				<div class="card" id="report">
 					<div class="card-header">
 						<h3>Reports</h3>
-						<i class="fas fa-ellipsis-h"></i>
+						<em class="fas fa-ellipsis-h"></em>
 					</div>
 					<div class="card-content">
-						<table>
+						<table aria-describedby="myTable">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th class="user_report">Reports</th>
-									<th class="user_report"> Reasons</th>
-									<th>Complainant</th>
-									<th>Date</th>
+									<th scope="col" >#</th>
+									<th class="user_report" scope="col" >Reports</th>
+									<th class="user_report" scope="col" > Reasons</th>
+									<th scope="col" >Complainant</th>
+									<th scope="col" >Date</th>
 									
 								</tr>
 							</thead>
@@ -81,7 +109,7 @@
 									<td> 
 										<div class="dropdown">
 											<button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
-											<i class="fas fa-ellipsis-h"></i>
+											<em class="fas fa-ellipsis-h"></em>
 											</button>
 											<ul class="dropdown-menu">
 												<label for="editpost">
