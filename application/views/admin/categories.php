@@ -22,9 +22,9 @@
 						</h3>
 						<a href="#addcat">Add Category</a>
 						<div class="addcat" id="addcat">
-							<form action="">
-							<input type="text" placeholder="Enter new category"> 
-							<button class="savebutton">Save</button>
+							<form method = "post" action="<?php echo base_url();?>Categories/create_category">
+							<input type="text" name = "category" placeholder="Enter new category"> 
+							<button type = "submit" class="savebutton">Save</button>
 							</form>
 							<a href="#" ><button  class="removebutton">Cancel</button></a>
 						</div>
@@ -46,10 +46,15 @@
 								$count++?>
 								<tr>
 									<td><?php echo $count;?></td>
-									<td><a href="#"><?php echo $category["name"];?></a></td>
+									<td><?php echo $category["name"];?></td>
 									<td><?php echo $category["created_at"];?></td>
 									<td><?php echo $category["category_post_count"];?></td>
-									<td><button type="submit" class="removebutton">Remove</button></td>
+									<td>
+										<form method = "post" action="<?php echo base_url();?>Categories/delete_category">
+										<input type="hidden" name = "id" value = <?php echo $category["category_id"];?>> 
+										<button type="submit" class="removebutton">Remove</button>
+										</form>
+									</td>
 								</tr>
 							</tbody>
 							<?php endforeach;?>

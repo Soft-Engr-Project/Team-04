@@ -22,6 +22,14 @@
 			$this->db->where("category_id",$category_id);
 			$this->db->update($this->category_table,$data_category);
 		}
+
+		public function create($categoryData){
+			$this->db->insert($this->category_table, $categoryData);
+		}
+		public function delete($id){
+			$this->db->where("category_id",$id);
+			$this->db->delete($this->category_table);
+		}
 	}
 
 

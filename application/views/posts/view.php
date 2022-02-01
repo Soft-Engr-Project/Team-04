@@ -73,34 +73,35 @@
                               <div class="modal-dialog" >
                                 <div class="modal-content">
 
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Report</h5>
-                                </div>
+                                  <!-- Modal Header -->
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+                                  </div>
 
-                                <!-- Modal Body -->
-                                <div class="modal-body">
-                                  <div class="statusMsg"></div>
-                                  <form role="form" id="report_form">
-                                    <div class="form-group">
-                                    <input type="hidden" id="content_id" name="id" value="">
-                                      <input type="hidden" id="report_type" name="report_type" value="">
-                                      <label for="message-text" class="col-form-label">Reason:</label>
-                                      <textarea name = "reason" class="form-control" id="message-text"></textarea>
-                                    </div>
-                                  </form>
-                                </div>
+                                  <!-- Modal Body -->
+                                  <div class="modal-body">
+                                    <div class="statusMsg"></div>
+                                    <form role="form" id="report_form">
+                                      <div class="form-group">
+                                      <input type="hidden" id="content_id" name="id" value="">
+                                        <input type="hidden" id="report_type" name="report_type" value="">
+                                        <label for="message-text" class="col-form-label">Reason:</label>
+                                        <textarea name = "reason" class="form-control" id="message-text"></textarea>
+                                      </div>
+                                    </form>
+                                  </div>
 
-                                <!-- Modal Footer -->
-                                <div class="modal-footer">
-                                <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                                  <a href="#" class="btn btn-secondary" id="report_close">Close</a>
-                                  <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
-                                  </form>
+                                  <!-- Modal Footer -->
+                                  <div class="modal-footer">
+                                  <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                    <a href="#" class="btn btn-secondary" id="report_close">Close</a>
+                                    <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
+                                    </form>
+                                  </div>
+                                  
                                 </div>
                               </div>
                             </div>
-                          </div>
 
 
                         </div>

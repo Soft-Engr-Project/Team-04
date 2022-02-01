@@ -73,8 +73,14 @@
             $this->load->view("templates/adminfooter");
         }
 
-        public function fetchUser(){
+        public function fetchUsers(){
             $data["users"] = $this->User_model->get_user();
+            echo json_encode($data);
+        }
+
+        public function fetchUserInfo(){
+            $user_id = $this->input->post('user_id');
+            $data["user"] = $this->User_model->get_user($user_id);
             echo json_encode($data);
         }
     }

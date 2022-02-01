@@ -30,7 +30,6 @@
 									<th scope="col" >Username</th>
 									<th scope="col" >First Name</th>
 									<th scope="col" >Last Name</th>
-									<th scope="col" >Birthdate</th>
                                     <th scope="col" >Status</th>
 								</tr>
 							</thead>
@@ -39,11 +38,11 @@
 								foreach($users as $user):
 								$count++?>
 								<tr>
+									
 									<td><?php echo $count;?></td>
-									<td><a href="#usermodalid"><?php echo $user["username"];?></a></td>
+									<td><a href="#modal"><?php echo $user["username"];?></a></td>
 									<td><?php echo $user["firstname"];?></td>
                                     <td><?php echo $user["lastname"];?></td>
-                                    <td><?php echo $user["birthdate"];?></td>
 									<td>
 										<span class="dot">
 											<em class="bg-success"></em>
@@ -64,70 +63,57 @@
 							<div class="cardprofile">
 								<div class="content">
 									<div>
-										<h6>username</h6>
+										<h6 id = "username">username</h6>
 										<h4>User</h4>	
 									</div>
 								</div>
+
 								<div class="cardprofile-image">
-									<img src="p.jpg" alt="">
+								
+										<img id = "profile_photo" src="" alt="Profile Photo">
+									
 								</div>
 							</div>
 							<a href="#" class="connectprofile"> View Profile</a>
 						</div>
 					</div>
+
 					<div class="col-8 col-m-8 	col-sm-8">
 						<div class="card">
+						<h3><a href="#"><em class="fas fa-arrow-left"></em></a></h3>
 							<h3 class="profile_admin">Personal Information</h3>
-<<<<<<< HEAD
-							<a href="#"><i class="fas fa-arrow-left"></i></a>
-=======
-							<a href="#"><em class="fas fa-arrow-left"></em></a>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
 							<div class="row">
 								<div class="col-4 col-m-4 col-sm-4">
 									<p>Username</p>
-									<p>First Name:</p>
 									<p>Last Name:</p>
 									<p>Birthdate:</p>
-									<p>Total Posts:</p>
-									<p>Total Likes:</p>
-									<p>Total Disikes:</p>
-									<p>Total Comments:</p>
-									<p>Total Reported:</p>
+									<p>Email:</p>
 									<p>Account Created:</p>
 		
 								</div>
 								<div class="col-8 col-m-8 col-sm-8">
-									<p>Test palang</p>
-									<p>Hello</p>
-									<p>Try</p>
-									<p>03/07/2001</p>
-									<p>30</p>
-									<p>30</p>
-									<p>50</p>
-									<p>10</p>
-									<p>10</p>
-									<p>10</p>
+									<p id = "username1">username</p>
+									<p id = "firstname">firstname</p>
+									<p id = "lastname">lastname</p>
+									<p id = "birthdate">birthdate"</p>
+									<p id = "email">email</p>
+									<p id = "created_at">created_at</p>
 								</div>
 							</div>
 						</div>
-					</div>	
-				</div>		
+					</div>
+				</div>
 			</div>
 		</div>
-<<<<<<< HEAD
-	</div>
-=======
-	</div>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
+	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+		
 	<script type="text/javascript">
-
 		function fetchUser(){
 			$.ajax({
-	        url : "<?php echo base_url();?>admins/fetchUser",
+	        url : "<?php echo base_url();?>admins/fetchUsers",
 	        type : "post",
 	        success:function(data){
 	        let result = data.replace(/<!--  -->/g, "");
@@ -138,10 +124,9 @@
 	        				count++;
 							 userBody += `	<tr>
 									<td>${count}</td>
-									<td><a href="#usermodalid">${user["username"]}</a></td>
+									<td><a href="#usermodalid" id="modal" value= "${user["user_id"]}">${user["username"]}</a></td>
 									<td>${user["firstname"]}</td>
                                     <td>${user["lastname"]}</td>
-                                    <td>${user["birthdate"]}</td>
 									<td>
 										<span class="dot">`;
 											if(user["isLogin"] == 1){
@@ -156,12 +141,49 @@
 									</td>
 								</tr>`;
 	        	});
-							
+				
                 $("tbody").html(userBody);     
 	        }
 	       });
 		}
- fetchUser();
- setInterval("fetchUser()",2000);
+	top.location.href = '#'; // Reload the page to original url (closes the modal)
+	fetchUser();
+	setInterval("fetchUser()",2000);
+
+	$(document).on("click","#modal",function(e){
+		e.preventDefault();
+		var user_id = $(this).attr("value"); // Get the ID of clicked user
+		
+		$.ajax({
+			url : "<?php echo base_url();?>admins/fetchUserInfo",
+			type : "post",
+			data : {
+				user_id : user_id,
+		
+			},
+			success : function(data){
+			let result = data.replace(/<!--  -->/g, "");
+			data = JSON.parse(result);
+			url = "<?php echo base_url()?>"
+			
+			// Change the values of the modal to user infos
+			if(data['user']['user_profile_photo']){
+				$("#profile_photo").attr('src', url+data['user']['user_profile_photo']) 
+			}else {
+				$("#profile_photo").attr('src', url+"assets/image/user.png")
+			}
+			$('#username').text(data['user']['username']);
+			$('#username1').text(data['user']['username']);
+			$('#firstname').text(data['user']['firstname']);
+			$('#lastname').text(data['user']['lastname']);
+			$('#birthdate').text(data['user']['birthdate']);
+			$('#created_at').text(data['user']['created_at']);
+
+			top.location.href = '#usermodalid'; // Works like and href in <a>
+			
+			}
+
+		});
+        
+    })
 	</script>
->>>>>>> 2cece99fc33a2f5c76b8d793a558efd77cc39302
