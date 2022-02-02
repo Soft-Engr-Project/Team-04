@@ -85,6 +85,7 @@
 									<td><?php echo $report["created_at"];?> </td>
 
 									<td> 
+										
 										<div class="dropdown">
 											<button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
 											<em class="fas fa-ellipsis-h"></em>
@@ -92,18 +93,27 @@
 											<ul class="dropdown-menu">
 												<label for="editpost">
 												<li class="dropdown-item">
-												<?php echo form_open("posts/edit/".$post["id"]);?>
+												<?php echo form_open("posts/delete/".$report["post_id"]);?>
 													<input type="submit" id="editpost">
-														Edit
+														Delete Post
 												</form>
 												</li>
 												</label>  
 
 												<label for="remove">
 												<li class="dropdown-item"> 
-												<?php echo form_open("posts/delete/".$post["id"]);?>
+												<?php echo form_open("posts/delete/".$report["id"]);?>
 													<input type="submit" id="remove">
-														Remove 
+														Delete Report 
+												</form>
+												</li>
+												</label> 
+
+												<label for="remove">
+												<li class="dropdown-item"> 
+												<?php echo form_open("posts/delete/".$report["user_id"]);?>
+													<input type="submit" id="remove">
+														Suspend user
 												</form>
 												</li>
 												</label> 

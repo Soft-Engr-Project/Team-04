@@ -52,10 +52,28 @@
         if($key['keyword']){ // if there is any input
             $this->db->where("title like '%".$key['keyword']."%' ");
             $this->db->limit(5);
-            $result = $this->db->get('posts')->result();
-            foreach($result as $row){
-                $response[] = array("label"=>$row->title);
+            $result['Threads'] = $this->db->get('posts')->result();
+
+            $this->db->like('content', $key['keyword']); 
+            $this->db->limit(5);
+            $result['Comments'] = $this->db->get('discussion')->result();
+
+            $this->db->like('username', $key['keyword']); 
+            $this->db->limit(5);
+            $result['Profiles'] = $this->db->get('users')->result();
+
+            foreach ($result as $key=>$value){
+              foreach($value as $row){
+                if ($key == 'Threads'){
+                  $response[] = array("label"=>$row->title);
+                }else if ($key == 'Comments'){
+                  $response[] = array("label"=>$row->content);
+                }else {
+                  $response[] = array("label"=>$row->username);
+                }
+              }
             }
+            
         }
         return $response;
       }
