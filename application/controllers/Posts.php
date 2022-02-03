@@ -333,6 +333,7 @@
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $get_post["user_id"],
                             "post_id" => $get_post["id"],
+                            "comment_id" => NULL,
                             "read_status" => 0
                     );
                     
@@ -391,6 +392,7 @@
                         "user_id" => $this->session->userdata("user_id"),
                         "owner_id" => $get_post["user_id"],
                         "post_id" => $get_post["id"],
+                        "comment_id" => NULL,
                         "read_status" => 0
                     );
                     $this->notification_model->create_notification($notifData);

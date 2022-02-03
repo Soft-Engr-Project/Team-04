@@ -97,7 +97,7 @@ document.querySelector('body').style.background = rgbaColor;
                     if(notify["type_of_notif"] == "comment"){
                      notificationBody += `
                         <div class="notify_item">
-                            <a href="<?php echo base_url();?>posts/view/${notify['post_id']}">
+                            <a href="<?php echo base_url();?>posts/view/${notify['action_id']}">
                             <div class="notify_img">
                                  <div class="circleimage">`;
                                     if(notify["user_profile_photo"]){
@@ -142,7 +142,7 @@ document.querySelector('body').style.background = rgbaColor;
                     else if(notify["type_of_notif"] == 'react'){
                                     notificationBody += `
                                     <div class="notify_item">
-                                        <a href="<?php echo base_url();?>posts/view/${notify['post_id']}">
+                                        <a href="<?php echo base_url();?>posts/view/${notify['action_id']}">
                                         <div class="notify_img">
                                             <div class="circleimage">`;
                                                       if(notify["user_profile_photo"]){ 
@@ -183,7 +183,7 @@ document.querySelector('body').style.background = rgbaColor;
                                     else if(notify["type_of_notif"] == 'reply') {
                                     notificationBody += `
                                     <div class="notify_item">
-                                        <a href="<?php echo base_url();?>subcomments/view/${notify['post_id']}">
+                                        <a href="<?php echo base_url();?>subcomments/view/${notify['action_id']}">
                                         <div class="notify_img">
                                             <div class="circleimage">`;
                                                 if(notify["user_profile_photo"]) { 
@@ -224,10 +224,10 @@ document.querySelector('body').style.background = rgbaColor;
                                     else if(notify["type_of_notif"] == 'reply_react') {
                                         notificationBody += `
                                         <div class="notify_item">
-                                            <a href="<?php echo base_url();?>subcomments/view/${notify['post_id']}">
+                                            <a href="<?php echo base_url();?>subcomments/view/${notify['action_id']}">
                                             <div class="notify_img">
                                                 <div class="circleimage">`;
-                                                    if($notify["user_profile_photo"]){ 
+                                                    if(notify["user_profile_photo"]){ 
                                                         notificationBody += `<img src="<?php echo base_url()?>${notify['user_profile_photo']}" class="userprofile" >`;
                                                     } else{
                                                         notificationBody += `<img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">`;

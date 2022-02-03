@@ -40,11 +40,13 @@
                     // for notification
                     if($this->session->userdata("user_id") != $data["post"]["user_id"]) {
                         $notifData = array(
-                            "action_id" => $this->comments_model->get_last_comment(),
+                            "action_id" => $data["post"]["id"],
                             "type_of_notif" => "comment",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $data["post"]["user_id"],
-                            "post_id" => $data["post"]["id"],
+                            "post_id" => null,
+                            "comment_id" => $this->Comments_model->getLastCommentInPost(),
+                            "subcomment_id"=>null,
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($notifData);  
@@ -115,7 +117,7 @@
             $reactID = $data["comment"]["react_id"];
             $json = file_get_contents(FCPATH."reaction.json");
             $json =  json_decode($json,true);
-        
+            
             $totalUpvote = $data["comment"]["upvote"];
             $totalDownvote = $data["comment"]["downvote"];
             $user = $this->session->userdata("user_id");
@@ -141,7 +143,7 @@
                         "upvote" => $totalUpvote,
                         "downvote" => $totalDownvote
                     );
-                    $this->notification_model->notification_delete($commentID);
+                    $this->notification_model->notification_delete(null,$commentID);
                     $this->post_model->delete_reaction($reactID,$reactData);
                     $this->comments_model->update_upvotes($commentID,$upvoteData);
                 }
@@ -151,7 +153,7 @@
                         $index = array_search($user,$json["down_user_id"]); 
                         unset($json["down_user_id"][$index]);
                         $totalDownvote -= 1;
-                        $this->notification_model->notification_delete($commentID);
+                        $this->notification_model->notification_delete(null,$commentID);
                     }
                     $json["up_user_id"][] = $user;
                     $json = json_encode($json);
@@ -167,11 +169,12 @@
 
                     if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]) {
                         $notifData = array(
-                            "action_id" =>  $commentID,
+                            "action_id" => $data["comment"]["post_id"],
                             "type_of_notif" => "react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $data["comment"]["user_id"],
-                            "post_id" => $data["comment"]["post_id"],
+                            "post_id" => null,
+                            "comment_id" => $data["comment"]["comment_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($notifData);  
@@ -200,7 +203,7 @@
                         "downvote" => $totalDownvote
                     );
 
-                    $this->notification_model->notification_delete($commentID);
+                    $this->notification_model->notification_delete(null,$commentID);
                     $this->post_model->delete_reaction($reactID,$reactData);
                     $this->comments_model->update_upvotes($commentID,$downvoteData);
                 }
@@ -210,7 +213,7 @@
                         $index = array_search($user,$json["up_user_id"]);
                         unset($json["up_user_id"][$index]);
                         $totalUpvote -= 1;
-                         $this->notification_model->notification_delete($commentID);
+                         $this->notification_model->notification_delete(null,$commentID);
                     }
                     $json["down_user_id"][] = $user;
                     $json = json_encode($json);
@@ -225,11 +228,12 @@
                     );
                     if($this->session->userdata("user_id") != $data["comment"]["user_id"]) {
                     $notifData = array(
-                            "action_id" =>  $commentID,
+                            "action_id" =>  $data["comment"]["post_id"],
                             "type_of_notif" => "react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $data["comment"]["user_id"],
-                            "post_id" => $data["comment"]["post_id"],
+                            "post_id" => null,
+                            "comment_id" => $data["comment"]["comment_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($notifData);  
@@ -263,7 +267,7 @@
                     );
                     $this->comments_model->delete_posts($commentID);
                     // delete also the notification
-                    $this->notification_model->notification_delete($commentID);
+                    $this->notification_model->notification_delete(null,$commentID);
                     $this->post_model->delete_reactions($reactID);
                     $this->comments_model->comment_counts($postID,$commentCount);
                     $json_data = array("response" => "success");

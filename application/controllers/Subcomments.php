@@ -48,7 +48,7 @@
                     $reactId = $this->Post_model->create_reaction_log($jsonData);
                     $body = $this->input->post("reply");
                     // gusto ko lang iistore yung data sa subcomment
-                    $data = array(
+                    $dataSubcomment = array(
                     	"comment_id" => $commentId,
                     	"user_id" => $this->session->userdata("user_id"),
                     	"react_id" => $reactId,
@@ -66,20 +66,22 @@
                         "subcomment_count" => $commentCount
 
                     );
-                    $data = $this->security->xss_clean($data);
-                    $this->SubcommentModel->create($data);
+                    $dataSubcomment = $this->security->xss_clean($dataSubcomment);
+                    $this->SubcommentModel->create($dataSubcomment);
                     // $this->comments_model->create($data);
                     // // for notification
                     if($this->session->userdata("user_id") !=  $data["comment"]["user_id"]){
-                        $data = array(
-                            "action_id" => $this->SubcommentModel->getLastComment(),
+                        $dataNotif = array(
+                            "action_id" => $data["comment"]["comment_id"],
                             "type_of_notif" => "reply",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $data["comment"]["user_id"],
-                            "post_id" => $data["comment"]["comment_id"],
+                            "post_id" => null,
+                            "comment_id" => null,
+                            "subcomment_id" =>$this->SubcommentModel->getLastComment(),
                             "read_status" => 0
                         );
-                        $this->notification_model->create_notification($data);  
+                        $this->notification_model->create_notification($dataNotif);  
                     }
                     $this->Comments_model->subcomment_counts($data["comment"]["comment_id"],$subcommentCount);
                     $json_data = array("response" => "success","message" => "Create comment successfully");          
@@ -141,7 +143,7 @@
                     else {
                         $this->SubcommentModel->deleteSubcomment($subcommentId);
                         // delete also the notification
-                        $this->notification_model->notification_delete($subcommentId);
+                        $this->notification_model->notification_delete(null,null,$subcommentId);
                         $this->Post_model->delete_reactions($reactID);
                         $data["comment"] = $this->Comments_model->getSubcommentsCount($commentID);
                         $commentCount = $data["comment"]["subcomment_count"] - 1;
@@ -216,6 +218,7 @@
             $subcommentID =  $this->input->post("subcommentId");
             $voteType = $this->input->post("type_of_vote");
             $data["subcomment"] = $this->SubcommentModel->getSpecificSubcomments($subcommentID);
+            $data["comment"] = $this->comments_model->get_specific_comment($data["subcomment"]["comment_id"]);
             $reactID = $data["subcomment"]["react_id"];
             $json = file_get_contents(FCPATH."reaction.json");
             $json =  json_decode($json,true);
@@ -227,7 +230,6 @@
 
             if($voteType == "up_react") {
                
-                
                 // pangcheck kung nagreact na sa upvote or downvote
                 $upvoteJson = $json["up_user_id"];
                 $downvoteJson = $json["down_user_id"];
@@ -247,7 +249,7 @@
                         "sub_downvote" => $totalDownvote
                     );
                     
-                    $this->notification_model->notification_delete($subcommentID);
+                    $this->notification_model->notification_delete(null,null,$subcommentID);
                     $this->post_model->delete_reaction($reactID,$reactData);
                     $this->SubcommentModel->updateUpvotes($subcommentID,$upvoteData);
                 }
@@ -258,7 +260,7 @@
                         unset($json["down_user_id"][$index]);
                         $totalDownvote -= 1;
                         
-                        $this->notification_model->notification_delete($subcommentID);
+                        $this->notification_model->notification_delete(null,null,$subcommentID);
                     }
                     $json["up_user_id"][] = $user;
                     $json = json_encode($json);
@@ -272,14 +274,15 @@
                         "sub_downvote" => $totalDownvote
                     );
                     
-
                     if($this->session->userdata("user_id") !=  $data["subcomment"]["user_id"]){
                         $data = array(
-                            "action_id" => $this->SubcommentModel->getLastComment(),
+                            "action_id" => $data["subcomment"]["comment_id"],
                             "type_of_notif" => "reply_react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $data["comment"]["user_id"],
-                            "post_id" => $data["comment"]["comment_id"],
+                            "post_id" => null,
+                            "comment_id" => null,
+                            "subcomment_id" =>$data["subcomment"]["subcomment_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($data);  
@@ -308,7 +311,7 @@
                         "sub_downvote" => $totalDownvote
                     );
                    
-                    $this->notification_model->notification_delete($subcommentID);
+                    $this->notification_model->notification_delete(null,null,$subcommentID);
                    
                     $this->post_model->delete_reaction($reactID,$reactData);
                     $this->SubcommentModel->updateUpvotes($subcommentID,$downvoteData);
@@ -320,7 +323,7 @@
                         unset($json["up_user_id"][$index]);
                         $totalUpvote -= 1;
             
-                         $this->notification_model->notification_delete($subcommentID);
+                         $this->notification_model->notification_delete(null,null,$subcommentID);
                     }
                     $json["down_user_id"][] = $user;
                     $json = json_encode($json);
@@ -335,11 +338,11 @@
                     );
                     if($this->session->userdata("user_id") !=  $data["subcomment"]["user_id"]){
                         $data = array(
-                            "action_id" => $this->SubcommentModel->getLastComment(),
+                            "action_id" => $data["subcomment"]["comment_id"],
                             "type_of_notif" => "reply_react",
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $data["comment"]["user_id"],
-                            "post_id" => $data["comment"]["comment_id"],
+                            "post_id" => $data["comment"]["post_id"],
                             "read_status" => 0
                         );
                         $this->notification_model->create_notification($data);  
