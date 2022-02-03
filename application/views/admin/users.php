@@ -69,22 +69,21 @@
 								</div>
 
 								<div class="cardprofile-image">
-								
 										<img id = "profile_photo" src="" alt="Profile Photo">
-									
 								</div>
 							</div>
-							<a href="#" class="connectprofile"> View Profile</a>
+							
 						</div>
 					</div>
 
 					<div class="col-8 col-m-8 	col-sm-8">
-						<div class="card">
+						<div style = "margin-top:30px; margin-right:12px" class="card">
 						<h3><a href="#"><em class="fas fa-arrow-left"></em></a></h3>
 							<h3 class="profile_admin">Personal Information</h3>
 							<div class="row">
 								<div class="col-4 col-m-4 col-sm-4">
 									<p>Username</p>
+									<p>First Name:</p>
 									<p>Last Name:</p>
 									<p>Birthdate:</p>
 									<p>Email:</p>

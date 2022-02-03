@@ -4,6 +4,9 @@
         public function __construct()
         {
             parent::__construct();
+            if ($this->session->userdata("logged_in") != true) {
+                show_404();
+            }
             $this->load->model('Comments_model');
             $this->load->model('Categories_model');
         }

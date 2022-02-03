@@ -118,6 +118,14 @@
             }
         echo json_encode($json_data);
         }
+
+        public function delete($id)
+        {
+            // check kung nag send ba ng request galing sa ajax
+            //$id = $this->input->post('report_id');
+            $this->Reports_model->delete_report($id);
+            redirect("admins/dashboard");
+        }
             
     }
 

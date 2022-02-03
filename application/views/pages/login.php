@@ -13,22 +13,24 @@
                             ?>
                             <div class="myForm text-center">
                                 <?php echo form_open("Logins/login") ;?>
-                                <header> Sign In</header>  
-                                <div class="sign_icon">
-                                    <input type="text" class="myinput" placeholder="USERNAME" name="username" >
-                                    <em class="fa fa-user  fa-2xl"></em>    
-                                    <input type="password" class="myinput" id="password" placeholder="PASSWORD" name="password" >
-                                    <em class="fa fa-lock  fa-2xl"></em>
-                                </div>
-                                <div class="visiblepassword">
-                                    <em class="fa fa-eye fa-xl" id="eye" onclick="show()"></em>
-                                </div>   
+                                    <header> Sign In</header>  
+                                    <div class="sign_icon">
+                                        <input type="text" class="myinput" placeholder="USERNAME" name="username" >
+                                        <em class="fa fa-user  fa-2xl"></em>    
+                                        <input type="password" class="myinput" id="password" placeholder="PASSWORD" name="password" >
+                                        <em class="fa fa-lock  fa-2xl"></em>
+                                    </div>
+                                    <div class="visiblepassword">
+                                        <em class="fa fa-eye fa-xl" id="eye" onclick="show()"></em>
+                                    </div>   
+                                    
+                                    <a href="<?php echo site_url("ForgotPassword/forgot_password"); ?>"> <p>Forgot password?</p>  </a>
+                                    
+                                    <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
+                                </form>
                                 
-                                <a href="<?php echo site_url("ForgotPassword/forgot_password"); ?>"> <p>Forgot password?</p>  </a>
-                                <h6 class="error"><?php echo isset($error)? $error : "" ;?></h6>
-                                <a href="#"><input type="submit" class="button1" name="login_user" value="Sign In"></a>
-                            </form>
-                        </div>
+                            </div>
+                            <h6 class="error"><?php echo isset($error)? $error : "" ;?></h6>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -38,6 +40,7 @@
                             <a href="<?php echo site_url("Signup/register"); ?>"><input type="submit" class="button1" value="Create new account"></a>          
                         </div>
                     </div>
+                    
                 </div>
             </div>
          </div>

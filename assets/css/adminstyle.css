@@ -744,3 +744,36 @@ tbody .removebutton{
     background-color: #314754;
     color: white;
 }
+.dropdown input{
+    display: none;
+    margin-top: -5px;
+}
+
+.dropdown button{
+    border-radius: 20px;
+    color: inherit;
+    border: none;
+    padding: none;
+}
+
+.dropdown button img{
+    width: 40px;
+    height: 40px;
+}
+
+.dropdown ul{
+    background-color: #314754;
+    text-align: center;
+    width: 1px;
+}
+
+.dropdown ul label li, .dropdown ul a{
+    color: white; 
+    text-decoration: none;
+}
+
+.dropdown ul li:hover, .dropdown ul a :hover{
+    background-color: #7C9784;
+    color: white;
+    cursor: pointer;
+}
