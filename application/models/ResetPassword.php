@@ -26,7 +26,7 @@ class ResetPassword extends CI_Model{
     }
 
   // CHECK IF EMAIL EXISTS
-  function checkEmail($email) {
+  public function checkEmail($email) {
     $this->db->select('*');
     $this->db->where('email', $email);
     $query = $this->db->get('users');

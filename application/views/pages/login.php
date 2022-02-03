@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en">
+<title>Thinklik</title>
 <body id="signin">
         <div class="squareyellow">
             <div class="card">

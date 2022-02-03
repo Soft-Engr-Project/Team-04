@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 
 	class Categories_model extends CI_Model{
 		private $category_table = "categories";
@@ -33,4 +33,4 @@
 	}
 
 
-?> -->
+?>

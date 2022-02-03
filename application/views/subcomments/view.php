@@ -51,9 +51,9 @@
                     </div>
                     </div>  
                     </div>
-                    <center>
+                    <div style="display: flex;justify-content: center;">
                         <h3>Replies</h3>
-                    </center>
+                    </div>
                   
                   <div id="subcomments_container">
 

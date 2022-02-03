@@ -122,10 +122,10 @@
                 <li style="position:relative;" class="nav-item dropdown">
                     <a class="nav-link " role="button" onclick="settingsMenuToggle()">
                         <?php if(!empty($user["user_profile_photo"])){ ?>
-                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"];?>" class="userpic rounded-circle position-absolute">
+                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"];?>" alt="Profile Photo" class="userpic rounded-circle position-absolute">
                             <?php }
                             else{?>
-                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userpic rounded-circle position-absolute">
+                                <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userpic rounded-circle position-absolute">
                         <?php } ?>
                     </a>
                 </li>   
@@ -138,10 +138,10 @@
                         <div class="col-lg-4">
                             <a href="<?php echo site_url("profiles/view");?>">
                                 <?php if(!empty($user["user_profile_photo"])){ ?>
-                                            <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userpic" >
+                                            <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userpic" alt="Profile Photo">
                                         <?php }
                                         else{?>
-                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userpic">
+                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userpic">
                                 <?php } ?>
                             </a>
                         </div>

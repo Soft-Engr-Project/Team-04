@@ -2,8 +2,8 @@
 	<?=$title?>
 </h2>
 <div class="row">
-	<?php if(!empty($notification)){?>
-<?php foreach ($notification as $notify): ?>
+	<?php if(!empty($notification)) {?>
+<?php foreach ($notification as $notify) : ?>
 		<?php if($notify["type_of_notif"] == "comment"){?>
 				
 				<div>
@@ -11,7 +11,7 @@
 				</div>
 				
 			
-		<?php }elseif($notify["type_of_notif"] == 'react'){?>
+		<?php }elseif($notify["type_of_notif"] == 'react') {?>
 			<div>
 				<p><a href="<?php echo site_url("posts/view/".$notify["post_id"]);?>"><?php echo $notify["username"]?> reacted to your comment</a></p>
 			</div>

@@ -18,7 +18,9 @@
 					<p>
 						<em class="fas fa-mail-bulk"></em>
 					</p>
-					<h3><?php echo $counts["categories"];?></h3>
+					<h3>
+						<?php echo $counts["categories"];?>
+					</h3>
 					<p>Total Categories</p>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 <a href="<?php echo base_url();?>profiles/view">
-    <i class="fas fa-arrow-circle-left btn btn-secondary btn-lg px-3 py-1"></i>
+    <em class="fas fa-arrow-circle-left btn btn-secondary btn-lg px-3 py-1"></em>
 </a>
 <h1><?=$title;?></h1>
 <small class="post-date">Posted on <?php echo $post["created_at"];?></small>
