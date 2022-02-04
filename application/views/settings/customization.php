@@ -8,7 +8,7 @@
 <div class="color-picker"></div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js" ></script>
 </form>
 </div>
 
