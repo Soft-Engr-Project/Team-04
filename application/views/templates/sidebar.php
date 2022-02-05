@@ -6,7 +6,7 @@
 	<div class="sidebar">
 		<ul class="sidebar-nav">
 			<li class="sidebar-nav-item">
-				<a href="#" class="sidebar-navlink">
+				<a href="<?php echo base_url();?>personalinfo/update" class="sidebar-navlink">
 					<div>
 						<em class="fas fa-info-circle"></em>
 					</div>
@@ -16,7 +16,7 @@
 				</a>
 			</li>
 			<li class="sidebar-nav-item">
-				<a href="users_adminview.html" class="sidebar-navlink">
+				<a href="<?php echo base_url();?>customization/view" class="sidebar-navlink">
 					<div>
 						<em class="fas fa-caret-square-up"></em>
 					</div>

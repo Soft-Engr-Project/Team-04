@@ -77,11 +77,13 @@
                 },
                 beforeSend: function(){
                     $("#filterposting").html('<div class="loading loading--full-height"></div>');
+                          
                 },
                 success:function(data){
                     
                     let result = data.replace(/<!--  -->/g, "");
                     data = JSON.parse(result);
+                    console.log(data);
                     
                     
                     // check natin kung malaman si
@@ -94,8 +96,9 @@
                             posting+= `<div class="categoriesdiv">
                                         <h3>${element["name"]}</h3>
                                         </div>`
-                                        count++;}
-                               
+                                        count++;
+                            }
+                            
                              posting+=` <div class="homethread">
                             <div class="toppost">
                                 <div class="circleimage">`
@@ -116,6 +119,15 @@
                             </div> 
                         </div> `
                         });
+                        if( data["posts"] == ""){
+                             posting+= `<div class="categoriesdiv">
+                                        <h3>${data["categories"][cat-1]["name"]}</h3>
+                                        </div>`;
+                             posting+=`<div class="homethread">          
+                            <h3>No post in this section</h3>
+                        </div>  `;
+                        }
+
 
                     $("#filterposting").html(posting);
                 }else{

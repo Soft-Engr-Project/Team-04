@@ -150,7 +150,7 @@
                         </div>
                         <hr>
                     </div>
-                    <a href="<?php echo base_url();?>pages/view/settings">Settings</a>
+                    <a href="<?php echo base_url();?>Personalinfo/update">Settings</a>
                     <a href="<?php echo base_url();?>customization/view">Customization</a>
                     <a href="<?php echo base_url();?>pages/view/logout">Logout</a>
                 </div>
