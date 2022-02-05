@@ -14,7 +14,7 @@
                     </div>
                     <div class="topname">
                         <?php $no=1; foreach ($postsTop as $post): ?>
-                        <p><?php echo $no++;?>.  <a href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
+                        <p><a href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo $no++;?>.<?php echo word_limiter($post["title"],2)?></a></p>
                         <?php endforeach ?>
                     </div>
                     <div class="allcat">

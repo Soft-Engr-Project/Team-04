@@ -145,7 +145,7 @@
                                 <?php } ?>
                             </a>
                         </div>
-                        <div style="margin-right: 22px;" class="col">
+                        <div class="col-lg-8">
                             <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>
@@ -157,11 +157,4 @@
             </div>
         </nav>
         </ul>
-    </nav>
-
-
-    
-
-
-
-    
+    </nav> 

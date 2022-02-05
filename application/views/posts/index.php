@@ -48,8 +48,8 @@
                     <?php endif;?>
                     <?php endforeach;?>
                     <?php  }else {?>
-                        <div class="toppost">
-                            <h4>No post in this section.</h4>
+                        <div class="homethread">          
+                            <h3>No post in this section</h3>
                         </div>  
                     <?php } ?>  
                     <?php endforeach;?> 
@@ -153,12 +153,9 @@
                              }
                          });
                         }else {
-                               posting+=` <div class="row">
-                                    <div class="mt-5">
-                                         <h3 class="col-lg-12">No post in this section</h3>
-                                    </div>
-                                   
-                                 </div>`;
+                               posting+=`<div class="homethread">          
+                            <h3>No post in this section</h3>
+                        </div>  `;
                          }   
                         posting+=`</div>`;
                     });

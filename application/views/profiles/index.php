@@ -51,7 +51,7 @@
                                             <img src="<?php echo base_url().$post["post_image"];?>" alt=""> </h6>
                                         <?php endif;?>
                                         <h6><?php echo character_limiter($post["body"],300);?></h6>
-                                        <p>Posted on: <?php echo $post["created_at"];?></p>
+                                        <h5>Posted on: <?php echo $post["created_at"];?></h5>
             
                                         <div class="threadmore">
                                             <div class="profilereaction">
