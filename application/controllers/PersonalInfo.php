@@ -46,7 +46,9 @@
                 $this->Personalize_model->update_user($userData); // Update database
 
                 $data['title'] = 'Settings';
-                $this->load->view("pages/settings", $data);
+                $data["user"] = $this->user_model->get_user($userID);
+                $this->load->view("templates/header",$data);
+                $this->load->view("pages/settings");
                 
             }
             $this->load->view("templates/footer");

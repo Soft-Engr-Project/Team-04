@@ -28,7 +28,7 @@ class Post_model extends CI_Model{
         $query = $this->db->get($this->post_table);
         return $query->row_array();
     }
-    public function get_posts_for_filter($id,$limit=NULL,$offset=NULL){
+    public function get_posts_for_categories($id){
         if($id > 0){
             $this->db->where($this->post_table.".category_id",$id);
             $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
@@ -36,6 +36,23 @@ class Post_model extends CI_Model{
             $query = $this->db->get($this->post_table);
         }
         else{
+            $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+            $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $query = $this->db->get($this->post_table);
+        }
+        return $query->result_array();
+    }
+
+    public function get_posts_for_filter($categoryID, $filterBy){
+        if ($categoryID > 0) {
+            $this->db->where($this->post_table.".category_id", $categoryID);
+            $this->db->order_by($filterBy, "DESC");
+            $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+            $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $query = $this->db->get($this->post_table);
+        }
+        else {
+            $this->db->order_by($filterBy, "DESC");
             $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
             $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
             $query = $this->db->get($this->post_table);

@@ -21,9 +21,19 @@
         {
             
             $post = $_GET['category'];
-          
+            $by = $_GET['keyword'];
             $data["categories"] = $this->categories_model->get_categories();
-            $data["posts"]=  $this->post_model->get_posts_for_filter($post);
+            $data["posts"]=  $this->post_model->get_posts_for_filter($post, $by);
+            echo json_encode($data);
+                    
+        }
+
+        public function filter()
+        {
+            $post = $_GET['category'];
+            $by = $_GET['keyword'];
+            $data["categories"] = $this->categories_model->get_categories();
+            $data["posts"]=  $this->post_model->get_posts_for_filter($post, $by);
             echo json_encode($data);
                     
         }
@@ -46,6 +56,7 @@
 
             $this->load->view("templates/header", $data);
             $this->load->view("posts/view");
+            $this->load->view("posts/view_scripts");
             $this->load->view("templates/footer");
         }
 

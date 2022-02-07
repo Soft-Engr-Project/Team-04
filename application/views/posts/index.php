@@ -1,12 +1,7 @@
                <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="divcategor">
-                            <p>Categories:</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="divfilter">
-                            <span class="labelfilter">Filter: </span>
+                            <span class="labelfilter">Categories: </span>
                             <select name="" id="category_filter">
                                 <option value="0">Show All</option>
                                 <?php foreach ($categories as $category) :?>
@@ -14,6 +9,16 @@
                                         <?php echo $category["name"];?>
                                     </option>
                                 <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <div class="divfilter">
+                            <span class="labelfilter">Filter: </span>
+                            <select name="" id="post_filter">
+                                <option value="post_created_at">Newest</option>
+                                <option value="upvote">Relevant</option>
+                                <option value="post_comment_count">Popular</option>
                             </select>
                         </div>
                     </div>
@@ -66,24 +71,31 @@
                 let a = $(this).val();
                 posting();
             })
+            $("#post_filter").change(function(){
+                let a = $(this).val();
+                posting();
+            })
         })
         function posting(){
             var cat = $("#category_filter").val();
+            var key = $("#post_filter").val();
             console.log(cat);
+            console.log(key);
             $.ajax({
                 url : "<?php echo base_url("posts/post_filter");?>",
                 data : {
-                    category : cat
+                    category : cat,
+                    keyword: key
                 },
                 beforeSend: function(){
                     $("#filterposting").html('<div class="loading loading--full-height"></div>');
                           
                 },
                 success:function(data){
-                    
+                   
                     let result = data.replace(/<!--  -->/g, "");
                     data = JSON.parse(result);
-                    console.log(data);
+                    
                     
                     
                     // check natin kung malaman si
