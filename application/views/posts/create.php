@@ -6,7 +6,7 @@
 <div style="width: 100vw;
     height: 100vh;" class="container"> 
 <?php echo validation_errors();?>
-<?php echo form_open_multipart("posts/create") ;?>
+<?php echo form_open_multipart("posts/create");?>
   <div class="form-group">
     <label for="title">Title : </label>
     <input type="text" class="form-control" name="title">
@@ -19,7 +19,9 @@
     <label for="">Categories:</label>
     <select name="category_id" class="form-control ">
     <?php foreach($categories as $category):?>
-      <option value="<?php echo $category['category_id'];?>"><?php echo $category['name'];?></option>
+      <option value="<?php echo $category['category_id'];?>">
+        <?php echo $category['name'];?>
+      </option>
     <?php endforeach;?>
     </select>
   </div>

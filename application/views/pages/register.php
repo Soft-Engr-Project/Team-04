@@ -3,10 +3,9 @@
   <div class="header">
   	<h2>Register</h2>
   </div>
-
- <?php echo validation_errors();?>
-  <?php echo form_open("posts/register") ;?>
-  	<div class="input-group">
+  <?php echo validation_errors();?>
+  <?php echo form_open("posts/register");?>
+  <div class="input-group">
   	  <label>Username</label>
   	  <input type="text" name="username" >
   	</div>

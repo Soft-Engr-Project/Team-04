@@ -4,11 +4,11 @@
                             <span class="labelfilter">Categories: </span>
                             <select name="" id="category_filter">
                                 <option value="0">Show All</option>
-                                <?php foreach ($categories as $category) :?>
+                                <?php foreach($categories as $category) :?>
                                     <option value="<?php echo $category["category_id"];?>">
                                         <?php echo $category["name"];?>
                                     </option>
-                                <?php endforeach; ?>
+                                <?php endforeach;?>
                             </select>
                         </div>
                     </div>

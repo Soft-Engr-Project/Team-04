@@ -1,9 +1,8 @@
 <div onclick="checkMousePointer()">
-    
 <?php if (!isset($_SESSION['username'])) {
-    $_SESSION['msg'] = "You must log in first";
-    redirect("/");
-  }
+        $_SESSION['msg'] = "You must log in first";
+        redirect("/");
+    }
 ?>
     <div style="height: 100vh;"class="container-fluid">
         <div class="row">
@@ -14,7 +13,9 @@
                     </div>
                     <div class="topname">
                         <?php $no=1; foreach ($postsTop as $post): ?>
-                        <p><a href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo $no++;?>.<?php echo word_limiter($post["title"],2)?></a></p>
+                        <p><a href="<?php echo base_url()."posts/view/".$post["id"];?>">
+                            <?php echo $no++;?>.<?php echo word_limiter($post["title"],2)?>
+                        </a></p>
                         <?php endforeach ?>
                     </div>
                     <div class="allcat">
@@ -22,7 +23,9 @@
                     </div>
                     <div class="categories">
                         <?php foreach ($categories as $category): ?>
-                            <p><a href="#"><?php echo $category["name"];?> </a></p>
+                            <p><a href="#">
+                                <?php echo $category["name"];?>
+                            </a></p>
                         <?php endforeach; ?>                  
                     </div>
                 </div>

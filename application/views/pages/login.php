@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xml:lang="en">
-<title>Thinklik</title>
+<head>
+    <title>Thinklik</title>
+</head>
 <body id="signin">
         <div class="squareyellow">
             <div class="card">
@@ -8,9 +10,10 @@
                     <div class="col-lg-6">
                         <div class="myleftsignin">
                              <?php 
-    
-                                //if user attempts in login page after login, redirect to homepage
-                                if (isset($_SESSION['username']))redirect("pages/view");
+                             //if user attempts in login page after login, redirect to homepage
+                                if (isset($_SESSION['username'])) {
+                                    redirect("pages/view");
+                                }
                             ?>
                             <div class="myForm text-center">
                                 <?php echo form_open("Logins/login") ;?>

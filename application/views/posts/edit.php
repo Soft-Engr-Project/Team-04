@@ -6,10 +6,9 @@
 </br>
 <h1><?=$title?></h1>
 <?php echo validation_errors();?>
-<?php echo form_open_multipart("posts/update") ;?>
+<?php echo form_open_multipart("posts/update");?>
 	<input type="hidden" name="id" value="<?php echo $post['id']?>">
   <input type="hidden" name="post_image" value="<?php echo $post['post_image']?>">
-	<!-- <input type="hidden" name="slug" value="<?php echo $slug;?>"> -->
   <div class="form-group">
   <?php if(isset($post["post_image"])):?>
 			<img src="<?php echo base_url();?>assets/images/posts/<?php echo $post["post_image"];?>" alt="" width="300">
@@ -21,7 +20,9 @@
   </div>
   <div class="form-group">
     <label for="body">Body :</label>
-    <textarea  class="form-control" id='editor1' name="body"><?php echo $post['body'];?></textarea>
+    <textarea  class="form-control" id='editor1' name="body">
+      <?php echo $post['body'];?>
+    </textarea>
   </div>
   <!-- // Replace the <textarea id="editor1"> with a CKEditor 4
   instance, using default configuration. -->
@@ -32,7 +33,9 @@
     <label for="">Categories:</label>
     <select name="category_id" class="form-control ">
     <?php foreach($categories as $category):?>
-      <option value="<?php echo $category['category_id'];?>"><?php echo $category['name'];?></option>
+      <option value="<?php echo $category['category_id'];?>">
+        <?php echo $category['name'];?>
+      </option>
     <?php endforeach;?>
     </select>
   </div>
