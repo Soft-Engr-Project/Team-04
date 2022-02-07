@@ -28,16 +28,6 @@
                     
         }
 
-        public function filter()
-        {
-            $post = $_GET['category'];
-            $by = $_GET['keyword'];
-            $data["categories"] = $this->categories_model->get_categories();
-            $data["posts"]=  $this->post_model->get_posts_for_filter($post, $by);
-            echo json_encode($data);
-                    
-        }
-
         // get the top user post 
         public function top_post()
         {
