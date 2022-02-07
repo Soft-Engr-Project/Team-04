@@ -19,6 +19,7 @@
             
             $data["title"] = "Customization";
             $this->load->view("templates/header", $data);
+            $this->load->view("templates/sidebar", $data);
             $this->load->view("settings/customization");
             $this->load->view("templates/footer");
         }

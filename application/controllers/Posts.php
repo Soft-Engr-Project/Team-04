@@ -21,9 +21,9 @@
         {
             
             $post = $_GET['category'];
-          
+            $by = $_GET['keyword'];
             $data["categories"] = $this->categories_model->get_categories();
-            $data["posts"]=  $this->post_model->get_posts_for_filter($post);
+            $data["posts"]=  $this->post_model->get_posts_for_filter($post, $by);
             echo json_encode($data);
                     
         }
@@ -46,6 +46,7 @@
 
             $this->load->view("templates/header", $data);
             $this->load->view("posts/view");
+            $this->load->view("posts/view_scripts");
             $this->load->view("templates/footer");
         }
 
@@ -61,7 +62,7 @@
             $data["categories"] = $this->categories_model->get_categories();
 
             // test it using form_validation
-            $this->form_validation->set_rules("title","Title","required|min_length[10]");
+            $this->form_validation->set_rules("title","Title","required|min_length[5]");
             $this->form_validation->set_rules("body","Body","required");
 
             if($this->form_validation->run() == false) {
@@ -257,6 +258,17 @@
             if($this->input->is_ajax_request()) {
                 $postID = $this->input->post("post_id");
                 $data = $this->post_model->get_posts($postID);
+                echo json_encode($data);
+            }else{
+                echo "No direct script access allowed";
+            }
+        }
+
+        public function getPostProfile()
+        {
+            if($this->input->is_ajax_request()) {
+                $userID = $this->input->post("userID");
+                $data = $this->post_model->getPostProfile($userID);
                 echo json_encode($data);
             }else{
                 echo "No direct script access allowed";

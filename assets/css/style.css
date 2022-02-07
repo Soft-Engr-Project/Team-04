@@ -14,7 +14,6 @@ ul{
     list-style: none;
 }
 
-
 /* Navbar */
 ul.ui-autocomplete {  cursor: default; background:#314754;}   
 ul.ui-menu .ui-menu-item a {
@@ -29,7 +28,6 @@ ul.ui-menu {
     display:block;
     float: left;
 }
-
 
 nav{
     z-index: 20;
@@ -166,13 +164,24 @@ nav ul .icon{
 }
 
 
-.settings-menu-inner p, .profile h2, .homethread .toppost h4, .threadcreatorname h3,
+ .profile h2, .homethread .toppost h4, .threadcreatorname h3,
 .reaction input, .totalcomments input, .profilecontent h4{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.settings-menu-inner p{
+    font-size: 15px;
+    text-align: justify;
+    word-break: break-word;
+    margin-top: 5px;
+}
+
+.settings-menu-inner a:hover, nav .collapse a:hover{
+    color: #FEDB97;
+    text-decoration: underline;
+}
 .userpic{
     height: 53px;
     width: 53px;
@@ -239,7 +248,7 @@ nav ul .icon{
     font-weight: bold;
 }
 
-.smallcontent button{
+.smallcontent button, .changeinfo button{
     padding: 8px 20px;
     background-color: #7C9784;
     font-weight: bold;
@@ -253,15 +262,16 @@ nav ul .icon{
     margin: 60px 0 0 40px;
 }
 
-#coverpage .smallbutton2, #profilepage .smallbutton2 {
+#coverpage .smallbutton2, #profilepage .smallbutton2, .changeinfo .smallbutton2 {
     margin: -40px 0 0 360px;
     position: absolute;
 }
 
-.smallcontent button:hover{
+.smallcontent button:hover, .changeinfo button:hover{
     background-color: #314754;
     color: white;
 }
+
 
 .reviewprofile{
     width: 200px;
@@ -306,7 +316,7 @@ nav ul .icon{
     width: 175px;
     height: 45px;
     top: 385px;
-    left: 87%;
+    left: 86.5%;
     padding: 10px;
 }
 .bannercrud{
@@ -456,11 +466,14 @@ at yung height ay 38%
     margin-top: 20px;
     text-align: center;
     background-color: rgb(253,240,213, 0.4);
+    border-radius: 20px;
 }
 
 .threadscontent .container{
     background-color: rgb(253,240,213, 0.4);
     padding-top: 20px;
+    border-radius: 20px;
+
 }
 
 .circleimage{
@@ -492,30 +505,33 @@ at yung height ay 38%
     text-decoration: underline;
     color: black;
 }
-.threadscontent .row h4{
-    font-size: 20px;
-}
 
-.threadscontent .row h4,
-.threadscontent .row p{
+.threadscontent .row h4{
     font-weight: bold;
     margin: 5px 0 0 -10% ;
+    padding-right: 15px;
+    text-align: justify;
+    word-break: break-word;
 }
 
 .threadscontent .row .dropdown{
     margin: -56px 0 0 670%;
 }
-.threadscontent .row p{
-    font-size: x-small;
-    padding: 15px;
-}
 
 .threadscontent .row h6{
-    margin: 0 12px 0 -10%;
-    padding-top: 10px;
+    margin: -3px 0 0 -60px;
+    padding: 10px 20px 0 0;
     text-indent: 10px;
+    font-size: 15px;
     text-align: justify;
     word-break: break-word;
+}
+
+.threadscontent .row h5{
+    margin-left: -65px;
+    font-size: 13px;  
+    margin-top: 30px;  
+    font-weight: bold;
 }
 
 .threadscol .row h3{
@@ -579,7 +595,7 @@ at yung height ay 38%
     background-color: #314754;
     margin-top: 76px;
     margin-left: -2%;
-    width: 39%;
+    width: 280px;
     height: 500px auto;
 }
 
@@ -596,11 +612,16 @@ at yung height ay 38%
     text-align: center;
 }
 
-.topname a, .categories p a{
+.topname p a, .categories p a{
     text-decoration: none;
-    color: white;
+    color: white;   
 }
 
+.topname p a{
+    line-height: normal;
+    text-align: justify;
+    word-break: break-word;
+}
 .topname, .categories{
     padding: 10px 20px;
 }
@@ -616,10 +637,10 @@ at yung height ay 38%
 }
 
 .createthread{
-    margin-top: 16%;
-    margin-left: -50%;
-    /* background-color: white; */
-    padding-top: 20px;
+    background-color: rgb(253,240,213, 0.4);
+    margin: 16% 0 0 -60%;
+    padding: 20px 0 0 10%;
+    border-radius: 20px;
 }
 
 .createthread hr{
@@ -656,13 +677,54 @@ at yung height ay 38%
 }
 
 .divcategor{
-    width: 150px;
+    width: 300px;
+    margin-left: -100px;
+   
+}
+
+.divcategor select{
+    width: 100%;
     height: 40px;
-    border: 1px solid #314754;
+    padding: 3px 10px 0 115px;
     border-radius: 20px;
-    padding: 5px 10px;
-    margin-left: -110%;
-    background: white;
+    border: 1px solid #161611;
+    cursor: pointer;
+}
+
+.divcategor select::-ms-expand{
+    display: none;
+}
+
+.divcategor select:focus{
+    outline: none;
+    box-shadow: 0 0 10px -1px #314754 ;
+}
+
+.divcategor::after{
+    content: '\25BC';
+    position: absolute;
+    margin-left: -25px;
+    cursor:pointer;
+    pointer-events:none;
+    transition:.25s all ease;
+    background: #314754 ;
+    color: white;
+    padding: 8px;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.divcategor .labelfilter{
+    position: absolute;
+    z-index: 4;
+    display: inline-block;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.divcategor select option{
+    column-count: 2;
 }
 
 .divfilter{
@@ -768,6 +830,11 @@ at yung height ay 38%
     width: 800px;
 }
 
+.homethread h3{
+    padding-top: 20px;
+    text-align: center;
+}
+
 .homethread .toppost p{
     margin-top: -38px;
     margin-left: 600px;
@@ -810,9 +877,12 @@ at yung height ay 38%
 }
 
 .threadspost{
-    margin-top: 130px;
+    margin-top: 100px;
     margin-left: 50px;
     background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    height: 70% auto;
 }
 
 .threadspost h1{
@@ -820,6 +890,9 @@ at yung height ay 38%
     font-size: 30px;
     text-decoration: underline;
     text-decoration-color: gray;
+    text-align: justify;
+    word-break: break-word;
+    width: 870px;
 }
 
 .threadspost h3{
@@ -828,6 +901,7 @@ at yung height ay 38%
     text-indent: 50px;
     text-align: justify;
     word-break: break-word;
+    width: 850px;
 }
 
 .threadspost h6{
@@ -840,6 +914,9 @@ at yung height ay 38%
     margin-left:120%;
 }
 
+.threadspost .dropdown{
+    margin-left: 100px;
+}
 .reaction{
     border: 0.1px solid #FEDB97;
     border-radius: 20px;
@@ -983,8 +1060,9 @@ hr.between{
 .randomthreadtitle{
     background-color: #314754;
     margin: 0 0 0 40px;
-    width: 90%;
+    width: 94%;
     height: 500px auto;
+
 }
 
 .randomthreadtitle a{
@@ -1097,33 +1175,6 @@ hr.between{
     animation: loading 1s ease infinite;
   }
   
-  @keyframes loading {
-    /* Safari support */
-    from {
-      transform: rotate(0turn);
-    }
-    
-    to {
-      transform: rotate(1turn);
-    }
-  }
-
-
-
-@media (max-width: 839px){
-    nav ul .search-icon{
-        display: flex;
-        margin: 10px 50px 15px 0;
-    }
-}
-
-@media (max-width: 759px){
-    nav ul .icon{
-        display: none;
-    }
-}
-
-
 /*loading screen*/
 body{
     background-color: #f7c607;
@@ -1162,9 +1213,7 @@ body{
 }
 
 .notify_item .dropdown{
-    margin-left: 290px;
-    margin-top: -60px;
-    margin-bottom: 20px;
+    margin: -60px 0 20px 290px;
 }
 
 .notify_item a:hover .notify_item .dropdown{
@@ -1181,7 +1230,6 @@ body{
 .notifdropdown .notify_item {
     border-bottom: 1px solid white;
 }
-
 
  .notifdropdown .notify_item .notify_img{
     margin-right: 15px;
@@ -1227,3 +1275,219 @@ body{
 .threadscontent .row h4{
     font-size: 20px;
 }
+
+.navlink {
+	float: left;
+	text-align: center;
+	padding: 100px 10px 21px 10px;
+	text-decoration: none;
+	font-size: 9px;
+	color: var(--second-color);
+	position: fixed;
+    background-color: #FEDB97; 
+}
+.navlink em{
+    font-size: 20px;
+    width: 60px;
+}
+.navlink:hover {
+	cursor: pointer;
+}
+
+.wrapper {
+	padding: 75px 10px 10px 10px;
+	margin-left: 150px;
+	transition: margin-left .5s;
+    background-color: rgb(253,240,213, 0.4);
+    height: 100vh auto;
+}
+
+.sidebar {
+	width: 82px;
+	height: 100vh;
+	margin-top: 135px;
+	position: fixed;
+	background: #FEDB97;
+	box-shadow: rgba(0,0,0,0.12) 0px 1px 4px 1px;
+	overflow: hidden;
+	z-index: 100;
+	transition: width .5s;
+    padding-top: 20px;
+}
+
+.sidebar:hover {
+	width: 250px;
+	background-color: #FEDB97;
+}
+
+.sidebar-nav {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+}
+
+.sidebar-nav-item {
+	width: 100%;
+}
+
+.sidebar-navlink {
+	display: flex;
+	align-items: center;
+	color: black;
+	text-decoration: none;
+}
+
+.sidebar-navlink em {
+	font-size: 1.5rem;
+	color: black;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.sidebar-navlink div {
+	min-width: 82px;
+	height: 50px;
+	position: relative;
+}
+
+.sidebar-expand .sidebar {
+	width: 250px;
+}
+
+.sidebar-expand .wrapper {
+	margin-left: 250px;
+}
+
+.wrapper h1{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 30px;
+}
+.changeinfo{
+    background-color: #FEDB97;
+    display: inline-block;
+    width: 100%;
+    border-radius: 5%;
+    padding-bottom: 20px;
+    display: none;
+}
+
+#changename:target, #changepass:target, #changeemail:target{
+    display: block;
+}
+
+.wrapper .row{
+    margin-left: 50px;
+    width: 91%;
+    padding-top: 30px;
+    border-bottom: 1px solid #B6B682;
+}
+
+.wrapper .buttonchange{
+    background-color: #FEDB97;
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 25%;
+}
+
+.wrapper .buttonchange:hover{
+    background-color: #314754;
+    color: white;
+}
+
+.changeinfo .row{
+    justify-content: center;
+    text-align: center;
+    border: none;
+}
+
+.changeinfo .row h5{
+    margin: -10px 0 20px 0;
+}
+.changeinfo label{
+    font-weight: bold;
+}
+
+.changeinfo button{
+    margin-top: 40px;
+}
+
+.changeinfo h2{
+    position: absolute;
+    width: 50%;
+    font-size: 15px;
+    font-weight: bold;
+    color: red;
+}
+
+.changeinfo .reminder{
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+#changename h2, #changeemail h2{
+    margin-top: 210px;
+}
+
+#changepass h2{
+    margin-top: 170px;
+}
+
+.wrapper .changebg{
+    padding-bottom: 100px;
+    background-color: #FEDB97;
+    border-radius: 20px;
+    text-align: center; 
+    width: 300px;
+    margin-left: 37%;
+}
+
+.changebg h6{
+    margin: 50px;
+    padding-top: 20px;
+}
+
+.row .searchres{
+    margin-top: 100px;
+    font-size: 20px;
+    background-color: #FEDB97;
+    width: 250px;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 20px;
+}
+
+@keyframes loading {
+    /* Safari support */
+    from {
+      transform: rotate(0turn);
+    }
+    
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+
+
+@media (max-width: 839px){
+    nav ul .search-icon{
+        display: flex;
+        margin: 10px 50px 15px 0;
+    }
+}
+
+@media (max-width: 759px){
+    nav ul .icon{
+        display: none;
+    }
+}
+

@@ -8,25 +8,13 @@
             $this->load->model('Personalize_model');
         }
 
-        public function view()
-        {
-            //for header pic
-            $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
-       
-            $data["title"] = "My Information";
-            $this->load->view("templates/header", $data);
-            $this->load->view("settings/personalinfo");
-            $this->load->view("templates/footer");
-        }
-
         public function update()
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
             $this->load->view("templates/header",$data);
-
+            $this->load->view("templates/sidebar", $data);
             // Rules for forms
             $this->form_validation->set_rules('username','Username','required|callback_checkUsername');
             $this->form_validation->set_rules('firstname','Firstname','required');
@@ -58,7 +46,9 @@
                 $this->Personalize_model->update_user($userData); // Update database
 
                 $data['title'] = 'Settings';
-                $this->load->view("pages/settings", $data);
+                $data["user"] = $this->user_model->get_user($userID);
+                $this->load->view("templates/header",$data);
+                $this->load->view("pages/settings");
                 
             }
             $this->load->view("templates/footer");
