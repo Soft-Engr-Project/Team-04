@@ -17,6 +17,11 @@ class Reports_model extends CI_Model{
         $this->db->where('id', $id);
         $this->db->update('posts', $count);
     }
+
+    public function delete_report($id) {
+        $this->db->where("id",$id);
+        $this->db->delete('reports');
+    }
     
     public function get_reports(){
         // GET ALL REPORTS

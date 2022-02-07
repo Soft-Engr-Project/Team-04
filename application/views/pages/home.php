@@ -1,6 +1,6 @@
 <div onclick="checkMousePointer()">
-<?php 
-  if (!isset($_SESSION['username'])) {
+    
+<?php if (!isset($_SESSION['username'])) {
     $_SESSION['msg'] = "You must log in first";
     redirect("/");
   }
@@ -13,8 +13,8 @@
                         <h2>Top of the Month</h2>
                     </div>
                     <div class="topname">
-                        <?php $no=1; foreach ($posts as $post): ?>
-                        <p><?php echo $no++;?>.  <a href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo word_limiter($post["title"],2)?></a></p>
+                        <?php $no=1; foreach ($postsTop as $post): ?>
+                        <p><a href="<?php echo base_url()."posts/view/".$post["id"];?>"><?php echo $no++;?>.<?php echo word_limiter($post["title"],2)?></a></p>
                         <?php endforeach ?>
                     </div>
                     <div class="allcat">
@@ -32,9 +32,9 @@
                 <div class="createthread">
                     <div class="circleimage">
                     <?php if(!empty($user["user_profile_photo"])){ ?>
-                        <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" >
+                        <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userprofile" alt="Profile Photo">
                     <?php } else{?>
-                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                        <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile" alt="Profile Photo">
                     <?php } ?>
                     </div>
                     <div class="threadbox">
@@ -43,7 +43,7 @@
                         </a>
                     </div>
                     <div class="notification_icon">
-                        <i class="fas fa-bell bell_count"></i>
+                        <em class="fas fa-bell bell_count"></em>
                     </div>
                     <div class="notifdropdown">                        
                         
@@ -98,7 +98,7 @@ document.querySelector('body').style.background = rgbaColor;
                     if(notify["type_of_notif"] == "comment"){
                      notificationBody += `
                         <div class="notify_item">
-                            <a href="<?php echo base_url();?>posts/view/${notify['post_id']}">
+                            <a href="<?php echo base_url();?>posts/view/${notify['action_id']}">
                             <div class="notify_img">
                                  <div class="circleimage">`;
                                     if(notify["user_profile_photo"]){
@@ -143,7 +143,7 @@ document.querySelector('body').style.background = rgbaColor;
                     else if(notify["type_of_notif"] == 'react'){
                                     notificationBody += `
                                     <div class="notify_item">
-                                        <a href="<?php echo base_url();?>posts/view/${notify['post_id']}">
+                                        <a href="<?php echo base_url();?>posts/view/${notify['action_id']}">
                                         <div class="notify_img">
                                             <div class="circleimage">`;
                                                       if(notify["user_profile_photo"]){ 
@@ -184,7 +184,7 @@ document.querySelector('body').style.background = rgbaColor;
                                     else if(notify["type_of_notif"] == 'reply') {
                                     notificationBody += `
                                     <div class="notify_item">
-                                        <a href="<?php echo base_url();?>subcomments/view/${notify['post_id']}">
+                                        <a href="<?php echo base_url();?>subcomments/view/${notify['action_id']}">
                                         <div class="notify_img">
                                             <div class="circleimage">`;
                                                 if(notify["user_profile_photo"]) { 
@@ -225,10 +225,10 @@ document.querySelector('body').style.background = rgbaColor;
                                     else if(notify["type_of_notif"] == 'reply_react') {
                                         notificationBody += `
                                         <div class="notify_item">
-                                            <a href="<?php echo base_url();?>subcomments/view/${notify['post_id']}">
+                                            <a href="<?php echo base_url();?>subcomments/view/${notify['action_id']}">
                                             <div class="notify_img">
                                                 <div class="circleimage">`;
-                                                    if($notify["user_profile_photo"]){ 
+                                                    if(notify["user_profile_photo"]){ 
                                                         notificationBody += `<img src="<?php echo base_url()?>${notify['user_profile_photo']}" class="userprofile" >`;
                                                     } else{
                                                         notificationBody += `<img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">`;

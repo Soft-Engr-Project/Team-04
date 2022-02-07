@@ -80,27 +80,58 @@ class Login extends CI_Model{
         $result1 = $q['username'];
         $result2 = $q['password'];
         $result3 = $q['verified'];
-        
+       
         if($result3==="0"){ // Check if user is verified
           return "Sorry your account not verified";
          ;
         }
         else{ // User is verified
           if (password_verify($password, $result2)) { // Check if password matched
-            // Set the session
-            $user_data = array(
-              'user_id' => $q["user_id"],
-              'username' => $q["username"],
-              'email' => $q["email"],
-              'success' => "You are now logged in",
-              'bgColor' => $q["bgColor"],
-              'logged_in'=> true
-            );
+
+            $date = date('Y:m:d H:i:s', time());
+            $suspendEndDate = $q['resumeDate'];
+            if (strtotime($suspendEndDate) < strtotime($date)) {
             
-            $this->session->set_userdata($user_data);
-            // $_SESSION['username'] = $username;
-            // $_SESSION['success'] = "You are now logged in";
-            return "Login Success";
+              // Set the session
+              $user_data = array(
+                'user_id' => $q["user_id"],
+                'username' => $q["username"],
+                'email' => $q["email"],
+                'success' => "You are now logged in",
+                'bgColor' => $q["bgColor"],
+                'logged_in'=> true
+              );
+              
+              $this->session->set_userdata($user_data);
+              // $_SESSION['username'] = $username;
+              // $_SESSION['success'] = "You are now logged in";
+              return "Login Success";
+            }else {
+              $diff = (strtotime($suspendEndDate) - strtotime($date));
+              $temp = $diff/86400;
+              // days 
+              $days=floor($temp);
+              $temp=24*($temp-$days); 
+              // hours 
+              $hours=floor($temp);
+              $temp=60*($temp-$hours); 
+              // minutes 
+              $minutes=floor($temp);
+              $temp=60*($temp-$minutes); 
+              // seconds 
+              $seconds=floor($temp);
+
+              if($days > 0) {
+                $suspendMessage = "Your account has been suspended</br>Please try again in ".$days." days ".$hours." hrs ".$minutes." min";
+              }else if ($hours > 0) {
+                $suspendMessage = "Your account has been suspended</br>Please try again in ".$hours." hrs ".$minutes." min";
+              }else {
+                $suspendMessage = "Your account has been suspended</br>Please try again in ".$minutes." min";
+              }
+             
+              return $suspendMessage;
+            }
+            
           }
           else{ // Incorrect password
             return "Username and password incorrect";

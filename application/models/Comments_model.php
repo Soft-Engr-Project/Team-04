@@ -60,6 +60,9 @@
 		public function get_last_comment(){
 			return $this->db->insert_id($this->post_table);
 		}
+		public function getLastCommentInPost(){
+			return $this->db->insert_id($this->comment_table);
+		}
 
 
 		public function update_upvotes($id,$data){

@@ -1,17 +1,17 @@
-<div onclick="checkMousePointer()">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
-
-<div style="width: 100vw;
-    height: 100vh;"class="container">
-<h1><?=$title?></h1><br><br>
-<h2>Change Background:</h2>
-<div class="color-picker"></div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-</form>
+<div onclick="checkMousePointer()">
+    <div style="height: 100vh">
+        <div class="wrapper">
+            <h1><?=$title?></h1>
+            <div class="changebg">   
+                <h6>Change Background:</h6>
+                <div class="color-picker"></div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js" ></script>
+            </form>
+        </div>
+    </div>
 </div>
-
 <script>
 const pickr = Pickr.create({
     el: '.color-picker',
@@ -73,6 +73,6 @@ pickr.on('change', (color, source, instance) => {
 })
 </script>
 <script>
-const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
-document.querySelector('body').style.background = rgbaColor;
+    const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+    document.querySelector('body').style.background = rgbaColor;
 </script>

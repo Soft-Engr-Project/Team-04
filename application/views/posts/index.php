@@ -1,17 +1,24 @@
                <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="divcategor">
-                            <p>Categories:</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="divfilter">
-                            <span class="labelfilter">Filter: </span>
+                            <span class="labelfilter">Categories: </span>
                             <select name="" id="category_filter">
                                 <option value="0">Show All</option>
                                 <?php foreach ($categories as $category) :?>
-                                    <option value="<?php echo $category["category_id"];?>"><?php echo $category["name"];?></option>
+                                    <option value="<?php echo $category["category_id"];?>">
+                                        <?php echo $category["name"];?>
+                                    </option>
                                 <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <div class="divfilter">
+                            <span class="labelfilter">Filter: </span>
+                            <select name="" id="post_filter">
+                                <option value="post_created_at">Newest</option>
+                                <option value="upvote">Relevant</option>
+                                <option value="post_comment_count">Popular</option>
                             </select>
                         </div>
                     </div>
@@ -29,10 +36,10 @@
                         <div class="toppost">
                             <div class="circleimage">
                                 <?php if(!empty($post["user_profile_photo"])){ ?>
-                                    <img style="border: 1px solid #000000;" src="<?php echo base_url().$post["user_profile_photo"];?>" class="userprofile">
+                                    <img style="border: 1px solid #000000;" src="<?php echo base_url().$post["user_profile_photo"];?>" class="userprofile" alt="Profile Photo">
                                 <?php }
                                 else{?>
-                                    <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userprofile">
+                                    <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userprofile">
                                 <?php } ?>
                             </div>
 
@@ -46,8 +53,8 @@
                     <?php endif;?>
                     <?php endforeach;?>
                     <?php  }else {?>
-                        <div class="toppost">
-                            <h4>No post in this section.</h4>
+                        <div class="homethread">          
+                            <h3>No post in this section</h3>
                         </div>  
                     <?php } ?>  
                     <?php endforeach;?> 
@@ -64,22 +71,31 @@
                 let a = $(this).val();
                 posting();
             })
+            $("#post_filter").change(function(){
+                let a = $(this).val();
+                posting();
+            })
         })
         function posting(){
             var cat = $("#category_filter").val();
+            var key = $("#post_filter").val();
             console.log(cat);
+            console.log(key);
             $.ajax({
                 url : "<?php echo base_url("posts/post_filter");?>",
                 data : {
-                    category : cat
+                    category : cat,
+                    keyword: key
                 },
                 beforeSend: function(){
                     $("#filterposting").html('<div class="loading loading--full-height"></div>');
+                          
                 },
                 success:function(data){
-                    
+                   
                     let result = data.replace(/<!--  -->/g, "");
                     data = JSON.parse(result);
+                    
                     
                     
                     // check natin kung malaman si
@@ -92,8 +108,9 @@
                             posting+= `<div class="categoriesdiv">
                                         <h3>${element["name"]}</h3>
                                         </div>`
-                                        count++;}
-                               
+                                        count++;
+                            }
+                            
                              posting+=` <div class="homethread">
                             <div class="toppost">
                                 <div class="circleimage">`
@@ -114,6 +131,15 @@
                             </div> 
                         </div> `
                         });
+                        if( data["posts"] == ""){
+                             posting+= `<div class="categoriesdiv">
+                                        <h3>${data["categories"][cat-1]["name"]}</h3>
+                                        </div>`;
+                             posting+=`<div class="homethread">          
+                            <h3>No post in this section</h3>
+                        </div>  `;
+                        }
+
 
                     $("#filterposting").html(posting);
                 }else{
@@ -151,12 +177,9 @@
                              }
                          });
                         }else {
-                               posting+=` <div class="row">
-                                    <div class="mt-5">
-                                         <h3 class="col-lg-12">No post in this section</h3>
-                                    </div>
-                                   
-                                 </div>`;
+                               posting+=`<div class="homethread">          
+                            <h3>No post in this section</h3>
+                        </div>  `;
                          }   
                         posting+=`</div>`;
                     });

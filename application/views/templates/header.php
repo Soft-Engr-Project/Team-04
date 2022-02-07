@@ -15,14 +15,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
-    <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js" ></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js" ></script>
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"> -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 </head>
@@ -53,7 +53,7 @@
                         
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
-                            <input class="form-control border-end-0 border rounded-pill" type="text" id = "searchbar" name="searchbar" autocomplete = "off">
+                            <input class="form-control border-end-0 border rounded-pill" type="text" id = "search" name="search" autocomplete = "off">
                             <div id="hidden" style="height: 0px;"></div>
                         </div>
                     </form>
@@ -61,9 +61,9 @@
 
                     <!-- Suggestions -->
                     <script>
-                        $(document).on("keyup","#searchbar",function(e){
+                        $(document).on("keyup","#search",function(e){
                          e.preventDefault();
-                            $("#searchbar").autocomplete({
+                            $("#search").autocomplete({
                                 appendTo: "#hidden",
                                 source: function( request, response){
                                     $.ajax({
@@ -104,7 +104,7 @@
                                     });
                                 },
                                 select: function(values, ui){
-                                    $('#searchbar').val(ui.item.label);
+                                    $('#search').val(ui.item.label);
                                     return false;
                                 },
                             });
@@ -122,10 +122,10 @@
                 <li style="position:relative;" class="nav-item dropdown">
                     <a class="nav-link " role="button" onclick="settingsMenuToggle()">
                         <?php if(!empty($user["user_profile_photo"])){ ?>
-                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"];?>" class="userpic rounded-circle position-absolute">
+                                <img style="border: 1px solid #000000;" src="<?php echo base_url().$user["user_profile_photo"];?>" alt="Profile Photo" class="userpic rounded-circle position-absolute">
                             <?php }
                             else{?>
-                                <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userpic rounded-circle position-absolute">
+                                <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userpic rounded-circle position-absolute">
                         <?php } ?>
                     </a>
                 </li>   
@@ -138,30 +138,23 @@
                         <div class="col-lg-4">
                             <a href="<?php echo site_url("profiles/view");?>">
                                 <?php if(!empty($user["user_profile_photo"])){ ?>
-                                            <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userpic" >
+                                            <img src="<?php echo base_url().$user["user_profile_photo"]?>" class="userpic" alt="Profile Photo">
                                         <?php }
                                         else{?>
-                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="" class="userpic">
+                                            <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Photo" class="userpic">
                                 <?php } ?>
                             </a>
                         </div>
-                        <div style="margin-right: 22px;" class="col">
+                        <div class="col-lg-8">
                             <a href="<?php echo site_url("profiles/view");?>"><p> <?php echo $this->session->userdata("username");?> </p> </a>
                         </div>
                         <hr>
                     </div>
-                    <a href="<?php echo base_url();?>pages/view/settings">Settings</a>
+                    <a href="<?php echo base_url();?>Personalinfo/update">Settings</a>
                     <a href="<?php echo base_url();?>customization/view">Customization</a>
                     <a href="<?php echo base_url();?>pages/view/logout">Logout</a>
                 </div>
             </div>
         </nav>
         </ul>
-    </nav>
-
-
-    
-
-
-
-    
+    </nav> 

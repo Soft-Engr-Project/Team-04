@@ -161,7 +161,7 @@ header{
     margin-top: 40px;
 }
 
-.sign_icon i{
+.sign_icon em{
     position: absolute;
     background-color: #5A817A;
     width: 50px;
@@ -173,7 +173,7 @@ header{
     margin: 40px 0 0 -400px; 
 } 
 
-.visiblepassword i{
+.visiblepassword em{
     position: absolute;
     margin: -30px 0 0 155px;
     cursor: pointer;
@@ -267,7 +267,7 @@ header{
 }
 
 
-.myrightreset .sign_icon i {
+.myrightreset .sign_icon em {
     margin-top: -0.5px;
 }
 

@@ -4,6 +4,9 @@
         public function __construct()
         {
             parent::__construct();
+            if ($this->session->userdata("logged_in") != true) {
+                show_404();
+            }
             $this->load->model('Comments_model');
             $this->load->model('Categories_model');
         }
@@ -18,9 +21,9 @@
         {
             
             $post = $_GET['category'];
-          
+            $by = $_GET['keyword'];
             $data["categories"] = $this->categories_model->get_categories();
-            $data["posts"]=  $this->post_model->get_posts_for_filter($post);
+            $data["posts"]=  $this->post_model->get_posts_for_filter($post, $by);
             echo json_encode($data);
                     
         }
@@ -43,6 +46,7 @@
 
             $this->load->view("templates/header", $data);
             $this->load->view("posts/view");
+            $this->load->view("posts/view_scripts");
             $this->load->view("templates/footer");
         }
 
@@ -58,7 +62,7 @@
             $data["categories"] = $this->categories_model->get_categories();
 
             // test it using form_validation
-            $this->form_validation->set_rules("title","Title","required");
+            $this->form_validation->set_rules("title","Title","required|min_length[5]");
             $this->form_validation->set_rules("body","Body","required");
 
             if($this->form_validation->run() == false) {
@@ -179,7 +183,7 @@
             $data["categories"] = $this->categories_model->get_categories();
             $data["title"]="Edit Post";
       
-            $this->form_validation->set_rules("title","Title","required");
+            $this->form_validation->set_rules("title","Title","required|min_length[10]");
             $this->form_validation->set_rules("body","Body","required");
             
             if($this->form_validation->run() == false) {
@@ -330,6 +334,7 @@
                             "user_id" => $this->session->userdata("user_id"),
                             "owner_id" => $get_post["user_id"],
                             "post_id" => $get_post["id"],
+                            "comment_id" => NULL,
                             "read_status" => 0
                     );
                     
@@ -388,6 +393,7 @@
                         "user_id" => $this->session->userdata("user_id"),
                         "owner_id" => $get_post["user_id"],
                         "post_id" => $get_post["id"],
+                        "comment_id" => NULL,
                         "read_status" => 0
                     );
                     $this->notification_model->create_notification($notifData);

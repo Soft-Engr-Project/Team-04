@@ -15,7 +15,7 @@ class Registration extends CI_Model{
   }
 
   // CHECK USERNAME IN THE DATABASE
-  function checkUserExist($username) {
+  public function checkUserExist($username) {
     $this->db->select('*');
     $this->db->where('username', $username);
     $query = $this->db->get('users'); // Get username in database
@@ -26,7 +26,7 @@ class Registration extends CI_Model{
   }
 
   // CHECK IF EMAIL EXISTS
-  function checkEmail($email) {
+  public function checkEmail($email) {
     $this->db->select('*');
     $this->db->where('email', $email);
     $query = $this->db->get('users');

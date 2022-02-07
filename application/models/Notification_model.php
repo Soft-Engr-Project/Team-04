@@ -45,10 +45,20 @@
 			$this->db->where("read_status",0);
 			return $this->db->update($this->notification_table,$data);
 		}
-		public function notification_delete($action_id){
-			$this->db->where("action_id",$action_id);
-			return$this->db->delete($this->notification_table);
-
+		public function notification_delete($action_id = null,$commentId = null,$subcommentId = null){
+			if(!is_null($action_id)) {
+				$this->db->where("action_id",$action_id);
+				return$this->db->delete($this->notification_table);
+			}
+			elseif(!is_null($commentId)) {
+				$this->db->where("comment_id",$commentId);
+				return$this->db->delete($this->notification_table);
+			}
+			else {
+				$this->db->where("subcomment_id",$subcommentId);
+				return$this->db->delete($this->notification_table);
+			}
+			
 		}
 	}
 

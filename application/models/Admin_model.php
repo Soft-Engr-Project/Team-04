@@ -32,4 +32,10 @@ class Admin_model extends CI_Model{
 
         return $count;
     }
+
+    public function suspend_user($id, $suspendDate){
+        $this->db->where("user_id", $id);
+		$query = $this->db->update("users", $suspendDate);
+
+    }
 }

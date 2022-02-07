@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE>
+<html lang="en" xml:lang="en">
     <head>
         <style type= "text/css">
             body{background-color:"#CCD9f9";
@@ -10,7 +11,7 @@
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/flatly/bootstrap.min.css" integrity="sha384-qF/QmIAj5ZaYFAeQcrQ6bfVMAh4zZlrGwTPY7T/M+iTTLJqJBJjwwnsE5Y0mV7QK" crossorigin="anonymous">
     </head>
-
+    <title>Thinklik</title>
     <body>
         <div class = "container">
             <div class ="row">
@@ -19,11 +20,17 @@
                     <h1>
                         <?php echo $header?>
                     </h1>
-                    <p><?php echo $user?>,</p>
+                    <p>
+                        <?php echo $user?>
+                    ,</p>
                     <br>
-                    <p>Passcode:<?php echo $passcode?></p>
+                    <p>Passcode:
+                        <?php echo $passcode?>
+                    </p>
                     <br>
-                    <p><?php echo $body?></p>
+                    <p>
+                        <?php echo $body?>
+                    </p>
                     
                     </div>
                 </div>

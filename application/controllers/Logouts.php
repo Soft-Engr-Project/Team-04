@@ -16,5 +16,10 @@ class Logouts extends CI_Controller
         $this->session->sess_destroy();
         redirect("/");
     }
+    public function admin_logout()
+    {   
+        $this->session->sess_destroy();
+        redirect("/");
+    }
 }
 

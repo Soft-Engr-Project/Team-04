@@ -1,16 +1,24 @@
 <?php
-
+    
 	class Admins extends CI_Controller
-	{
+    {
+        
         public function __construct()
         {
+         
             parent::__construct();
-            $this->load->model('Reports_model');
-            $this->load->model('SubcommentModel');
-            $this->load->model('Admin_model');
-            $this->load->model('User_model');
-            $this->load->model('Categories_model');
-            $this->load->model('Post_model');
+            if ($this->session->userdata("admin") != true) {
+                show_404();
+            }else {
+                $this->load->model('Reports_model');
+                $this->load->model('SubcommentModel');
+                $this->load->model('Admin_model');
+                $this->load->model('User_model');
+                $this->load->model('Categories_model');
+                $this->load->model('Post_model');
+            }
+            
+            
         }
 
         public function dashboard($id=NULL)
@@ -73,8 +81,24 @@
             $this->load->view("templates/adminfooter");
         }
 
-        public function fetchUser(){
+        public function fetchUsers(){
             $data["users"] = $this->User_model->get_user();
             echo json_encode($data);
         }
+
+        public function fetchUserInfo(){
+            $user_id = $this->input->post('user_id');
+            $data["user"] = $this->User_model->get_user($user_id);
+            echo json_encode($data);
+        }
+
+        public function suspend(){
+            $user_id = $this->input->post('user_id');
+            $date['resumeDate'] = $this->input->post('date');
+
+            $this->Admin_model->suspend_user($user_id, $date);
+            $json_data = array("response" => "success", "message" => "User is suspended");
+            echo json_encode($json_data);
+        }
+
     }

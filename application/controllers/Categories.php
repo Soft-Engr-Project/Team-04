@@ -24,6 +24,20 @@
 			$this->load->view("posts/index");
 			$this->load->view("templates/footer");
 		}
+		public function create_category()
+		{
+			$categoryData = array(
+				"name" => $this->input->post("category")
+			);
+			$this->categories_model->create($categoryData);
+			redirect("admins/categories");
+		}
+		public function delete_category()
+		{
+			$id = $this->input->post("id");
+			$this->categories_model->delete($id);
+			redirect("admins/categories");
+		}
 	}
 
 

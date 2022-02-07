@@ -5,11 +5,13 @@
 <br>
 <div class="comments">
                     <div class="circleimage">
-                            <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile">                                
+                            <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile" alt="Profile Photo" >                                
                             </div>
                             <div class="row"> 
                             <div class="col-lg-3">    
-                                <a href=""><h2><?php echo $comments["username"]?></h2></a>
+                                <a href=""><h2>
+                                  <?php echo $comments["username"]?>
+                                </h2></a>
                             </div>  
                             <div class="col-lg-9">    
                                 <div class="commentdropdown">
@@ -49,9 +51,9 @@
                     </div>
                     </div>  
                     </div>
-                    <center>
+                    <div style="display: flex;justify-content: center;">
                         <h3>Replies</h3>
-                    </center>
+                    </div>
                   
                   <div id="subcomments_container">
 
@@ -117,8 +119,8 @@
                     
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
 
     <script>
          function showcomment(editSubcommentId) {
@@ -428,6 +430,7 @@
     $(document).on("click","#upvote_subcomment",function(e){
         e.preventDefault();
         var subcommentId = $(this).attr("value");
+        
         $.ajax({
             url : "<?php echo base_url()?>subcomments/reaction",
             type : "post",
@@ -436,6 +439,7 @@
               type_of_vote : "up_react"
             },
             success : function(data){
+              console.log(data);
                fetch();
             }
         })

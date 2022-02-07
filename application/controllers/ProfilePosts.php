@@ -94,7 +94,7 @@
                     // eto piniprint pag di alam yung error
                     // base sa na experience ko need yung picture ay di lalagpas ng 800x800
                     echo $this->upload->display_errors();
-                    die();
+                    // need ayusin
                 }
                 else {
                     $data = array("upload_data" => $this->upload->data());

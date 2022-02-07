@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
     <head>
         <style type= "text/css">
             body{background-color:"#CCD9f9";
@@ -9,6 +10,7 @@
         </style>
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/flatly/bootstrap.min.css" integrity="sha384-qF/QmIAj5ZaYFAeQcrQ6bfVMAh4zZlrGwTPY7T/M+iTTLJqJBJjwwnsE5Y0mV7QK" crossorigin="anonymous">
+        <title>Thinklik</title>
     </head>
 
     <body>
