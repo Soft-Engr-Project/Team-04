@@ -19,6 +19,13 @@ ul{
 ul.ui-autocomplete {  cursor: default; background:#314754;}   
 ul.ui-menu .ui-menu-item a {
     color:#fff;
+    max-width:100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ul.ui-menu .ui-menu-wrapper{
+    white-space: pre-wrap;
 }
 /* workarounds */
 html .ui-autocomplete { position: absolute; top:70px; left: 532px; width:1px; } /* without this, the menu expands to 100% in IE6 */
