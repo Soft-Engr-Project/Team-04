@@ -146,11 +146,146 @@
                 $data['title'] = 'Settings';
                 $data["user"] = $this->user_model->get_user($userID);
                 $this->load->view("templates/header",$data);
-                $this->load->view("settings/personalinfo");
+                redirect("Personalinfo/update");
+                // $this->load->view("settings/personalinfo");
+
                 
             }
             $this->load->view("templates/footer");
         }
+
+        public function changeemail()
+        {
+            //for header pic
+
+            $userID = $this->session->userdata("user_id");
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header",$data);
+            $this->load->view("templates/sidebar", $data);
+            // Rules for forms
+            $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
+            $this->form_validation->set_rules('confemail', 'Confirm Email', 'required|matches[email]');
+            $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
+            $this->form_validation->set_rules('otp','Code','required|callback_checkOTP');
+            $data = $this->Personalize_model->getUserInfo($userID);
+            if($this->form_validation->run()===false) {
+                $data["title"] = "My Information";
+                $this->load->view("settings/personalinfo",$data);
+            }
+            else {
+                $userData = array(
+                    'email' => $this->input->post("email"),
+                );
+                $this->Personalize_model->update_user($userData); // Update database
+                $data['title'] = 'Settings';
+                $data["user"] = $this->user_model->get_user($userID);
+                $this->load->view("templates/header",$data);
+                redirect("Personalinfo/update");
+                // $this->load->view("settings/personalinfo");
+                
+            }
+            $this->load->view("templates/footer");
+        }
+
+        public function checkEmail($email)
+        {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->form_validation->set_message('checkEmail', 'Invalid email format');
+                return false;
+            } 
+           
+            if ($this->Personalize_model->checkEmail($email) == false) {
+                 return true;
+            }else {
+             $this->form_validation->set_message('checkEmail', 'Email already exists');
+                return false;
+            }
+        }
+
+
+        public function checkEmailVerify($email)
+        {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->form_validation->set_message('checkEmailVerify', 'Invalid email format');
+                return false;
+            }
+            if ($this->ResetPassword->checkEmail($email) == false) {
+                 $this->form_validation->set_message('checkEmailVerify', 'Email does not exist');
+                 return false;
+            } 
+            else {
+             $this->form_validation->set_message('checkEmailVerify', 'Change password link sent to your email');
+                return true;
+            }
+        }
+
+        public function sendOTP(){
+            // Code Generation
+            $code = random_int(0,999999);  // Generate hash value
+            $code = str_pad($code, 6, 0, STR_PAD_LEFT);
+            $email = $this->session->userdata("email");
+            $userData = array(
+                'code' => $code,
+                );
+            $this->Personalize_model->update_user($userData); // Update passcode
+
+            // send code to current email
+            $emailData = array(
+                'header' => 'Account Change Email:',
+                'user' => $this->session->userdata("username"),
+                'passcode' => $code,
+                'body' => 'Please Enter the 6 digit pin given above to proceed on changing Email.'
+            );
+            $this->send($email, 'templates/ChangePass_Email.php', $emailData); // Call email setup function
+
+        }
+
+        // EMAIL MESSAGE SETUP
+        public function send($email,$template,$emailData)
+        {
+            $to =  $email;
+            $subject = 'Change Password';
+            $from = 'thinklikblog@gmail.com';
+            $password = env('PASSWORD'); //get password from env file
+
+            // Config setup
+            $config = array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.gmail.com',
+                'smtp_port' => '465',
+                'smtp_timeout' => '60',
+                'smtp_user' => 'thinklikblog@gmail.com',
+                'smtp_pass' => $password,
+                'charset' => 'utf-8',
+                'newline' => "\r\n",
+                'mailtype' => 'html'
+            );
+
+            // Setup email from autoload['helper']
+            $this->email->initialize($config);
+            $this->email->set_mailtype("html");
+            $this->email->from($from);
+            $this->email->to($to);
+            $this->email->subject($subject);
+
+            // Load the format and content of email
+            $message=$this->email->message($this->load->view($template, $emailData, true));
+  
+            $status=$this->email->send(); // Send the email  
+        }
+
+        public function checkOTP($otp)
+        {
+            if ($this->Personalize_model->checkotp($otp) == false) {
+                 $this->form_validation->set_message('checkOTP', 'invalid Code');
+                 return false;
+            } 
+            else {
+                return true;
+            }
+        }
+
+
     }
 
 
