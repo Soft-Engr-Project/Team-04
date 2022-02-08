@@ -7,7 +7,7 @@
         {
          
             parent::__construct();
-            if ($this->session->userdata("admin") != true) {
+            if (!$this->session->userdata("admin")) {
                 show_404();
             }else {
                 $this->load->model('Reports_model');
@@ -21,28 +21,24 @@
             
         }
 
-        public function dashboard($id=NULL)
+        public function dashboard($id = null)
         {
             // Load data to be passed
             $data["counts"] = $this->Admin_model->total_counts();
             $data["reports"]  = $this->Reports_model->get_reports();
             
             // Show reports
-            $this->load->view("templates/adminheader");
-            $this->load->view("admin/dashboard", $data);
-            $this->load->view("templates/adminfooter");
+            $this->showView("admin/dashboard", $data)
         }
 
-        public function categories($id=NULL)
+        public function categories($id = null)
         {
             //Load data to be passed
             $data["counts"] = $this->Admin_model->total_counts("categories");
             $data["categories"] = $this->Categories_model->get_categories();
 
             // Show reports
-            $this->load->view("templates/adminheader");
-            $this->load->view("admin/categories", $data);
-            $this->load->view("templates/adminfooter");
+            $this->showView("admin/categories", $data);
         }
 
         public function posts($id=NULL)
@@ -52,9 +48,7 @@
             $data["counts"] = $this->Admin_model->total_counts("posts");
 
             // Show reports
-            $this->load->view("templates/adminheader");
-            $this->load->view("admin/posts", $data);
-            $this->load->view("templates/adminfooter");
+            $this->load->showView("admin/posts", $data);
         }
 
         public function profile($id=NULL)
@@ -65,9 +59,7 @@
             $data["admin"] = $this->Admin_model->admin_info($userID);
 
             // Show reports
-            $this->load->view("templates/adminheader");
-            $this->load->view("admin/profile", $data);
-            $this->load->view("templates/adminfooter");
+            $this->showView("admin/profile", $data);
         }
 
         public function users($id=NULL)
@@ -76,8 +68,14 @@
             $data["counts"] = $this->Admin_model->total_counts("users");
 
             // Show reports
+            $this->showView("admin/users", $data);
+        }
+
+        // For showing the html
+        private function showView($views, $data)
+        {
             $this->load->view("templates/adminheader");
-            $this->load->view("admin/users", $data);
+            $this->load->view($views, $data);
             $this->load->view("templates/adminfooter");
         }
 
@@ -87,18 +85,18 @@
         }
 
         public function fetchUserInfo(){
-            $user_id = $this->input->post('user_id');
-            $data["user"] = $this->User_model->get_user($user_id);
+            $userID = $this->input->post('user_id');
+            $data["user"] = $this->User_model->get_user($userID);
             echo json_encode($data);
         }
 
         public function suspend(){
-            $user_id = $this->input->post('user_id');
+            $userID = $this->input->post('user_id');
             $date['resumeDate'] = $this->input->post('date');
 
-            $this->Admin_model->suspend_user($user_id, $date);
-            $json_data = array("response" => "success", "message" => "User is suspended");
-            echo json_encode($json_data);
+            $this->Admin_model->suspend_user($userID, $date);
+            $jsonData = array("response" => "success", "message" => "User is suspended");
+            echo json_encode($jsonData);
         }
 
     }
