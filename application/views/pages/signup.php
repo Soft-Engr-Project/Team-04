@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="form-group mb-3 col-md-12">
                                     <label class="labelsignup">Birthday</label>
-                                    <input type="date" class="form-control" name="birthdate" required>
+                                    <input type="date" class="form-control" max="<?php echo date('Y-m-d')?>" name="birthdate" required>
                                 </div>
                                 <div class="form-group mb-3 col-md-12">
                                     <label class="labelsignup">Email</label>

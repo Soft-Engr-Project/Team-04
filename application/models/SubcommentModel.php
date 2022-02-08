@@ -24,7 +24,8 @@
 		}
 		// eto naman para sa specific comment
 		public function getSpecificSubcomments($subcommentId) {
-			$this->db->where("subcomment_id",$subcommentId);
+			$this->db->join($this->usersTable,$this->usersTable.".user_id = ".$this->subcommentTable.".user_id");
+			$this->db->where($this->subcommentTable.".subcomment_id",$subcommentId);
 			$query = $this->db->get($this->subcommentTable);
 			return $query->row_array();
 		}

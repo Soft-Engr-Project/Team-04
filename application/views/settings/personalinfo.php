@@ -81,7 +81,7 @@
                             <div style="padding-left: 50px;" class="form-group mb-3 col-md-12">
                                 <label>Code:</label>
                                 <input type="text" name="otp" placeholer="Enter your otp"/>
-                                <button id="regenerateOTP" class="btn btn-warning btn_shadow" style="border-radius: 0; padding:0; top:540px; right:40px; margin-right: 450px; position:absolute" ><span id="timer">Code</span></button> 
+                                <button id="regenerateOTP" class="btn btn-warning btn_shadow" style="border-radius: 0; padding:0; top:537px; right:0px; margin-right: 380px; position:absolute" ><span id="timer">Code</span></button> 
                                 <script>
                                     $('#regenerateOTP').on('click', function () {
                                       disableResend();
