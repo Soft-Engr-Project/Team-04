@@ -66,5 +66,28 @@
            
           } 
        }
+
+       // CHECK IF EMAIL EXISTS
+      public function checkEmail($email) {
+        $this->db->select('*');
+        $this->db->where('email', $email);
+        $query = $this->db->get('users');
+        if ($query->num_rows() > 0) {
+          return true;
+        }
+        return false; 
+      }
+
+
+      // CHECK PASSWORD IN DATABASE
+      public function checkotp($code){
+        $this->db->select('*');
+        $this->db->where('code', $code);
+        $query = $this->db->get('users');
+        if ($query->num_rows() > 0) {
+          return true;
+        }
+        return false; 
+      }
     }
 ?>

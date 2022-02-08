@@ -90,7 +90,8 @@
             return true;
         }
 
-        public function checkNewPassword($password2){
+        public function checkNewPassword($password2)
+        {
             $this->form_validation->set_message('checkNewPassword', 'New password and confirm password does not match');
             $newPass = $this->input->post('password_1');
             $oldPass = $this->Personalize_model->getUserInfo($this->session->userdata("user_id"))['password'];
@@ -119,4 +120,40 @@
                 return true;    // Return true since it is optional
             }
         }
+
+        public function changename()
+        {
+            //for header pic
+            $userID = $this->session->userdata("user_id");
+            $data["user"] = $this->user_model->get_user($userID);
+            $this->load->view("templates/header",$data);
+            $this->load->view("templates/sidebar", $data);
+            // Rules for forms
+            $this->form_validation->set_rules('firstname','Firstname','required');
+            $this->form_validation->set_rules('lastname','Lastname','required');
+            $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
+            $data = $this->Personalize_model->getUserInfo($userID);
+            if($this->form_validation->run()===false) {
+                $data["title"] = "My Information";
+                $this->load->view("settings/personalinfo",$data);
+            }
+            else {
+                $userData = array(
+                    'firstname'=> $this->input->post("firstname"),
+                    'lastname'=> $this->input->post("lastname"),
+                    );
+                $this->Personalize_model->update_user($userData); // Update database
+                $data['title'] = 'Settings';
+                $data["user"] = $this->user_model->get_user($userID);
+                $this->load->view("templates/header",$data);
+                $this->load->view("settings/personalinfo");
+                
+            }
+            $this->load->view("templates/footer");
+        }
     }
+
+
+
+
+    

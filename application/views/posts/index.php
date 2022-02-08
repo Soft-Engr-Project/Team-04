@@ -22,16 +22,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-1">
-                        <div class="divfilter">
-                            <span class="labelfilter">Filter: </span>
-                            <select name="" id="post_filter">
-                                <option value="post_created_at">Newest</option>
-                                <option value="upvote">Relevant</option>
-                                <option value="post_comment_count">Popular</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
                 <div id="filterposting">
                     <?php foreach($categories as $category):?>
