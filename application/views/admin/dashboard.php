@@ -78,12 +78,21 @@
 									
 									<td><?php echo $count;?></td>
 									<?php if($report["post_id"]):?>
-										<td class="user_report"><a href="<?php echo site_url("posts/".$report["post_id"]);?>"><?php echo $report["title"];?></a></td>
+										<td class="user_report">
+											<a href="<?php echo site_url("posts/".$report["post_id"]);?>">
+											<?php echo $report["title"];?></a>
+										</td>
 									<?php else:?>
-										<td class="user_report"><a href="<?php echo site_url("posts/view_comment/".$report["comment_id"]);?>"><?php echo $report["content"];?></a></td>
+										<td class="user_report">
+											<a href="<?php echo site_url("posts/view_comment/".$report["comment_id"]);?>">
+											<?php echo $report["content"];?></a>
+										</td>
 									<?php endif;?>
 									<td class="user_report"><?php echo $report["reason"];?> </td>
-									<td class="user_report"><a href="#"><?php echo $report["complainant"];?> <?php echo $report["username"];?> </a></td>
+									<td class="user_report">
+										<a href="#"><?php echo $report["complainant"];?>
+										<?php echo $report["username"];?></a>
+									</td>
 									<td><?php echo $report["created_at"];?> </td>
 
 									<td>
@@ -99,23 +108,23 @@
 														Delete Post
 												</form>
 												</li>
-												</label>  
+												</label>
 
 												<label for="remove">
-												<li class="dropdown-item"> 
+												<li class="dropdown-item">
 												<?php echo form_open("reports/delete/".$report["id"]);?>
 													<input type="submit" id="remove" name = "report_id">
-														Delete Report 
+														Delete Report
 												</form>
 												</li>
-												</label> 
+												</label>
 
 												<label for="suspend">
-												<li class="dropdown-item"> 
+												<li class="dropdown-item">
 													<input type="submit" id="suspend" value = "<?php echo $report["user_id"]?>">
 														Suspend user
 												</li>
-												</label> 
+												</label>
 											</ul>
                             			</div>
 									</td>
@@ -131,7 +140,10 @@
 	</div>
 
 	<!-- Modal for suspend user -->
-	<div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="exampleModal" 
+		tabindex="-1" role="dialog" 
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+
 		<div class="modal-dialog " >
 			<div class="modal-content">
 			
@@ -150,7 +162,6 @@
 
 				<!-- Modal Footer -->
 				<div class="modal-footer">
-				<!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
 				<a type="submit" class="btn btn-secondary"  id="modalClose">Close</button>
 				<a href="#" class="btn btn-primary" id="userSubmit">Confirm</a>
 				</form>
@@ -180,7 +191,7 @@
                   "showMethod": "fadeIn",
                   "hideMethod": "fadeOut"
                 }
-        } 
+        }
 
 		$(document).on("click","#suspend",function(e){
 			e.preventDefault();
