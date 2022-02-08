@@ -6,10 +6,6 @@
     
 }
 
-.color{
-    background-color: red;
-}
-
 ul{
     list-style: none;
 }
@@ -165,7 +161,7 @@ nav ul .icon{
 
 
  .profile h2, .homethread .toppost h4, .threadcreatorname h3,
-.reaction input, .totalcomments input, .profilecontent h4{
+.reaction input, .totalcomments input, .profilecontent h4, .viewcreatorname h3{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -465,12 +461,12 @@ at yung height ay 38%
 .threads h1{
     margin-top: 20px;
     text-align: center;
-    background-color: rgb(253,240,213, 0.4);
+    background-color: rgb(253,240,213, 0.6);
     border-radius: 20px;
 }
 
 .threadscontent .container{
-    background-color: rgb(253,240,213, 0.4);
+    background-color: rgb(253,240,213, 0.6);
     padding-top: 20px;
     border-radius: 20px;
 
@@ -637,7 +633,7 @@ at yung height ay 38%
 }
 
 .createthread{
-    background-color: rgb(253,240,213, 0.4);
+    background-color: rgb(253,240,213, 0.6);
     margin: 16% 0 0 -60%;
     padding: 20px 0 0 10%;
     border-radius: 20px;
@@ -667,8 +663,7 @@ at yung height ay 38%
     border: 1px solid #314754;
     width: 60%;
     height: 55px;
-    margin-left: 100px;
-    margin-top: -50px;
+    margin: -50px 0 0 100px;
     border-radius: 10px;
 }
 
@@ -676,84 +671,41 @@ at yung height ay 38%
     background-color: #B6B682;
 }
 
-.divcategor{
-    width: 300px;
-    margin-left: -100px;
-   
-}
-
-.divcategor select{
-    width: 100%;
-    height: 40px;
-    padding: 3px 10px 0 115px;
-    border-radius: 20px;
-    border: 1px solid #161611;
-    cursor: pointer;
-}
-
-.divcategor select::-ms-expand{
-    display: none;
-}
-
-.divcategor select:focus{
-    outline: none;
-    box-shadow: 0 0 10px -1px #314754 ;
-}
-
-.divcategor::after{
-    content: '\25BC';
-    position: absolute;
-    margin-left: -25px;
-    cursor:pointer;
-    pointer-events:none;
-    transition:.25s all ease;
-    background: #314754 ;
-    color: white;
-    padding: 8px;
-    border-bottom-right-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-.divcategor .labelfilter{
-    position: absolute;
-    z-index: 4;
-    display: inline-block;
-    font-weight: 600;
-    margin-top: 10px;
-    margin-left: 15px;
-}
-
-.divcategor select option{
-    column-count: 2;
-}
-
-.divfilter{
+.divfilter, .divcategor{
     width: 300px;
     margin-left: 13px;
 }
 
-.divfilter select{
+select{
     width: 100%;
     height: 40px;
-    padding: 0 10px 0 85px;
     border-radius: 20px;
     border: 1px solid #161611;
     cursor: pointer;
 }
 
-.divfilter select::-ms-expand{
+.divfilter select{
+    padding: 0 10px 0 85px;
+}
+
+.divcategor select{
+    padding: 0 10px 0 120px;
+    margin-left: -400px;
+}
+
+select::-ms-expand{
     display: none;
 }
 
-.divfilter select:focus{
+select:focus{
     outline: none;
-    box-shadow: 0 0 10px -1px #314754 ;
+    box-shadow: 0 0 10px -1px #314754;
 }
 
-.divfilter::after{
+.divfilter::after, .divcategor::after{
     content: '\25BC';
     position: absolute;
-    margin-left: -25px;
+    margin-left: -23px;
     cursor:pointer;
     pointer-events:none;
     transition:.25s all ease;
@@ -764,17 +716,18 @@ at yung height ay 38%
     border-top-right-radius: 20px;
 }
 
-.divfilter .labelfilter{
+.labelfilter{
     position: absolute;
     z-index: 4;
-    display: inline-block;
     font-weight: 600;
-    margin-top: 10px;
-    margin-left: 15px;
 }
 
-.divfilter select option{
-    column-count: 2;
+.divfilter .labelfilter{
+    margin: 8px 0 0 15px;
+}
+
+.divcategor .labelfilter{
+    margin: 8.5px 0 0 -385px;
 }
 
 .categoriesdiv{
@@ -792,7 +745,7 @@ at yung height ay 38%
 }
 
 .homethread{
-    background-color: rgb(253,240,213, 0.4);
+    background-color: rgb(253,240,213, 0.6);
     margin-left: -390px;
     padding-bottom: 20px;
 
@@ -827,7 +780,7 @@ at yung height ay 38%
 .homethread .toppost h4{
     font-size: 18px;
     margin: 0 0 0 25px;
-    width: 800px;
+    width: 900px;
 }
 
 .homethread h3{
@@ -853,7 +806,7 @@ at yung height ay 38%
     background: #E5E5E5;
 }
 
-.viewthreadpic img{
+.viewthreadpic img, .viewsubpic img{
     width: 100%;
     height: 100%;
 }
@@ -871,9 +824,14 @@ at yung height ay 38%
     padding: 15px 10px 0 10px;
 }
 
-.threadcreatorname a{
+.threadcreatorname a, .viewcreatorname a, .subcommentpost a{
     color: black;
     text-decoration: none;
+}
+
+.threadcreatorname a:hover, .viewcreatorname a:hover, .subcommentpost a:hover{
+    text-decoration: underline;
+    color: #314754;
 }
 
 .threadspost{
@@ -1056,6 +1014,17 @@ hr.between{
     color: black;
 }
 
+.discussion .threadmore{
+    margin-left: 80px;
+}
+
+.discusheader{
+    background-color: rgb(254, 219, 151, 0.5);
+    border-radius: 20px;
+    margin-left: 55px;
+    height: 40px;
+    width: 920px;
+}
 
 .randomthreadtitle{
     background-color: #314754;
@@ -1298,7 +1267,7 @@ body{
 	padding: 75px 10px 10px 10px;
 	margin-left: 150px;
 	transition: margin-left .5s;
-    background-color: rgb(253,240,213, 0.4);
+    background-color: rgb(253,240,213, 0.6);
     height: 100vh auto;
 }
 
@@ -1464,6 +1433,93 @@ body{
     padding: 10px 0;
     border-radius: 20px;
 }
+
+.subcomment{
+    padding-top: 100px;
+}
+
+.subcommentpost{
+    background-color: rgb(253,240,213, 0.7);
+    width: 120%;
+    height: 100vh;
+    margin-top: -100px;
+    padding-top: 80px;
+    top: 0;
+    text-align: center;
+    position: sticky;
+    position: -webkit-sticky;
+    overflow-x: hidden;
+    display: absolute;
+}
+
+.subcomment h3{
+    text-align: center;
+}
+
+.viewsubpic{
+    width: 180px;
+    height: 180px;
+    margin: 20px 0 0 100px;
+    background: #E5E5E5; 
+}
+
+.viewcreatorname{
+    width: 180px;
+    height: 40px;
+    margin-left: 100px;
+    background: #FEDB97;
+    text-align: center;
+}
+
+.viewcreatorname h3{
+    font-size: 15px;
+    text-align: center;
+    width: 190px;
+    padding: 10px 5px 0 5px;
+}
+
+.subcommentpost h1{
+    margin: 20px 0 20px 0;
+    padding: 5px 10px;
+    font-size: 20px;
+    text-decoration: underline;
+    text-indent: 15px;
+}
+
+.subcomment h1, .subcomment h5{
+    width: 370px;
+    text-align: justify;
+    word-break: break-all;
+}
+
+.subcommentpost h5{
+    font-size: 15px;
+    text-indent: 25px;
+    padding: 0 10px 10px 0;
+}
+
+.subcomment h6{
+    font-size: 12px;
+    padding: 20px 0 20px 0;
+    font-weight: bold;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+    background-color: white;
+}
+
+::-webkit-scrollbar-track{
+    border-radius: 5px;
+    box-shadow: white;
+}   
+
+::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background-color: #5A817A
+}
+
+
 
 @keyframes loading {
     /* Safari support */

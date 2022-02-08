@@ -1,127 +1,147 @@
-<br>
-<br>
-<br>
-<br>
-<br>
-<div class="comments">
-                    <div class="circleimage">
-                            <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile" alt="Profile Photo" >                                
-                            </div>
-                            <div class="row"> 
+<div class="subcomment">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-m-3 col-sm-3">
+                <div class="subcommentpost">
+                    <div class="viewsubpic">
+                      <?php if(!empty($post["user_profile_photo"])){ ?>
+                          <img  src="<?php echo base_url().$post["user_profile_photo"];?>" alt="Profile Pic">
+                      <?php }
+                      else{?>
+                          <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
+                      <?php } ?>
+                    </div>
+                     <div class="viewcreatorname">
+                        <h3><a href="<?php echo base_url()."profiles/view/".$post["user_id"];?>"><?php echo ucfirst($post["username"]);?></a></h3>                
+                    </div>
+                     <h1><a href="#"><?php echo $post["title"];?></a></h1>
+                     <h5><?php echo $post["body"];?></h5>
+                     <h6>Posted on: <?php echo $post["post_created_at"];?></h6>
+                </div>
+
+            </div>
+            <div class="col-lg-9 col-m-9 col-sm-9">
+                <div class="discussion">
+                    <h3 class="discusheader">Comment</h3>
+                    <div class="comments">
+                        <div class="circleimage">
+                        <img src="<?php echo base_url();?>assets/image/user.png" class="userprofile" alt="Profile Photo" >
+                        </div>
+                        <div class="row"> 
                             <div class="col-lg-3">    
-                                <a href=""><h2>
-                                  <?php echo $comments["username"]?>
-                                </h2></a>
+                                <a href=""><h2><?php echo $comments["username"]?></h2></a>
                             </div>  
                             <div class="col-lg-9">    
                                 <div class="commentdropdown">
                                 <?php 
                                 if($this->session->userdata("user_id") != $comments["user_id"]) { ?>
-                                <div class="dropdown">
-                                <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
-                                        <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item">
-                                            <a href="#" id="report_button" name="discussion"  value="<?php echo $comments['comment_id']?>">Report</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <?php } ?>
-                            </div>                              
+                                    <div class="dropdown">
+                                      <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
+                                          <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
+                                      </button>
+                                      <ul class="dropdown-menu">
+                                        <li class="dropdown-item">
+                                                <a href="#" id="report_button" name="discussion"  value="<?php echo $comments['comment_id']?>">Report</a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                <?php } ?>  
+                                </div>                              
                             </div>  
-                        </div> 
-                        <div id='containeredit<?php echo $comments["comment_id"]?>'>
-                          <div class="comment_edit" style="display:none;" id="textarea_container">
-                            <form action="" method="POST" id="edit_form">
-                            <input type="hidden" id="edit_id" value="">
-                                    <textarea  class="text" id="edit_textarea<?php echo $comments['comment_id']?>" name="edit_comment"></textarea>
-                                    <button class="button1" id="update_comment">Update</button>
-                                    <button id="back_comment">Cancel</button>
-                            </form>
-                          </div> 
-                       </div>
-                       <div class="commentuser" id='edit_container${element["comment_id"]}'>
-                         <p id="comment_owner"><?php echo $comments["content"]?></p>                     
-                       </div>
-                       <div id='edit_container1$<?php echo $comments["comment_id"]?>'>
-                       <div class="threadmore" id="discussion_reaction">
-                            
-                        </div>
-                    </div>
-                    </div>  
-                    </div>
-                    <div style="display: flex;justify-content: center;">
-                        <h3>Replies</h3>
-                    </div>
-                  
-                  <div id="subcomments_container">
+                          </div>
 
-                  </div>
+                          <div id='containeredit<?php echo $comments["comment_id"]?>'>
+                            <div class="comment_edit" style="display:none;" id="textarea_container">
+                              <form action="" method="POST" id="edit_form">
+                              <input type="hidden" id="edit_id" value="">
+                                      <textarea  class="text" id="edit_textarea<?php echo $comments['comment_id']?>" name="edit_comment"></textarea>
+                                      <button class="button1" id="update_comment">Update</button>
+                                      <button id="back_comment">Cancel</button>
+                              </form>
+                            </div> 
+                          </div>
+
+                        <div class="commentuser" id='edit_container${element["comment_id"]}'>
+                          <p id="comment_owner"><?php echo $comments["content"]?></p>                     
+                        </div>
+                        <div id='edit_container1$<?php echo $comments["comment_id"]?>'>
+                          <div class="threadmore" id="discussion_reaction">
+                          </div>
+                        </div>
+                    </div> 
+                    <h3 class="discusheader">Replies</h3>
+                    <div id="subcomments_container">
+
+                    </div> 
                     
                     <div class="comments">
                         <div class="row">
                             <div class="col-lg-2">
                                 <div class="circleimage">
-                                <?php if(!empty($user["user_profile_photo"])){ ?>
-                                    <img  class="userprofile" src="<?php echo base_url().$user["user_profile_photo"];?>" alt="Profile Pic">
-                                <?php }
-                                else{?>
-                                    <img class="userprofile" src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
-                                <?php } ?>    
-                                </div>         
+                                  <?php if(!empty($user["user_profile_photo"])){ ?>
+                                      <img  class="userprofile" src="<?php echo base_url().$user["user_profile_photo"];?>" alt="Profile Pic">
+                                  <?php }
+                                  else{?>
+                                      <img class="userprofile" src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
+                                  <?php } ?>
+                                </div>
                             </div>
                             <div class="col-lg-9">
+                            
                                 <div class="commentuser">
-                                <?php echo validation_errors();?>
-                                    <form action="" method="POST" id="create_form"> 
-                                        <input type="hidden" id="create_post_id"   name="comment_id" value="<?php echo $commentId;?>" >
-                                        <textarea class="text" type="comment" id="create_comment" name="reply" placeholder="Repy to this Comment"></textarea>
-                                        <button type="submit" id="create">reply</button>
-                                    </form>
-                                </div>    
+                                  <form action="" method="POST" id="create_form"> 
+                                          <input type="hidden" id="create_post_id"   name="comment_id" value="<?php echo $commentId;?>" >
+                                          <textarea class="text" type="comment" id="create_comment" name="reply" placeholder="Repy to this Comment"></textarea>
+                                          <button type="submit" id="create">Reply</button>
+                                  </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Modal for report action -->
-                    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" >
-                                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+      </div>        
+    </div>
+    <!-- Modal for report action -->
+    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <div class="statusMsg"></div>
+              <form role="form" id="report_form">
+                <div class="form-group">
+                  <input type="hidden" id="content_id" name="id" value="">
+                  <input type="hidden" id="report_type" name="report_type" value="">
+                  <label for="message-text" class="col-form-label">Reason:</label>
+                  <textarea name = "reason" class="form-control" id="message-text"></textarea>
+                </div>
+              </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+              <a href="#" class="btn btn-secondary" id="report_close">Close</a>
+              <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Report</h5>
-                                </div>
-
-                                <!-- Modal Body -->
-                                <div class="modal-body">
-                                  <div class="statusMsg"></div>
-                                  <form role="form" id="report_form">
-                                    <div class="form-group">
-                                    <input type="hidden" id="content_id" name="id" value="">
-                                      <input type="hidden" id="report_type" name="report_type" value="">
-                                      <label for="message-text" class="col-form-label">Reason:</label>
-                                      <textarea name = "reason" class="form-control" id="message-text"></textarea>
-                                    </div>
-                                  </form>
-                                </div>
-
-                                <!-- Modal Footer -->
-                                <div class="modal-footer">
-                                <!--  <button type="button" id="report_close" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                                  <a href="#" class="btn btn-secondary" id="report_close">Close</a>
-                                  <a href="#" class="btn btn-primary" id="userSubmit" value="<?php echo $post["id"];?>">Submit</a>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                    
-
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
-
+    <script type="text/javascript">
+      const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
+      document.querySelector('body').style.background = rgbaColor;
+    </script>
     <script>
          function showcomment(editSubcommentId) {
                 $("#containeredit"+editSubcommentId).children("#textarea_container").css("display","none");
@@ -185,14 +205,18 @@
                                                 <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li class="dropdown-item">
-                                                <input type="submit" id="edit" >
-                                                <label for="edit" id="edit_sub" name="delete_edit" value="${element['subcomment_id']}">Edit</label>
-                                            </li>
-                                            <li class="dropdown-item"> 
-                                                <input type="submit" id="remove">
-                                                    <label for="remove"  id = "del_sub" name="delete_edit" value="${element['subcomment_id']}">Remove</label>  
-                                            </li>
+                                        <label for="edit" id="edit_sub" name="delete_edit" value="${element['subcomment_id']}">
+                                              <li class="dropdown-item">
+                                                  <input type="submit" id="edit" >
+                                                  Edit
+                                              </li>
+                                        </label>
+                                            <label for="remove"  id = "del_sub" name="delete_edit" value="${element['subcomment_id']}">
+                                              <li class="dropdown-item"> 
+                                                  <input type="submit" id="remove">
+                                                    Remove
+                                              </li>
+                                            </label>  
                                         </ul>
                                     </div>`;
                 } else if(<?php echo $this->session->userdata("user_id");?> != element["user_id"]){
@@ -583,32 +607,25 @@
             console.log(data);
             var post = "";
             post += `
-            <div class="reaction">
-                            <div class="upbutton">
-                              
 
-                              <button name="submit" id="upvote_post" value="${data["comment_id"]}">
-                                <i class="fa fa-thumbs-up fa-lg"></i>
+                          <div class="reaction">
+                            <button name="submit" id="upvote_post" value="${data["comment_id"]}">
+                                <em class="fa fa-thumbs-up fa-lg"></em>
                                 <input type="numberlike" value="${data["upvote"]}">
-                              </button>
-                            
+                            </button>
+
+                            <button name="submit" id="downvote_post" value="${data["comment_id"]}">
+                              <em class="fa fa-thumbs-down fa-lg"></em>
+                              <input type="numberlike" value="${data["downvote"]}">
+                            </button>
+                          </div> 
+                            <div class="totalcomments">
+                              <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
+                              <input type="numberlike" id="input1" value="${data["subcomment_count"]}" name="">
                             </div>
-
-                            <div class="downbutton">
-                             
-                                <button name="submit" id="downvote_post" value="${data["comment_id"]}">
-                                    <i class="fa fa-thumbs-down fa-lg"></i>
-                                    <input type="numberlike" value="${data["downvote"]}">
-                                </button>
+                            <div class="whatcategory">
+                                <h4>Commented on: 2022-01-01 14:42:47 </h4>
                             </div>
-            </div> 
-                        <div class="totalcomments">
-                            <img src="<?php echo base_url();?>assets/image/comment.png" alt="">
-                            <input type="numberlike" id="input1" value="${data["subcomment_count"]}" name="">
-                        </div>
-            
-
-
             `;
             $("#discussion_reaction").html(post);
            

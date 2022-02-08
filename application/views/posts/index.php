@@ -1,5 +1,5 @@
-               <div class="row">
-                    <div class="col-lg-5">
+<div class="row">
+                    <div class="col-lg-6">
                         <div class="divcategor">
                             <span class="labelfilter">Categories: </span>
                             <select name="" id="category_filter">
@@ -12,7 +12,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-6">
                         <div class="divfilter">
                             <span class="labelfilter">Filter: </span>
                             <select name="" id="post_filter">
