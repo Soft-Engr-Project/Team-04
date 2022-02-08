@@ -1,3 +1,9 @@
+<script>
+ $(document).ready(function(){
+    window.location.href='#<?php echo $pageSection;?>';
+});
+</script>
+
 <div onclick="checkMousePointer()">
 <div style="height: 100vh">
     <div class="wrapper">
@@ -43,7 +49,7 @@
                             </div>
                             <button class="smallbutton1" value="Update Profile">Save Changes</button>
                         </form>
-                        <h2><?php echo validation_errors();?></h2>
+                        <h2 class="error"><?php echo isset($errorname)? $errorname : "";?></h2>
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>
@@ -75,7 +81,7 @@
                             <div style="padding-left: 50px;" class="form-group mb-3 col-md-12">
                                 <label>Code:</label>
                                 <input type="text" name="otp" placeholer="Enter your otp"/>
-                                <button id="regenerateOTP" class="btn btn-warning btn_shadow" style="border-radius: 0; padding:0; top:540px; right:40px; margin-right: 530px; position:absolute" ><span id="timer">Code</span></button> 
+                                <button id="regenerateOTP" class="btn btn-warning btn_shadow" style="border-radius: 0; padding:0; top:540px; right:40px; margin-right: 450px; position:absolute" ><span id="timer">Code</span></button> 
                                 <script>
                                     $('#regenerateOTP').on('click', function () {
                                       disableResend();
@@ -129,10 +135,10 @@
                                 <label>&nbsp;&nbsp;Password:</label>
                                 <input type="password" name="password"required>
                             </div>
-                            <p class="reminder">Reminder: Please check your email to verify. Thank you</p>
+                            <p class="reminder">Reminder: Please check your code to your CURRENT Email to verify. Thank you</p>
                             <button class="smallbutton1">Save Changes</button>
                         </form>
-                        <h2><?php echo validation_errors();?></h2>
+                        <h2 class="error"><?php echo isset($errormail)? $errormail : "";?></h2>
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>
@@ -177,7 +183,7 @@
                             </div>
                             <button class="smallbutton1">Save Changes</button>
                         </form>
-                        <h2><?php echo validation_errors();?></h2>
+                        <h2 class="error"><?php echo isset($errorpass)? $errorpass : "";?></h2>
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>

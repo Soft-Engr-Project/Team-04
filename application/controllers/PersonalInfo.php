@@ -17,6 +17,7 @@
             $this->load->view("templates/sidebar", $data);
             // Personal Info
             $data = $this->Personalize_model->getUserInfo($userID);
+            $data["pageSection"] = '';
             $data["title"] = "My Information";
             $this->load->view("settings/personalinfo",$data);
             $this->load->view("templates/footer");
@@ -36,6 +37,8 @@
             $data = $this->Personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
+                $data["errorname"] = validation_errors();
+                $data["pageSection"] = 'changename';
                 $this->load->view("settings/personalinfo",$data);
             }
             else {
@@ -69,8 +72,12 @@
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
             $this->form_validation->set_rules('otp','Code','required|callback_checkOTP');
             $data = $this->Personalize_model->getUserInfo($userID);
+
+            $this->form_validation->set_error_delimiters('','');
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
+                $data["errormail"] = validation_errors();
+                 $data["pageSection"] = 'changeemail';
                 $this->load->view("settings/personalinfo",$data);
             }
             else {
@@ -78,7 +85,7 @@
                     'email' => $this->input->post("email"),
                 );
                 $this->Personalize_model->update_user($userData); // Update database
-                
+
                 $newEmail = array('email'=>$this->input->post("email"));
                 $this->session->set_userdata($newEmail);
 
@@ -106,6 +113,8 @@
             $data = $this->Personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
+                $data["errorpass"] = validation_errors();
+                $data["pageSection"] = 'changepass';
                 $this->load->view("settings/personalinfo",$data);
             }
             else {
