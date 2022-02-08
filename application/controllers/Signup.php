@@ -50,8 +50,7 @@ class Signup extends CI_Controller
             $hashedPass = password_hash($password, PASSWORD_DEFAULT); // hash the password
 
             // Code Generation fo email verification
-            $hash = md5(rand(0,1000));  // Generate hash value
-            $code = substr(str_shuffle($hash), 0, 12); // Transform it to 12 key code
+            $code = random_int(100000,999999);  // Generate 6 digit value
             $bgColor = "rgba(255, 255, 255, 1)";
             // Place all input values from the form in an array
             $userData = array(

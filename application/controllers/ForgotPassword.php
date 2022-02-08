@@ -17,8 +17,7 @@
                 $this->load->view("pages/forgot_password");
             }else {
                 // Code Generation
-                $passcode = random_int(0,999999);  // Generate hash value
-                $passcode = str_pad($passcode, 6, 0, STR_PAD_LEFT);
+                $passcode = random_int(100000,999999);  // Generate 6 digit value
                 
                 // get user info and generate 6 digit code to be sent on email
                 $email = $this->input->post('email'); //Get user email input
