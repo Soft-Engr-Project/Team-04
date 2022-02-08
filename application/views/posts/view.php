@@ -164,9 +164,7 @@
             </div>
             <div class="col-lg-9">
                 <div class="discussion">
-                    <h3>Discussion</h3>
-                    
-                   
+                    <h3 class="discusheader">Discussion</h3>
                     <div id="comments"></div>      
                     <div class="d-flex justify-content-center" id="removeSeeMore">
                         <button id="seeMore" value="" class="btn btn-info" style="display:none;">See More</button>
