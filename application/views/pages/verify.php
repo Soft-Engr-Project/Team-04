@@ -6,10 +6,14 @@
                     <div class="myleftforgot">
                         <h1>Thinklik</h1>
                         <div class="form-group mb-3 col-md-12">
-                            <a href="<?php echo site_url("logins/form");?>"><input type="submit" class="button1" value="Sign In"></a>
+                            <a href="<?php echo site_url("logins/form");?>">
+                                <input type="submit" class="button1" value="Sign In">
+                            </a>
                         </div>
                         <div class="form-group mb-3 col-md-12">
-                            <a href="<?php echo site_url("Signup/register"); ?>"><input type="submit" class="button1" value="Sign Up"></a>
+                            <a href="<?php echo site_url("Signup/register"); ?>">
+                                <input type="submit" class="button1" value="Sign Up">
+                            </a>
                         </div>
                     </div> 
                 </div>

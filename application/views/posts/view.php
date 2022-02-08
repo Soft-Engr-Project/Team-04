@@ -201,11 +201,8 @@
     </div>
   </div>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-  
-<script>
+
+<script type="text/javascript">
 const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
 document.querySelector('body').style.background = rgbaColor;
 </script>

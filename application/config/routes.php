@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["profile/delete"] = "profile/delete";
+$route["posts/getPostProfile"] = "posts/getPostProfile";
 $route["admins/fetchUser"] = "admins/fetchUser";
 $route["subcomments/fetchSpecificComment"] = "subcomments/fetchSpecificComment";
 $route["subcomments/reaction"] = "subcomments/reaction";
