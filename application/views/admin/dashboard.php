@@ -1,7 +1,7 @@
 	<div class="wrapper">
 		<div class="row">
 			<div class="col-3 col-m-6 col-sm-6">
-				<a href="users_adminview.html">
+				<a href="<?php echo base_url();?>admins/users">
 				<div class="counter">
 					<p>
 						<em class="fas fa-users"></em>
@@ -14,6 +14,7 @@
 				</a>
 			</div>
 			<div class="col-3 col-m-6 col-sm-6">
+				<a href="<?php echo base_url();?>admins/posts">
 				<div class="counter">
 					<p>
 						<em class="fas fa-mail-bulk"></em>
@@ -23,9 +24,10 @@
 					</h3>
 					<p>Total Categories</p>
 				</div>
+				</a>
 			</div>
 			<div class="col-3 col-m-6 col-sm-6">
-				<a href="#">
+				<a href="<?php echo base_url();?>admins/posts">
 				<div class="counter">
 					<p>
 						<em class="fas fa-envelope"></em>
@@ -38,7 +40,7 @@
 				</a>
 			</div>
 			<div class="col-3 col-m-6 col-sm-6">
-				<a href="#report">
+				<a href="<?php echo base_url();?>admins/dashboard">
 				<div class="counter">
 					<p>
 						<em class="fas fa-flag"></em>

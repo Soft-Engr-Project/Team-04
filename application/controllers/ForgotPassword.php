@@ -12,9 +12,8 @@
         public function forgot_password()
         {
             $this->form_validation->set_rules('email','Email','required|callback_checkEmailVerify');
-            $this->load->view("templates/loginheader");
             if($this->form_validation->run()===false) {
-                $this->load->view("pages/forgot_password");
+                $this->pagetemplate->showlogin("pages/forgot_password", $data);
             }else {
                 // Code Generation
                 $passcode = random_int(100000,999999);  // Generate 6 digit value
@@ -43,9 +42,9 @@
                 $newdata = array('email'=>$email, 'lock_id'=>$lockID);
                 $this->session->set_userdata($newdata);
 
-                $this->load->view("pages/passcode");
+                $this->pagetemplate->showlogin("pages/passcode", $data);
+
             }
-            $this->load->view("templates/footer");
         }
 
         // EMAIL MESSAGE SETUP
@@ -109,24 +108,21 @@
                 $passcode = $this->input->post('passcode');
                 //check if same passcode
                 $query= $this->ResetPassword->check_passcode($email, $passcode);
-                $this->load->view("templates/loginheader");
                 // If true, direct to change password
                 if ($query) {
                     $this->session->set_userdata(array('lock_id'=>1));
-                    $this->load->view("pages/change_password");
+                    $this->pagetemplate->showlogin("pages/change_password");
                
                 }
                 else {
                     $this->form_validation->set_rules("passcode","Code","callback_checkCode");
                     if($this->form_validation->run() == false) {
-                        $this->load->view("pages/passcode");
+                        $this->pagetemplate->showlogin("pages/passcode");
                     }
                     else {
                         redirect("ForgotPassword/passverify");
                     }
-                    
                 }
-                $this->load->view("templates/footer");
             }
         }
 
@@ -156,9 +152,8 @@
                 }
                 $this->form_validation->set_rules('password_1', 'Password', 'required');
                 $this->form_validation->set_rules('password_2', 'Confirm Password', 'required|callback_checkNewPassword');
-                $this->load->view("templates/loginheader");
                 if($this->form_validation->run()===false) { 
-                    $this->load->view("pages/change_password");
+                    $this->pagetemplate->showlogin("pages/change_password");
                 }
                 else {
                     $hashedPass = password_hash($this->input->post("password_1"), PASSWORD_DEFAULT);
@@ -167,12 +162,11 @@
                             );
                     $query = $this->ResetPassword->change_pass($email, $dataPass);
                         if ($query) {
-                        $this->load->view("pages/passwordverify");
+                        $this->pagetemplate->showlogin("pages/passwordverify");
                         
                         $this->session->sess_destroy();
                     }
                 }
-                $this->load->view("templates/footer"); 
             }
         }
         

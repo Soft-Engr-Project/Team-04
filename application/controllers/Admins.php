@@ -27,8 +27,8 @@
             $data["counts"] = $this->Admin_model->total_counts();
             $data["reports"]  = $this->Reports_model->get_reports();
             
-            // Show reports
-            $this->showView("admin/dashboard", $data);
+            // Show reports]
+            $this->pagetemplate->showadmin("admin/dashboard", $data);
         }
 
         public function categories($id = null)
@@ -38,7 +38,7 @@
             $data["categories"] = $this->Categories_model->get_categories();
 
             // Show reports
-            $this->showView("admin/categories", $data);
+            $this->pagetemplate->showadmin("admin/categories", $data);
         }
 
         public function posts($id=NULL)
@@ -48,7 +48,7 @@
             $data["counts"] = $this->Admin_model->total_counts("posts");
 
             // Show reports
-            $this->load->showView("admin/posts", $data);
+            $this->pagetemplate->showadmin("admin/posts", $data);
         }
 
         public function profile($id=NULL)
@@ -59,7 +59,7 @@
             $data["admin"] = $this->Admin_model->admin_info($userID);
 
             // Show reports
-            $this->showView("admin/profile", $data);
+            $this->pagetemplate->showadmin("admin/profile", $data);
         }
 
         public function users($id=NULL)
@@ -68,16 +68,10 @@
             $data["counts"] = $this->Admin_model->total_counts("users");
 
             // Show reports
-            $this->showView("admin/users", $data);
+            $this->pagetemplate->showadmin("admin/users", $data);
         }
 
-        // For showing the html
-        private function showView($views, $data)
-        {
-            $this->load->view("templates/adminheader");
-            $this->load->view($views, $data);
-            $this->load->view("templates/adminfooter");
-        }
+        
 
         public function fetchUsers(){
             $data["users"] = $this->User_model->get_user();

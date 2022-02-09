@@ -13,14 +13,13 @@
             //for header pic
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$data);
-            $this->load->view("templates/sidebar", $data);
+
             // Personal Info
             $data = $this->Personalize_model->getUserInfo($userID);
             $data["pageSection"] = '';
             $data["title"] = "My Information";
-            $this->load->view("settings/personalinfo",$data);
-            $this->load->view("templates/footer");
+
+            $this->pagetemplate->show("templates/sidebar", $data, "settings/personalinfo");
         }
         
         public function changename()
@@ -28,8 +27,6 @@
             //for header pic
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$data);
-            $this->load->view("templates/sidebar", $data);
             // Rules for forms
             $this->form_validation->set_rules('firstname','Firstname','required');
             $this->form_validation->set_rules('lastname','Lastname','required');
@@ -39,7 +36,8 @@
                 $data["title"] = "My Information";
                 $data["errorname"] = validation_errors();
                 $data["pageSection"] = 'changename';
-                $this->load->view("settings/personalinfo",$data);
+
+                $this->pagetemplate->show("templates/sidebar", $data, "settings/personalinfo");
             }
             else {
                 $userData = array(
@@ -49,13 +47,10 @@
                 $this->Personalize_model->update_user($userData); // Update database
                 $data['title'] = 'Settings';
                 $data["user"] = $this->user_model->get_user($userID);
-                $this->load->view("templates/header",$data);
-                redirect("Personalinfo/update");
-                // $this->load->view("settings/personalinfo");
 
-                
+                $this->pagetemplate->show("templates/sidebar", $data, "templates/header");
+                redirect("Personalinfo/update");    
             }
-            $this->load->view("templates/footer");
         }
 
         public function changeemail()
@@ -64,8 +59,6 @@
 
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$data);
-            $this->load->view("templates/sidebar", $data);
             // Rules for forms
             $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
             $this->form_validation->set_rules('confemail', 'Confirm Email', 'required|matches[email]');
@@ -78,7 +71,7 @@
                 $data["title"] = "My Information";
                 $data["errormail"] = validation_errors();
                  $data["pageSection"] = 'changeemail';
-                $this->load->view("settings/personalinfo",$data);
+                 $this->pagetemplate->show("templates/sidebar", $data, "settings/personalinfo");
             }
             else {
                 $userData = array(
@@ -91,12 +84,9 @@
 
                 $data['title'] = 'Settings';
                 $data["user"] = $this->user_model->get_user($userID);
-                $this->load->view("templates/header",$data);
-                redirect("Personalinfo/update");
-                // $this->load->view("settings/personalinfo");
-                
+                $this->pagetemplate->show("templates/sidebar", $data, "templates/header");
+                redirect("Personalinfo/update"); 
             }
-            $this->load->view("templates/footer");
         }
 
         public function changepass()
@@ -104,8 +94,7 @@
             //for header pic
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$data);
-            $this->load->view("templates/sidebar", $data);
+
             // Rules for forms
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
             $this->form_validation->set_rules('password_1','New Password');
@@ -115,7 +104,7 @@
                 $data["title"] = "My Information";
                 $data["errorpass"] = validation_errors();
                 $data["pageSection"] = 'changepass';
-                $this->load->view("settings/personalinfo",$data);
+                $this->pagetemplate->show("templates/sidebar", $data, "settings/personalinfo");
             }
             else {
                 $userData = array();
@@ -128,12 +117,9 @@
 
                 $data['title'] = 'Settings';
                 $data["user"] = $this->user_model->get_user($userID);
-                $this->load->view("templates/header",$data);
+                $this->pagetemplate->show("templates/sidebar", $data, "templates/header");
                 redirect("Personalinfo/update");
-                // $this->load->view("pages/settings");
-                
             }
-            $this->load->view("templates/footer");
         }
 
         public function checkEmail($email)

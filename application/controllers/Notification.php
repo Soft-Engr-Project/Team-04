@@ -22,10 +22,7 @@
                $this->notification_model->read_notification($user_id, $dataNotif);
                $data["notification"] = $this->notification_model->get_notification($user_id);
 
-               $this->load->view("templates/header", $data);
-               $this->load->view("pages/home");
-               $this->load->view("notification/index");
-			   $this->load->view("templates/footer");
+               $this->pagetemplate->show("pages/home", $data, "notification/index");
 		}
         public function bellCountChecker()
         {

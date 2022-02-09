@@ -44,10 +44,7 @@
             $data["comments"] = $this->Comments_model->get_comments($id);
             $data["reported_id"] = $commentID;
 
-            $this->load->view("templates/header", $data);
-            $this->load->view("posts/view");
-            $this->load->view("posts/view_scripts");
-            $this->load->view("templates/footer");
+            $this->pagetemplate->show("posts/view", $data, "posts/view_scripts");
         }
 
         public function create()
@@ -55,7 +52,6 @@
             //for header pic
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
-            $this->load->view("templates/header",$data);
 
             $data["title"] = "Create Post";
             // get all the categories
@@ -66,7 +62,7 @@
             $this->form_validation->set_rules("body","Body","required");
 
             if($this->form_validation->run() == false) {
-                 $this->load->view("posts/create", $data);
+                $this->pagetemplate->show("posts/create", $data);
             }else {
                 $json = file_get_contents(FCPATH."reaction.json");
                 $reactID = $this->post_model->create_reaction_log($json);
@@ -133,7 +129,6 @@
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");
             }
-            $this->load->view("templates/footer");
         }
 
         public function delete($id)
@@ -168,9 +163,7 @@
             if(empty($data["post"])) {
                 show_404();
             }
-            $this->load->view("templates/header", $data);
-            $this->load->view("posts/edit");
-            $this->load->view("templates/footer");
+            $this->pagetemplate->show("posts/edit", $data);
         }
         
         public function update()
@@ -186,10 +179,8 @@
             $this->form_validation->set_rules("title","Title","required|min_length[10]");
             $this->form_validation->set_rules("body","Body","required");
             
-            if($this->form_validation->run() == false) {
-                    $this->load->view("templates/header");
-                    $this->load->view("posts/edit", $data);
-                    $this->load->view("templates/footer");
+            if ($this->form_validation->run() == false) {
+                $this->pagetemplate->show("posts/edit", $data);
             }else {
                 $postImage = $this->input->post("post_image");
                 $image = $_FILES['userfile'];

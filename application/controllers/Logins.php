@@ -1,7 +1,6 @@
 <?php
 class Logins extends CI_Controller
 {
-	private $data = array();
 	public function __construct()
     {
         parent::__construct();
@@ -12,9 +11,8 @@ class Logins extends CI_Controller
     public function form()
     {
         $data["title"]="Login";
-        $this->load->view("templates/loginheader.php", $data);
-        $this->load->view("pages/login.php");
-        $this->load->view("templates/footer.php");
+
+        $this->pagetemplate->showlogin("pages/login", $data);
     }
     
     public function login()
@@ -23,10 +21,9 @@ class Logins extends CI_Controller
         $this->form_validation->set_rules('password','Password','required');
         // para mawala yung tag sa validation_error()
         $this->form_validation->set_error_delimiters('','');
-        $this->load->view("templates/loginheader");
         if($this->form_validation->run()===false) {
             $data["error"] =  validation_errors();
-            $this->load->view("pages/login", $data);// Load body
+            $this->pagetemplate->showlogin("pages/login", $data); // Load body
         }else {
             // Get user login input
             $username = $this->input->post('username');
@@ -51,8 +48,8 @@ class Logins extends CI_Controller
                 $newdata = array('email'=>$email);
                 $this->session->set_userdata($newdata);
                 
-                $this->load->view("templates/2FAformat", $data); // Load body
-       
+                $this->pagetemplate->showlogin("templates/2FAformat", $data);// Load body
+                     
             }else {
                 $data["error"] = $this->Login->login_user($username,$password); // Login validation 
                 if($data["error"] == "Login Success"){
@@ -62,11 +59,8 @@ class Logins extends CI_Controller
                     $this->User_model->isLogin($this->session->userdata("user_id"),$isLog);
                     redirect("pages/view");
                 }
-                $this->load->view("pages/login", $data);// Load body
-                // $this->load->view("pages/view"); // Load body
-  
+                $this->pagetemplate->showlogin("pages/login", $data); // Load body
             }
-            $this->load->view("templates/footer");
         }
     }
     // EMAIL MESSAGE SETUP
@@ -115,9 +109,7 @@ class Logins extends CI_Controller
             if($this->form_validation->run() != false) {
                 redirect("admins/dashboard");
             }else {
-                $this->load->view("templates/loginheader", $data);
-                $this->load->view("templates/2FAformat");
-                $this->load->view("templates/footer");
+                $this->pagetemplate->showlogin("templates/2FAformat", $data);
             }   
         }   
     }

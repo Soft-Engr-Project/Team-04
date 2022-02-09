@@ -38,9 +38,10 @@ class Signup extends CI_Controller
         $this->form_validation->set_error_delimiters('','');
         if($this->form_validation->run()===false) {
             $data["error"] =  validation_errors();
-            $this->load->view("templates/loginheader");
-            $this->load->view("pages/signup");
-            $this->load->view("templates/footer");
+            $this->pagetemplate->showlogin("pages/signup");
+            // $this->load->view("templates/loginheader");
+            // $this->load->view("pages/signup");
+            // $this->load->view("templates/footer");
         }else { // If the is forms filled up correctly
             // Get form input
             $password = $this->input->post("password_1");
@@ -77,9 +78,10 @@ class Signup extends CI_Controller
             $this->send($email, 'templates/email_format', $emailData); // Call email setup function
           
             // Load email sent html to notify the user
-            $this->load->view("templates/loginheader");
-            $this->load->view("pages/checkemail");
-            $this->load->view("templates/footer");
+            $this->pagetemplate->showlogin("pages/checkemail");
+            // $this->load->view("templates/loginheader");
+            // $this->load->view("pages/checkemail");
+            // $this->load->view("templates/footer");
         }
     }
    
@@ -170,9 +172,7 @@ class Signup extends CI_Controller
         
         // If true, inform the user in verify.php
         if ($query){
-        $this->load->view("templates/loginheader");
-        $this->load->view("pages/verify");
-        $this->load->view("templates/footer");  
+        $this->pagetemplate->showlogin("pages/verify");
         
         }else {
             echo "Invalid URL";
@@ -186,16 +186,6 @@ class Signup extends CI_Controller
         }
         return FALSE;
     }
-
-
-  
-
-
-    
-    
-
-
-
 
 }
 

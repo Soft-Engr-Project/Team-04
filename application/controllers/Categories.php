@@ -7,9 +7,7 @@
 		{
 			$data["title"] = "Categories";
 			$data["categories"] = $this->categories_model->get_categories();
-			$this->load->view("templates/header", $data);
-			$this->load->view("categories/display");
-			$this->load->view("templates/footer");
+			$this->pagetemplate->show("categories/display", $data);
 		}
 		// iviview lahat ng same category 
 		public function view($name)
@@ -20,9 +18,7 @@
 				show_404();
 			}
 			$data["posts"] = $this->categories_model->get_posts_by_category($name);
-			$this->load->view("templates/header", $data);
-			$this->load->view("posts/index");
-			$this->load->view("templates/footer");
+			$this->pagetemplate->show("posts/index", $data);
 		}
 		public function create_category()
 		{
