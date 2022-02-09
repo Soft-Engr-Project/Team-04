@@ -250,8 +250,8 @@ nav ul .icon{
     margin: 10px 0 0 150px;
     font-weight: bold;
 }
-
-.smallcontent button, .changeinfo button{
+/* Binago */
+.smallcontent button, .changeinfo button, .createpost button{
     padding: 8px 20px;
     background-color: #7C9784;
     font-weight: bold;
@@ -265,12 +265,12 @@ nav ul .icon{
     margin: 60px 0 0 40px;
 }
 
-#coverpage .smallbutton2, #profilepage .smallbutton2, .changeinfo .smallbutton2 {
+#coverpage .smallbutton2, #profilepage .smallbutton2, .changeinfo .smallbutton2, .createpost .cancelbutton {
     margin: -40px 0 0 360px;
     position: absolute;
 }
-
-.smallcontent button:hover, .changeinfo button:hover{
+/* Binago */
+.smallcontent button:hover, .changeinfo button:hover, .createpost button:hover{
     background-color: #314754;
     color: white;
 }
@@ -1526,7 +1526,63 @@ body{
     background-color: #5A817A
 }
 
+.createpost{
+    padding-top: 100px;
+    width: 100%;
+    text-align: center;
+}
 
+.createpost label{
+    font-size: 20px;
+    position: absolute;
+    margin-left: -600px;
+    background-color: rgb(253,240,213, 0.6);
+    width: 150px;
+    height: 37px;
+    border-radius: 20px 0 0 20px;
+    border-left: 1px solid #D1D1D1;
+    border-top: 1px solid #D1D1D1;
+    border-bottom: 1px solid #D1D1D1;
+}
+
+.createpost .uploadlabel{
+    border-right: 1px solid #D1D1D1;
+}
+
+.createpost .uploadpic{
+    width: 900px;
+    margin-top: 3px;
+    background-color: white;
+    border: 1px solid #D1D1D1;
+}
+
+.createpost .form-group{
+    width: 900px;
+    margin-left: 200px;
+}
+
+.createpost button{
+    border: 1px solid #D1D1D1;  
+}
+
+.createpost h3{
+    font-size: 15px;
+    color: red;
+    background-color: #D1D1D1;
+    padding-top: 5px;
+    border-radius: 10px;
+    margin: -40px 0 0 200px;
+    position: absolute;
+}
+
+.createpost h1{
+    position: absolute;
+    font-size: 30px;
+    margin: 200px 0 0 20px;
+    background-color: rgb(253,240,213, 0.6);
+    padding: 10px;
+    border-radius: 20px 0 0 20px;
+}
 
 @keyframes loading {
     /* Safari support */
