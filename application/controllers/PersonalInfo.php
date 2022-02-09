@@ -4,12 +4,9 @@
     {
         public function update()
         {
-            //for header pic
-            $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
-
             // Personal Info
-            $data = $this->personalize_model->getUserInfo($userID);
+            $userID = $this->session->userdata("user_id");
+            $data["user"] = $this->personalize_model->getUserInfo($userID);
             $data["pageSection"] = '';
             $data["title"] = "My Information";
 

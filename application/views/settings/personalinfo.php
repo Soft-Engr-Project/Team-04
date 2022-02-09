@@ -14,7 +14,7 @@
                     <h6>Username:</h6>
                 </div>
                 <div class="col-8 col-m-8 col-sm-8">
-                    <p><?php echo $username;?></p>
+                    <p><?php echo $user["username"];?></p>
                 </div>
            </div>
         
@@ -23,7 +23,7 @@
                     <h6>Name:</h6>
                 </div>
                 <div class="col-7 col-m-7 col-sm-7">
-                    <p><?php echo $firstname;?> <?php echo $lastname;?></p>
+                    <p><?php echo $user["firstname"];?> <?php echo $user["lastname"];?></p>
                 </div>
 
                 <div class="col-1 col-m-1 col-sm-1">
@@ -36,11 +36,11 @@
                             <?php echo form_open("PersonalInfo/changename") ;?>
                             <div class="form-group mb-3 col-md-12">
                                 <label>First Name:</label>
-                                <input type="text" name="firstname" required value="<?php echo $firstname;?>">
+                                <input type="text" name="firstname" required value="<?php echo $user["firstname"];?>">
                             </div>
                             <div class="form-group mb-3 col-md-12">
                                 <label>&nbsp;Last Name:</label>
-                                <input type="text" name="lastname" required value="<?php echo $lastname;?>">
+                                <input type="text" name="lastname" required value="<?php echo $user["lastname"];?>">
                             </div>
                             <p>Please enter your password to save changes</p>
                             <div class="form-group mb-3 col-md-12">
@@ -59,7 +59,7 @@
                     <h6>Email:</h6>
                 </div>
                 <div class="col-7 col-m-7 col-sm-7">
-                    <p><?php echo $email;?></p>
+                    <p><?php echo $user["email"];?></p>
                 </div>
 
                 <div class="col-1 col-m-1 col-sm-1">
@@ -149,7 +149,7 @@
                     <h6>Birthdate:</h6>
                 </div>
                 <div class="col-7 col-m-7 col-sm-7">
-                    <p><?php echo $birthdate;?></p>
+                    <p><?php echo $user["birthdate"];?></p>
                 </div>
             </div>
         
