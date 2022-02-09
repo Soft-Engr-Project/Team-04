@@ -156,8 +156,13 @@
                     <div class="top">
                         <h2>Random Threads</h2>
                     </div>
-                    <div class="categories">
-                        <p><a href="#">Anime</a> </p>
+                    <div class="categories" style="display: flex; justify-content: flex-start; flex-direction: column; align-items: flex-start;padding-left: 60px;">
+                        <?php foreach ($topPost as $value) { ?>
+                          <p><a href="<?php echo base_url("posts/view/".$value["id"]);?>">
+                            <?php echo $value["title"] ?>
+                          </a> </p>
+                        <?php }?>
+                        
                     </div>
                 </div>
         
