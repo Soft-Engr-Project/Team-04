@@ -768,4 +768,69 @@
         })
 
      })
+     $(document).on("click","#deletePost",function(e){
+        e.preventDefault();
+        let postId = $(this).attr("value");
+
+      if(postId == ""){
+        alert("Delete id required");
+      }else{
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger me-3'
+          },
+          buttonsStyling: false
+        })
+
+        // Confirmation alert
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          
+          // If user confirmed the deletion
+          if (result.isConfirmed) {
+            $.ajax({
+              url : "<?php echo base_url()?>posts/delete",
+              type : "post",
+              data : {
+                postId : postId
+              },
+              success : function(data){
+                let result = data.replace(/<!--  -->/g, "");
+                data = JSON.parse(result);
+                console.log(data);
+                // Action success dialog
+                if(data.response == "success"){
+                  swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your post has been deleted.',
+                  'success'
+                  );
+                }
+              }
+            });
+            // location.href = "<?php echo base_url();?>pages/view";
+            // If user canceled the action
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'Your post is safe :)',
+              'error'
+            )
+          }
+        })
+      }
+
+
+     })
     </script>

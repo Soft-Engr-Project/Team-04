@@ -137,25 +137,36 @@
             $this->load->view("templates/footer");
         }
 
-        public function delete($id)
+        public function delete()
         {
-            $categoryID = $this->input->post("category");
-            $userID = $this->post_model->get_posts($id)["user_id"];
-            $reactID = $this->input->post("react_id");
-            if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
-                redirect("pages");
+            if($this->input->is_ajax_request()) {
+                $id = $this->input->post("postId");
+                $dataPost = $this->post_model->get_posts($id);
+                $categoryID = $dataPost["category_id"];
+                $userID = $dataPost["user_id"];
+                $reactID = $this->input->post("react_id");
+                if($this->session->userdata("user_id") != $userID && $this->session->userdata("admin") != true) {
+                    $json_data = array("response" => "error");
+                }
+                else {
+                    // get category of specific post
+                    $data["categories"] = $this->categories_model->get_categories($categoryID);
+                
+                    $categoryData = array(
+                            "category_post_count" => --$data["categories"]["category_post_count"]
+                    );
+                    $this->categories_model->category_count($categoryID,$categoryData);
+                    $this->post_model->delete_reactions($reactID);
+                    $this->post_model->delete_post($id);
+                    $this->notification_model->notification_delete($id);
+                    $this->session->set_flashdata("post_delete","Delete a thread succesfully");
+                    $json_data = array("response" => "success");
+                }
+                
+            } else {
+                $json_data = array("response" => "error");    
             }
-            
-            // get category of specific post
-            $data["categories"] = $this->categories_model->get_categories($categoryID);
-            $categoryData = array(
-                    "category_post_count" => --$data["categories"]["category_post_count"]
-            );
-            $this->categories_model->category_count($categoryID,$categoryData);
-            $this->post_model->delete_reactions($reactID);
-            $this->post_model->delete_post($id);
-            $this->session->set_flashdata("post_delete","Delete a thread succesfully");
-            redirect("pages");
+           
         }
 
         public function edit($id)

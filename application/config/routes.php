@@ -24,6 +24,7 @@ $route["profileposts/(:any)"] = "profileposts/view/$1";
 $route["pages/view/profile"]="profiles/view";
 $route["Signup/register"] = "Signup/register";
 $route["posts/fetch"] = "posts/fetch";
+$route["posts/delete"] = "posts/delete";
 $route["posts/post_filter"] = "posts/post_filter";
 $route["posts/reaction"] = "posts/reaction";
 $route['posts/update']="posts/update";

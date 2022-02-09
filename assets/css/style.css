@@ -452,10 +452,14 @@ at yung height ay 38%
     margin: 20px 0;
     background-color: #FEDB97;
     width: 380px;
-    height: 300px;
+    height: auto;
     border-radius: 20px;
 }
-
+.personalinfo p{
+    height: auto;
+    width: 100%;
+    word-break: break-all;
+}
 .personalinfo h1{
     font-size: 20px;
     padding-top: 30px;
@@ -595,11 +599,15 @@ at yung height ay 38%
 /*Home */
 
 .topnamebox{
-    background-color: #314754;
-    margin-top: 76px;
-    margin-left: -2%;
-    width: 280px;
-    height: 500px auto;
+     background-color: #314754;
+    padding-top: 76px;
+    margin: 0 0 0 -12px;
+    width: 42%;
+    height: 100vh;
+    position: sticky;
+    position: -webkit-sticky;
+    overflow-x: hidden;
+    top: 0;
 }
 
 .topnamebox .top, .topnamebox .allcat, .randomthreadtitle .top{

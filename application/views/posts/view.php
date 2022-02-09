@@ -43,9 +43,7 @@
 
                                     <label for="remove">
                                     <li class="dropdown-item"> 
-                                      <?php echo form_open("posts/delete/".$post["id"]);?>
-                                        <input type="submit" id="remove">
-                                            Remove 
+                                        <a id="deletePost" value="<?php echo $post["id"];?>">Remove</a>
                                       </form>
                                     </li>
                                     </label> 
