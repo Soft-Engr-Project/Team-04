@@ -2,21 +2,6 @@
 
     class Reports extends CI_Controller
     {
-        public function view($id=NULL)
-        {
-            $userID = $this->session->userdata("user_id");
-
-            // Load data to be passed
-            $data["user"] = $this->user_model->get_user($userID);
-            $data["categories"] = $this->categories_model->get_categories();
-            $data["report"]  = $this->reports_model->get_reports();
-
-            // Show reports
-            $this->load->view("templates/header.php");
-            $this->load->view("settings/report_logs",$data);
-            $this->load->view("templates/footer",$data);
-        }
-
         // CHECKS IF THE REPORTED CONTENT EXISTS
         public function check_post()
         {
