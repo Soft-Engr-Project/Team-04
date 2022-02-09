@@ -67,7 +67,7 @@
                 if ($key == 'Threads'){
                   $response[] = array("label"=>$row->title, "link" => "posts/", "id" => $row->id);
                 }else if ($key == 'Comments'){
-                  $response[] = array("label"=>$row->content, "link" => "posts/", "id" => $row->post_id);
+                  $response[] = array("label"=>$row->content, "link" => "subcomments/view/", "id" => $row->comment_id);
                 }else {
                   $response[] = array("label"=>$row->username, "link" => "profiles/view/", "id" => $row->user_id);
                 }
