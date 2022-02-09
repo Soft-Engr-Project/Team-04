@@ -139,8 +139,7 @@
                     
                                             </div>
                                             <div class="whatcategory">
-                                                <h4>Categories: </h4>
-                                                <a href="">${post["name"]}</a>
+                                                <h4>Categories: <strong>${post["name"]}</strong></h4>
                                             </div>
                                         </div> 
                                         </div>                         
