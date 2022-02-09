@@ -2,12 +2,6 @@
 
     class PersonalInfo extends CI_Controller
     {
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('Personalize_model');
-        }
-
         public function update()
         {
             //for header pic
@@ -15,7 +9,7 @@
             $data["user"] = $this->user_model->get_user($userID);
 
             // Personal Info
-            $data = $this->Personalize_model->getUserInfo($userID);
+            $data = $this->personalize_model->getUserInfo($userID);
             $data["pageSection"] = '';
             $data["title"] = "My Information";
 
@@ -31,7 +25,7 @@
             $this->form_validation->set_rules('firstname','Firstname','required');
             $this->form_validation->set_rules('lastname','Lastname','required');
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
-            $data = $this->Personalize_model->getUserInfo($userID);
+            $data = $this->personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
                 $data["errorname"] = validation_errors();
@@ -44,7 +38,7 @@
                     'firstname'=> $this->input->post("firstname"),
                     'lastname'=> $this->input->post("lastname"),
                     );
-                $this->Personalize_model->update_user($userData); // Update database
+                $this->personalize_model->update_user($userData); // Update database
                 $data['title'] = 'Settings';
                 $data["user"] = $this->user_model->get_user($userID);
 
@@ -64,7 +58,7 @@
             $this->form_validation->set_rules('confemail', 'Confirm Email', 'required|matches[email]');
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
             $this->form_validation->set_rules('otp','Code','required|callback_checkOTP');
-            $data = $this->Personalize_model->getUserInfo($userID);
+            $data = $this->personalize_model->getUserInfo($userID);
 
             $this->form_validation->set_error_delimiters('','');
             if($this->form_validation->run()===false) {
@@ -77,7 +71,7 @@
                 $userData = array(
                     'email' => $this->input->post("email"),
                 );
-                $this->Personalize_model->update_user($userData); // Update database
+                $this->personalize_model->update_user($userData); // Update database
 
                 $newEmail = array('email'=>$this->input->post("email"));
                 $this->session->set_userdata($newEmail);
@@ -99,7 +93,7 @@
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
             $this->form_validation->set_rules('password_1','New Password');
             $this->form_validation->set_rules('password_2', 'Confirm Password', 'callback_checkNewPassword');
-            $data = $this->Personalize_model->getUserInfo($userID);
+            $data = $this->personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
                 $data["errorpass"] = validation_errors();
@@ -113,7 +107,7 @@
                 if ($newPass) {
                     $userData ['password'] = password_hash($newPass,PASSWORD_DEFAULT);
                 }
-                $this->Personalize_model->update_user($userData); // Update database
+                $this->personalize_model->update_user($userData); // Update database
 
                 $data['title'] = 'Settings';
                 $data["user"] = $this->user_model->get_user($userID);
@@ -129,7 +123,7 @@
                 return false;
             } 
            
-            if ($this->Personalize_model->checkEmail($email) == false) {
+            if ($this->personalize_model->checkEmail($email) == false) {
                  return true;
             }else {
              $this->form_validation->set_message('checkEmail', 'Email already exists');
@@ -144,7 +138,7 @@
                 $this->form_validation->set_message('checkEmailVerify', 'Invalid email format');
                 return false;
             }
-            if ($this->ResetPassword->checkEmail($email) == false) {
+            if ($this->resetpassword->checkEmail($email) == false) {
                  $this->form_validation->set_message('checkEmailVerify', 'Email does not exist');
                  return false;
             } 
@@ -162,7 +156,7 @@
             $userData = array(
                 'code' => $code,
                 );
-            $this->Personalize_model->update_user($userData); // Update passcode
+            $this->personalize_model->update_user($userData); // Update passcode
 
             // send code to current email
             $emailData = array(
@@ -211,7 +205,7 @@
 
         public function checkOTP($otp)
         {
-            if ($this->Personalize_model->checkotp($otp) == false) {
+            if ($this->personalize_model->checkotp($otp) == false) {
                  $this->form_validation->set_message('checkOTP', 'invalid Code');
                  return false;
             } 
@@ -225,7 +219,7 @@
             $this->form_validation->set_message('checkUsername', 'Username already exists');
             if($this->input->post('username') == $username) { // Check if username is unchanged
                 return true;
-            }elseif ($this->Personalize_model->checkUserExist($username) == false) {
+            }elseif ($this->personalize_model->checkUserExist($username) == false) {
                 return true;
             }else {
                 return false;
@@ -235,7 +229,7 @@
         public function checkPassword($password)
         {
             $this->form_validation->set_message('checkPassword', 'Incorrect Current Password');
-            $data = $this->Personalize_model->getUserInfo($this->session->userdata("user_id"));
+            $data = $this->personalize_model->getUserInfo($this->session->userdata("user_id"));
             if (password_verify($password, $data['password'])) {
                 return true;
             }
@@ -259,7 +253,7 @@
         {
             $this->form_validation->set_message('checkNewPassword', 'New password and confirm password does not match');
             $newPass = $this->input->post('password_1');
-            $oldPass = $this->Personalize_model->getUserInfo($this->session->userdata("user_id"))['password'];
+            $oldPass = $this->personalize_model->getUserInfo($this->session->userdata("user_id"))['password'];
             $confirmPass = $password2;
 
             // Conditions for making it an optional field

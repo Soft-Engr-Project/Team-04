@@ -18,7 +18,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
 
-	<link rel="stylesheet" href="<?php echo base_url();?>assets/css/adminstyle.css">
+	<link rel="stylesheet" href="<?php echo base_url();?>/assets/css/adminstyle.css">
 </head>
 <body class="overlay-scrollbar">
 	<div class="navbar">

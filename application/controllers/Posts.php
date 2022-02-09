@@ -7,8 +7,6 @@
             if ($this->session->userdata("logged_in") != true) {
                 show_404();
             }
-            $this->load->model('Comments_model');
-            $this->load->model('Categories_model');
         }
 
         public function index()
@@ -41,7 +39,7 @@
             $data["user"] = $this->user_model->get_user($userID);
             
             $data["post"] = $this->post_model->get_posts($id);
-            $data["comments"] = $this->Comments_model->get_comments($id);
+            $data["comments"] = $this->comments_model->get_comments($id);
             $data["reported_id"] = $commentID;
 
             $this->pagetemplate->show("posts/view", $data, "posts/view_scripts");
@@ -124,7 +122,7 @@
                     }
                 }
                 
-                $this->Categories_model->category_count($categoryID, $categoryData);
+                $this->categories_model->category_count($categoryID, $categoryData);
                 $this->post_model->create_post($postData);
                 $this->session->set_flashdata("post_create","Create post succesfully");
                 redirect("pages");

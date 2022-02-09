@@ -49,7 +49,7 @@ class Reports_model extends CI_Model{
                 $report += $query_comment;
             }
             elseif($report['subcomment_id']) {
-                $query_subcomment = $this->SubcommentModel->getSpecificSubcomments($report['subcomment_id']);
+                $query_subcomment = $this->subcommentmodel->getSpecificSubcomments($report['subcomment_id']);
                 $report += $query_subcomment;
 
             }

@@ -2,16 +2,6 @@
 
     class Search extends CI_Controller
     {
-
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('Comments_model');
-            $this->load->model('Post_model');
-            $this->load->model('Profile_model');
-            $this->load->model('User_model');
-        }
-
         public function view($results)
         {
             $userID = $this->session->userdata("user_id");

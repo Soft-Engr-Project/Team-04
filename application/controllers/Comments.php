@@ -2,14 +2,6 @@
 
 	class Comments extends CI_Controller
     {
-
-
-		public function __construct()
-	    {
-	        parent::__construct();
-	        $this->load->model('Comments_model');
-	    }
-        
 		public function create()
         {
             if($this->input->is_ajax_request()) {

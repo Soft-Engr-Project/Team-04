@@ -1,13 +1,6 @@
 <?php
 class Logins extends CI_Controller
 {
-	public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('Login');
-        $this->load->model('User_model');
-    }
-	
     public function form()
     {
         $data["title"]="Login";
@@ -30,7 +23,7 @@ class Logins extends CI_Controller
             $password = $this->input->post('password');
 
             // Check first if it is an admin
-            $query = $this->Login->isAdmin($username,$password);
+            $query = $this->login->isAdmin($username,$password);
             
             if($query !== false) {
                 $email = $query['email'];
@@ -51,12 +44,12 @@ class Logins extends CI_Controller
                 $this->pagetemplate->showlogin("templates/2FAformat", $data);// Load body
                      
             }else {
-                $data["error"] = $this->Login->login_user($username,$password); // Login validation 
+                $data["error"] = $this->login->login_user($username,$password); // Login validation 
                 if($data["error"] == "Login Success"){
                     $isLog =array(
                         "isLogin" => 1
                     );
-                    $this->User_model->isLogin($this->session->userdata("user_id"),$isLog);
+                    $this->user_model->isLogin($this->session->userdata("user_id"),$isLog);
                     redirect("pages/view");
                 }
                 $this->pagetemplate->showlogin("pages/login", $data); // Load body
@@ -118,7 +111,7 @@ class Logins extends CI_Controller
     {
         $this->form_validation->set_message('checkCode', 'Incorrect verification code');
         $email = $this->session->userdata('email');
-        $query = $this->Login->check_passcode($email, $code);  // Check if same passcode
+        $query = $this->login->check_passcode($email, $code);  // Check if same passcode
         if ($query) {
             return true;
         }else {

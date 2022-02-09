@@ -1,14 +1,6 @@
 <?php
 class Signup extends CI_Controller
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('Registration');
-
-    }
-    
     public function form()
     {
         $data["title"]="Signup";
@@ -65,7 +57,7 @@ class Signup extends CI_Controller
                 'bgColor' => $bgColor,
                 'verified' => 0
               );
-            $this->Registration->insert_user($userData); // Pass the data and update the database
+            $this->registration->insert_user($userData); // Pass the data and update the database
             
             // Content to be passed on email format
             $emailData = array(
@@ -88,7 +80,7 @@ class Signup extends CI_Controller
 
     public function checkUserName($username)
     {
-        if ($this->Registration->checkUserExist($username) == false) {
+        if ($this->registration->checkUserExist($username) == false) {
              return true;
         }else {
          $this->form_validation->set_message('checkUserName', 'Username already exists');
@@ -103,7 +95,7 @@ class Signup extends CI_Controller
             return false;
         } 
        
-        if ($this->Registration->checkEmail($email) == false) {
+        if ($this->registration->checkEmail($email) == false) {
              return true;
         }else {
          $this->form_validation->set_message('checkEmail', 'Email already exists');
@@ -168,7 +160,7 @@ class Signup extends CI_Controller
         $code = $this->uri->segment(4); //get code from url
         $data['verified'] = 1;
 
-        $query= $this->Registration->activate_acc($username, $code, $data); //check in the database
+        $query= $this->registration->activate_acc($username, $code, $data); //check in the database
         
         // If true, inform the user in verify.php
         if ($query){

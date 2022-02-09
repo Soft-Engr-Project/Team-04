@@ -2,14 +2,6 @@
 
     class Reports extends CI_Controller
     {
-
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('Reports_model');
-            $this->load->model('SubcommentModel');
-        }
-
         public function view($id=NULL)
         {
             $userID = $this->session->userdata("user_id");
@@ -17,7 +9,7 @@
             // Load data to be passed
             $data["user"] = $this->user_model->get_user($userID);
             $data["categories"] = $this->categories_model->get_categories();
-            $data["report"]  = $this->Reports_model->get_reports();
+            $data["report"]  = $this->reports_model->get_reports();
 
             // Show reports
             $this->load->view("templates/header.php");
@@ -51,7 +43,7 @@
                 elseif ($type == "reply") {
                     // para sa reply sana
                     
-                    if($post =$this->SubcommentModel->getSpecificSubcomments($post_id)) {
+                    if($post =$this->subcommentmodel->getSpecificSubcomments($post_id)) {
                         $json_data = array("response" => "success","post" => $post);
                     }else {
                         $json_data = array("response" => "error","message" => "Failed"  , "type" => $type , "post_id" => $post_id);
@@ -82,7 +74,7 @@
                         'reason'=> $reason
                     );
                     $count = array("reports_count" => ++$query);
-                    $this->Reports_model->update_count($id, $count);
+                    $this->reports_model->update_count($id, $count);
                 }elseif ($type == "discussion") {
                     $query = $this->comments_model->get_specific_comment($id);
                     $reportsData = array(
@@ -92,7 +84,7 @@
                     ); 
                 }elseif ($type == "reply") {
                     // para sa reply sana
-                    $query = $this->SubcommentModel->getSpecificSubcomments($id);
+                    $query = $this->subcommentmodel->getSpecificSubcomments($id);
                     $reportsData = array(
                         'subcomment_id'=> $id,
                         'complainant_id' => $this->session->userdata("user_id"),
@@ -101,7 +93,7 @@
                 } 
 
                 // Insert report data
-                $insert = $this->Reports_model->create_report($reportsData);
+                $insert = $this->reports_model->create_report($reportsData);
                
                 if($insert) {
                     $status = 1;
@@ -130,7 +122,7 @@
         {
             // check kung nag send ba ng request galing sa ajax
             //$id = $this->input->post('report_id');
-            $this->Reports_model->delete_report($id);
+            $this->reports_model->delete_report($id);
             redirect("admins/dashboard");
         }
             

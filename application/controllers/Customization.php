@@ -2,15 +2,6 @@
 
     class Customization extends CI_Controller
     {
-
-
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('Personalize_model');
-        }
-        
-
         public function view()
         {
         	//for header pic
@@ -27,7 +18,7 @@
                     $color = $this->input->post('color');
 
                     // to model
-                    $this->Personalize_model->saveBgColor($user,$color);
+                    $this->personalize_model->saveBgColor($user,$color);
 
                     
                 }

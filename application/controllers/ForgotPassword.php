@@ -2,13 +2,6 @@
 //
     class ForgotPassword extends CI_Controller
     {
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('ResetPassword');
-
-        }
-  
         public function forgot_password()
         {
             $this->form_validation->set_rules('email','Email','required|callback_checkEmailVerify');
@@ -20,8 +13,8 @@
                 
                 // get user info and generate 6 digit code to be sent on email
                 $email = $this->input->post('email'); //Get user email input
-                $this->ResetPassword->passcode($email, $passcode); //pass the code and update the database
-                $user = $this->ResetPassword->get_user($email);
+                $this->resetpassword->passcode($email, $passcode); //pass the code and update the database
+                $user = $this->resetpassword->get_user($email);
                 $emailData = array(
                 'header' => 'Account Password Reset:',
                 'user' => $user,
@@ -88,7 +81,7 @@
                 $this->form_validation->set_message('checkEmailVerify', 'Invalid email format');
                 return false;
             }
-            if ($this->ResetPassword->checkEmail($email) == false) {
+            if ($this->resetpassword->checkEmail($email) == false) {
                  $this->form_validation->set_message('checkEmailVerify', 'Email does not exist');
                  return false;
             } 
@@ -107,7 +100,7 @@
             else {
                 $passcode = $this->input->post('passcode');
                 //check if same passcode
-                $query= $this->ResetPassword->check_passcode($email, $passcode);
+                $query= $this->resetpassword->check_passcode($email, $passcode);
                 // If true, direct to change password
                 if ($query) {
                     $this->session->set_userdata(array('lock_id'=>1));
@@ -128,7 +121,7 @@
 
         // check the code if it has an error
         public function checkCode($code){
-            if(is_null($this->ResetPassword->get_code($code))) {
+            if(is_null($this->resetpassword->get_code($code))) {
                 $this->form_validation->set_message('checkCode', 'Wrong passcode');
                 return false;
             }
@@ -160,7 +153,7 @@
                     $dataPass = array(
                               'password' => $hashedPass,
                             );
-                    $query = $this->ResetPassword->change_pass($email, $dataPass);
+                    $query = $this->resetpassword->change_pass($email, $dataPass);
                         if ($query) {
                         $this->pagetemplate->showlogin("pages/passwordverify");
                         
@@ -176,7 +169,7 @@
             $email = $this->session->userdata('email');
             $newPass = $this->input->post('password_1'); 
             $confirmPass = $password;
-            $oldPass = $this->ResetPassword->get_old_password($email);
+            $oldPass = $this->resetpassword->get_old_password($email);
             
             // Conditions for making it an optional field
             if ($newPass) { // If new pass field has a value

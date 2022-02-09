@@ -2,13 +2,7 @@
 
 	class Notification extends CI_Controller
     {
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('Notification_model');
-        }
-
-		private $data = array();
+        private $data = array();
 		public function index($user_id)
         {
                $data["categories"] = $this->categories_model->get_categories();
@@ -28,7 +22,7 @@
         {
             if($this->input->is_ajax_request()) {
                 $userID = $this->input->post("userID");
-                $data["notification"] = $this->Notification_model->get_notification_count($userID);
+                $data["notification"] = $this->notification_model->get_notification_count($userID);
                 echo json_encode($data["notification"]);
             }
         }
@@ -36,7 +30,7 @@
         {
             if($this->input->is_ajax_request()) {
                 $userID = $this->input->post("userID");
-                $data["notification"] = $this->Notification_model->get_notification($userID);
+                $data["notification"] = $this->notification_model->get_notification($userID);
                 echo json_encode($data["notification"]);
             }
         }
