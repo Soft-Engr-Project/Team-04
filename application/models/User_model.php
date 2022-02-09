@@ -65,11 +65,11 @@
             foreach ($result as $key=>$value){
               foreach($value as $row){
                 if ($key == 'Threads'){
-                  $response[] = array("label"=>$row->title);
+                  $response[] = array("label"=>$row->title, "link" => "posts/", "id" => $row->id);
                 }else if ($key == 'Comments'){
-                  $response[] = array("label"=>$row->content);
+                  $response[] = array("label"=>$row->content, "link" => "posts/", "id" => $row->post_id);
                 }else {
-                  $response[] = array("label"=>$row->username);
+                  $response[] = array("label"=>$row->username, "link" => "profiles/view/", "id" => $row->user_id);
                 }
               }
             }

@@ -50,7 +50,6 @@
 
                     <!-- Search Bar -->
                     <div class="col-md-5 mx-auto">
-                        
                         <?php echo form_open("Search/query_db") ;?>
                         <div class="input-group">
                             <input class="form-control border-end-0 border rounded-pill" type="text" id = "search" name="search" autocomplete = "off">
@@ -106,8 +105,11 @@
                                 select: function(values, ui){
                                     $('#search').val(ui.item.label);
                                     return false;
-                                },
-                            });
+                                }
+                            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                                return $("<li>").append(
+                                    "<a href=<?php echo base_url()?>"+item.link+item.id+">"+item.label+"</a>"
+                                    ).appendTo(ul);};
                         });
                     </script>
 
