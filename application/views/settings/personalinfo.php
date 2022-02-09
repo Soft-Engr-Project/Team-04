@@ -113,7 +113,7 @@
                                       m = m < 10 ? '0' + m : m;
                                       s = s < 10 ? '0' + s : s;
                                       resend = "Resend";
-                                      document.getElementById('timer').innerHTML = m + ':' + s;
+                                      document.getElementById('timer').textContent = m + ':' + s;
                                       remaining -= 1;
                                       
                                       if(remaining >= 0 && timerOn) {
@@ -126,7 +126,7 @@
                                       if(!timerOn) {
                                         return;
                                       }
-                                      document.getElementById('timer').innerHTML = resend;
+                                      document.getElementById('timer').textContent = resend;
                                       return;
                                     }
                                 </script>

@@ -1495,7 +1495,7 @@ body{
 
 .subcomment h1, .subcomment h5{
     width: 370px;
-    text-align: justify;
+    text-align: center;
     word-break: break-all;
 }
 

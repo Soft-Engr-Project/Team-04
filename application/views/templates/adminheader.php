@@ -25,7 +25,7 @@
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link">
-					<i class="fas fa-bars" onclick="collapseSidebar()"></i>
+					<em class="fas fa-bars" onclick="collapseSidebar()"></em>
 				</a>
 			</li>
 			<li class="nav-item">
@@ -37,13 +37,13 @@
 		</ul>
 		<form class="navbar-search">
 			<input type="text" name="Search" class="navbar-search-input" placeholder="What you looking for...">
-			<i class="fas fa-search"></i>
+			<em class="fas fa-search"></em>
 		</form>
 		<ul class="navbar-nav nav-right">
 			<li class="nav-item mode">
 				<a class="nav-link" href="#" onclick="switchTheme()">
-					<i class="fas fa-moon dark-icon"></i>
-					<i class="fas fa-sun light-icon"></i>
+					<em class="fas fa-moon dark-icon"></em>
+					<em class="fas fa-sun light-icon"></em>
 				</a>
 			</li>
 		</ul>
@@ -61,7 +61,7 @@
 			<li class="sidebar-nav-item">
 				<a href="<?php echo base_url();?>Admins/dashboard" class="sidebar-nav-link active">
 					<div>
-						<i class="fas fa-tachometer-alt"></i>
+						<em class="fas fa-tachometer-alt"></em>
 					</div>
 					<span>
 						Dashboard
@@ -71,7 +71,7 @@
 			<li class="sidebar-nav-item">
 				<a href="<?php echo base_url();?>Admins/users" class="sidebar-nav-link">
 					<div>
-						<i class="fas fa-users"></i>
+						<em class="fas fa-users"></em>
 					</div>
 					<span>Users</span>
 				</a>
@@ -79,7 +79,7 @@
 			<li  class="sidebar-nav-item">
 				<a href="<?php echo base_url();?>Admins/categories" class="sidebar-nav-link">
 					<div>
-						<i class="fas fa-mail-bulk"></i>
+						<em class="fas fa-mail-bulk"></em>
 					</div>
 					<span>Categories</span>
 				</a>
@@ -87,7 +87,7 @@
             <li  class="sidebar-nav-item">
 				<a href="<?php echo base_url();?>Admins/posts" class="sidebar-nav-link">
 					<div>
-						<i class="fas fa-envelope"></i>
+						<em class="fas fa-envelope"></em>
 					</div>
 					<span>Posts</span>
 				</a>
@@ -95,7 +95,7 @@
 			<li  class="sidebar-nav-item">
 				<a href="<?php echo base_url();?>Logouts/admin_logout" class="sidebar-nav-link">
 					<div>
-						<i class="fas fa-sign-out"></i>
+						<em class="fas fa-sign-out"></em>
 					</div>
 					<span>Logout</span>
 				</a>

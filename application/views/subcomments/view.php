@@ -4,9 +4,13 @@
             <div class="col-lg-3 col-m-3 col-sm-3">
                 <div class="subcommentpost">
                     <div class="viewsubpic">
-                      <?php if(!empty($post["user_profile_photo"])){ ?>
+                      <?php 
+                        if(!empty($post["user_profile_photo"]))
+                        { 
+                      ?>
                           <img  src="<?php echo base_url().$post["user_profile_photo"];?>" alt="Profile Pic">
-                      <?php }
+                      <?php 
+                      }
                       else{?>
                           <img src="<?php echo base_url();?>assets/image/user.png" alt="Profile Pic">
                       <?php } ?>
@@ -256,12 +260,12 @@
                         <div class="threadmore" id="comment_reaction">
                             <div class="reaction">
                                     <button id="upvote_subcomment" name="upvote_downvote" value="${element["subcomment_id"]}">
-                                        <i class="fa fa-thumbs-up fa-lg"></i>                               
+                                        <em class="fa fa-thumbs-up fa-lg"></em>                               
                                         <input type="numberlike" id="input1" value="${element["sub_upvote"]}" name="">
                                     </button>
     
                                     <button id="downvote_subcomment" name="upvote_downvote" value="${element["subcomment_id"]}" >
-                                        <i class="fa fa-thumbs-down fa-lg" ></i>
+                                        <em class="fa fa-thumbs-down fa-lg" ></em>
                                         <input type="numberlike" id="input1" value="${element["sub_downvote"]}" name="">
                                     </button>
                             </div> 
