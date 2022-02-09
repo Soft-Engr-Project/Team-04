@@ -14,7 +14,9 @@
                     </div>
                     <div class="categories">
                         <?php foreach ($categories as $category): ?>
-                            <p><a href="#"><?php echo $category["name"];?></a> </p>    
+                            <p><a href="#">
+                                <?php echo $category["name"];?>
+                            </a></p>    
                         <?php endforeach; ?>              
                     </div>
                 </div>
@@ -25,14 +27,24 @@
                 <?php foreach($results as $keys => $values):?> 
                 <?php if($values):?> 
                     <div class="categoriesdiv">
+<<<<<<< HEAD
                         <h3><?php echo $keys;?></h3>
+=======
+                        <h3>
+                            <?php echo $keys;?>
+                        </h3>
+>>>>>>> bd9c5991c38364eef93e0a3943e361269a1ecc13
                     </div>
                     <?php foreach($values as $content):?>            
                         <div class="homethread">
                             <?php if($keys == "Threads"):?>
                                 <div class="toppost">
                                     <div class="circleimage">
+<<<<<<< HEAD
                                         <?php if(!empty($content["user_profile_photo"])){ ?>
+=======
+                                        <?php if(!empty($content["user_profile_photo"])) { ?>
+>>>>>>> bd9c5991c38364eef93e0a3943e361269a1ecc13
                                         <img style="border: 1px solid #000000;" src="<?php echo base_url().$content["user_profile_photo"];?>" class="userprofile" alt="Profile Photo">
                                         <?php }
                                         else{?>
@@ -41,8 +53,17 @@
                                     </div>
 
                                     <div>
+<<<<<<< HEAD
                                         <h2><a href="<?php echo site_url("profiles/view/".$content["user_id"]);?>"><?php echo ucfirst($content["username"]);?></a></h2>
                                         <h4><a href="<?php echo site_url("posts/".$content["id"]);?>"> <?php echo $content["title"];?></a></h4>
+=======
+                                        <h2><a href="<?php echo site_url("profiles/view/".$content["user_id"]);?>">
+                                            <?php echo ucfirst($content["username"]);?>
+                                        </a></h2>
+                                        <h4><a href="<?php echo site_url("posts/".$content["id"]);?>">
+                                            <?php echo $content["title"];?>
+                                        </a></h4>
+>>>>>>> bd9c5991c38364eef93e0a3943e361269a1ecc13
                                         <p>Posted on: <?php echo $content["post_created_at"];?></p>
                                     </div>
                                 </div>
@@ -58,9 +79,21 @@
                                     </div>
 
                                     <div>
+<<<<<<< HEAD
                                         <h2><a href="<?php echo site_url("profiles/view/".$content["user_id"]);?>"><?php echo ucfirst($content["username"]);?></a></h2>
                                         <h4><a href="<?php echo site_url("posts/".$content["post_id"]);?>"> <?php echo $content["content"];?></a></h4>
                                         <p>Posted on: <?php echo $content["created_at"];?></p>
+=======
+                                        <h2><a href="<?php echo site_url("profiles/view/".$content["user_id"]);?>">
+                                            <?php echo ucfirst($content["username"]);?>
+                                        </a></h2>
+                                        <h4><a href="<?php echo site_url("posts/".$content["post_id"]);?>">
+                                            <?php echo $content["content"];?>
+                                        </a></h4>
+                                        <p>Posted on: 
+                                            <?php echo $content["created_at"];?>
+                                        </p>
+>>>>>>> bd9c5991c38364eef93e0a3943e361269a1ecc13
                                     </div>
                                 </div>       
                             <?php else:?> 

@@ -23,7 +23,9 @@
                               <div class="form-group">
                                   <input type="email" class="myinput" name="email" required>
                               </div>
-                              <h6 class="error"><?php echo validation_errors();?></h6>
+                              <h6 class="error">
+                                  <?php echo validation_errors();?>
+                              </h6>
                               <input type="submit" class="button1" value="Send Verification">
                         </form>
                       </div>

@@ -164,9 +164,7 @@
             </div>
             <div class="col-lg-9">
                 <div class="discussion">
-                    <h3>Discussion</h3>
-                    
-                   
+                    <h3 class="discusheader">Discussion</h3>
                     <div id="comments"></div>      
                     <div class="d-flex justify-content-center" id="removeSeeMore">
                         <button id="seeMore" value="" class="btn btn-info" style="display:none;">See More</button>
@@ -201,11 +199,8 @@
     </div>
   </div>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-  
-<script>
+
+<script type="text/javascript">
 const rgbaColor = <?php echo json_encode($_SESSION["bgColor"]); ?>; 
 document.querySelector('body').style.background = rgbaColor;
 </script>

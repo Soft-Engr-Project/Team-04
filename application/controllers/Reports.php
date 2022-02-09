@@ -83,15 +83,22 @@
                     );
                     $count = array("reports_count" => ++$query);
                     $this->Reports_model->update_count($id, $count);
-                }else {
+                }elseif ($type == "discussion") {
                     $query = $this->comments_model->get_specific_comment($id);
                     $reportsData = array(
                         'comment_id'=> $id,
                         'complainant_id' => $this->session->userdata("user_id"),
                         'reason'=> $reason
-                    );
-                  
-                }
+                    ); 
+                }elseif ($type == "reply") {
+                    // para sa reply sana
+                    $query = $this->SubcommentModel->getSpecificSubcomments($id);
+                    $reportsData = array(
+                        'subcomment_id'=> $id,
+                        'complainant_id' => $this->session->userdata("user_id"),
+                        'reason'=> $reason
+                    ); 
+                } 
 
                 // Insert report data
                 $insert = $this->Reports_model->create_report($reportsData);

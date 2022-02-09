@@ -187,8 +187,34 @@
             redirect("profiles/view");
         }
     
-    }
+        public function delete(){
+            
+            if($this->input->is_ajax_request()) {
+                $postId = $this->input->post("postId");
+                $userID = $this->post_model->get_posts($postId);
+                $categoryID = $userID["category_id"];
+                
+                $reactID = $userID["react_id"];
+                if($this->session->userdata("user_id") != $userID["user_id"] && $this->session->userdata("admin") != true) {
+                    $json_data = array("response" => "error");
+                }else {
+                // get category of specific post
+                $data["categories"] = $this->categories_model->get_categories($categoryID);
+                $categoryData = array(
+                        "category_post_count" => --$data["categories"]["category_post_count"]
+                );
+                $this->categories_model->category_count($categoryID,$categoryData);
+                $this->post_model->delete_reactions($reactID);
+                $this->post_model->delete_post($postId);
+              
+                $json_data = array("response" => "success");
+                }
+            }else {
+                $json_data = array("response" => "error");
+            }
 
+        }
+    }
 
 
 

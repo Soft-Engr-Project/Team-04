@@ -1,18 +1,18 @@
-               <div class="row">
-                    <div class="col-lg-5">
+<div class="row">
+                    <div class="col-lg-6">
                         <div class="divcategor">
                             <span class="labelfilter">Categories: </span>
                             <select name="" id="category_filter">
                                 <option value="0">Show All</option>
-                                <?php foreach ($categories as $category) :?>
+                                <?php foreach($categories as $category) :?>
                                     <option value="<?php echo $category["category_id"];?>">
                                         <?php echo $category["name"];?>
                                     </option>
-                                <?php endforeach; ?>
+                                <?php endforeach;?>
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-6">
                         <div class="divfilter">
                             <span class="labelfilter">Filter: </span>
                             <select name="" id="post_filter">
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+  
     <script>
         
         $(document).ready(function(){

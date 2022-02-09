@@ -7,7 +7,9 @@
   <div class="card card-body">
     <p>Category</p>
     <?php foreach ($categories as $category): ?>
-      <a href="<?php echo site_url("categories/view/".$category["name"]);?>"><?php echo $category["name"];?></a>
+      <a href="<?php echo site_url("categories/view/".$category["name"]);?>">
+        <?php echo $category["name"];?>
+      </a>
     <?php endforeach ?>
       <a href="<?php echo site_url("pages/view");?>">All</a>
   </div>

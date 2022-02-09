@@ -27,7 +27,7 @@ class Signup extends CI_Controller
     public function register()
     {
         // Rules for forms
-        $this->form_validation->set_rules('username','Username','required|callback_checkUserName');
+        $this->form_validation->set_rules('username','Username','required|max_length[28]|callback_checkUserName');
         $this->form_validation->set_rules('firstname','Firstname','required');
         $this->form_validation->set_rules('lastname','Lastname','required');
         $this->form_validation->set_rules('birthdate','Birthdate','required|callback_checkBirthdate');

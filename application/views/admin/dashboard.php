@@ -78,15 +78,17 @@
 									
 									<td><?php echo $count;?></td>
 									<?php if($report["post_id"]):?>
-										<td class="user_report">
-											<a href="<?php echo site_url("posts/".$report["post_id"]);?>">
-											<?php echo $report["title"];?></a>
-										</td>
+										<td class="user_report"><a href="<?php echo site_url("posts/".$report["post_id"]);?>">
+											<?php echo $report["title"];?>
+										</a></td>
+									<?php elseif($report["comment_id"]):?>
+										<td class="user_report"><a href="<?php echo site_url("posts/view_comment/".$report["comment_id"]);?>">
+											<?php echo $report["content"];?>
+											</a></td>
 									<?php else:?>
-										<td class="user_report">
-											<a href="<?php echo site_url("posts/view_comment/".$report["comment_id"]);?>">
-											<?php echo $report["content"];?></a>
-										</td>
+										<td class="user_report"><a href="<?php echo site_url("posts/view_comment/".$report["subcomment_id"]);?>">
+											<?php echo $report["reply"];?>
+											</a></td>
 									<?php endif;?>
 									<td class="user_report"><?php echo $report["reason"];?> </td>
 									<td class="user_report">

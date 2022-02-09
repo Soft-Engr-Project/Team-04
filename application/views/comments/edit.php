@@ -11,7 +11,9 @@
  <input type="hidden" name="post_id" value="<?php echo $comment["post_id"]?>">
   <div class="form-group">
     <label for="body">Comment :</label>
-    <textarea  class="form-control" id="editor1" name="body"><?php echo $comment["content"];?></textarea>
+    <textarea  class="form-control" id="editor1" name="body">
+      <?php echo $comment["content"];?>
+    </textarea>
   </div>
   <button type="submit" class="btn btn-success">Edit</button>
 </form>

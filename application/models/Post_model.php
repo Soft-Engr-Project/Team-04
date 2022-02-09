@@ -112,7 +112,15 @@ class Post_model extends CI_Model{
     }
 
    
-
+    public function getPostProfile($userID){
+      
+            $this->db->order_by($this->post_table.".id","post_created_at DESC");
+             $this->db->join($this->categories_table,$this->categories_table.".category_id = ".$this->post_table.".category_id");
+             $this->db->join($this->users_table,$this->users_table.".user_id = ".$this->post_table.".user_id");
+            $this->db->where($this->post_table.".user_id" , $userID);
+            $query = $this->db->get($this->post_table);
+            return $query->result_array(); 
+    }
 
 
 }

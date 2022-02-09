@@ -264,6 +264,17 @@
             }
         }
 
+        public function getPostProfile()
+        {
+            if($this->input->is_ajax_request()) {
+                $userID = $this->input->post("userID");
+                $data = $this->post_model->getPostProfile($userID);
+                echo json_encode($data);
+            }else{
+                echo "No direct script access allowed";
+            }
+        }
+
         public function reaction()
         {
             $id = $this->input->post("post_id");
