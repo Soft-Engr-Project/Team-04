@@ -11,7 +11,7 @@
 					</h3>
                     <p>Total Categories</p>
 				</div>
-			</div>	
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-12 col-m-12 col-sm-12">
@@ -23,7 +23,7 @@
 						<a href="#addcat">Add Category</a>
 						<div class="addcat" id="addcat">
 							<form method = "post" action="<?php echo base_url();?>Categories/create_category">
-							<input type="text" name = "category" placeholder="Enter new category"> 
+							<input type="text" name = "category" placeholder="Enter new category">
 							<button type = "submit" class="savebutton">Save</button>
 							</form>
 							<a href="#" ><button  class="removebutton">Cancel</button></a>
@@ -51,7 +51,7 @@
 									<td><?php echo $category["category_post_count"];?></td>
 									<td>
 										<form method = "post" action="<?php echo base_url();?>Categories/delete_category">
-										<input type="hidden" name = "id" value = <?php echo $category["category_id"];?>> 
+										<input type="hidden" name = "id" value = <?php echo $category["category_id"];?>>
 										<button type="submit" class="removebutton">Remove</button>
 										</form>
 									</td>
@@ -61,6 +61,6 @@
 						</table>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
 	</div>

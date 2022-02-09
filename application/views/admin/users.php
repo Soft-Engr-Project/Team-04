@@ -38,7 +38,6 @@
 								foreach($users as $user):
 								$count++?>
 								<tr>
-									
 									<td><?php echo $count;?></td>
 									<td><a href="#modal"><?php echo $user["username"];?></a></td>
 									<td><?php echo $user["firstname"];?></td>
@@ -55,7 +54,7 @@
 						</table>
 					</div>
 				</div>
-			</div>	
+			</div>
 			<div class="usermodal" id="usermodalid">
 				<div class="row">
 					<div class="col-4 col-m-4 col-sm-4">
@@ -64,7 +63,7 @@
 								<div class="content">
 									<div>
 										<h6 id = "username">username</h6>
-										<h4>User</h4>	
+										<h4>User</h4>
 									</div>
 								</div>
 
@@ -105,10 +104,6 @@
 			</div>
 		</div>
 
-	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-		
 	<script type="text/javascript">
 		function fetchUser(){
 			$.ajax({
@@ -135,13 +130,13 @@
 												userBody += `<i style="background-color:grey;"></i>
                                            	 Offline`;
 											}
-										userBody += `	
+										userBody += `
 										</span>
 									</td>
 								</tr>`;
 	        	});
 				
-                $("tbody").html(userBody);     
+                $("tbody").html(userBody);
 	        }
 	       });
 		}
@@ -167,7 +162,7 @@
 			
 			// Change the values of the modal to user infos
 			if(data['user']['user_profile_photo']){
-				$("#profile_photo").attr('src', url+data['user']['user_profile_photo']) 
+				$("#profile_photo").attr('src', url+data['user']['user_profile_photo'])
 			}else {
 				$("#profile_photo").attr('src', url+"assets/image/user.png")
 			}

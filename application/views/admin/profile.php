@@ -8,7 +8,7 @@
 								<h6>
 									<?php echo $admin["username"];?>
 								</h6>
-								<h4>Admin</h4>	
+								<h4>Admin</h4>
 							</div>
 						</div>
 						<div class="cardprofile-image">

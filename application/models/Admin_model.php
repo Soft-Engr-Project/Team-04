@@ -2,18 +2,21 @@
 
 class Admin_model extends CI_Model{
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->load->database();
     }
 
-    public function admin_info($id){
-        $this->db->where("id",$id);
+    public function admin_info($id)
+    {
+        $this->db->where("id", $id);
 		$query = $this->db->get("admins");
 		
         return $query->row_array();
     }
 
-    public function total_counts($keyword = Null){
+    public function total_counts($keyword = Null)
+    {
         if ($keyword) {
             $query = $this->db->get($keyword);
             $count[$keyword] = $query->num_rows();
@@ -29,13 +32,12 @@ class Admin_model extends CI_Model{
             $count["reports"] = $query->num_rows();
         }
         
-
         return $count;
     }
 
-    public function suspend_user($id, $suspendDate){
+    public function suspend_user($id, $suspendDate)
+    {
         $this->db->where("user_id", $id);
-		$query = $this->db->update("users", $suspendDate);
-
+		$this->db->update("users", $suspendDate);
     }
 }

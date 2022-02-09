@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2022 at 08:26 AM
+-- Generation Time: Feb 09, 2022 at 06:30 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `newblog`
+-- Database: `blog`
 --
 
 -- --------------------------------------------------------
@@ -45,8 +45,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `username`, `firstname`, `lastname`, `birthdate`, `password`, `email`, `2FA_code`, `created_at`, `bgColor`) VALUES
-(1, 'admin', 'Richard', 'Sunga', '2012-01-03', 'password', 'richardandrei.sunga@tup.edu.ph', '745683', '2022-01-02 06:55:47', ''),
-(2, 'admin1', '', '0', '0000-00-00', 'password', 'arishavelle18@yahoo.com', '745683', '2022-01-14 07:35:58', '');
+(1, 'admin', 'Richard', 'Sunga', '2012-01-03', 'password', 'richardandrei.sunga@tup.edu.ph', '801817', '2022-01-02 06:55:47', ''),
+(2, 'admin1', '', '0', '0000-00-00', 'password', 'arishavelle18@yahoo.com', '801817', '2022-01-14 07:35:58', '');
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `name`, `created_at`, `category_post_count`) VALUES
-(1, 'Business', '2021-12-08 07:06:01', 5),
+(1, 'Business', '2021-12-08 07:06:01', 3),
 (2, 'Technology', '2021-12-08 07:06:01', 0);
 
 -- --------------------------------------------------------
@@ -92,10 +92,8 @@ CREATE TABLE `discussion` (
 --
 
 INSERT INTO `discussion` (`comment_id`, `post_id`, `user_id`, `react_id`, `content`, `upvote`, `downvote`, `subcomment_count`, `comment_created_at`) VALUES
-(301, 115, 7, 654, 'asdasd', 1, 0, 2, '2022-02-03 16:06:36'),
-(302, 115, 7, 657, 'sdfda', 0, 0, 0, '2022-02-03 16:13:26'),
-(306, 115, 6, 663, 'asd', 0, 0, 0, '2022-02-03 16:58:17'),
-(307, 115, 6, 664, 'asd', 0, 0, 0, '2022-02-03 16:58:20');
+(309, 120, 6, 673, 'helloo HAHAHA', 0, 0, 3, '2022-02-08 07:00:29'),
+(310, 120, 6, 674, 'woi HAHA', 0, 0, 0, '2022-02-08 07:04:08');
 
 -- --------------------------------------------------------
 
@@ -121,16 +119,7 @@ CREATE TABLE `notification` (
 --
 
 INSERT INTO `notification` (`notif_id`, `action_id`, `type_of_notif`, `user_id`, `owner_id`, `post_id`, `comment_id`, `subcomment_id`, `read_status`, `notif_created_at`) VALUES
-(419, 114, 'react', 6, 7, NULL, 0, NULL, 1, '2022-02-03 15:38:12'),
-(430, 297, 'reply', 6, 7, NULL, NULL, 157, 1, '2022-02-03 15:56:59'),
-(431, 297, 'reply_react', 7, 7, NULL, NULL, 157, 1, '2022-02-03 15:57:07'),
-(432, 114, 'comment', 7, 6, NULL, 298, NULL, 1, '2022-02-03 15:59:11'),
-(433, 114, 'react', 6, 7, NULL, 298, NULL, 1, '2022-02-03 15:59:19'),
-(442, 115, 'comment', 7, 6, NULL, 301, NULL, 1, '2022-02-03 16:06:36'),
-(445, 301, 'reply_react', 7, 7, NULL, NULL, 160, 1, '2022-02-03 16:07:25'),
-(446, 115, 'comment', 7, 6, NULL, 302, NULL, 1, '2022-02-03 16:13:26'),
-(447, 303, 'reply', 7, 6, NULL, NULL, 163, 1, '2022-02-03 16:14:48'),
-(449, 303, 'reply_react', 7, 6, 115, NULL, NULL, 1, '2022-02-03 16:15:18');
+(451, 309, 'reply', 7, 6, NULL, NULL, 166, 1, '2022-02-08 12:26:33');
 
 -- --------------------------------------------------------
 
@@ -159,7 +148,9 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `category_id`, `user_id`, `react_id`, `title`, `slug`, `body`, `post_image`, `upvote`, `downvote`, `post_comment_count`, `reports_count`, `post_created_at`) VALUES
-(115, 1, 6, 651, 'sdasdadsasdadadadasdas', 'sdasdadsasdadadadasdas', '<p>asdadsasasdasd</p>\r\n', '', 0, 0, 4, 0, '2022-02-03 16:02:33');
+(120, 1, 6, 669, 'asdasdads', 'asdasdads', '<p>asddaasdadsda</p>\r\n', '', 0, 0, 2, 1, '2022-02-07 17:01:18'),
+(122, 1, 6, 672, 'asdsad', 'asdsad', '<p>asdasd</p>\r\n', '', 0, 0, 0, 0, '2022-02-08 06:59:33'),
+(123, 1, 7, 677, 'asdasdas', 'asdasdas', '<p>dasdasdasd</p>\r\n', '', 0, 0, 0, 0, '2022-02-08 12:04:00');
 
 -- --------------------------------------------------------
 
@@ -177,56 +168,14 @@ CREATE TABLE `reactions` (
 --
 
 INSERT INTO `reactions` (`react_id`, `react_log`) VALUES
-(600, '{\"up_react\":\"upvote\",\"up_user_id\":[\"7\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(601, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(602, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(603, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(604, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(605, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(606, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(607, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(608, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(609, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(610, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(611, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(612, '{\"up_react\":\"upvote\",\"up_user_id\":[\"6\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(613, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(614, '{\"up_react\":\"upvote\",\"up_user_id\":[\"7\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(615, '{\"up_react\":\"upvote\",\"up_user_id\":[\"7\",\"6\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(616, '{\"up_react\":\"upvote\",\"up_user_id\":{\"1\":\"6\",\"2\":\"7\"},\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(617, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(618, '{\"up_react\":\"upvote\",\"up_user_id\":[\"6\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(619, '{\"up_react\":\"upvote\",\"up_user_id\":[\"6\",\"7\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(620, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(621, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(622, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(623, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(624, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(625, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(626, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(627, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(628, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(631, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(632, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(633, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(634, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(635, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(636, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(637, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(638, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(647, '{\"up_react\":\"upvote\",\"up_user_id\":[\"7\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(648, '{\"up_react\":\"upvote\",\"up_user_id\":[\"6\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(649, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(650, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(651, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(654, '{\"up_react\":\"upvote\",\"up_user_id\":[\"7\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(655, '{\"up_react\":\"upvote\",\"up_user_id\":[\"7\"],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(656, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(657, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(659, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
-(660, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(663, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(664, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}');
+(669, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(672, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(673, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}'),
+(674, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(675, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(676, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(677, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(678, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}');
 
 -- --------------------------------------------------------
 
@@ -238,10 +187,20 @@ CREATE TABLE `reports` (
   `id` int(11) NOT NULL,
   `post_id` int(11) DEFAULT NULL,
   `comment_id` int(11) DEFAULT NULL,
+  `subcomment_id` int(11) DEFAULT NULL,
   `complainant_id` int(11) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `reports`
+--
+
+INSERT INTO `reports` (`id`, `post_id`, `comment_id`, `subcomment_id`, `complainant_id`, `reason`, `created_at`) VALUES
+(34, 120, NULL, NULL, 7, 'asdasdasdasd', '2022-02-08 07:12:02'),
+(36, NULL, 309, NULL, 7, 'wwwwww', '2022-02-08 10:41:39'),
+(40, NULL, NULL, 164, 7, 'wowww', '2022-02-08 13:40:31');
 
 -- --------------------------------------------------------
 
@@ -265,8 +224,9 @@ CREATE TABLE `subcomment` (
 --
 
 INSERT INTO `subcomment` (`subcomment_id`, `comment_id`, `user_id`, `react_id`, `reply`, `sub_upvote`, `sub_downvote`, `sub_create_at`) VALUES
-(160, 301, 6, 655, 'musta', 1, 0, '2022-02-03 16:07:25'),
-(161, 301, 7, 656, 'dasda', 0, 0, '2022-02-03 16:07:41');
+(164, 309, 6, 675, 'dadsds', 0, 0, '2022-02-08 10:39:31'),
+(165, 309, 6, 676, 'da', 0, 0, '2022-02-08 11:41:47'),
+(166, 309, 7, 678, 'sup bro', 0, 0, '2022-02-08 12:26:33');
 
 -- --------------------------------------------------------
 
@@ -298,8 +258,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `firstname`, `lastname`, `birthdate`, `email`, `password`, `code`, `verified`, `passcode`, `created_at`, `user_cover_photo`, `user_profile_photo`, `isLogin`, `bgColor`, `resumeDate`) VALUES
-(6, 'arishavelle18', 'arishavell', 'villaneuva', '2000-02-22', 'arishavelle18@gmail.com', '$2y$10$eDVKthR//RJfuFH2PvBjke8MS0qKyk5aCwYi6TJfn6mE0//67LjZC', '03b7c4b6dfaa', 1, '055715', '2021-12-17 14:24:03', '', '', 1, 'rgba(58.41475266676683, 224.8992919921875, 171.1251109551925, 1)', '2022-02-04 15:18:55'),
-(7, 'kentkent18', 'asdad', 'dasdadsa', '2000-02-22', 'arishavellekarl.villanueva@tup.edu.ph', '$2y$10$wvJSzOyoTt/udCcUV50Gu.S91q7sGnelnldpr7yboy6FGUUfvyNTq', '003ef2718396', 1, '042539', '2021-12-24 17:46:32', '', 'assets/images/post/a.jpg', 1, '', '2022-02-04 15:18:55'),
+(6, 'arishavelle18', 'arishavell', 'villaneuva', '2000-02-22', 'arishavellekarl.villanueva@tup.edu.ph', '$2y$10$eDVKthR//RJfuFH2PvBjke8MS0qKyk5aCwYi6TJfn6mE0//67LjZC', '786848', 1, '055715', '2021-12-17 14:24:03', '', '', 1, 'rgba(241.241455078125, 184.7356045407947, 184.7356045407947, 1)', '2022-02-07 18:33:00'),
+(7, 'kentkent18', 'gegege', 'dasdadsaasdsadsad', '2000-02-22', 'varishavelle@gmail.com', '$2y$10$V1DkS7/H.5F47pIHtIinfeeQJJqoEm6l1VLvq7F30YSvrwIJy9SU2', '709127', 1, '042539', '2021-12-24 17:46:32', '', 'assets/images/post/a.jpg', 0, 'rgba(186.2384033203125, 134.15576227110435, 134.15576227110435, 1)', '2022-02-04 15:18:55'),
 (9, 'richard18', 'Richard', 'Suñga', '2000-02-22', 'khielle06@gmail.com', '$2y$10$nfzP8tVslIDmnieDhXQYduRVuq/fETM6C6gbc4LXEesQSzmzHQlUm', 'dce7996480fe', 1, '926505', '2021-12-26 08:47:21', '', '', 0, '', '2022-02-04 15:18:55'),
 (10, 'asd', 'Mark', 'Real', '2002-03-13', 'richardandrei.sunga@tup.edu.ph', '$2y$10$t56t92NpHbPG3Vemt2i./uO10UixYNVniyx7Yf55pUm6UMY2DedaS', '720b8468e700', 1, '', '2022-01-01 05:34:54', 'assets/images/post/spenser-sembrat-BuP-FvjfAFk-unsplash.jpg', 'assets/images/post/indicator_circle_thickbox.gif', 0, '', '2022-02-04 15:18:55'),
 (11, 'krz', 'Kyle', 'Ramon', '1993-01-29', 'rasunga30@gmail.com', '$2y$10$9Qi4LycDfZHDWsN/M4YWZupA/uQbCgYW/x1J1DXQ0v1ziL7rfFJse', '0a72a4c48fbc', 1, '', '2022-01-01 05:53:29', '', '', 0, '', '2022-02-04 15:18:55'),
@@ -361,7 +321,8 @@ ALTER TABLE `reports`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`complainant_id`),
   ADD KEY `comment_id` (`comment_id`),
-  ADD KEY `post_id` (`post_id`);
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `subcomment_id` (`subcomment_id`);
 
 --
 -- Indexes for table `subcomment`
@@ -392,43 +353,43 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `discussion`
 --
 ALTER TABLE `discussion`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
+  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=452;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `reactions`
 --
 ALTER TABLE `reactions`
-  MODIFY `react_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=665;
+  MODIFY `react_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=679;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `subcomment`
 --
 ALTER TABLE `subcomment`
-  MODIFY `subcomment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `subcomment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -470,7 +431,8 @@ ALTER TABLE `posts`
 ALTER TABLE `reports`
   ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`complainant_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `discussion` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reports_ibfk_4` FOREIGN KEY (`subcomment_id`) REFERENCES `subcomment` (`subcomment_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `subcomment`
