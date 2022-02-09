@@ -41,7 +41,7 @@
             $data["post"] = $this->post_model->get_posts($id);
             $data["comments"] = $this->comments_model->get_comments($id);
             $data["reported_id"] = $commentID;
-
+            $data["topPost"] = $this->post_model->get_posts_high_react();
             $this->pagetemplate->show("posts/view", $data, "posts/view_scripts");
         }
 

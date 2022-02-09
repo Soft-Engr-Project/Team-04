@@ -23,9 +23,9 @@
                     </div>
                     <div class="categories">
                         <?php foreach ($categories as $category): ?>
-                            <p><a href="#">
+                            <p>
                                 <?php echo $category["name"];?>
-                            </a></p>
+                            </p>
                         <?php endforeach; ?>                  
                     </div>
                 </div>
