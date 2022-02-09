@@ -28,7 +28,7 @@
             $data["reports"]  = $this->Reports_model->get_reports();
             
             // Show reports
-            $this->showView("admin/dashboard", $data)
+            $this->showView("admin/dashboard", $data);
         }
 
         public function categories($id = null)
