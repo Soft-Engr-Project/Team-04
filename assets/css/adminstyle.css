@@ -102,7 +102,7 @@ body {
 	cursor: pointer;
 }
 
-.navbar-nav i {
+.navbar-nav em{
 	font-size: 1.4rem;
 }
 
@@ -128,7 +128,7 @@ body {
 	height: 35px;
 }
 
-.navbar-search i {
+.navbar-search em{
 	position: absolute;
 	top: 50%;
 	right: 20px;
@@ -221,7 +221,7 @@ body {
 	position: relative;
 }
 
-.dropdown-menu-link i {
+.dropdown-menu-link em{
 	font-size: 1.25rem;
 	color: var(--second-color);
 	position: absolute;
@@ -332,7 +332,7 @@ body {
 	text-decoration: none;
 }
 
-.sidebar-nav-link i {
+.sidebar-nav-link em{
 	font-size: 1.5rem;
 	color: var(--second-color);
 	position: absolute;
@@ -360,7 +360,7 @@ body {
 	border-left: 5px solid var(--danger-color);
 }
 
-.sidebar-nav-link.active i {
+.sidebar-nav-link.active em{
 	color: var(--danger-color);
 	margin-left: -5px;
 }
@@ -488,7 +488,7 @@ body {
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.couner i {
+.couner em{
 	font-size: 50px;
 }
 
@@ -506,7 +506,7 @@ body {
 	position: relative;
 }
 
-.card-header i {
+.card-header em{
 	color: var(--main-color);
 	position: absolute;
 	right: 30px;
@@ -545,7 +545,7 @@ table th {
 	text-align: left;
 }
 
-.dot i {
+.dot em{
 	display: inline-block;
 	width: .385rem;
 	height: .385rem;
@@ -687,7 +687,7 @@ tbody td a:hover{
 	display: block
 }
 
-.usermodal a i {
+.usermodal a em{
 	color: red;
 	position: absolute;
 	font-size: 40px;

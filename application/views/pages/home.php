@@ -126,12 +126,6 @@ document.querySelector('body').style.background = rgbaColor;
                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <label for="edit">
-                                            <li class="dropdown-item">
-                                                <input type="submit" id="edit">
-                                                Edit
-                                            </li> 
-                                        </label>
                                         <label for="remove">
                                             <li class="dropdown-item"> 
                                                 <input type="submit" id="remove">
@@ -167,12 +161,6 @@ document.querySelector('body').style.background = rgbaColor;
                                                     <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <label for="edit">
-                                                        <li class="dropdown-item">
-                                                            <input type="submit" id="edit">
-                                                            Edit
-                                                        </li> 
-                                                    </label>
                                                     <label for="remove">
                                                         <li class="dropdown-item"> 
                                                             <input type="submit" id="remove">
@@ -208,12 +196,6 @@ document.querySelector('body').style.background = rgbaColor;
                                                 <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <label for="edit">
-                                                    <li class="dropdown-item">
-                                                        <input type="submit" id="edit">
-                                                        Edit
-                                                    </li> 
-                                                </label>
                                                 <label for="remove">
                                                     <li class="dropdown-item"> 
                                                         <input type="submit" id="remove">
@@ -249,12 +231,6 @@ document.querySelector('body').style.background = rgbaColor;
                                                         <img src="<?php echo base_url();?>assets/image/menudot.png" alt="menu">
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <label for="edit">
-                                                            <li class="dropdown-item">
-                                                                <input type="submit" id="edit">
-                                                                Edit
-                                                            </li> 
-                                                        </label>
                                                         <label for="remove">
                                                             <li class="dropdown-item"> 
                                                                 <input type="submit" id="remove">

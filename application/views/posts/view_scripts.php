@@ -148,7 +148,7 @@
             <div class="reaction">
                             <div class="upbutton">
                               <button name="submit" id="upvote_post" value="${data["id"]}">
-                                <i class="fa fa-thumbs-up fa-lg"></i>
+                                <em class="fa fa-thumbs-up fa-lg"></em>
                                 <input type="numberlike" value="${data["upvote"]}">
                               </button>
                             
@@ -157,7 +157,7 @@
                             <div class="downbutton">
                              
                                 <button name="submit" id="downvote_post" value="${data["id"]}">
-                                    <i class="fa fa-thumbs-down fa-lg"></i>
+                                    <em class="fa fa-thumbs-down fa-lg"></em>
                                     <input type="numberlike" value="${data["downvote"]}">
                                 </button>
                             </div>
@@ -293,12 +293,12 @@
                         <div class="threadmore" id="comment_reaction">
                             <div class="reaction">
                                     <button id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}">
-                                        <i class="fa fa-thumbs-up fa-lg"></i>                               
+                                        <em class="fa fa-thumbs-up fa-lg"></em>                               
                                         <input type="numberlike" id="input1" value="${element["upvote"]}" name="">
                                     </button>
     
                                     <button id="downvote_comment" name="upvote_downvote" value="${element["comment_id"]}" >
-                                        <i class="fa fa-thumbs-down fa-lg" ></i>
+                                        <em class="fa fa-thumbs-down fa-lg" ></em>
                                         <input type="numberlike" id="input1" value="${element["downvote"]}" name="">
                                     </button>
                             </div> 
@@ -447,12 +447,12 @@
                         <div class="threadmore" id="comment_reaction">
                             <div class="reaction">
                                     <button id="upvote_comment" name="upvote_downvote" value="${element["comment_id"]}">
-                                        <i class="fa fa-thumbs-up fa-lg"></i>                               
+                                        <em class="fa fa-thumbs-up fa-lg"></em>                               
                                         <input type="numberlike" id="input1" value="${element["upvote"]}" name="">
                                     </button>
     
                                     <button id="downvote_comment" name="upvote_downvote" value="${element["comment_id"]}" >
-                                        <i class="fa fa-thumbs-down fa-lg" ></i>
+                                        <em class="fa fa-thumbs-down fa-lg" ></em>
                                         <input type="numberlike" id="input1" value="${element["downvote"]}" name="">
                                     </button>
                             </div> 
