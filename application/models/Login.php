@@ -27,8 +27,9 @@ class Login extends CI_Model{
         return $q; //Return admin info
       }
       else{
-        echo "Username and password incorrect"; // Note: Fix the error printing
-        redirect('/');
+         // Note: Fix the error printing
+        return false;
+        
       }
     }
 

@@ -26,23 +26,27 @@ class Logins extends CI_Controller
             $query = $this->login->isAdmin($username,$password);
             
             if($query !== false) {
-                $email = $query['email'];
-                $data['email'] = $email;
+                if($query) {
+                    $email = $query['email'];
+                    $data['email'] = $email;
                 
-                 // Content to be passed on email format
-                $emailData = array(
-                    'header' => 'Account 2FA',
-                    'user' => $username,
-                    'passcode' => $query['2FA_code'],
-                    'body' => 'Please enter the 6 digit pin given above to login.'
-                     );
-                $this->send($email, 'templates/ChangePass_Email', $emailData); // Call email setup function
+                     // Content to be passed on email format
+                    $emailData = array(
+                        'header' => 'Account 2FA',
+                        'user' => $username,
+                        'passcode' => $query['2FA_code'],
+                        'body' => 'Please enter the 6 digit pin given above to login.'
+                         );
+                    $this->send($email, 'templates/ChangePass_Email', $emailData); // Call email setup function
 
-                $newdata = array('email'=>$email);
-                $this->session->set_userdata($newdata);
-                
-                $this->pagetemplate->showlogin("templates/2FAformat", $data);// Load body
-                     
+                    $newdata = array('email'=>$email);
+                    $this->session->set_userdata($newdata);
+                    
+                    $this->pagetemplate->showlogin("templates/2FAformat", $data);// Load body
+                } else {
+                    $data["errors"] = "Username and password incorrect";
+                    $this->pagetemplate->showlogin("pages/login", $data);
+                }
             }else {
                 $data["error"] = $this->login->login_user($username,$password); // Login validation 
                 if($data["error"] == "Login Success"){

@@ -17,12 +17,12 @@
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
+            // $data["user"] = $this->user_model->get_user($userID);
             // Rules for forms
             $this->form_validation->set_rules('firstname','Firstname','required');
             $this->form_validation->set_rules('lastname','Lastname','required');
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
-            $data = $this->personalize_model->getUserInfo($userID);
+            $data["user"] = $this->personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
                 $data["errorname"] = validation_errors();
@@ -49,13 +49,13 @@
             //for header pic
 
             $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
+            // $data["user"] = $this->user_model->get_user($userID);
             // Rules for forms
             $this->form_validation->set_rules('email','Email','required|callback_checkEmail');
             $this->form_validation->set_rules('confemail', 'Confirm Email', 'required|matches[email]');
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
             $this->form_validation->set_rules('otp','Code','required|callback_checkOTP');
-            $data = $this->personalize_model->getUserInfo($userID);
+            $data["user"] = $this->personalize_model->getUserInfo($userID);
 
             $this->form_validation->set_error_delimiters('','');
             if($this->form_validation->run()===false) {
@@ -84,13 +84,13 @@
         {
             //for header pic
             $userID = $this->session->userdata("user_id");
-            $data["user"] = $this->user_model->get_user($userID);
+            // $data["user"] = $this->user_model->get_user($userID);
 
             // Rules for forms
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
             $this->form_validation->set_rules('password_1','New Password');
             $this->form_validation->set_rules('password_2', 'Confirm Password', 'callback_checkNewPassword');
-            $data = $this->personalize_model->getUserInfo($userID);
+            $data["user"] = $this->personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";
                 $data["errorpass"] = validation_errors();

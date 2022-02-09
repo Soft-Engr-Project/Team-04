@@ -601,6 +601,7 @@
                   'success'
                   )
                 }
+                
               }
             });
             // If user canceled the action
@@ -816,7 +817,8 @@
                 }
               }
             });
-            // location.href = "<?php echo base_url();?>pages/view";
+            // need to richard wag mo icomment
+            location.href = "<?php echo base_url();?>pages/view";
             // If user canceled the action
           } else if (
             /* Read more about handling dismissals below */

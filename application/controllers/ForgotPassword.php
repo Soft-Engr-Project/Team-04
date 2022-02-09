@@ -6,7 +6,7 @@
         {
             $this->form_validation->set_rules('email','Email','required|callback_checkEmailVerify');
             if($this->form_validation->run()===false) {
-                $this->pagetemplate->showlogin("pages/forgot_password", $data);
+                $this->pagetemplate->showlogin("pages/forgot_password");
             }else {
                 // Code Generation
                 $passcode = random_int(100000,999999);  // Generate 6 digit value
@@ -35,7 +35,7 @@
                 $newdata = array('email'=>$email, 'lock_id'=>$lockID);
                 $this->session->set_userdata($newdata);
 
-                $this->pagetemplate->showlogin("pages/passcode", $data);
+                $this->pagetemplate->showlogin("pages/passcode");
 
             }
         }
