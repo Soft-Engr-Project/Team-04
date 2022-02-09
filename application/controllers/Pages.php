@@ -19,7 +19,7 @@
                 if(!file_exists(APPPATH."views/pages/".$page.".php")) {
                     show_404();
                 }
-                $this->load->view("templates/header",$data);
+                //$this->load->view("templates/header",$data);
                 if($page == "home") {
                     $data["categories"] = $this->categories_model->get_categories();
                     $data["postsTop"] = $this->post_model->get_posts_high_react();
@@ -29,14 +29,15 @@
                     $data["posts"] = $this->post_model->get_posts();
                     
                     // Load Body
-                    $this->load->view("pages/".$page, $data);
-                    $this->load->view("posts/index.php");
+                    $this->pagetemplate->show("pages/".$page, $data, "posts/index");
+                    // $this->load->view("pages/".$page, $data);
+                    // $this->load->view("posts/index.php");
                 }
                 else {
                     $data["title"]=ucfirst($page);
-                    $this->load->view("pages/".$page, $data);
+                    $this->pagetemplate->show("pages/".$page, $data);
                 }
-                $this->load->view("templates/footer");
+                //$this->load->view("templates/footer");
             }
         }
     }
