@@ -186,7 +186,7 @@
                     subcommentbody = "";
                     data.forEach(element => {
                         if ("<?php echo $reported_id?>" == element["subcomment_id"]){
-                            console.log('ew')
+                            
                             subcommentbody += "<div class='card bg-danger'>";
                         }
                         else {
@@ -286,7 +286,7 @@
         e.preventDefault();
         var commentId = $("#create_post_id").attr("value");
         var  reply = $("#create_comment").val();
-            console.log(reply)
+            
             $.ajax({
                 url : "<?php echo base_url();?>subcomments/create",
                 type : "post",
@@ -298,7 +298,7 @@
                     fetch();
                     let result = data.replace(/<!--  -->/g, "");
                     data = JSON.parse(result);
-                    console.log(data);
+                   
                     if(data.response == "success"){
                         Command: toastr["success"](data.message)
                         toastr_option();
@@ -318,7 +318,7 @@
     $(document).on("click","#del_sub",function(e){
       e.preventDefault();
       var subcomment_id = $(this).attr("value");
-      console.log(subcomment_id);
+     
       if(subcomment_id == ""){
         alert("Delete id required");
       }else{
@@ -353,7 +353,7 @@
                 fetch();
                 let result = data.replace(/<!--  -->/g, "");
                 data = JSON.parse(result);
-                console.log(data);
+              
 
                 // Action success dialog
                 if(data.response == "success"){
@@ -385,7 +385,7 @@
       e.preventDefault();
       
       var subcomment_id = $(this).attr("value");
-      console.log(subcomment_id);
+      
       if(subcomment_id == ""){
           alert("Edit id is required");
         }else{
@@ -422,7 +422,7 @@
         var editSubcommentId = $("#edit_id").val();
         
         var editSubcommentReply = $("#edit_textarea"+editSubcommentId).val();
-        console.log(editSubcommentReply);
+        
         if(editSubcommentId == "" ){
           alert("Comment is not detected");
         }else{
@@ -437,7 +437,7 @@
             fetch();
             let result = data.replace(/<!--  -->/g, "");
                data = JSON.parse(result);
-               console.log(data);
+               
             if(data.response =="success"){
               showcomment(editSubcommentId);
               Command: toastr["success"](data.message)
@@ -467,7 +467,7 @@
               type_of_vote : "up_react"
             },
             success : function(data){
-              console.log(data);
+              
                fetch();
             }
         })
@@ -495,8 +495,7 @@
         e.preventDefault();
         var content_id = $(this).attr("value"); // Get the ID of post/discussion on button
         var type = $(this).attr("name"); // Get the ID of post/discussion on button
-        console.log(content_id);
-        console.log(type);
+        
         if(content_id == ""){
           alert("Edit id is required");
         }else{
@@ -511,7 +510,7 @@
             success : function(data){
               let result = data.replace(/<!--  -->/g, "");
               data = JSON.parse(result);
-              console.log(data);
+              
               // Action if id is valid
               if(data.response == "success"){
                 // Adjust value of modal if post or comment
@@ -534,7 +533,7 @@
                
                 // Show modal
                 $("#exampleModal").modal("show");
-                console.log (content_id);
+               
               }
 
               // Show error message
@@ -608,7 +607,7 @@
         success:function(data){
             let result = data.replace(/<!--  -->/g, "");
             data = JSON.parse(result);
-            console.log(data);
+            
             var post = "";
             post += `
 
@@ -665,7 +664,7 @@
               type_of_vote : "down_react"
             },
             success : function(data){
-              // console.log(data);
+              
               comment_fetch();
             },
             error: function (request, error) {

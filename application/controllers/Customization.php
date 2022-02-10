@@ -15,7 +15,7 @@
             $user_idIn = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($user_idIn);
             
-            if(!$data["user"])) {
+            if(!$data["user"]) {
                 show_404();
             }
             

@@ -79,8 +79,7 @@
         function posting(){
             var cat = $("#category_filter").val();
             var key = $("#post_filter").val();
-            console.log(cat);
-            console.log(key);
+            
             $.ajax({
                 url : "<?php echo base_url("posts/post_filter");?>",
                 data : {

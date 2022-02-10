@@ -14,7 +14,7 @@
 				</a>
 			</div>
 			<div class="col-3 col-m-6 col-sm-6">
-				<a href="<?php echo base_url();?>admins/posts">
+				<a href="<?php echo base_url();?>admins/categories">
 				<div class="counter">
 					<p>
 						<em class="fas fa-mail-bulk"></em>
@@ -142,7 +142,7 @@
 				success : function(data){
 				
 					data = JSON.parse(data);
-					console.log(data);
+				
 					arr = Object.keys(data);
 					let count = 0;
 					let reportBody="";
@@ -251,7 +251,7 @@
 						$("#exampleModal").modal("hide");
 						Command: toastr["success"](data.message)
 						toastr_option();
-						console.log("pasok");
+					
 
 					}else {
 						Command: toastr["error"](data.message)
@@ -303,7 +303,7 @@
               success : function(data){
                 let result = data.replace(/<!--  -->/g, "");
                 data = JSON.parse(result);
-                console.log(data);
+                
                 // Action success dialog
                 if(data.response == "success"){
                   swalWithBootstrapButtons.fire(
@@ -366,7 +366,7 @@
                 fetch();
                 let result = data.replace(/<!--  -->/g, "");
                 data = JSON.parse(result);
-                console.log(data);
+                
 
                 // Action success dialog
                 if(data.response == "success"){
@@ -396,7 +396,7 @@
 	$(document).on("click","#del_sub",function(e){
       e.preventDefault();
       var subcomment_id = $(this).attr("value");
-      console.log(subcomment_id);
+      
       if(subcomment_id == ""){
         alert("Delete id required");
       }else{
@@ -431,7 +431,7 @@
                 fetch();
                 let result = data.replace(/<!--  -->/g, "");
                 data = JSON.parse(result);
-                console.log(data);
+                
 
                 // Action success dialog
                 if(data.response == "success"){

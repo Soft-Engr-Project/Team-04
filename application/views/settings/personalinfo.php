@@ -49,7 +49,7 @@
                             </div>
                             <button class="smallbutton1" value="Update Profile">Save Changes</button>
                         </form>
-                        <h2 class="error"><?php echo isset($errorname)? $errorname : "";?></h2>
+                        <h2 class="error"><?php echo isset($errorname)? "Error : ".$errorname : "";?></h2>
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         <h5>Change Email</h5>
                             <?php echo form_open("PersonalInfo/changeemail") ;?>
                             <div style="display: flex;align-item: center;justify-Content:center;">
-                            <h2 class="error" >Error : <?php echo isset($errormail)? $errormail : "";?></h2>
+                            <h2 class="error" ><?php echo isset($errormail)? "Error : ".$errormail : "";?></h2>
                             </div>
                             <div class="form-group mb-3 col-md-12">
                                 <label>New Email:</label>
@@ -171,7 +171,8 @@
 
                 <div class="changeinfo" id="changepass">
                 <div class="container mt-1">
-                            <h2 class="error">Error : <?php echo isset($errorpass)? $errorpass : "";?></h2>
+                            <h2 class="error">
+                                <?php echo isset($errorpass)? "Error : ".$errorpass : "";?></h2>
                             </div>
                     <div class="row">
                         

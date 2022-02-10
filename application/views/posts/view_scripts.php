@@ -71,7 +71,7 @@
                
                 // Show modal
                 $("#exampleModal").modal("show");
-                console.log (content_id);
+                
               }
 
               // Show error message
@@ -195,7 +195,7 @@
             var commentbody = "";
             let comment_id;
         
-            console.log(data);
+            
             if(data["comments"] != ""){
 
             totalComments = data["count"]
@@ -205,7 +205,7 @@
               
               comment_id = element['comment_id'];
               if ("<?php echo $reported_id?>" == element["comment_id"]){
-                console.log('ew')
+                
                 commentbody += "<div class='card bg-danger'>";
               }
               else {
@@ -342,7 +342,7 @@
       if (flag == 1){
         let commentId = id;
         let commentbody = "";
-        console.log(commentId);
+        
         $.ajax({
           url:"<?php echo base_url();?>comments/fetchMore",
           type:"post",
@@ -359,7 +359,7 @@
             data["comments"].forEach(element => {
               commentId = element['comment_id'];
               if ("<?php echo $reported_id?>" == element["comment_id"]){
-                console.log('ew')
+                
                 commentbody += "<div class='card bg-danger'>";
               }
               else {
@@ -488,14 +488,13 @@
     $(document).on("click","#seeMore",function(e){
       e.preventDefault();
       let commentId = $(this).attr("value");
-      console.log();
+      
       if (flag == 0){
         flag = 1;
         seeMore(commentId);
       }else {
         flag = 0;
       }
-      console.log(flag)
     })
     
 
@@ -591,10 +590,11 @@
                 fetch();
                 let result = data.replace(/<!--  -->/g, "");
                 data = JSON.parse(result);
-                console.log(data);
+                
 
                 // Action success dialog
                 if(data.response == "success"){
+                  
                   swalWithBootstrapButtons.fire(
                   'Deleted!',
                   'Your comment has been deleted.',
@@ -732,7 +732,7 @@
               type_of_vote : "down_react"
             },
             success : function(data){   
-                console.log(data);
+                
                 post_fetch();
             }
         });
@@ -806,7 +806,7 @@
               success : function(data){
                 let result = data.replace(/<!--  -->/g, "");
                 data = JSON.parse(result);
-                console.log(data);
+                
                 // Action success dialog
                 if(data.response == "success"){
                   swalWithBootstrapButtons.fire(
