@@ -111,6 +111,9 @@
             $data["user"] = $this->user_model->get_user($userID);
 
             $data["comments"] = $this->comments_model->get_specific_comment($commentId);
+            if(is_null($data["comments"])) {
+                show_404();
+            }
             $data["post"] = $this->post_model->get_posts($data["comments"]["post_id"]);
         
             $data["reported_id"] = $commentId;

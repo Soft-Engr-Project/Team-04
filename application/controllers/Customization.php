@@ -15,6 +15,10 @@
             $user_idIn = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($user_idIn);
             
+            if(!$data["user"])) {
+                show_404();
+            }
+            
             $data["title"] = "Customization";
             $this->pagetemplate->show("templates/sidebar", $data, "settings/customization");
         }

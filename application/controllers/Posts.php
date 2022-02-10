@@ -35,8 +35,15 @@
         public function view($id=NULL, $commentID=NULL)
         {
             //for header pic
+            if(empty($id) && empty($commentID)) {
+                show_404();
+            }
             $userID = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userID);
+            
+            if(!$data["user"]) {
+                show_404();
+            }
             
             $data["post"] = $this->post_model->get_posts($id);
             $data["comments"] = $this->comments_model->get_comments($id);
@@ -420,6 +427,8 @@
             $query = $this->comments_model->get_specific_comment($id);
             if ($query) {
                 $this->view($query['post_id'], $id);
+            }else{
+                show_404();
             }
         }
         

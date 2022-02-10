@@ -19,7 +19,9 @@
             //for header pic
             $userIdIn = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userIdIn);
-     
+            if(is_null($data["user"])) {
+                show_404();
+            }
 
             // kung sinong user yung viniew mo kung si session user o visit ka ng ibang profile
             $data["title"]="Profile";
@@ -29,6 +31,9 @@
             // $data["comment_count"] = $this->profile_model->get_all_comment($userID);
             $this->load->view("templates/header", $data);
             $data["user"] = $this->user_model->get_user($userID);
+            if(is_null($data["user"])) {
+                show_404();
+            }
             $this->load->view("profiles/profile", $data);
 
             $data["title"]="Personal Information";

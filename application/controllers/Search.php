@@ -17,6 +17,7 @@
        
             $data["user"] = $this->user_model->get_user($userID);
             $data["categories"] = $this->categories_model->get_categories();
+            $data["topPost"] = $this->post_model->get_posts_high_react();
             
             // Show results
             $this->pagetemplate->show("pages/search", $data);

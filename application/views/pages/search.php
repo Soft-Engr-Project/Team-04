@@ -7,16 +7,18 @@
                         <h2>Top of the Month</h2>
                     </div>
                     <div class="topname">
-                        <p>1. <a href="#">Echizen</a></p>
+                        <?php $count = 0; foreach($topPost as $top) :?>
+                        <p><?php echo ++$count?>. <a href="#"><?php echo $top["title"];?></a></p>
+                        <?php endforeach; ?>
                     </div>
                     <div class="allcat">
                         <h2>All Categories</h2>
                     </div>
                     <div class="categories">
                         <?php foreach ($categories as $category): ?>
-                            <p><a href="#">
+                            <p>
                                 <?php echo $category["name"];?>
-                            </a></p>    
+                            </p>    
                         <?php endforeach; ?>              
                     </div>
                 </div>
@@ -24,7 +26,8 @@
 
             <div class="col-lg 10">
                 <h1 class="searchres">Search Result</h1>
-                <?php foreach($results as $keys => $values):?> 
+              
+                <?php $count = 0; foreach($results as $keys => $values):?> 
                 <?php if($values):?> 
                     <div class="categoriesdiv">
                         <h3>
@@ -94,8 +97,15 @@
                             <?php endif; ?>
                         </div>
                     <?php endforeach;?>
-                <?php endif; ?>
-                <?php endforeach;?>  
+                <?php endif; if(!$values && $count == 0) {?>
+                    <div class="notify_item" style="display: flex; margin-left:-5px;">
+                            <p style="color:#000000;" class="searchres">No search results found</p>
+                        </div>`;
+                       
+                <?php $count++; } endforeach;?> 
+                
+                   
+             
             </div>
         </div>
     </div>
