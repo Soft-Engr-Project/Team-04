@@ -28,8 +28,12 @@
         </div>
         <button type="submit">Post</button>
       </form>
+      <h3 style="margin-left:5px;"> 
+      <?php if(!empty(validation_errors())) {?>
+      Error : 
+      <?php } echo validation_errors();?></h3>
       <a href="<?php echo base_url();?>pages/view"><button type="submit" class="cancelbutton">Cancel</button></a>
-      <h3><?php echo validation_errors();?></h3>
+     
     </div>
   </div>
 </div>
