@@ -72,69 +72,8 @@
 									
 								</tr>
 							</thead>
-							<tbody>
-								<?php $count = 0;
-								foreach($reports as $report):
-								$count++?>
-									<tr>
-									
-									<td><?php echo $count;?></td>
-									<?php if($report["post_id"]):?>
-										<td class="user_report"><a href="<?php echo site_url("posts/".$report["post_id"]);?>">
-											<?php echo $report["title"];?>
-										</a></td>
-									<?php elseif($report["comment_id"]):?>
-										<td class="user_report"><a href="<?php echo site_url("posts/view_comment/".$report["comment_id"]);?>">
-											<?php echo $report["content"];?>
-											</a></td>
-									<?php else:?>
-										<td class="user_report"><a href="<?php echo site_url("posts/view_comment/".$report["subcomment_id"]);?>">
-											<?php echo $report["reply"];?>
-											</a></td>
-									<?php endif;?>
-									<td class="user_report"><?php echo $report["reason"];?> </td>
-									<td class="user_report">
-										<a href="#"><?php echo $report["complainant"];?>
-										<?php echo $report["username"];?></a>
-									</td>
-									<td><?php echo $report["created_at"];?> </td>
-
-									<td>
-										<div class="dropdown">
-											<button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
-											<em class="fas fa-ellipsis-h"></em>
-											</button>
-											<ul class="dropdown-menu">
-												<label for="editpost">
-												<li class="dropdown-item">
-												<?php echo form_open("posts/delete/".$report["post_id"]);?>
-													<input type="submit" id="editpost">
-														Delete Post
-												</form>
-												</li>
-												</label>
-
-												<label for="remove">
-												<li class="dropdown-item">
-												<?php echo form_open("reports/delete/".$report["id"]);?>
-													<input type="submit" id="remove" name = "report_id">
-														Delete Report
-												</form>
-												</li>
-												</label>
-
-												<label for="suspend">
-												<li class="dropdown-item">
-													<input type="submit" id="suspend" value = "<?php echo $report["user_id"]?>">
-														Suspend user
-												</li>
-												</label>
-											</ul>
-                            			</div>
-									</td>
-									
-									</tr>
-									<?php endforeach;?>
+							<tbody id="bodyReport">
+							
 							</tbody>
 						</table>
 					</div>
@@ -196,6 +135,94 @@
                   "hideMethod": "fadeOut"
                 }
         }
+        function fetch(){
+        	$.ajax({
+				url : "<?php echo base_url()?>admins/fetchDashboard",
+				type : "post",
+				success : function(data){
+				
+					data = JSON.parse(data);
+					console.log(data);
+					arr = Object.keys(data);
+					let count = 0;
+					let reportBody="";
+					// data["message"].forEach(report => {
+						for(i = 0 ;i< arr.length;i++){
+	
+							count++;
+                                   reportBody+=`<tr>
+                                    <td>${count}</td>`
+                                    if(data[arr[i]]["post_id"]) {
+                         reportBody+=`   <td class="user_report">
+                                        <a href="<?php echo base_url();?>posts/${data[arr[i]]["post_id"]}">
+                                            ${data[arr[i]]["title"]}
+                                        </a></td>`;
+                                    }
+                                    else if(data[arr[i]]["comment_id"]) {
+										reportBody+=` <td class="user_report"><a href="<?php echo base_url();?>posts/view_comment/${data[arr[i]]["comment_id"]}">
+                                            ${data[arr[i]]["content"]}
+                                            </a></td>`;
+                                    } else {
+										reportBody+= `<td class="user_report"><a href="<?php echo base_url();?>posts/view_comment/${data[arr[i]]["subcomment_id"]}">
+                                            ${data[arr[i]]["reply"]}
+                                            </a></td>`
+									}
+									reportBody +=`
+									<td class="user_report">${data[arr[i]]["reason"]}</td>
+                                    <td class="user_report">
+                                        <a href="#">${data[arr[i]]["complainant"]}
+                                        ${data[arr[i]]["username"]}</a>
+                                    </td>
+                                    <td>${data[arr[i]]["created_at"]}</td>`;
+									reportBody +=`
+									<td>
+                                        <div class="dropdown">
+                                            <button type="button" class="profilebutton" id="buttonmenu" data-bs-toggle="dropdown">
+                                            <em class="fas fa-ellipsis-h"></em>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <label for="editpost">
+                                                <li class="dropdown-item">`;
+												if(data[arr[i]]["post_id"] != null &&data[arr[i]]["comment_id"] == null && data[arr[i]]["subcomment_id"] == null) {
+													reportBody+=`<a id="deletePost" value="${data[arr[i]]["post_id"]}">Delete Post</a>`;
+												} else if(data[arr[i]]["post_id"] == null &&data[arr[i]]["comment_id"] != null && data[arr[i]]["subcomment_id"] == null) {
+													reportBody+=`<a id="del" value="${data[arr[i]]["comment_id"]}">Delete Comment</a>`;
+												} else {
+													reportBody+=`<a id="del_sub" value="${data[arr[i]]["subcomment_id"]}">Delete Reply</a>`;
+												}
+                                            
+                                                reportBody+=`</li>
+                                                </label>`;
+												reportBody += `
+													<label for="remove">
+													<li class="dropdown-item">
+													<form action="<?php echo base_url()?>reports/delete/${data[arr[i]]["id"]}" method="POST">
+														<input type="submit" id="remove" name = "report_id">
+															Delete Report
+													</form>
+													</li>
+													</label>
+												`;
+												reportBody +=`
+															<label for="suspend">
+															<li class="dropdown-item">
+																<input type="submit" id="suspend" value = "${data[arr[i]]["user_id"]}">
+																	Suspend user
+															</li>
+															</label>
+														</ul>
+													</div>
+												</td>
+												
+												</tr>
+												`;
+									
+						}
+					$("#bodyReport").html(reportBody);
+				}
+			});
+        }
+		fetch();
 
 		$(document).on("click","#suspend",function(e){
 			e.preventDefault();
@@ -220,11 +247,12 @@
 				success : function(data){
 					let result = data.replace(/<!--  -->/g, "");
 					data = JSON.parse(result);
-					console.log(data);
+					
 					if(data.response == "success") {
 						$("#exampleModal").modal("hide");
 						Command: toastr["success"](data.message)
 						toastr_option();
+						console.log("pasok");
 
 					}else {
 						Command: toastr["error"](data.message)
@@ -238,4 +266,196 @@
 			e.preventDefault();
 			$("#exampleModal").modal("hide");
    		})
+
+   		$(document).on("click","#deletePost",function(e){
+        e.preventDefault();
+        let postId = $(this).attr("value");
+
+      if(postId == ""){
+        alert("Delete id required");
+      }else{
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger me-3'
+          },
+          buttonsStyling: false
+        })
+
+        // Confirmation alert
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          
+          // If user confirmed the deletion
+          if (result.isConfirmed) {
+            $.ajax({
+              url : "<?php echo base_url()?>posts/delete",
+              type : "post",
+              data : {
+                postId : postId
+              },
+              success : function(data){
+                let result = data.replace(/<!--  -->/g, "");
+                data = JSON.parse(result);
+                console.log(data);
+                // Action success dialog
+                if(data.response == "success"){
+                  swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your post has been deleted.',
+                  'success'
+                  );
+                }
+              }
+            });
+            // If user canceled the action
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'Your post is safe :)',
+              'error'
+            )
+          }
+        })
+      }
+     })
+
+	   $(document).on("click","#del",function(e){
+      e.preventDefault();
+      var comment_id = $(this).attr("value");
+      if(comment_id == ""){
+        alert("Delete id required");
+      }else{
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger me-3'
+          },
+          buttonsStyling: false
+        })
+
+        // Confirmation alert
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          
+          // If user confirmed the deletion
+          if (result.isConfirmed) {
+            $.ajax({
+              url : "<?php echo base_url()?>comments/delete",
+              type : "post",
+              data : {
+                comment_id : comment_id
+              },
+              success : function(data){
+                fetch();
+                let result = data.replace(/<!--  -->/g, "");
+                data = JSON.parse(result);
+                console.log(data);
+
+                // Action success dialog
+                if(data.response == "success"){
+                  swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your comment has been deleted.',
+                  'success'
+                  )
+                }
+                
+              }
+            });
+            // If user canceled the action
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'Your comment is safe :)',
+              'error'
+            )
+          }
+        })
+      }
+    });
+	$(document).on("click","#del_sub",function(e){
+      e.preventDefault();
+      var subcomment_id = $(this).attr("value");
+      console.log(subcomment_id);
+      if(subcomment_id == ""){
+        alert("Delete id required");
+      }else{
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger me-3'
+          },
+          buttonsStyling: false
+        })
+
+        // Confirmation alert
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          
+          // If user confirmed the deletion
+          if (result.isConfirmed) {
+            $.ajax({
+              url : "<?php echo base_url()?>subcomments/delete",
+              type : "post",
+              data : {
+                subcomment_id : subcomment_id
+              },
+              success : function(data){
+                fetch();
+                let result = data.replace(/<!--  -->/g, "");
+                data = JSON.parse(result);
+                console.log(data);
+
+                // Action success dialog
+                if(data.response == "success"){
+                  swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your comment has been deleted.',
+                  'success'
+                  )
+                }
+              }
+            });
+            // If user canceled the action
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'Your comment is safe :)',
+              'error'
+            )
+          }
+        })
+      }
+    });
 	</script>

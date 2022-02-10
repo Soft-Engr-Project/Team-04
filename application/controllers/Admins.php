@@ -19,7 +19,13 @@
             // Show reports]
             $this->pagetemplate->showadmin("admin/dashboard", $data);
         }
-
+        public function fetchDashboard() {
+            if($this->input->is_ajax_request()) {
+                 $reports  = $this->reports_model->get_reports();
+                 $json_data = $reports;
+                echo json_encode($json_data);
+            }
+        }
         public function categories($id = null)
         {
             //Load data to be passed

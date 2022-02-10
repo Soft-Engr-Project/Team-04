@@ -22,6 +22,7 @@
             $this->form_validation->set_rules('firstname','Firstname','required');
             $this->form_validation->set_rules('lastname','Lastname','required');
             $this->form_validation->set_rules('password','Current Password','required|callback_checkPassword');
+             $this->form_validation->set_error_delimiters('','');
             $data["user"] = $this->personalize_model->getUserInfo($userID);
             if($this->form_validation->run()===false) {
                 $data["title"] = "My Information";

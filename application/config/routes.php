@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$route["admins/fetchDashboard"] = "admins/fetchDashboard";
+$route["admins/suspend"] = "admins/suspend";
 $route["profile/delete"] = "profile/delete";
 $route["posts/getPostProfile"] = "posts/getPostProfile";
 $route["admins/fetchUser"] = "admins/fetchUser";

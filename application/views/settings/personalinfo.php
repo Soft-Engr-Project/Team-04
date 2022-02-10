@@ -138,7 +138,7 @@
                             <p class="reminder">Reminder: Please check your code to your CURRENT Email to verify. Thank you</p>
                             <button class="smallbutton1">Save Changes</button>
                         </form>
-                        <h2 class="error"><?php echo isset($errormail)? $errormail : "";?></h2>
+                        <h2 class="error" ><?php echo isset($errormail)? $errormail : "";?></h2>
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>
