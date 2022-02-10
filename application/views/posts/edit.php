@@ -44,7 +44,9 @@
         <button type="submit" class="btn btn-success">Post</button>
       </form>
       <a href="<?php echo site_url("profiles/view");?>"><button type="submit" class="cancelbutton">Cancel</button></a>
-      <h3><?php echo validation_errors();?></h3>
+      <h3 style="margin-left:5px;">  <?php if(!empty(validation_errors())) {?>
+      Error : 
+      <?php } echo validation_errors();?></h3>
     </div>
   </div>
 </div>

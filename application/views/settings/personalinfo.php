@@ -70,6 +70,9 @@
                     <div class="row">
                         <h5>Change Email</h5>
                             <?php echo form_open("PersonalInfo/changeemail") ;?>
+                            <div style="display: flex;align-item: center;justify-Content:center;">
+                            <h2 class="error" >Error : <?php echo isset($errormail)? $errormail : "";?></h2>
+                            </div>
                             <div class="form-group mb-3 col-md-12">
                                 <label>New Email:</label>
                                 <input type="email" name="email" id="email" required>
@@ -135,10 +138,11 @@
                                 <label>&nbsp;&nbsp;Password:</label>
                                 <input type="password" name="password"required>
                             </div>
+                            
                             <p class="reminder">Reminder: Please check your code to your CURRENT Email to verify. Thank you</p>
                             <button class="smallbutton1">Save Changes</button>
                         </form>
-                        <h2 class="error" ><?php echo isset($errormail)? $errormail : "";?></h2>
+                        
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>
@@ -166,7 +170,11 @@
                 </div>
 
                 <div class="changeinfo" id="changepass">
+                <div class="container mt-1">
+                            <h2 class="error">Error : <?php echo isset($errorpass)? $errorpass : "";?></h2>
+                            </div>
                     <div class="row">
+                        
                         <h5>Change Password</h5>
                             <?php echo form_open("PersonalInfo/changepass") ;?>
                             <div class="form-group mb-3 col-md-12">
@@ -183,7 +191,7 @@
                             </div>
                             <button class="smallbutton1">Save Changes</button>
                         </form>
-                        <h2 class="error"><?php echo isset($errorpass)? $errorpass : "";?></h2>
+                        
                         <a href="#"><button class="smallbutton2" id="close" >Cancel</button></a>
                     </div>
                 </div>
