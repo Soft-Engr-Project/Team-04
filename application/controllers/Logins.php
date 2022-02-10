@@ -1,10 +1,13 @@
 <?php
 class Logins extends CI_Controller
 {
+
     public function form()
     {
+        if ($this->session->userdata("admin")) {
+            redirect("admins/dashboard");
+        }
         $data["title"]="Login";
-
         $this->pagetemplate->showlogin("pages/login", $data);
     }
     

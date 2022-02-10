@@ -13,8 +13,8 @@
             //for header pic
             $userIdIn = $this->session->userdata("user_id");
             $data["user"] = $this->user_model->get_user($userIdIn);
-            if ($this->session->userdata("logged_in") != true) {
-                show_404();
+            if ($this->session->userdata("admin") || !$this->session->userdata("logged_in")) {
+                redirect("/");
             }else {
                 if(!file_exists(APPPATH."views/pages/".$page.".php")) {
                     show_404();

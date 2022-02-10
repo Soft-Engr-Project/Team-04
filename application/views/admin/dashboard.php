@@ -154,18 +154,17 @@
                                     <td>${count}</td>`
                                     if(data[arr[i]]["post_id"]) {
                          reportBody+=`   <td class="user_report">
-                                        <a href="<?php echo base_url();?>posts/${data[arr[i]]["post_id"]}">
                                             ${data[arr[i]]["title"]}
-                                        </a></td>`;
+                                          </td>`;
                                     }
                                     else if(data[arr[i]]["comment_id"]) {
-										reportBody+=` <td class="user_report"><a href="<?php echo base_url();?>posts/view_comment/${data[arr[i]]["comment_id"]}">
+										reportBody+=` <td class="user_report">
                                             ${data[arr[i]]["content"]}
-                                            </a></td>`;
+                                            </td>`;
                                     } else {
-										reportBody+= `<td class="user_report"><a href="<?php echo base_url();?>posts/view_comment/${data[arr[i]]["subcomment_id"]}">
+										reportBody+= `<td class="user_report">
                                             ${data[arr[i]]["reply"]}
-                                            </a></td>`
+                                            </td>`
 									}
 									reportBody +=`
 									<td class="user_report">${data[arr[i]]["reason"]}</td>

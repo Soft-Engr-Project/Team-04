@@ -6,8 +6,8 @@
         {
             
             parent::__construct();
-            if ($this->session->userdata("logged_in") != true) {
-                show_404();
+            if ($this->session->userdata("admin") || !$this->session->userdata("logged_in")) {
+                redirect("/");
             }
         }
         public function view($userID=NULL)

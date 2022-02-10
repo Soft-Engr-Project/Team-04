@@ -2,7 +2,15 @@
 
 	
 	class Subcomments extends CI_Controller{
-		
+
+		public function __construct()
+        {
+            
+            parent::__construct();
+            if ($this->session->userdata("admin") || !$this->session->userdata("logged_in")) {
+                redirect("/");
+            }
+        }
 		// CRUD
 		// Create 
 		// take note : php palang muna baka kase magulo pag nirekta ajax ko

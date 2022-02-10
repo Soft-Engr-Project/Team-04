@@ -2,6 +2,14 @@
 
     class Search extends CI_Controller
     {
+        public function __construct()
+        {
+            parent::__construct();
+            if ($this->session->userdata("admin") || !$this->session->userdata("logged_in")) {
+                redirect("/");
+            }
+        }
+
         public function view($results)
         {
             $userID = $this->session->userdata("user_id");

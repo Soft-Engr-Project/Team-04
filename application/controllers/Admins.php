@@ -6,7 +6,7 @@
         {
             parent::__construct();
             if (!$this->session->userdata("admin")) {
-                show_404();
+                redirect("/");
             } 
         }
 
