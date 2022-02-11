@@ -59,7 +59,7 @@
 				</a>
 			</li>
 			<li class="sidebar-nav-item">
-				<a href="<?php echo base_url();?>Admins/dashboard" class="sidebar-nav-link active">
+				<a href="<?php echo base_url();?>Admins/dashboard" class="sidebar-nav-link">
 					<div>
 						<em class="fas fa-tachometer-alt"></em>
 					</div>
