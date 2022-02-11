@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2022 at 05:00 PM
+-- Generation Time: Feb 11, 2022 at 06:44 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -46,7 +46,8 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`id`, `username`, `firstname`, `lastname`, `birthdate`, `password`, `email`, `2FA_code`, `created_at`, `bgColor`) VALUES
 (1, 'admin', 'Richard', 'Sunga', '2012-01-03', 'password', 'richardandrei.sunga@tup.edu.ph', '031220', '2022-01-02 06:55:47', ''),
-(2, 'admin1', '', '0', '0000-00-00', 'password', 'arishavelle18@yahoo.com', '017422', '2022-01-14 07:35:58', '');
+(2, 'admin1', '', '0', '0000-00-00', 'password', 'arishavelle18@yahoo.com', '326902', '2022-01-14 07:35:58', ''),
+(3, 'admin5', 'test', 'forteam', '2000-02-02', 'password', 'testforteam04@gmail.com', '528481', '2022-01-13 23:35:58', '');
 
 -- --------------------------------------------------------
 
@@ -66,7 +67,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `name`, `created_at`, `category_post_count`) VALUES
-(1, 'Business', '2021-12-08 07:06:01', 3),
+(1, 'Business', '2021-12-08 07:06:01', 5),
 (2, 'Technology', '2021-12-08 07:06:01', 1);
 
 -- --------------------------------------------------------
@@ -86,13 +87,6 @@ CREATE TABLE `discussion` (
   `subcomment_count` int(11) NOT NULL,
   `comment_created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `discussion`
---
-
-INSERT INTO `discussion` (`comment_id`, `post_id`, `user_id`, `react_id`, `content`, `upvote`, `downvote`, `subcomment_count`, `comment_created_at`) VALUES
-(334, 137, 6, 724, 'asdasdsa', 0, 0, 0, '2022-02-10 15:54:50');
 
 -- --------------------------------------------------------
 
@@ -149,9 +143,11 @@ CREATE TABLE `posts` (
 
 INSERT INTO `posts` (`id`, `category_id`, `user_id`, `react_id`, `title`, `slug`, `body`, `post_image`, `upvote`, `downvote`, `post_comment_count`, `reports_count`, `post_created_at`) VALUES
 (135, 2, 6, 698, 'dasdsadsada', 'dasdsadsada', '<p>asdsadasdas</p>\r\n', '', 0, 0, 0, 0, '2022-02-09 17:21:36'),
-(137, 1, 6, 700, 'asdsadsadasda', 'asdsadsadasda', '<p><strong>asdsadas</strong></p>\r\n\r\n<p><strong>asdasdasdsad</strong></p>\r\n\r\n<p><strong>asdasdsad</strong></p>\r\n', '', 0, 1, 1, 1, '2022-02-09 17:21:51'),
+(137, 1, 6, 700, 'asdsadsadasda', 'asdsadsadasda', '<p><strong>asdsadas</strong></p>\r\n\r\n<p><strong>asdasdasdsad</strong></p>\r\n\r\n<p><strong>asdasdsad</strong></p>\r\n', '', 0, 1, 0, 1, '2022-02-09 17:21:51'),
 (138, 1, 6, 701, 'asdasdasda', 'asdasdasda', '<p>asdasdasd</p>\r\n', 'assets/images/post/mycode.png', 0, 0, 0, 0, '2022-02-09 17:23:06'),
-(139, 1, 7, 714, 'kentsadasd', 'kentsadasd', '<p>asdsadsaad</p>\r\n', '', 0, 0, 0, 0, '2022-02-10 07:43:33');
+(139, 1, 7, 714, 'kentsadasd', 'kentsadasd', '<p>asdsadsaad</p>\r\n', '', 0, 0, 0, 0, '2022-02-10 07:43:33'),
+(140, 1, 6, 725, 'asdasdsadasdasdsadas', 'asdasdsadasdasdsadas', '<p>adadasdasd</p>\r\n', '', 0, 0, 0, 0, '2022-02-10 16:38:39'),
+(141, 1, 33, 726, 'Title Test', 'Title-Test', '<p>test 2</p>\r\n', '', 0, 0, 0, 0, '2022-02-11 05:43:27');
 
 -- --------------------------------------------------------
 
@@ -204,7 +200,8 @@ INSERT INTO `reactions` (`react_id`, `react_log`) VALUES
 (714, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
 (715, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
 (716, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
-(724, '{\"up_react\":\"upvote\",\"up_user_id\":[],\"down_react\":\"downvote\",\"down_user_id\":[]}');
+(725, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}'),
+(726, '{\r\n	\"up_react\":\"upvote\",\r\n	\"up_user_id\" :[],\r\n	\"down_react\":\"downvote\",\r\n	\"down_user_id\" :[] \r\n}');
 
 -- --------------------------------------------------------
 
@@ -276,13 +273,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `firstname`, `lastname`, `birthdate`, `email`, `password`, `code`, `verified`, `passcode`, `created_at`, `user_cover_photo`, `user_profile_photo`, `isLogin`, `bgColor`, `resumeDate`) VALUES
-(6, 'arishavelle18', 'a', 'villaneuva', '2000-02-22', 'arishavellekarl.villanueva@tup.edu.ph', '$2y$10$sIQunrR/4D4z5nzuP1XAZek7oGAcAP7t9/Qt7auo/yriL2mhxmfhu', '221641', 1, '670457', '2021-12-17 14:24:03', 'assets/images/post/what-is-hashing.jpg', 'assets/images/post/terminal.png', 1, 'rgba(214.53369140625, 181.9472589967477, 181.9472589967477, 1)', '0000-00-00 00:00:00'),
+(6, 'arishavelle18', 'a', 'villaneuva', '2000-02-22', 'arishavellekarl.villanueva@tup.edu.ph', '$2y$10$sIQunrR/4D4z5nzuP1XAZek7oGAcAP7t9/Qt7auo/yriL2mhxmfhu', '221641', 1, '670457', '2021-12-17 14:24:03', 'assets/images/post/what-is-hashing.jpg', 'assets/images/post/terminal.png', 0, 'rgba(65.928955078125, 7.808992549844452, 7.808992549844452, 1)', '0000-00-00 00:00:00'),
 (7, 'kentkent18', 'gegege', 'dasdadsaasdsadsad', '2000-02-22', 'varishavelle@gmail.com', '$2y$10$V1DkS7/H.5F47pIHtIinfeeQJJqoEm6l1VLvq7F30YSvrwIJy9SU2', '709127', 1, '042539', '2021-12-24 17:46:32', '', 'assets/images/post/a.jpg', 0, 'rgba(71.905517578125, 64.04573604531957, 64.04573604531957, 1)', '2022-02-04 15:18:55'),
 (9, 'richard18', 'Richard', 'Suñga', '2000-02-22', 'khielle06@gmail.com', '$2y$10$nfzP8tVslIDmnieDhXQYduRVuq/fETM6C6gbc4LXEesQSzmzHQlUm', 'dce7996480fe', 1, '926505', '2021-12-26 08:47:21', '', '', 0, '', '2022-02-04 15:18:55'),
 (10, 'asd', 'Mark', 'Real', '2002-03-13', 'richardandrei.sunga@tup.edu.ph', '$2y$10$t56t92NpHbPG3Vemt2i./uO10UixYNVniyx7Yf55pUm6UMY2DedaS', '720b8468e700', 1, '', '2022-01-01 05:34:54', 'assets/images/post/spenser-sembrat-BuP-FvjfAFk-unsplash.jpg', 'assets/images/post/indicator_circle_thickbox.gif', 0, '', '2022-02-04 15:18:55'),
-(11, 'krz', 'Kyle', 'Ramon', '1993-01-29', 'rasunga30@gmail.com', '$2y$10$9Qi4LycDfZHDWsN/M4YWZupA/uQbCgYW/x1J1DXQ0v1ziL7rfFJse', '0a72a4c48fbc', 1, '', '2022-01-01 05:53:29', '', '', 1, '', '2022-02-04 15:18:55'),
+(11, 'krz', 'Kyle', 'Ramon', '1993-01-29', 'rasunga30@gmail.com', '$2y$10$9Qi4LycDfZHDWsN/M4YWZupA/uQbCgYW/x1J1DXQ0v1ziL7rfFJse', '0a72a4c48fbc', 1, '', '2022-01-01 05:53:29', '', '', 0, '', '2022-02-04 15:18:55'),
 (12, 'asd18', 'arishavell', 'asdasd', '2000-02-22', 'asddassda@gmail.com', '$2y$10$09SsXJQMDerjffRQn5h9uuzOzikCdapHOnLFQ4imijAXdGWqssiNS', 'dc973639905d', 1, '', '2022-02-04 07:23:33', '', '', 0, 'rgba(255, 255, 255, 1)', '2022-02-04 15:23:33'),
-(14, 'karl123', 'arishavell', 'asdsad', '2000-02-22', 'arishavelle18@gmail.com', '$2y$10$LegRzES5sc9x8fn5Qx/mfOjoTmRmW6/Z48GQ5EM933KUHElCzFg5i', '308993', 1, '', '2022-02-09 17:58:39', '', '', 0, 'rgba(255, 255, 255, 1)', '2022-02-10 01:58:39');
+(14, 'karl123', 'arishavell', 'asdsad', '2000-02-22', 'arishavelle18@gmail.com', '$2y$10$LegRzES5sc9x8fn5Qx/mfOjoTmRmW6/Z48GQ5EM933KUHElCzFg5i', '308993', 1, '', '2022-02-09 17:58:39', '', '', 0, 'rgba(255, 255, 255, 1)', '2022-02-10 01:58:39'),
+(32, 'test400', 'test4', 'test4', '2000-01-01', 'test4@gmail.com', '$2y$10$1ZerC2Jyn9ZKkUQIjd6lOupOGeLEzrdgshTclNA1PDFx4QZOQjyMi', 'dfa0e213f29e', 1, '', '2022-02-08 04:27:31', '', '', 0, 'rgba(255, 255, 255, 1)', '2022-02-08 20:27:31'),
+(33, 'dnnxc', 'Dann', 'Pulong', '1999-10-04', 'testforteam04@gmail.com', '$2y$10$tajEyPWSeMgE74WNs/VbMuUdOaomBvtf36CBFs2mDo7KKEmzAIvW2', '575955', 1, '', '2022-02-11 05:34:07', '', '', 1, 'rgba(255, 255, 255, 1)', '2022-02-11 13:34:07');
 
 --
 -- Indexes for dumped tables
@@ -366,7 +365,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -390,13 +389,13 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `reactions`
 --
 ALTER TABLE `reactions`
-  MODIFY `react_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=725;
+  MODIFY `react_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=727;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -414,7 +413,7 @@ ALTER TABLE `subcomment`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables
